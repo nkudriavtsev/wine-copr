@@ -1,12 +1,12 @@
 Name:		wine
-Version:	0.9.4
-Release:	5%{?dist}
+Version:	0.9.5
+Release:	1%{?dist}
 Summary:	A Windows 16/32/64 bit emulator
 
 Group:		Applications/Emulators
 License:	LGPL
 URL:		http://www.winehq.org/
-Source0:        http://dl.sf.net/wine/wine-0.9.4.tar.bz2
+Source0:        http://dl.sf.net/wine/wine-0.9.5.tar.bz2
 Source1:	wine.init
 Source2:	wine-fonts-20050524.tar.gz
 Source3:        wine-README-Fedora
@@ -49,7 +49,7 @@ BuildRequires:  fontforge
 Requires(post): /sbin/ldconfig, /sbin/chkconfig, /sbin/service,
 Requires(post): /usr/bin/update-desktop-database
 Requires(preun): /sbin/chkconfig
-Requires(postun): /sbin/ldconfig, /usr/bin/update-desktop-database, %{__perl}
+Requires(postun): /sbin/ldconfig, /usr/bin/update-desktop-database
 
 %description
 While Wine is usually thought of as a Windows(TM) emulator, the Wine
@@ -307,6 +307,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/winemenubuilder.exe.so
 %{_libdir}/wine/winevdm.exe.so
 %{_libdir}/wine/winecfg.exe.so
+%{_libdir}/wine/uninstaller.exe.so
 %{_datadir}/applications/fedora-wine.desktop
 %{_datadir}/applications/fedora-wine-regedit.desktop
 %{_datadir}/applications/fedora-wine-uninstaller.desktop
@@ -599,7 +600,6 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/notepad.exe.so
 %{_libdir}/wine/progman.exe.so
 %{_libdir}/wine/taskmgr.exe.so
-%{_libdir}/wine/uninstaller.exe.so
 %{_libdir}/wine/wcmd.exe.so
 %{_libdir}/wine/winedbg.exe.so
 %{_libdir}/wine/winefile.exe.so
@@ -675,6 +675,11 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/*.def
 
 %changelog
+* Fri Jan 06 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+0.9.5-1
+- version upgrade
+- fix #177089
+
 * Wed Jan 04 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 0.9.4-5
 - fix #176834 
