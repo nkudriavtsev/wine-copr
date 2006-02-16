@@ -1,5 +1,5 @@
 Name:		wine
-Version:	0.9.7
+Version:	0.9.8
 Release:	3%{?dist}
 Summary:	A Windows 16/32/64 bit emulator
 
@@ -7,7 +7,7 @@ Group:		Applications/Emulators
 License:	LGPL
 URL:		http://www.winehq.org/
 # special fedora tarball without winemp3 stuff
-Source0:        wine-0.9.7-fe.tar.bz2
+Source0:        wine-0.9.8-fe.tar.bz2
 Source1:	wine.init
 Source2:	wine-fonts-20050524.tar.gz
 Source3:        wine-README-Fedora
@@ -679,6 +679,10 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/*.def
 
 %changelog
+* Thu Feb 16 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+0.9.8-1
+- Version upgrade
+
 * Thu Feb 09 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 0.9.7-3
 - fix up tarball
