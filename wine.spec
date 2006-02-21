@@ -1,6 +1,6 @@
 Name:		wine
 Version:	0.9.8
-Release:	3%{?dist}
+Release:	1%{?dist}
 Summary:	A Windows 16/32/64 bit emulator
 
 Group:		Applications/Emulators
@@ -47,6 +47,8 @@ BuildRequires:  zlib-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  fontforge
 BuildRequires:  cups-devel
+
+Requires: /usr/X11R6/bin/xmessage
 
 Requires(post): /sbin/ldconfig, /sbin/chkconfig, /sbin/service,
 Requires(post): /usr/bin/update-desktop-database
@@ -533,6 +535,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/wsock32.dll.so
 %{_libdir}/wine/wtsapi32.dll.so
 %{_libdir}/wine/security.dll.so
+%{_libdir}/wine/sfc.dll.so
 %dir %{_datadir}/fonts/wine
 %{_datadir}/fonts/wine/wine_coure.fon
 %{_datadir}/fonts/wine/wine_couree.fon
@@ -611,7 +614,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/winepath.exe.so
 %{_libdir}/wine/winhelp.exe.so
 %{_libdir}/wine/winver.exe.so
-%{_libdir}/wine/winetest.exe.so
+%{_libdir}/wine/wordpad.exe.so
 %{_datadir}/applications/fedora-wine-notepad.desktop
 %{_datadir}/applications/fedora-wine-winefile.desktop
 %{_datadir}/applications/fedora-wine-winemine.desktop
