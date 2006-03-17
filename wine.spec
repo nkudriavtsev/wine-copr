@@ -22,7 +22,6 @@ Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 ExclusiveArch:  %{ix86}
 
-BuildRequires:  autoconf
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:  alsa-lib-devel
@@ -144,8 +143,6 @@ with the Wine Windows(TM) emulation libraries.
 
 %prep
 %setup -q -n %{name}-%{version}-fe
-%patch2 -p1 -b .generated
-autoconf
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS"
