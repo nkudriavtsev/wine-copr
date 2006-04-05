@@ -1,6 +1,6 @@
 Name:		wine
 Version:	0.9.11
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	A Windows 16/32/64 bit emulator
 
 Group:		Applications/Emulators
@@ -634,6 +634,10 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/*.def
 
 %changelog
+* Wed Apr 05 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+0.9.11-2
+- bump for liblcms
+
 * Mon Apr 03 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 0.9.11-1
 - version upgrade
