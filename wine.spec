@@ -1,13 +1,13 @@
 Name:		wine
-Version:	0.9.11
-Release:	2%{?dist}
+Version:	0.9.12
+Release:	1%{?dist}
 Summary:	A Windows 16/32/64 bit emulator
 
 Group:		Applications/Emulators
 License:	LGPL
 URL:		http://www.winehq.org/
 # special fedora tarball without winemp3 stuff
-Source0:        wine-0.9.11-fe.tar.bz2
+Source0:        wine-0.9.12-fe.tar.bz2
 Source1:	wine.init
 Source3:        wine-README-Fedora
 Source4:        wine-32.conf
@@ -19,6 +19,7 @@ Source104:      wine-winefile.desktop
 Source105:      wine-winemine.desktop
 Source106:      wine-winhelp.desktop
 Patch0:         wine-prefixfonts.patch
+Patch1:         wine-rpath.patch
 Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 ExclusiveArch:  %{ix86}
@@ -145,6 +146,7 @@ with the Wine Windows(TM) emulation libraries.
 %prep
 %setup -q -n %{name}-%{version}-fe
 %patch0
+%patch1
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS"
@@ -540,6 +542,8 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/glut32.dll.so
 %{_libdir}/wine/opengl32.dll.so
 %{_libdir}/wine/wined3d.dll.so
+%{_libdir}/wine/dnsapi.dll.so
+%{_libdir}/wine/iexplore.exe.so
 %{_sysconfdir}/ld.so.conf.d/wine-32.conf
 
 %files tools
@@ -634,6 +638,11 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/*.def
 
 %changelog
+* Sat Apr 15 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+0.9.12-1
+- fix rpath issues (#187429,#188905)
+- version upgrade 
+ 
 * Wed Apr 05 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 0.9.11-2
 - bump for liblcms
