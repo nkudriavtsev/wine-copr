@@ -1,5 +1,5 @@
 Name:		wine
-Version:	0.9.12
+Version:	0.9.13
 Release:	1%{?dist}
 Summary:	A Windows 16/32/64 bit emulator
 
@@ -7,7 +7,7 @@ Group:		Applications/Emulators
 License:	LGPL
 URL:		http://www.winehq.org/
 # special fedora tarball without winemp3 stuff
-Source0:        wine-0.9.12-fe.tar.bz2
+Source0:        wine-0.9.13-fe.tar.bz2
 Source1:	wine.init
 Source3:        wine-README-Fedora
 Source4:        wine-32.conf
@@ -381,6 +381,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/eject.exe.so
 %{_libdir}/wine/gdi.exe16
 %{_libdir}/wine/gdi32.dll.so
+%{_libdir}/wine/gphoto2.ds.so
 %{_libdir}/wine/hh.exe.so
 %{_libdir}/wine/hhctrl.ocx.so
 %{_libdir}/wine/iccvid.dll.so
@@ -403,7 +404,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/mciavi32.dll.so
 %{_libdir}/wine/mcicda.dll.so
 %{_libdir}/wine/mciseq.dll.so
-%{_libdir}/wine/mciwave.drv.so
+%{_libdir}/wine/mciwave.dll.so
 %{_libdir}/wine/midimap.dll.so
 %{_libdir}/wine/mlang.dll.so
 %{_libdir}/wine/mmdevldr.vxd.so
@@ -411,8 +412,9 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/monodebg.vxd.so
 %{_libdir}/wine/mouse.drv16
 %{_libdir}/wine/mpr.dll.so
+%{_libdir}/wine/mprapi.dll.so
 %{_libdir}/wine/msacm.dll16
-%{_libdir}/wine/msacm.drv.so
+%{_libdir}/wine/msacm32.drv.so
 %{_libdir}/wine/msacm32.dll.so
 %{_libdir}/wine/msadp32.acm.so
 %{_libdir}/wine/msdmo.dll.so
@@ -465,6 +467,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/rpcrt4.dll.so
 %{_libdir}/wine/rsabase.dll.so
 %{_libdir}/wine/rsaenh.dll.so
+%{_libdir}/wine/sane.ds.so
 %{_libdir}/wine/secur32.dll.so
 %{_libdir}/wine/sensapi.dll.so
 %{_libdir}/wine/serialui.dll.so
@@ -638,6 +641,10 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/*.def
 
 %changelog
+* Tue May 16 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+0.9.13-1
+- version upgrade
+
 * Sat Apr 15 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 0.9.12-1
 - fix rpath issues (#187429,#188905)
