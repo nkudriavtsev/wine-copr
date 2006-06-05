@@ -1,5 +1,5 @@
 Name:		wine
-Version:	0.9.13
+Version:	0.9.14
 Release:	1%{?dist}
 Summary:	A Windows 16/32/64 bit emulator
 
@@ -7,7 +7,7 @@ Group:		Applications/Emulators
 License:	LGPL
 URL:		http://www.winehq.org/
 # special fedora tarball without winemp3 stuff
-Source0:        wine-0.9.13-fe.tar.bz2
+Source0:        wine-0.9.14-fe.tar.bz2
 Source1:	wine.init
 Source3:        wine-README-Fedora
 Source4:        wine-32.conf
@@ -160,13 +160,6 @@ export CFLAGS="$RPM_OPT_FLAGS"
 rm -rf %{buildroot}
 
 %makeinstall \
-	includedir=%{buildroot}%{_includedir}/wine \
-	sysconfdir=%{buildroot}%{_sysconfdir}/wine \
-	dlldir=%{buildroot}%{_libdir}/wine \
-	LDCONFIG=/bin/true \
-	UPDATE_DESKTOP_DATABASE=/bin/true
-%makeinstall \
-	-C dlls/wineps \
 	includedir=%{buildroot}%{_includedir}/wine \
 	sysconfdir=%{buildroot}%{_sysconfdir}/wine \
 	dlldir=%{buildroot}%{_libdir}/wine \
@@ -438,6 +431,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/netapi32.dll.so
 %{_libdir}/wine/newdev.dll.so
 %{_libdir}/wine/ntdll.dll.so
+%{_libdir}/wine/ntdsapi.dll.so
 %{_libdir}/wine/objsel.dll.so
 %{_libdir}/wine/odbc32.dll.so
 %{_libdir}/wine/odbccp32.dll.so
@@ -641,6 +635,10 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/*.def
 
 %changelog
+* Mon Jun 05 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+0.9.14-1
+- version upgrade
+
 * Tue May 16 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 0.9.13-1
 - version upgrade
