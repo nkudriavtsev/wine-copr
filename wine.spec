@@ -1,5 +1,5 @@
 Name:		wine
-Version:	0.9.14
+Version:	0.9.15
 Release:	1%{?dist}
 Summary:	A Windows 16/32/64 bit emulator
 
@@ -7,7 +7,7 @@ Group:		Applications/Emulators
 License:	LGPL
 URL:		http://www.winehq.org/
 # special fedora tarball without winemp3 stuff
-Source0:        wine-0.9.14-fe.tar.bz2
+Source0:        wine-0.9.15-fe.tar.bz2
 Source1:	wine.init
 Source3:        wine-README-Fedora
 Source4:        wine-32.conf
@@ -376,6 +376,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/gdi32.dll.so
 %{_libdir}/wine/gphoto2.ds.so
 %{_libdir}/wine/hh.exe.so
+%{_libdir}/wine/hlink.dll.so
 %{_libdir}/wine/hhctrl.ocx.so
 %{_libdir}/wine/iccvid.dll.so
 %{_libdir}/wine/icinfo.exe.so
@@ -488,6 +489,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/urlmon.dll.so
 %{_libdir}/wine/user.exe16
 %{_libdir}/wine/user32.dll.so
+%{_libdir}/wine/userenv.dll.so
 %{_libdir}/wine/usp10.dll.so
 %{_libdir}/wine/uxtheme.dll.so
 %{_libdir}/wine/vdhcp.vxd.so
@@ -506,6 +508,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/winaspi.dll16
 %{_libdir}/wine/windebug.dll16
 %{_libdir}/wine/wineaudioio.drv.so
+%{_libdir}/wine/winecoreaudio.drv.so
 %{_libdir}/wine/winedos.dll.so
 %{_libdir}/wine/wineoss.drv.so
 %{_libdir}/wine/winex11.drv.so
@@ -635,6 +638,10 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/*.def
 
 %changelog
+* Fri Jun 09 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+0.9.15-1
+- version upgrade
+
 * Mon Jun 05 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 0.9.14-1
 - version upgrade
