@@ -1,6 +1,6 @@
 Name:		wine
 Version:	0.9.16
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	A Windows 16/32/64 bit emulator
 
 Group:		Applications/Emulators
@@ -73,7 +73,6 @@ take a look at the wine-* packages.
 %package core
 Summary:        Wine core package
 Group:		Applications/Emulators
-Requires:       %{_bindir}/xmessage
 Requires(post): /sbin/ldconfig, /sbin/chkconfig, /sbin/service,
 Requires(post): /usr/bin/update-desktop-database
 Requires(preun): /sbin/chkconfig, /sbin/service
@@ -667,6 +666,10 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/*.def
 
 %changelog
+* Wed Jul 05 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+0.9.16-2
+- fix #197637
+
 * Thu Jun 29 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 0.9.16-1
 - version upgrade
