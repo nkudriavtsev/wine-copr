@@ -1,13 +1,13 @@
 Name:		wine
-Version:	0.9.16
-Release:	2%{?dist}
+Version:	0.9.19
+Release:	1%{?dist}
 Summary:	A Windows 16/32/64 bit emulator
 
 Group:		Applications/Emulators
 License:	LGPL
 URL:		http://www.winehq.org/
 # special fedora tarball without winemp3 stuff
-Source0:        wine-0.9.16-fe.tar.bz2
+Source0:        wine-0.9.19-fe.tar.bz2
 Source1:	wine.init
 Source3:        wine-README-Fedora
 Source4:        wine-32.conf
@@ -316,6 +316,7 @@ update-desktop-database &>/dev/null || :
 %{_initrddir}/wine
 %{_libdir}/wine/expand.exe.so
 %{_libdir}/wine/msiexec.exe.so
+%{_libdir}/wine/oleview.exe.so
 %{_libdir}/wine/regedit.exe.so
 %{_libdir}/wine/regsvr32.exe.so
 %{_libdir}/wine/rpcss.exe.so
@@ -341,8 +342,7 @@ update-desktop-database &>/dev/null || :
 %{_bindir}/winelauncher
 %{_bindir}/wineserver
 %{_mandir}/man1/wineserver.1*
-%{_libdir}/libwine.so.1
-%{_libdir}/libwine_unicode.so.1
+%{_libdir}/libwine.so.1.0
 %dir %{_libdir}/wine
 %{_libdir}/wine/activeds.dll.so
 %{_libdir}/wine/advapi32.dll.so
@@ -363,6 +363,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/commdlg.dll16
 %{_libdir}/wine/compobj.dll16
 %{_libdir}/wine/compstui.dll.so
+%{_libdir}/wine/cryptnet.dll.so
 %{_libdir}/wine/crtdll.dll.so
 %{_libdir}/wine/crypt32.dll.so
 %{_libdir}/wine/cryptdll.dll.so
@@ -401,6 +402,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/gdi.exe16
 %{_libdir}/wine/gdi32.dll.so
 %{_libdir}/wine/gphoto2.ds.so
+%{_libdir}/wine/hid.dll.so
 %{_libdir}/wine/hh.exe.so
 %{_libdir}/wine/hlink.dll.so
 %{_libdir}/wine/hhctrl.ocx.so
@@ -408,6 +410,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/icinfo.exe.so
 %{_libdir}/wine/icmp.dll.so
 %{_libdir}/wine/ifsmgr.vxd.so
+%{_libdir}/wine/infosoft.dll.so
 %{_libdir}/wine/imaadp32.acm.so
 %{_libdir}/wine/imagehlp.dll.so
 %{_libdir}/wine/imm.dll16
@@ -478,11 +481,11 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/olepro32.dll.so
 %{_libdir}/wine/olesvr.dll16
 %{_libdir}/wine/olesvr32.dll.so
-%{_libdir}/wine/oleview.exe.so
 %{_libdir}/wine/powrprof.dll.so
 %{_libdir}/wine/psapi.dll.so
 %{_libdir}/wine/qcap.dll.so
 %{_libdir}/wine/quartz.dll.so
+%{_libdir}/wine/query.dll.so
 %{_libdir}/wine/rasapi16.dll16
 %{_libdir}/wine/rasapi32.dll.so
 %{_libdir}/wine/riched20.dll.so
@@ -666,6 +669,10 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/*.def
 
 %changelog
+* Mon Aug 21 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+0.9.19-1
+- version upgrade
+
 * Wed Jul 05 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 0.9.16-2
 - fix #197637
