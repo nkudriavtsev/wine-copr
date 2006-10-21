@@ -1,5 +1,5 @@
 Name:		wine
-Version:	0.9.21
+Version:	0.9.23
 Release:	1%{?dist}
 Summary:	A Windows 16/32/64 bit emulator
 
@@ -7,7 +7,7 @@ Group:		Applications/Emulators
 License:	LGPL
 URL:		http://www.winehq.org/
 # special fedora tarball without winemp3 stuff
-Source0:        wine-0.9.21-fe.tar.bz2
+Source0:        wine-0.9.23-fe.tar.bz2
 Source1:	wine.init
 Source3:        wine-README-Fedora
 Source4:        wine-32.conf
@@ -359,6 +359,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/cards.dll.so
 %{_libdir}/wine/cfgmgr32.dll.so
 %{_libdir}/wine/clock.exe.so
+%{_libdir}/wine/clusapi.dll.so
 %{_libdir}/wine/comcat.dll.so
 %{_libdir}/wine/comctl32.dll.so
 %{_libdir}/wine/comdlg32.dll.so
@@ -445,6 +446,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/msacm32.drv.so
 %{_libdir}/wine/msacm32.dll.so
 %{_libdir}/wine/msadp32.acm.so
+%{_libdir}/wine/mscoree.dll.so
 %{_libdir}/wine/msdmo.dll.so
 %{_libdir}/wine/msftedit.dll.so
 %{_libdir}/wine/msg711.acm.so
@@ -463,6 +465,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/msvideo.dll16
 %{_libdir}/wine/mswsock.dll.so
 %{_libdir}/wine/msxml3.dll.so
+%{_libdir}/wine/nddeapi.dll.so
 %{_libdir}/wine/netapi32.dll.so
 %{_libdir}/wine/newdev.dll.so
 %{_libdir}/wine/ntdll.dll.so
@@ -493,6 +496,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/query.dll.so
 %{_libdir}/wine/rasapi16.dll16
 %{_libdir}/wine/rasapi32.dll.so
+%{_libdir}/wine/resutils.dll.so
 %{_libdir}/wine/riched20.dll.so
 %{_libdir}/wine/riched32.dll.so
 %{_libdir}/wine/rpcrt4.dll.so
@@ -674,6 +678,10 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/*.def
 
 %changelog
+* Sat Oct 21 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+0.9.23-1
+- version upgrade
+
 * Sun Sep 17 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 0.9.21-1
 - version upgrade
