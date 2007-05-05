@@ -1,13 +1,23 @@
 Name:		wine
-Version:	0.9.27
+Version:	0.9.36
 Release:	1%{?dist}
 Summary:	A Windows 16/32/64 bit emulator
 
 Group:		Applications/Emulators
 License:	LGPL
 URL:		http://www.winehq.org/
-# special fedora tarball without winemp3 stuff
-Source0:        wine-0.9.27-fe.tar.bz2
+# special fedora tarball without winemp3 stuff build doing
+# rm -fr dlls/winemp3.acm
+# and removing the following from the source tree (as of 0.9.35):
+#
+# configure:ac_config_files="$ac_config_files dlls/winemp3.acm/Makefile"
+# configure:    "dlls/winemp3.acm/Makefile") CONFIG_FILES="$CONFIG_FILES dlls/winemp3.acm/Makefile" ;;
+# configure.ac:AC_CONFIG_FILES([dlls/winemp3.acm/Makefile])
+# dlls/Makefile.in:   winemp3.acm \
+# Makefile.in:        dlls/winemp3.acm/Makefile \
+# Makefile.in:dlls/winemp3.acm/Makefile: dlls/winemp3.acm/Makefile.in dlls/Makedll.rules
+# programs/winecfg/libraries.c:    "winemp3.acm",
+Source0:        wine-0.9.36-fe.tar.bz2
 Source1:	wine.init
 Source3:        wine-README-Fedora
 Source4:        wine-32.conf
@@ -31,7 +41,6 @@ ExclusiveArch:  %{ix86}
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:  alsa-lib-devel
-BuildRequires:  arts-devel
 BuildRequires:  audiofile-devel
 BuildRequires:  esound-devel
 BuildRequires:  freeglut-devel
@@ -44,6 +53,7 @@ BuildRequires:  libxml2-devel
 BuildRequires:  libxslt-devel
 BuildRequires:  ncurses-devel
 BuildRequires:  openldap-devel
+BuildRequires:  openssl-devel
 BuildRequires:  sane-backends-devel
 BuildRequires:  xorg-x11-devel
 BuildRequires:  zlib-devel
@@ -52,7 +62,6 @@ BuildRequires:  fontforge
 BuildRequires:  gphoto2 gphoto2-devel
 BuildRequires:  isdn4k-utils-devel
 BuildRequires:  cups-devel
-
 
 Requires:       wine-core = %{version}-%{release}
 Requires:       wine-capi = %{version}-%{release}
@@ -85,6 +94,7 @@ Requires(preun): /sbin/chkconfig, /sbin/service
 Requires(postun): /sbin/ldconfig, /usr/bin/update-desktop-database
 Requires: /usr/X11R6/bin/xmessage
 Obsoletes:      wine <= 0.9.15-1%{?dist}
+Obsoletes:      wine-arts < 0.9.34
 
 %description core
 Wine core package includes the basic wine stuff needed by all other packages.
@@ -97,14 +107,6 @@ Requires:       wine-core = %{version}-%{release}
 
 %description tools
 Additional wine tools
-
-%package arts
-Summary: Arts sound support for wine
-Group: System Environment/Libraries
-Requires: wine-core = %{version}-%{release}
-
-%description arts
-Arts sound support for wine
 
 %package esd
 Summary: ESD sound support for wine
@@ -128,7 +130,7 @@ Group: System Environment/Libraries
 Requires: wine-core = %{version}-%{release}
 
 %description nas
-JACK sound support for wine
+NAS sound support for wine
 
 %package ldap
 Summary: LDAP support for wine
@@ -139,7 +141,7 @@ Requires: wine-core = %{version}-%{release}
 LDAP support for wine
 
 %package cms
-Summary: Color Managment for wine
+Summary: Color Management for wine
 Group: System Environment/Libraries
 Requires: wine-core = %{version}-%{release}
 
@@ -182,7 +184,7 @@ export CFLAGS="$RPM_OPT_FLAGS"
 	--sysconfdir=%{_sysconfdir}/wine --disable-static
 
 %{__make} depend
-%{__make}
+%{__make} %{?_smp_mflags}
 
 %install
 rm -rf %{buildroot}
@@ -285,9 +287,6 @@ fi
 /sbin/ldconfig
 update-desktop-database &>/dev/null || :
 
-%post arts -p /sbin/ldconfig
-%postun arts -p /sbin/ldconfig
-
 %post esd -p /sbin/ldconfig
 %postun esd -p /sbin/ldconfig
 
@@ -364,6 +363,7 @@ update-desktop-database &>/dev/null || :
 %{_mandir}/man1/wineserver.1*
 %{_libdir}/libwine.so.1*
 %dir %{_libdir}/wine
+%{_libdir}/wine/acledit.dll.so
 %{_libdir}/wine/activeds.dll.so
 %{_libdir}/wine/advapi32.dll.so
 %{_libdir}/wine/advpack.dll.so
@@ -372,6 +372,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/avicap32.dll.so
 %{_libdir}/wine/avifil32.dll.so
 %{_libdir}/wine/avifile.dll16
+%{_libdir}/wine/browseui.dll.so
 %{_libdir}/wine/cabinet.dll.so
 %{_libdir}/wine/cards.dll.so
 %{_libdir}/wine/cfgmgr32.dll.so
@@ -384,6 +385,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/commdlg.dll16
 %{_libdir}/wine/compobj.dll16
 %{_libdir}/wine/compstui.dll.so
+%{_libdir}/wine/credui.dll.so
 %{_libdir}/wine/cryptnet.dll.so
 %{_libdir}/wine/crtdll.dll.so
 %{_libdir}/wine/crypt32.dll.so
@@ -398,6 +400,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/dciman32.dll.so
 %{_libdir}/wine/ddeml.dll16
 %{_libdir}/wine/ddraw.dll.so
+%{_libdir}/wine/ddrawex.dll.so
 %{_libdir}/wine/devenum.dll.so
 %{_libdir}/wine/dinput.dll.so
 %{_libdir}/wine/dinput8.dll.so
@@ -414,6 +417,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/dmusic32.dll.so
 %{_libdir}/wine/dplay.dll.so
 %{_libdir}/wine/dplayx.dll.so
+%{_libdir}/wine/dpnaddr.dll.so
 %{_libdir}/wine/dpnet.dll.so
 %{_libdir}/wine/dpnhpast.dll.so
 %{_libdir}/wine/dsound.dll.so
@@ -439,11 +443,11 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/inseng.dll.so
 %{_libdir}/wine/iphlpapi.dll.so
 %{_libdir}/wine/itss.dll.so
-%{_libdir}/wine/joystick.drv.so
 %{_libdir}/wine/kernel32.dll.so
 %{_libdir}/wine/keyboard.drv16
 %{_libdir}/wine/krnl386.exe16
 %{_libdir}/wine/localspl.dll.so
+%{_libdir}/wine/localui.dll.so
 %{_libdir}/wine/lz32.dll.so
 %{_libdir}/wine/lzexpand.dll16
 %{_libdir}/wine/mapi32.dll.so
@@ -519,12 +523,13 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/rpcrt4.dll.so
 %{_libdir}/wine/rsabase.dll.so
 %{_libdir}/wine/rsaenh.dll.so
-%{_libdir}/wine/sane.ds.so
+%{_libdir}/wine/schannel.dll.so
 %{_libdir}/wine/secur32.dll.so
 %{_libdir}/wine/sensapi.dll.so
 %{_libdir}/wine/serialui.dll.so
 %{_libdir}/wine/setupapi.dll.so
 %{_libdir}/wine/setupx.dll16
+%{_libdir}/wine/sfc_os.dll.so
 %{_libdir}/wine/shdoclc.dll.so
 %{_libdir}/wine/shdocvw.dll.so
 %{_libdir}/wine/shell.dll16
@@ -533,12 +538,14 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/shlwapi.dll.so
 %{_libdir}/wine/snmpapi.dll.so
 %{_libdir}/wine/sound.drv16
+%{_libdir}/wine/spoolsv.exe.so
 %{_libdir}/wine/stdole2.tlb.so
 %{_libdir}/wine/stdole32.tlb.so
 %{_libdir}/wine/sti.dll.so
 %{_libdir}/wine/storage.dll16
 %{_libdir}/wine/stress.dll16
 %{_libdir}/wine/svrapi.dll.so
+%{_libdir}/wine/sxs.dll.so
 %{_libdir}/wine/system.drv16
 %{_libdir}/wine/tapi32.dll.so
 %{_libdir}/wine/toolhelp.dll16
@@ -570,8 +577,10 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/winecoreaudio.drv.so
 %{_libdir}/wine/winedos.dll.so
 %{_libdir}/wine/wineoss.drv.so
+%{_libdir}/wine/winejoystick.drv.so
 %{_libdir}/wine/winex11.drv.so
 %{_libdir}/wine/wing.dll16
+%{_libdir}/wine/wing32.dll.so
 %{_libdir}/wine/wininet.dll.so
 %{_libdir}/wine/winmm.dll.so
 %{_libdir}/wine/winnls.dll16
@@ -594,6 +603,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/winealsa.drv.so
 %{_libdir}/wine/wineps.drv.so
 %{_libdir}/wine/wineps16.drv16
+%{_libdir}/wine/xcopy.exe.so
 %{_libdir}/wine/d3d8.dll.so
 %{_libdir}/wine/d3d9.dll.so
 %{_libdir}/wine/d3dx8.dll.so
@@ -633,10 +643,6 @@ update-desktop-database &>/dev/null || :
 %{_datadir}/applications/fedora-wine-winemine.desktop
 %{_datadir}/applications/fedora-wine-winhelp.desktop
 
-%files arts
-%defattr(-,root,root,-)
-%{_libdir}/wine/winearts.drv.so
-
 %files esd
 %defattr(-,root,root,-)
 %{_libdir}/wine/wineesd.drv.so
@@ -659,6 +665,7 @@ update-desktop-database &>/dev/null || :
 
 %files twain
 %defattr(-,root,root,-)
+%{_libdir}/wine/sane.ds.so
 %{_libdir}/wine/twain.dll16
 %{_libdir}/wine/twain_32.dll.so
 
@@ -695,6 +702,15 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/*.def
 
 %changelog
+* Sat May 05 2007 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+0.9.36-1
+- version upgrade
+- minor fixes
+
+* Thu Jan 11 2007 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+0.9.29-1
+- version upgrade
+
 * Mon Dec 18 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 0.9.27-1
 - version upgrade (#220130)
