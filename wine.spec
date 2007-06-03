@@ -29,6 +29,8 @@ Source103:      wine-winecfg.desktop
 Source104:      wine-winefile.desktop
 Source105:      wine-winemine.desktop
 Source106:      wine-winhelp.desktop
+Source107:      wine-wineboot.desktop
+
 # desktop dir
 Source200:      wine.menu
 Source201:      wine.directory
