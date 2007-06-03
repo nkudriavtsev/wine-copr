@@ -260,6 +260,11 @@ desktop-file-install \
 desktop-file-install \
   --vendor=fedora \
   --dir=$RPM_BUILD_ROOT%{_datadir}/applications \
+  %{SOURCE107}
+
+desktop-file-install \
+  --vendor=fedora \
+  --dir=$RPM_BUILD_ROOT%{_datadir}/applications \
   --delete-original \
   $RPM_BUILD_ROOT%{_datadir}/applications/wine.desktop
 
