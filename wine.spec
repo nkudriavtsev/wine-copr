@@ -70,7 +70,6 @@ BuildRequires:  zlib-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  fontforge
 BuildRequires:  gphoto2 gphoto2-devel
-BuildRequires:  jack-audio-connection-kit-devel
 #217338
 BuildRequires:  isdn4k-utils-devel
 # modular x
