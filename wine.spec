@@ -1,5 +1,5 @@
 Name:		wine
-Version:	0.9.36
+Version:	0.9.38
 Release:	1%{?dist}
 Summary:	A Windows 16/32/64 bit emulator
 
@@ -17,7 +17,7 @@ URL:		http://www.winehq.org/
 # Makefile.in:        dlls/winemp3.acm/Makefile \
 # Makefile.in:dlls/winemp3.acm/Makefile: dlls/winemp3.acm/Makefile.in dlls/Makedll.rules
 # programs/winecfg/libraries.c:    "winemp3.acm",
-Source0:        wine-0.9.36-fe.tar.bz2
+Source0:        wine-0.9.38-fe.tar.bz2
 Source1:	wine.init
 Source3:        wine-README-Fedora
 Source4:        wine-32.conf
@@ -32,6 +32,14 @@ Source106:      wine-winhelp.desktop
 # desktop dir
 Source200:      wine.menu
 Source201:      wine.directory
+
+# desktop dir
+Source200:      wine.menu
+Source201:      wine.directory
+
+# mime types
+Source300:      wine-mime-msi.desktop
+
 Patch0:         wine-prefixfonts.patch
 Patch1:         wine-rpath.patch
 Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -214,56 +222,56 @@ install -p -m 644 %{SOURCE201} \
 desktop-file-install \
   --vendor=fedora \
   --dir=$RPM_BUILD_ROOT%{_datadir}/applications \
-  --add-category=X-Fedora \
   %{SOURCE100}
 
 desktop-file-install \
   --vendor=fedora \
   --dir=$RPM_BUILD_ROOT%{_datadir}/applications \
-  --add-category=X-Fedora \
   %{SOURCE101}
 
 desktop-file-install \
   --vendor=fedora \
   --dir=$RPM_BUILD_ROOT%{_datadir}/applications \
-  --add-category=X-Fedora \
   %{SOURCE102}
 
 desktop-file-install \
   --vendor=fedora \
   --dir=$RPM_BUILD_ROOT%{_datadir}/applications \
-  --add-category=X-Fedora \
   %{SOURCE103}
 
 desktop-file-install \
   --vendor=fedora \
   --dir=$RPM_BUILD_ROOT%{_datadir}/applications \
-  --add-category=X-Fedora \
   %{SOURCE104}
 
 desktop-file-install \
   --vendor=fedora \
   --dir=$RPM_BUILD_ROOT%{_datadir}/applications \
-  --add-category=X-Fedora \
   %{SOURCE105}
 
 desktop-file-install \
   --vendor=fedora \
   --dir=$RPM_BUILD_ROOT%{_datadir}/applications \
-  --add-category=X-Fedora \
   %{SOURCE106}
 
 desktop-file-install \
   --vendor=fedora \
   --dir=$RPM_BUILD_ROOT%{_datadir}/applications \
-  --add-category=X-Fedora \
   --delete-original \
   $RPM_BUILD_ROOT%{_datadir}/applications/wine.desktop
+
+#mime-types
+desktop-file-install \
+  --vendor=fedora \
+  --dir=$RPM_BUILD_ROOT%{_datadir}/applications \
+  %{SOURCE300}
+
 
 cp %{SOURCE3} README-Fedora
 
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/ld.so.conf.d/
 install -p -m644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/ld.so.conf.d/
+install -p -m755 %{SOURCE400} $RPM_BUILD_ROOT%{_bindir}/wineshelllink-fedora
 
 %clean
 rm -rf %{buildroot}
@@ -327,11 +335,14 @@ update-desktop-database &>/dev/null || :
 %{_bindir}/wineprefixcreate
 %{_mandir}/man1/wineprefixcreate.1*
 %{_bindir}/wineshelllink
+%{_bindir}/wineshelllink-fedora
 %{_bindir}/winecfg
 %{_bindir}/uninstaller
 %{_initrddir}/wine
 %{_libdir}/wine/expand.exe.so
 %{_libdir}/wine/msiexec.exe.so
+%{_libdir}/wine/net.exe.so
+%{_libdir}/wine/ntoskrnl.exe.so
 %{_libdir}/wine/oleview.exe.so
 %{_libdir}/wine/regedit.exe.so
 %{_libdir}/wine/regsvr32.exe.so
@@ -344,12 +355,15 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/winemenubuilder.exe.so
 %{_libdir}/wine/winevdm.exe.so
 %{_libdir}/wine/winecfg.exe.so
+%{_libdir}/wine/winedevice.exe.so
 %{_libdir}/wine/uninstaller.exe.so
 %{_datadir}/applications/fedora-wine.desktop
 %{_datadir}/applications/fedora-wine-regedit.desktop
 %{_datadir}/applications/fedora-wine-uninstaller.desktop
 %{_datadir}/applications/fedora-wine-winecfg.desktop
 %{_datadir}/desktop-directories/wine.directory
+%{_datadir}/applications/fedora-wine-mime-msi.desktop
+%{_datadir}/applications/fedora-wine-wineboot.desktop
 %{_sysconfdir}/xdg/menus/applications-merged/wine.menu
 %{_mandir}/man1/wine.1.gz
 %dir %{_datadir}/wine
@@ -426,7 +440,9 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/eject.exe.so
 %{_libdir}/wine/gdi.exe16
 %{_libdir}/wine/gdi32.dll.so
+%{_libdir}/wine/gdiplus.dll.so
 %{_libdir}/wine/gphoto2.ds.so
+%{_libdir}/wine/hal.dll.so
 %{_libdir}/wine/hid.dll.so
 %{_libdir}/wine/hh.exe.so
 %{_libdir}/wine/hlink.dll.so
@@ -591,6 +607,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/wintab.dll16
 %{_libdir}/wine/wintab32.dll.so
 %{_libdir}/wine/wintrust.dll.so
+%{_libdir}/wine/winscard.dll.so
 %{_libdir}/wine/wnaspi32.dll.so
 %{_libdir}/wine/wow32.dll.so
 %{_libdir}/wine/wprocs.dll16
@@ -702,6 +719,21 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/*.def
 
 %changelog
+* Sat Jun 02 2007 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+0.9.38-1
+- version upgrade (#242087)
+- fix menu problem (#220723)
+- fix BR
+- clean up desktop file section
+
+* Wed May 23 2007 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+0.9.37-1
+- version upgrade
+- add BR for xcursor (#240648)
+- add desktop entry for wineboot (#240683)
+- add mime handler for msi files (#240682)
+- minor cleanups
+
 * Sat May 05 2007 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 0.9.36-1
 - version upgrade
