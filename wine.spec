@@ -40,6 +40,9 @@ Source201:      wine.directory
 # mime types
 Source300:      wine-mime-msi.desktop
 
+#enhancements
+Source400:      wineshelllink-fedora
+
 Patch0:         wine-prefixfonts.patch
 Patch1:         wine-rpath.patch
 Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
