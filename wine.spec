@@ -105,9 +105,9 @@ which allows unmodified Windows 3.x/9x/NT binaries to run on x86 and x86_64
 Unixes. Wine does not require MS Windows, but it can use native system
 .dll files if they are available.
 
-In Fedora Extras wine is actually a meta-package which will install everything
-you need for wine to work smoothly. If you don't want to install everything
-take a look at the wine-* packages.
+In EPEL wine is a meta-package which will install everything needed for wine
+to work smoothly. Smaller setups can be achieved by installing some of the 
+wine-* sub packages.
 
 %package core
 Summary:        Wine core package
