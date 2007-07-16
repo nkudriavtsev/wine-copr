@@ -1,5 +1,5 @@
 Name:		wine
-Version:	0.9.39
+Version:	0.9.41
 Release:	1%{?dist}
 Summary:	A Windows 16/32/64 bit emulator
 
@@ -18,7 +18,7 @@ URL:		http://www.winehq.org/
 # Makefile.in:dlls/winemp3.acm/Makefile: dlls/winemp3.acm/Makefile.in dlls/Makedll.rules
 # programs/winecfg/libraries.c:    "winemp3.acm",
 
-Source0:        wine-0.9.39-fe.tar.bz2
+Source0:        wine-0.9.41-fe.tar.bz2
 Source1:	wine.init
 Source3:        wine-README-Fedora
 Source4:        wine-32.conf
@@ -432,6 +432,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/ctl3d.dll16
 %{_libdir}/wine/ctl3d32.dll.so
 %{_libdir}/wine/ctl3dv2.dll16
+%{_libdir}/wine/d3d10.dll.so
 %{_libdir}/wine/d3dim.dll.so
 %{_libdir}/wine/d3drm.dll.so
 %{_libdir}/wine/d3dxof.dll.so
@@ -461,6 +462,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/dpnhpast.dll.so
 %{_libdir}/wine/dsound.dll.so
 %{_libdir}/wine/dswave.dll.so
+%{_libdir}/wine/dwmapi.dll.so
 %{_libdir}/wine/dxdiagn.dll.so
 %{_libdir}/wine/eject.exe.so
 %{_libdir}/wine/gdi.exe16
@@ -472,6 +474,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/hh.exe.so
 %{_libdir}/wine/hlink.dll.so
 %{_libdir}/wine/hhctrl.ocx.so
+%{_libdir}/wine/hnetcfg.dll.so
 %{_libdir}/wine/iccvid.dll.so
 %{_libdir}/wine/icinfo.exe.so
 %{_libdir}/wine/icmp.dll.so
@@ -532,6 +535,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/newdev.dll.so
 %{_libdir}/wine/ntdll.dll.so
 %{_libdir}/wine/ntdsapi.dll.so
+%{_libdir}/wine/ntprint.dll.so
 %{_libdir}/wine/objsel.dll.so
 %{_libdir}/wine/odbc32.dll.so
 %{_libdir}/wine/odbccp32.dll.so
@@ -552,6 +556,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/olesvr32.dll.so
 %{_libdir}/wine/pdh.dll.so
 %{_libdir}/wine/powrprof.dll.so
+%{_libdir}/wine/printui.dll.so
 %{_libdir}/wine/psapi.dll.so
 %{_libdir}/wine/pstorec.dll.so
 %{_libdir}/wine/qcap.dll.so
@@ -745,6 +750,10 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/*.def
 
 %changelog
+* Mon Jul 16 2007 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 0.9.41-1
+- version upgrade
+
 * Sun Jun 17 2007 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 - 0.9.39-1
 - version upgrade
