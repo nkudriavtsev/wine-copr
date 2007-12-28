@@ -1,6 +1,6 @@
 Name:		wine
-Version:	0.9.49
-Release:	1%{?dist}
+Version:	0.9.51
+Release:	2%{?dist}
 Summary:	A Windows 16/32/64 bit emulator
 
 Group:		Applications/Emulators
@@ -18,7 +18,7 @@ URL:		http://www.winehq.org/
 # Makefile.in:dlls/winemp3.acm/Makefile: dlls/winemp3.acm/Makefile.in dlls/Makedll.rules
 # programs/winecfg/libraries.c:    "winemp3.acm",
 
-Source0:        wine-0.9.49-fe.tar.bz2
+Source0:        wine-0.9.51-fe.tar.bz2
 Source1:	wine.init
 Source3:        wine-README-Fedora
 Source4:        wine-32.conf
@@ -39,7 +39,7 @@ Source201:      wine.directory
 # mime types
 Source300:      wine-mime-msi.desktop
 
-#enhancements
+# enhancements
 Source400:      wineshelllink-fedora
 Patch400:       wine-wineshelllink.patch
 
@@ -145,6 +145,7 @@ ESD sound support for wine
 Summary: JACK sound support for wine
 Group: System Environment/Libraries
 Requires: wine-core = %{version}-%{release}
+Requires: jack-audio-connection-kit
 
 %description jack
 JACK sound support for wine
@@ -299,6 +300,7 @@ install -p -m644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/ld.so.conf.d/
 
 install -p -m755 %{SOURCE400} $RPM_BUILD_ROOT%{_bindir}/wineshelllink-fedora
 
+
 %clean
 rm -rf %{buildroot}
 
@@ -405,6 +407,7 @@ update-desktop-database &>/dev/null || :
 %dir %{_libdir}/wine
 %{_libdir}/wine/acledit.dll.so
 %{_libdir}/wine/activeds.dll.so
+%{_libdir}/wine/actxprxy.dll.so
 %{_libdir}/wine/advapi32.dll.so
 %{_libdir}/wine/advpack.dll.so
 %{_libdir}/wine/amstream.dll.so
@@ -572,6 +575,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/pstorec.dll.so
 %{_libdir}/wine/qcap.dll.so
 %{_libdir}/wine/qmgr.dll.so
+%{_libdir}/wine/qmgrprxy.dll.so
 %{_libdir}/wine/quartz.dll.so
 %{_libdir}/wine/query.dll.so
 %{_libdir}/wine/rasapi16.dll16
@@ -603,6 +607,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/sti.dll.so
 %{_libdir}/wine/storage.dll16
 %{_libdir}/wine/stress.dll16
+%{_libdir}/wine/svchost.exe.so
 %{_libdir}/wine/svrapi.dll.so
 %{_libdir}/wine/sxs.dll.so
 %{_libdir}/wine/system.drv16
@@ -757,6 +762,7 @@ update-desktop-database &>/dev/null || :
 %{_mandir}/man1/wrc.1*
 %{_mandir}/man1/winedbg.1*
 %{_mandir}/man1/wineg++.1*
+%lang(de) %{_mandir}/de.UTF-8/man1/wine.1*
 %{_datadir}/aclocal/wine.m4
 %attr(0755, root, root) %dir %{_includedir}/wine
 %{_includedir}/wine/*
@@ -764,6 +770,19 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/*.def
 
 %changelog
+* Fri Dec 28 2007 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 0.9.51-2
+- add fix for #344281 pulseaudio workaround
+- fix #253474: wine-jack should require jack-audio-connection-kit
+
+* Sun Dec 16 2007 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 0.9.51-1
+- version upgrade
+
+* Sat Dec 01 2007 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 0.9.50-1
+- version upgrade
+
 * Tue Nov 13 2007 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 - 0.9.49-1
 - version upgrade
