@@ -1,6 +1,6 @@
 Name:		wine
 Version:	0.9.53
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	A Windows 16/32/64 bit emulator
 
 Group:		Applications/Emulators
@@ -43,6 +43,7 @@ Source300:      wine-mime-msi.desktop
 Source400:      wineshelllink-fedora
 Patch400:       wine-wineshelllink.patch
 
+
 Patch0:         wine-prefixfonts.patch
 Patch1:         wine-rpath.patch
 Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -58,12 +59,14 @@ BuildRequires:  freeglut-devel
 BuildRequires:  lcms-devel
 BuildRequires:  libieee1284-devel
 BuildRequires:  libjpeg-devel
+BuildRequires:  libpng-devel
 BuildRequires:  libstdc++-devel
 BuildRequires:  libusb-devel
 BuildRequires:  libxml2-devel
 BuildRequires:  libxslt-devel
 BuildRequires:  ncurses-devel
 BuildRequires:  openldap-devel
+BuildRequires:  unixODBC-devel
 BuildRequires:  openssl-devel
 BuildRequires:  sane-backends-devel
 BuildRequires:  zlib-devel
@@ -79,6 +82,7 @@ BuildRequires:  mesa-libGL-devel mesa-libGLU-devel
 BuildRequires:  libXxf86dga-devel libXxf86vm-devel
 BuildRequires:  libXrandr-devel libXrender-devel libXext-devel
 BuildRequires:  libXinerama-devel
+BuildRequires:  libXcomposite-devel
 BuildRequires:  fontconfig-devel
 BuildRequires:  giflib-devel
 BuildRequires:  cups-devel
@@ -299,6 +303,7 @@ mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/ld.so.conf.d/
 install -p -m644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/ld.so.conf.d/
 
 install -p -m755 %{SOURCE400} $RPM_BUILD_ROOT%{_bindir}/wineshelllink-fedora
+
 
 %clean
 rm -rf %{buildroot}
@@ -771,6 +776,10 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/*.def
 
 %changelog
+* Sun Jan 13 2008 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 0.9.53-2
+- add some missing BR
+
 * Sat Jan 12 2008 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 - 0.9.53-1
 - version upgrade
