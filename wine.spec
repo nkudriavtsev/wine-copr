@@ -1,5 +1,5 @@
 Name:		wine
-Version:	0.9.54
+Version:	0.9.57
 Release:	1%{?dist}
 Summary:	A Windows 16/32/64 bit emulator
 
@@ -377,6 +377,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/regsvr32.exe.so
 %{_libdir}/wine/rpcss.exe.so
 %{_libdir}/wine/rundll32.exe.so
+%{_libdir}/wine/secedit.exe.so
 %{_libdir}/wine/start.exe.so
 %{_libdir}/wine/wineboot.exe.so
 %{_libdir}/wine/winebrowser.exe.so
@@ -434,6 +435,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/credui.dll.so
 %{_libdir}/wine/crtdll.dll.so
 %{_libdir}/wine/crypt32.dll.so
+%{_libdir}/wine/cryptdlg.dll.so
 %{_libdir}/wine/cryptdll.dll.so
 %{_libdir}/wine/cryptnet.dll.so
 %{_libdir}/wine/ctapi32.dll.so
@@ -443,7 +445,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/d3d10.dll.so
 %{_libdir}/wine/d3dim.dll.so
 %{_libdir}/wine/d3drm.dll.so
-%{_libdir}/wine/d3dx9_36.dll.so
+%{_libdir}/wine/d3dx9_*.dll.so
 %{_libdir}/wine/d3dxof.dll.so
 %{_libdir}/wine/dbghelp.dll.so
 %{_libdir}/wine/dciman32.dll.so
@@ -471,6 +473,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/dpnhpast.dll.so
 %{_libdir}/wine/dpnlobby.dll.so
 %{_libdir}/wine/dsound.dll.so
+%{_libdir}/wine/dssenh.dll.so
 %{_libdir}/wine/dswave.dll.so
 %{_libdir}/wine/dwmapi.dll.so
 %{_libdir}/wine/dxdiagn.dll.so
@@ -480,6 +483,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/gdi32.dll.so
 %{_libdir}/wine/gdiplus.dll.so
 %{_libdir}/wine/gphoto2.ds.so
+%{_libdir}/wine/gpkcsp.dll.so
 %{_libdir}/wine/hal.dll.so
 %{_libdir}/wine/hid.dll.so
 %{_libdir}/wine/hh.exe.so
@@ -496,9 +500,11 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/imm32.dll.so
 %{_libdir}/wine/inetcomm.dll.so
 %{_libdir}/wine/infosoft.dll.so
+%{_libdir}/wine/initpki.dll.so
 %{_libdir}/wine/inkobj.dll.so
 %{_libdir}/wine/inseng.dll.so
 %{_libdir}/wine/iphlpapi.dll.so
+%{_libdir}/wine/itircl.dll.so
 %{_libdir}/wine/itss.dll.so
 %{_libdir}/wine/kernel32.dll.so
 %{_libdir}/wine/keyboard.drv16
@@ -538,6 +544,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/msisys.ocx.so
 %{_libdir}/wine/msnet32.dll.so
 %{_libdir}/wine/msrle32.dll.so
+%{_libdir}/wine/mssip32.dll.so
 %{_libdir}/wine/msvcirt.dll.so
 %{_libdir}/wine/msvcr71.dll.so
 %{_libdir}/wine/msvcrt.dll.so
@@ -581,6 +588,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/psapi.dll.so
 %{_libdir}/wine/pstorec.dll.so
 %{_libdir}/wine/qcap.dll.so
+%{_libdir}/wine/qedit.dll.so
 %{_libdir}/wine/qmgr.dll.so
 %{_libdir}/wine/qmgrprxy.dll.so
 %{_libdir}/wine/quartz.dll.so
@@ -593,6 +601,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/rpcrt4.dll.so
 %{_libdir}/wine/rsabase.dll.so
 %{_libdir}/wine/rsaenh.dll.so
+%{_libdir}/wine/sccbase.dll.so
 %{_libdir}/wine/schannel.dll.so
 %{_libdir}/wine/secur32.dll.so
 %{_libdir}/wine/sensapi.dll.so
@@ -606,7 +615,10 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/shell32.dll.so
 %{_libdir}/wine/shfolder.dll.so
 %{_libdir}/wine/shlwapi.dll.so
+%{_libdir}/wine/slbcsp.dll.so
+%{_libdir}/wine/slc.dll.so
 %{_libdir}/wine/snmpapi.dll.so
+%{_libdir}/wine/softpub.dll.so
 %{_libdir}/wine/sound.drv16
 %{_libdir}/wine/spoolsv.exe.so
 %{_libdir}/wine/stdole2.tlb.so
@@ -657,6 +669,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/winmm.dll.so
 %{_libdir}/wine/winnls.dll16
 %{_libdir}/wine/winnls32.dll.so
+%{_libdir}/wine/winoldap.mod16
 %{_libdir}/wine/winsock.dll16
 %{_libdir}/wine/winspool.drv.so
 %{_libdir}/wine/spoolss.dll.so
@@ -777,6 +790,10 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/*.def
 
 %changelog
+* Tue Mar 11 2008 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 0.9.57-1
+- version upgrade
+
 * Tue Jan 29 2008 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 - 0.9.54-1
 - version upgrade
