@@ -1,5 +1,5 @@
 Name:		wine
-Version:	1.1.5
+Version:	1.1.6
 Release:	1%{?dist}
 Summary:	A Windows 16/32/64 bit emulator
 
@@ -95,6 +95,7 @@ BuildRequires:  libXi-devel
 BuildRequires:  libXcursor-devel
 # dbus/hal >= FC5
 BuildRequires: dbus-devel hal-devel
+BuildRequires:   gnutls-devel
 
 Requires:       wine-core = %{version}-%{release}
 Requires:       wine-capi = %{version}-%{release}
@@ -836,6 +837,10 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/*.def
 
 %changelog
+* Thu Oct 23 2008 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.1.6-1
+- version upgrade
+
 * Sat Sep 20 2008 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 - 1.1.5-1
 - version upgrade
