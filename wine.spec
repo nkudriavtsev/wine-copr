@@ -1,6 +1,6 @@
 Name:		wine
 Version:	1.1.9
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Summary:	A Windows 16/32/64 bit emulator
 
 Group:		Applications/Emulators
@@ -120,7 +120,7 @@ wine-* sub packages.
 Summary:        Wine core package
 Group:		Applications/Emulators
 Requires:       %{_bindir}/xmessage
-Requires:       freetype%{_isa}
+Requires:       freetype
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 Obsoletes:      wine <= 0.9.15-1%{?dist}
@@ -833,6 +833,10 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/*.def
 
 %changelog
+* Sun Nov 23 2008 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.1.9-1.fc8.1
+- fix #472694
+
 * Sun Nov 23 2008 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 - 1.1.9-1
 - version upgrade
