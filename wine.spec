@@ -1,6 +1,6 @@
 Name:		wine
 Version:	1.1.9
-Release:	1%{?dist}.1
+Release:	1%{?dist}.2
 Summary:	A Windows 16/32/64 bit emulator
 
 Group:		Applications/Emulators
@@ -162,7 +162,7 @@ ESD sound support for wine
 Summary: JACK sound support for wine
 Group: System Environment/Libraries
 Requires: wine-core = %{version}-%{release}
-Requires: jack-audio-connection-kit%{_isa}
+Requires: jack-audio-connection-kit
 
 %description jack
 JACK sound support for wine
@@ -833,6 +833,10 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/*.def
 
 %changelog
+* Mon Nov 24 2008 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.1.9-1.fc8.2
+- more isa fixes
+
 * Sun Nov 23 2008 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 - 1.1.9-1.fc8.1
 - fix #472694
