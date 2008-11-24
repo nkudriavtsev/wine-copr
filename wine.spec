@@ -1,6 +1,6 @@
 Name:		wine
 Version:	1.1.9
-Release:	1%{?dist}.1
+Release:	1%{?dist}.2
 Summary:	A Windows 16/32/64 bit emulator
 
 Group:		Applications/Emulators
