@@ -1,5 +1,5 @@
 Name:		wine
-Version:	1.0
+Version:	1.0.1
 Release:	1%{?dist}
 Summary:	A Windows 16/32/64 bit emulator
 
@@ -797,6 +797,10 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/*.def
 
 %changelog
+* Sat Jan 17 2009 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.0.1-1
+- version upgrade
+
 * Tue Jun 17 2008 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 - 1.0-1
 - version upgrade (#446311,#417161)
