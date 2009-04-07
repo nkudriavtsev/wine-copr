@@ -81,7 +81,7 @@ BuildRequires:  openssl-devel
 BuildRequires:  sane-backends-devel
 BuildRequires:  zlib-devel
 BuildRequires:  fontforge
-BuildRequires:  libgphoto2-devel
+BuildRequires:  gphoto2 gphoto2-devel
 BuildRequires:  jack-audio-connection-kit-devel
 # #217338
 BuildRequires:  isdn4k-utils-devel
