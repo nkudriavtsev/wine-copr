@@ -1,6 +1,6 @@
 %define no64bit 0
 Name:		wine
-Version:	1.1.32
+Version:	1.1.34
 Release:	1%{?dist}
 Summary:	A Windows 16/32/64 bit emulator
 
@@ -48,14 +48,20 @@ Source300:      wine-mime-msi.desktop
 # see http://bugs.winehq.org/show_bug.cgi?id=10495
 # and http://art.ified.ca/?page_id=40
 Patch400:       http://art.ified.ca/downloads/winepulse-0.32-configure.ac.patch
-Patch401:       http://art.ified.ca/downloads/winepulse-0.32.patch
+Patch401:       http://art.ified.ca/downloads/winepulse-0.33.patch
 Patch402:       http://art.ified.ca/downloads/winepulse/winepulse-winecfg-0.6.patch
 Source402:      README-FEDORA-PULSEAUDIO
 
 Patch1:         wine-rpath.patch
 
+# upstream bugs
+# fix build with newer ssl
+# http://www.winehq.org/pipermail/wine-patches/2009-December/082268.html
+Patch500: 0011-Use-sk_-functions-rather-than-accessing-an-OpenSSL-s.patch
+
 # bugfix patches
-# none
+# #533806
+Patch600:       wine-x86_64-prefix.patch
 
 Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -148,7 +154,6 @@ wine-* sub packages.
 Summary:        Wine core package
 Group:		Applications/Emulators
 Requires:       wine-fonts = %{version}-%{release}
-Requires:       %{_bindir}/xmessage
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 Obsoletes:      wine <= 0.9.15-1%{?dist}
@@ -162,10 +167,12 @@ Requires:       freetype(x86-32)
 Requires:       nss-mdns(x86-32)
 # require Xrender isa on x86_64 (#510947)
 Requires:       libXrender(x86-32)
+Requires:       gnutls(x86-32)
 %endif
 %ifarch x86_64
 Requires:       nss-mdns(x86-64)
 Requires:       freetype(x86-64)
+Requires:       gnutls(x86-64)
 %endif
 
 %description core
@@ -314,6 +321,11 @@ This package adds an openal driver for wine.
 %patch400 -p1
 %patch401 -p1
 %patch402 -p1
+%patch500 -p1
+
+%ifarch x86_64
+%patch600
+%endif
 
 autoreconf
 
@@ -353,7 +365,6 @@ mv %{buildroot}%{_bindir}/wine{,32}
 %ifarch x86_64
 mv %{buildroot}%{_bindir}/wine{,64}
 %endif
-
 
 mkdir -p %{buildroot}%{_sysconfdir}/wine
 
@@ -561,6 +572,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/expand.exe.so
 %{_libdir}/wine/extrac32.exe.so
 %{_libdir}/wine/winhlp32.exe.so
+%{_libdir}/wine/mshta.exe.so
 %{_libdir}/wine/msiexec.exe.so
 %{_libdir}/wine/net.exe.so
 %{_libdir}/wine/ntoskrnl.exe.so
@@ -594,6 +606,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/authz.dll.so
 %{_libdir}/wine/avicap32.dll.so
 %{_libdir}/wine/avifil32.dll.so
+%{_libdir}/wine/avrt.dll.so
 %{_libdir}/wine/bcrypt.dll.so
 %{_libdir}/wine/browseui.dll.so
 %{_libdir}/wine/cabinet.dll.so
@@ -654,6 +667,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/faultrep.dll.so
 %{_libdir}/wine/fltlib.dll.so
 %{_libdir}/wine/fusion.dll.so
+%{_libdir}/wine/fwpuclnt.dll.so
 %{_libdir}/wine/gdi32.dll.so
 %{_libdir}/wine/gdiplus.dll.so
 %{_libdir}/wine/glu32.dll.so
@@ -810,6 +824,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/vdmdbg.dll.so
 %{_libdir}/wine/version.dll.so
 %{_libdir}/wine/wbemprox.dll.so
+%{_libdir}/wine/wiaservc.dll.so
 %{_libdir}/wine/windowscodecs.dll.so
 %{_libdir}/wine/wineaudioio.drv.so
 %{_libdir}/wine/winecoreaudio.drv.so
@@ -832,6 +847,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/wsock32.dll.so
 %{_libdir}/wine/wtsapi32.dll.so
 %{_libdir}/wine/wuapi.dll.so
+%{_libdir}/wine/wuaueng.dll.so
 %{_libdir}/wine/security.dll.so
 %{_libdir}/wine/sfc.dll.so
 %{_libdir}/wine/wineps.drv.so
@@ -1046,6 +1062,18 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/openal32.dll.so
 
 %changelog
+* Fri Dec 18 2009 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.1.34-1
+- version upgrade (#546749)
+
+* Mon Nov 16 2009 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.1.33-1
+- version upgrade
+- winepulse update (.33)
+- require gnutls (#538694)
+- use separate WINEPREFIX on x86_64 per default (workaround for #533806)
+- drop explicit xmessage require (#537610)
+
 * Tue Oct 27 2009 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 - 1.1.32-1
 - version upgrade (#531358)
