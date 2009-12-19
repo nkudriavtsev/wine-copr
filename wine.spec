@@ -1,6 +1,6 @@
 %define no64bit 0
 Name:		wine
-Version:	1.1.34
+Version:	1.1.35
 Release:	1%{?dist}
 Summary:	A Windows 16/32/64 bit emulator
 
@@ -55,9 +55,7 @@ Source402:      README-FEDORA-PULSEAUDIO
 Patch1:         wine-rpath.patch
 
 # upstream bugs
-# fix build with newer ssl
-# http://www.winehq.org/pipermail/wine-patches/2009-December/082268.html
-Patch500: 0011-Use-sk_-functions-rather-than-accessing-an-OpenSSL-s.patch
+# currently non
 
 # bugfix patches
 # #533806
@@ -321,7 +319,6 @@ This package adds an openal driver for wine.
 %patch400 -p1
 %patch401 -p1
 %patch402 -p1
-%patch500 -p1
 
 %ifarch x86_64
 %patch600
@@ -709,6 +706,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/mciwave.dll.so
 %{_libdir}/wine/midimap.dll.so
 %{_libdir}/wine/mlang.dll.so
+%{_libdir}/wine/mmdevapi.dll.so
 %{_libdir}/wine/mountmgr.sys.so
 %{_libdir}/wine/mpr.dll.so
 %{_libdir}/wine/mprapi.dll.so
@@ -829,6 +827,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/wineaudioio.drv.so
 %{_libdir}/wine/winecoreaudio.drv.so
 %{_libdir}/wine/winejoystick.drv.so
+%{_libdir}/wine/winemapi.dll.so
 %{_libdir}/wine/winex11.drv.so
 %{_libdir}/wine/wing32.dll.so
 %{_libdir}/wine/winhttp.dll.so
@@ -878,12 +877,12 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/vtdapi.vxd.so
 %{_libdir}/wine/vwin32.vxd.so
 %{_libdir}/wine/w32skrnl.dll.so
-%{_libdir}/wine/commdlg.dll16
 %{_libdir}/wine/gdi.exe16
 %{_libdir}/wine/wprocs.dll16
 
 %{_libdir}/wine/avifile.dll16.so
 %{_libdir}/wine/comm.drv16.so
+%{_libdir}/wine/commdlg.dll16.so
 %{_libdir}/wine/compobj.dll16.so
 %{_libdir}/wine/ctl3d.dll16.so
 %{_libdir}/wine/ctl3dv2.dll16.so
@@ -1062,6 +1061,10 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/openal32.dll.so
 
 %changelog
+* Sat Dec 19 2009 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.1.35-1
+- version upgrade
+
 * Fri Dec 18 2009 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 - 1.1.34-1
 - version upgrade (#546749)
