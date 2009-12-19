@@ -877,7 +877,6 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/vtdapi.vxd.so
 %{_libdir}/wine/vwin32.vxd.so
 %{_libdir}/wine/w32skrnl.dll.so
-%{_libdir}/wine/gdi.exe16
 %{_libdir}/wine/wprocs.dll16
 
 %{_libdir}/wine/avifile.dll16.so
@@ -889,6 +888,7 @@ update-desktop-database &>/dev/null || :
 %{_libdir}/wine/ddeml.dll16.so
 %{_libdir}/wine/dispdib.dll16.so
 %{_libdir}/wine/display.drv16.so
+%{_libdir}/wine/gdi.exe16.so
 %{_libdir}/wine/imm.dll16.so
 %{_libdir}/wine/krnl386.exe16
 %{_libdir}/wine/keyboard.drv16.so
