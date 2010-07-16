@@ -1,13 +1,13 @@
 %define no64bit 0
 Name:		wine
 Version:	1.2.0
-Release:	0.7.rc7%{?dist}
+Release:	1%{?dist}
 Summary:	A Windows 16/32/64 bit emulator
 
 Group:		Applications/Emulators
 License:	LGPLv2+
 URL:		http://www.winehq.org/
-Source0:        http://ibiblio.org/pub/linux/system/emulators/wine/wine-1.2-rc7.tar.bz2
+Source0:        http://ibiblio.org/pub/linux/system/emulators/wine/wine-1.2.tar.bz2
 Source1:	wine.init
 Source3:        wine-README-Fedora
 Source4:        wine-32.conf
@@ -418,7 +418,7 @@ This package adds an openal driver for wine.
 %endif
 
 %prep
-%setup -q -n %{name}-1.2-rc7
+%setup -q -n %{name}-1.2
 
 %patch1
 %patch100
@@ -1287,6 +1287,14 @@ update-desktop-database &>/dev/null || :
 %endif
 
 %changelog
+* Fri Jul 16 2010 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.2-1
+- final release
+
+* Fri Jul 16 2010 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.2-0.8.rc7
+- improve font patch
+
 * Sun Jul 11 2010 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 - 1.2-0.7.rc7
 - version upgrade
