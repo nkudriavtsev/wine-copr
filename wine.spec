@@ -1,13 +1,13 @@
 %define no64bit 0
 Name:		wine
-Version:	1.2.0
-Release:	2%{?dist}
+Version:	1.2.1
+Release:	1%{?dist}
 Summary:	A Windows 16/32/64 bit emulator
 
 Group:		Applications/Emulators
 License:	LGPLv2+
 URL:		http://www.winehq.org/
-Source0:        http://ibiblio.org/pub/linux/system/emulators/wine/wine-1.2.tar.bz2
+Source0:        http://ibiblio.org/pub/linux/system/emulators/wine/wine-%{version}.tar.bz2
 Source1:	wine.init
 Source3:        wine-README-Fedora
 Source4:        wine-32.conf
@@ -1292,6 +1292,10 @@ update-desktop-database &>/dev/null || :
 %endif
 
 %changelog
+* Mon Oct 18 2010 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.2.1-1
+- version upgrade
+
 * Wed Jul 28 2010 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 - 1.2.0-2
 - fix segfault (#617968)
