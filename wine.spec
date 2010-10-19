@@ -37,9 +37,7 @@ Patch1:         wine-rpath.patch
 # bugfixes
 # fix for #593140
 Patch100:       wine-fonts.patch
-# fix for #617968
-Patch101:       wine-preloader-segfault.patch
-# 
+#
 Patch200:       wine-imagemagick-6.5.patch
 
 # explain how to use wine with pulseaudio
@@ -422,11 +420,10 @@ This package adds an openal driver for wine.
 %endif
 
 %prep
-%setup -q -n %{name}-1.2
+%setup -q
 
 %patch1
 %patch100
-%patch101 -p1
 %patch200
 %patch400 -p1
 %patch401 -p1
