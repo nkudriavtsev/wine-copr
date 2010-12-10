@@ -1,6 +1,6 @@
 %define no64bit 0
 Name:		wine
-Version:	1.2.1
+Version:	1.2.2
 Release:	1%{?dist}
 Summary:	A Windows 16/32/64 bit emulator
 
@@ -47,12 +47,6 @@ Patch400:       http://art.ified.ca/downloads/winepulse/winepulse-0.38-configure
 Patch401:       http://art.ified.ca/downloads/winepulse/winepulse-0.38.patch
 Patch402:       http://art.ified.ca/downloads/winepulse/winepulse-0.38-winecfg.patch
 Source402:      README-FEDORA-PULSEAUDIO
-
-
-
-# enhancements
-# add wine-gecko support
-Patch1000:      wine-gecko.patch
 
 Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -110,6 +104,7 @@ BuildRequires:  gsm-devel
 BuildRequires:  libv4l-devel
 BuildRequires:  fontpackages-devel
 BuildRequires:  ImageMagick-devel
+BuildRequireS:  libXcursor-devel
 
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6
 BuildRequires:  openal-soft-devel
@@ -177,12 +172,15 @@ Requires:       freetype(x86-32)
 Requires:       nss-mdns(x86-32)
 # require Xrender isa on x86_64 (#510947)
 Requires:       libXrender(x86-32)
+Requires:       libXcursor(x86-32)
 Requires:       gnutls(x86-32)
 %endif
 %ifarch x86_64
 Requires:       nss-mdns(x86-64)
 Requires:       freetype(x86-64)
 Requires:       gnutls(x86-64)
+Requires:       libXrender(x86-64)
+Requires:       libXcursor(x86-64)
 %endif
 
 
@@ -428,7 +426,6 @@ This package adds an openal driver for wine.
 %patch400 -p1
 %patch401 -p1
 %patch402 -p1
-%patch1000
 
 autoreconf
 
@@ -1132,12 +1129,22 @@ update-desktop-database &>/dev/null || :
 %{_bindir}/wineconsole
 %{_bindir}/winecfg
 %dir %{_datadir}/wine
-%{_mandir}/man1/wine.1.gz
+%{_mandir}/man1/wine.1.*
 %{_mandir}/man1/wineserver.1*
 %lang(fr) %{_mandir}/fr.UTF-8/man1/wine.1*
 %lang(fr) %{_mandir}/fr.UTF-8/man1/wineserver.1*
 %lang(de) %{_mandir}/de.UTF-8/man1/wine.1*
 %lang(de) %{_mandir}/de.UTF-8/man1/wineserver.1*
+%{_mandir}/man1/msiexec.1.gz
+%{_mandir}/man1/notepad.1.gz
+%{_mandir}/man1/regedit.1.gz
+%{_mandir}/man1/regsvr32.1.gz
+%{_mandir}/man1/wineboot.1.gz
+%{_mandir}/man1/winecfg.1.gz
+%{_mandir}/man1/wineconsole.1.gz
+%{_mandir}/man1/winefile.1.gz
+%{_mandir}/man1/winemine.1.gz
+%{_mandir}/man1/winepath.1.gz
 %{_datadir}/wine/generic.ppd
 %{_datadir}/wine/wine.inf
 %{_datadir}/wine/l_intl.nls
@@ -1260,6 +1267,7 @@ update-desktop-database &>/dev/null || :
 %{_mandir}/man1/wrc.1*
 %{_mandir}/man1/winedbg.1*
 %{_mandir}/man1/wineg++.1*
+%{_mandir}/man1/winecpp.1*
 %lang(de) %{_mandir}/de.UTF-8/man1/winemaker.1*
 %lang(fr) %{_mandir}/fr.UTF-8/man1/winemaker.1*
 %attr(0755, root, root) %dir %{_includedir}/wine
@@ -1289,6 +1297,10 @@ update-desktop-database &>/dev/null || :
 %endif
 
 %changelog
+* Fri Dec 10 2010 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.2.2-1
+- version upgrade
+
 * Mon Oct 18 2010 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 - 1.2.1-1
 - version upgrade
