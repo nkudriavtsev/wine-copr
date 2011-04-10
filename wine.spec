@@ -1,6 +1,6 @@
 %define no64bit 0
 Name:		wine
-Version:	1.2.2
+Version:	1.2.3
 Release:	1%{?dist}
 Summary:	A Windows 16/32/64 bit emulator
 
@@ -1297,6 +1297,10 @@ update-desktop-database &>/dev/null || :
 %endif
 
 %changelog
+* Sun Apr 10 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.2.3-1
+- version upgrade
+
 * Fri Dec 10 2010 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 - 1.2.2-1
 - version upgrade
