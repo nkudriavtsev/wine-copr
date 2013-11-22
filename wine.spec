@@ -1,10 +1,8 @@
 %global no64bit   0
-%global winegecko 2.21
-%global winemono  0.0.8
 
 Name:           wine
 Version:        1.6
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -148,11 +146,8 @@ Requires:       wine-pulseaudio(x86-32) = %{version}-%{release}
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6
 Requires:       wine-openal(x86-32) = %{version}-%{release}
 %endif
-%if 0%{?fedora} >= 17
-Requires:       mingw32-wine-gecko = %winegecko
-Requires:       wine-mono = %winemono
-%endif
-# Requires:       samba-winbind-clients(x86-32) wait for rhbz#968860
+Requires:       /usr/bin/ntlm_auth
+Requires:       mesa-dri-drivers(x86-32)
 %endif
 
 %ifarch %{ix86}
@@ -172,11 +167,7 @@ Requires:       wine-pulseaudio(x86-64) = %{version}-%{release}
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6
 Requires:       wine-openal(x86-64) = %{version}-%{release}
 %endif
-%if 0%{?fedora} >= 17
-Requires:       mingw64-wine-gecko = %winegecko
-Requires:       wine-mono = %winemono
-%endif
-# Requires:       samba-winbind-clients(x86-64) wait for rhbz#968860
+Requires:       mesa-dri-drivers(x86-64)
 Requires:       wine-wow(x86-64) = %{version}-%{release}
 Conflicts:      wine-wow(x86-32) = %{version}-%{release}
 %endif
@@ -191,6 +182,8 @@ Requires:       wine-twain = %{version}-%{release}
 Requires:       wine-pulseaudio = %{version}-%{release}
 Requires:       wine-openal = %{version}-%{release}
 Requires:       wine-wow = %{version}-%{release}
+Requires:       mesa-dri-drivers
+Requires:       samba-winbind-clients
 %endif
 
 %description
@@ -284,6 +277,8 @@ Summary:        Systemd config for the wine binfmt handler
 Group:          Applications/Emulators
 Requires:       systemd >= 23
 BuildArch:      noarch
+Requires(post):  systemd
+Requires(postun): systemd
 
 %description systemd
 Register the wine binary handler for windows executables via systemd binfmt
@@ -603,44 +598,55 @@ mkdir -p %{buildroot}%{_datadir}/wine/gecko
 mkdir -p %{buildroot}%{_datadir}/wine/mono
 
 # extract and install icons
-%if 0%{?fedora} > 10
+%if 0%{?fedora} > 10 || 0%{?rhel} >=6
 mkdir -p %{buildroot}%{_datadir}/icons/hicolor/scalable/apps
 
+# This nasty replacement masks a composite program icon .SVG down
+# so that only its full-size scalable icon is visible
+PROGRAM_ICONFIX='s/height="272"/height="256"/;'\
+'s/width="632"/width="256"\n'\
+'   x="368"\n'\
+'   y="8"\n'\
+'   viewBox="368, 8, 256, 256"/;'
+
+# This icon file is still in the legacy format
 install -p -m 644 dlls/user32/resources/oic_winlogo.svg \
  %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/wine.svg
 sed -i -e '3s/368/64/' %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/wine.svg
 
+# The rest come from programs/, and contain larger scalable icons
+# with a new layout that requires the PROGRAM_ICONFIX sed adjustment
 install -p -m 644 programs/notepad/notepad.svg \
  %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/notepad.svg
-sed -i -e '3s/368/64/' %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/notepad.svg
+sed -i -e "$PROGRAM_ICONFIX" %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/notepad.svg
 
 install -p -m 644 programs/regedit/regedit.svg \
  %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/regedit.svg
-sed -i -e '3s/368/64/' %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/regedit.svg
+sed -i -e "$PROGRAM_ICONFIX" %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/regedit.svg
 
 install -p -m 644 programs/msiexec/msiexec.svg \
  %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/msiexec.svg
-sed -i -e '3s/368/64/' %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/msiexec.svg
+sed -i -e "$PROGRAM_ICONFIX" %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/msiexec.svg
 
 install -p -m 644 programs/winecfg/winecfg.svg \
  %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/winecfg.svg
-sed -i -e '3s/368/64/' %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/winecfg.svg
+sed -i -e "$PROGRAM_ICONFIX" %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/winecfg.svg
 
 install -p -m 644 programs/winefile/winefile.svg \
  %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/winefile.svg
-sed -i -e '3s/368/64/' %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/winefile.svg
+sed -i -e "$PROGRAM_ICONFIX" %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/winefile.svg
 
 install -p -m 644 programs/winemine/winemine.svg \
  %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/winemine.svg
-sed -i -e '3s/368/64/' %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/winemine.svg
+sed -i -e "$PROGRAM_ICONFIX" %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/winemine.svg
 
 install -p -m 644 programs/winhlp32/winhelp.svg \
  %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/winhelp.svg
-sed -i -e '3s/368/64/' %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/winhelp.svg
+sed -i -e "$PROGRAM_ICONFIX" %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/winhelp.svg
 
 install -p -m 644 programs/wordpad/wordpad.svg \
  %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/wordpad.svg
-sed -i -e '3s/368/64/'  %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/wordpad.svg
+sed -i -e "$PROGRAM_ICONFIX" %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/wordpad.svg
 
 %endif
 
@@ -762,6 +768,14 @@ popd
 
 
 %if 0%{?fedora} >= 15
+%post systemd
+/bin/systemctl try-restart systemd-binfmt.service
+
+%postun systemd
+if [ $1 -eq 0 ]; then
+/bin/systemctl try-restart systemd-binfmt.service
+fi
+
 %post sysvinit
 if [ $1 -eq 1 ]; then
 /sbin/chkconfig --add wine
@@ -1460,7 +1474,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_datadir}/applications/wine-oleview.desktop
 %{_datadir}/desktop-directories/Wine.directory
 %config %{_sysconfdir}/xdg/menus/applications-merged/wine.menu
-%if 0%{?fedora} >= 10
+%if 0%{?fedora} >= 10 || 0%{?rhel} >= 6
 %{_datadir}/icons/hicolor/scalable/apps/*svg
 %endif
 
@@ -1530,6 +1544,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %endif
 
 %changelog
+* Sat Sep 28 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.6-4
+- cleanup for el6
+- pull in relevant bits from 1.7.x spec
 
 * Sun Aug 04 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.6-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
