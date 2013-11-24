@@ -1,8 +1,8 @@
 %global no64bit   0
 
 Name:           wine
-Version:        1.6
-Release:        4%{?dist}
+Version:        1.6.1
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -31,8 +31,9 @@ Source109:      wine-oleview.desktop
 
 # build fixes
 # do not check for glAccum
-# wget http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/app-emulation/wine/files/wine-1.5.17-osmesa-check.patch?revision=1.1
-Patch1:          wine-1.5.17-osmesa-check.patch
+# adjusted for 1.6.1
+# original patch: wget http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/app-emulation/wine/files/wine-1.5.17-osmesa-check.patch?revision=1.1
+Patch1:          wine-1.6.1-osmesa-check.patch
 
 # wine bugs
 
@@ -1544,6 +1545,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %endif
 
 %changelog
+* Fri Nov 22 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.6.1-1
+- version upgrade
+
 * Sat Sep 28 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 - 1.6-4
 - cleanup for el6
