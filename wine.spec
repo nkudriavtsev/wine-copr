@@ -1352,7 +1352,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/ntdll.dll.so
 %{_libdir}/wine/ntdsapi.dll.so
 %{_libdir}/wine/ntprint.dll.so
-%{_libdir}/wine/nvapi64.dll.so
 %{_libdir}/wine/nvcuda.dll.so
 %{_libdir}/wine/nvcuvid.dll.so
 %{_libdir}/wine/objsel.dll.so
@@ -1508,6 +1507,12 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/xolehlp.dll.so
 %{_libdir}/wine/xpsprint.dll.so
 %{_libdir}/wine/xpssvcs.dll.so
+
+%ifarch x86_64
+%{_libdir}/wine/nvapi64.dll.so
+%else
+%{_libdir}/wine/nvapi.dll.so
+%endif
 
 # 16 bit and other non 64bit stuff
 %ifnarch x86_64 %{arm}
