@@ -10,7 +10,7 @@
 %endif # 0%{?fedora}
 
 Name:           wine
-Version:        1.7.33
+Version:        1.7.34
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -86,6 +86,8 @@ BuildRequires:  libusb-devel
 BuildRequires:  libxml2-devel
 BuildRequires:  libxslt-devel
 BuildRequires:  ncurses-devel
+BuildRequires:  ocl-icd-devel
+BuildRequires:  opencl-headers
 BuildRequires:  openldap-devel
 BuildRequires:  unixODBC-devel
 BuildRequires:  sane-backends-devel
@@ -150,6 +152,7 @@ Requires:       wine-pulseaudio(x86-32) = %{version}-%{release}
 %if 0%{?fedora} >= 10 || 0%{?rhel} == 6
 Requires:       wine-openal(x86-32) = %{version}-%{release}
 %endif
+Requires:       wine-opencl(x86-32) = %{version}-%{release}
 %if 0%{?fedora} >= 17
 Requires:       mingw32-wine-gecko = %winegecko
 Requires:       wine-mono = %winemono
@@ -177,6 +180,7 @@ Requires:       wine-pulseaudio(x86-64) = %{version}-%{release}
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6
 Requires:       wine-openal(x86-64) = %{version}-%{release}
 %endif
+Requires:       wine-opencl(x86-64) = %{version}-%{release}
 %if 0%{?fedora} >= 17
 Requires:       mingw64-wine-gecko = %winegecko
 Requires:       wine-mono = %winemono
@@ -195,6 +199,7 @@ Requires:       wine-ldap = %{version}-%{release}
 Requires:       wine-twain = %{version}-%{release}
 Requires:       wine-pulseaudio = %{version}-%{release}
 Requires:       wine-openal = %{version}-%{release}
+Requires:       wine-opencl = %{version}-%{release}
 Requires:       wine-wow = %{version}-%{release}
 Requires:       mesa-dri-drivers
 Requires:       samba-winbind-clients
@@ -223,8 +228,11 @@ Requires:       wine-filesystem = %{version}-%{release}
 Requires:       freetype(x86-32)
 Requires:       nss-mdns(x86-32)
 Requires:       gnutls(x86-32)
-Requires:       libXrender(x86-32)
+Requires:       libXcomposite(x86-32)
 Requires:       libXcursor(x86-32)
+Requires:       libXinerama(x86-32)
+Requires:       libXrandr(x86-32)
+Requires:       libXrender(x86-32)
 #dlopen in windowscodesc (fixes rhbz#1085075)
 Requires:       libpng(x86-32)
 Requires:       libpcap(x86-32)
@@ -237,8 +245,11 @@ Requires:       unixODBC(x86-32)
 Requires:       freetype(x86-64)
 Requires:       nss-mdns(x86-64)
 Requires:       gnutls(x86-64)
-Requires:       libXrender(x86-64)
+Requires:       libXcomposite(x86-64)
 Requires:       libXcursor(x86-64)
+Requires:       libXinerama(x86-64)
+Requires:       libXrandr(x86-64)
+Requires:       libXrender(x86-64)
 #dlopen in windowscodesc (fixes rhbz#1085075)
 Requires:       libpng(x86-64)
 Requires:       libpcap(x86-64)
@@ -607,6 +618,13 @@ Requires: wine-core = %{version}-%{release}
 %description openal
 This package adds an openal driver for wine.
 %endif
+
+%package opencl
+Summary: OpenCL support for wine
+Requires: wine-core = %{version}-%{release}
+
+%Description opencl
+This package adds the opencl driver for wine.
 
 %prep
 %setup -q
@@ -1334,6 +1352,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/ntdll.dll.so
 %{_libdir}/wine/ntdsapi.dll.so
 %{_libdir}/wine/ntprint.dll.so
+%{_libdir}/wine/nvapi64.dll.so
+%{_libdir}/wine/nvcuda.dll.so
+%{_libdir}/wine/nvcuvid.dll.so
 %{_libdir}/wine/objsel.dll.so
 %{_libdir}/wine/odbc32.dll.so
 %{_libdir}/wine/odbccp32.dll.so
@@ -1475,6 +1496,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/wined3d.dll.so
 %{_libdir}/wine/dnsapi.dll.so
 %{_libdir}/wine/iexplore.exe.so
+%{_libdir}/wine/x3daudio1_7.dll.so
 %{_libdir}/wine/xapofx1_1.dll.so
 %{_libdir}/wine/xcopy.exe.so
 %{_libdir}/wine/xinput1_1.dll.so
@@ -1746,7 +1768,15 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/openal32.dll.so
 %endif
 
+%files opencl
+%{_libdir}/wine/opencl.dll.so
+
 %changelog
+* Sat Jan 10 2015 Michael Cronenworth <mike@cchtml.com>
+- 1.7.34-1
+- version upgrade
+- enable OpenCL support (rhbz#1176605)
+
 * Sun Dec 14 2014 Michael Cronenworth <mike@cchtml.com>
 - 1.7.33-1
 - version upgrade
