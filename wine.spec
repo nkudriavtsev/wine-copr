@@ -11,7 +11,7 @@
 
 Name:           wine
 Version:        1.7.34
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -1777,6 +1777,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Tue Jan 20 2015 Peter Robinson <pbrobinson@fedoraproject.org> 1.7.34-2
+- Rebuild (libgphoto2)
+
 * Sat Jan 10 2015 Michael Cronenworth <mike@cchtml.com>
 - 1.7.34-1
 - version upgrade
