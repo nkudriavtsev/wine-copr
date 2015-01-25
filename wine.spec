@@ -10,8 +10,8 @@
 %endif # 0%{?fedora}
 
 Name:           wine
-Version:        1.7.34
-Release:        2%{?dist}
+Version:        1.7.35
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -163,12 +163,6 @@ Requires:       mesa-dri-drivers(x86-32)
 %endif
 %endif
 
-%ifarch %{ix86}
-%if 0%{?fedora} >= 10 || 0%{?rhel} == 6
-Requires:       wine-wow(x86-32) = %{version}-%{release}
-%endif
-%endif
-
 # x86-64 parts
 %ifarch x86_64
 Requires:       wine-core(x86-64) = %{version}-%{release}
@@ -186,8 +180,6 @@ Requires:       mingw64-wine-gecko = %winegecko
 Requires:       wine-mono = %winemono
 %endif
 Requires:       mesa-dri-drivers(x86-64)
-Requires:       wine-wow(x86-64) = %{version}-%{release}
-Conflicts:      wine-wow(x86-32) = %{version}-%{release}
 %endif
 
 # ARM parts
@@ -200,7 +192,6 @@ Requires:       wine-twain = %{version}-%{release}
 Requires:       wine-pulseaudio = %{version}-%{release}
 Requires:       wine-openal = %{version}-%{release}
 Requires:       wine-opencl = %{version}-%{release}
-Requires:       wine-wow = %{version}-%{release}
 Requires:       mesa-dri-drivers
 Requires:       samba-winbind-clients
 %endif
@@ -220,6 +211,8 @@ Summary:        Wine core package
 Group:          Applications/Emulators
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
+Requires(posttrans):   %{_sbindir}/alternatives
+Requires(preun):       %{_sbindir}/alternatives
 
 # require -filesystem
 Requires:       wine-filesystem = %{version}-%{release}
@@ -292,27 +285,12 @@ Provides:       wine-oss = %{version}-%{release}
 Obsoletes:      wine-nas <= 1.3.15
 Provides:       wine-nas = %{version}-%{release}
 
+# removed as of 1.7.35
+Obsoletes:      wine-wow <= 1.7.34
+Provides:       wine-wow = %{version}-%{release}
+
 %description core
 Wine core package includes the basic wine stuff needed by all other packages.
-
-%package wow
-Summary:        Files for wine wow separation
-Group:          Applications/Emulators
-
-%ifarch x86_64
-Requires:       wine-core(x86-64) = %{version}-%{release}
-%endif
-
-%ifarch %{ix86}
-Requires:       wine-core(x86-32) = %{version}-%{release}
-%endif
-
-%ifarch %{arm}
-Requires:       wine-core = %{version}-%{release}
-%endif
-
-%description wow
-%{summary}
 
 %if 0%{?fedora} >= 15
 %package systemd
@@ -360,20 +338,13 @@ Requires(post): /sbin/chkconfig, /sbin/service,
 Requires(post): desktop-file-utils >= 0.8
 Requires(preun): /sbin/chkconfig, /sbin/service
 Requires(postun): desktop-file-utils >= 0.8
-%ifarch %{arm}
 Requires:       wine-core = %{version}-%{release}
-%else
-%if 0%{?rhel} >= 7
-Requires:       wine-core(x86-64) = %{version}-%{release}
-%else
-Requires:       wine-core(x86-32) = %{version}-%{release}
-%endif
-%endif
 Requires:       wine-common = %{version}-%{release}
 %if 0%{?fedora} >= 15
 Requires:       wine-systemd = %{version}-%{release}
 %endif
 Requires:       hicolor-icon-theme
+BuildArch:      noarch
 
 %description desktop
 Desktop integration features for wine, including mime-types and a binary format
@@ -682,19 +653,27 @@ export CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno
         LDCONFIG=/bin/true \
         UPDATE_DESKTOP_DATABASE=/bin/true
 
+# setup for alternatives usage
+%ifarch x86_64
+mv %{buildroot}%{_bindir}/wineserver %{buildroot}%{_bindir}/wineserver64
+%else
+mv %{buildroot}%{_bindir}/wine %{buildroot}%{_bindir}/wine32
+mv %{buildroot}%{_bindir}/wine-preloader %{buildroot}%{_bindir}/wine32-preloader
+mv %{buildroot}%{_bindir}/wineserver %{buildroot}%{_bindir}/wineserver32
+%endif
+touch %{buildroot}%{_bindir}/wine
+touch %{buildroot}%{_bindir}/wine-preloader
+touch %{buildroot}%{_bindir}/wineserver
+
 # remove rpath
 chrpath --delete %{buildroot}%{_bindir}/wmc
 chrpath --delete %{buildroot}%{_bindir}/wrc
-chrpath --delete %{buildroot}%{_bindir}/wineserver
 %ifarch x86_64
 chrpath --delete %{buildroot}%{_bindir}/wine64
+chrpath --delete %{buildroot}%{_bindir}/wineserver64
 %else
-chrpath --delete %{buildroot}%{_bindir}/wine
-%endif
-
-# RHEL7 dropped 32-bit support, provide symlink for wine apps
-%if 0%{?rhel} >= 7
-%{__ln_s} %{_bindir}/wine64 %{buildroot}%{_bindir}/wine
+chrpath --delete %{buildroot}%{_bindir}/wine32
+chrpath --delete %{buildroot}%{_bindir}/wineserver32
 %endif
 
 mkdir -p %{buildroot}%{_sysconfdir}/wine
@@ -924,7 +903,37 @@ fi
 gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %post core -p /sbin/ldconfig
-%postun core -p /sbin/ldconfig
+
+%posttrans core
+# needed temporarily until people get on alternatives
+rm -f %{_bindir}/wine
+rm -f %{_bindir}/wine-preloader
+rm -f %{_bindir}/wineserver
+%ifarch x86_64
+%{_sbindir}/alternatives --install %{_bindir}/wine \
+  wine %{_bindir}/wine64 10 \
+  --slave %{_bindir}/wine-preloader wine-preloader %{_bindir}/wine64-preloader
+%{_sbindir}/alternatives --install %{_bindir}/wineserver \
+  wineserver %{_bindir}/wineserver64 20
+%else
+%{_sbindir}/alternatives --install %{_bindir}/wine \
+  wine %{_bindir}/wine32 20 \
+  --slave %{_bindir}/wine-preloader wine-preloader %{_bindir}/wine32-preloader
+%{_sbindir}/alternatives --install %{_bindir}/wineserver \
+  wineserver %{_bindir}/wineserver32 10
+%endif
+
+%postun core
+/sbin/ldconfig
+if [ $1 -eq 0 ] ; then
+%ifarch x86_64
+  %{_sbindir}/alternatives --remove wine %{_bindir}/wine64
+  %{_sbindir}/alternatives --remove wineserver %{_bindir}/wineserver64
+%else
+  %{_sbindir}/alternatives --remove wine %{_bindir}/wine32
+  %{_sbindir}/alternatives --remove wineserver %{_bindir}/wineserver32
+%endif
+fi
 
 %post ldap -p /sbin/ldconfig
 %postun ldap -p /sbin/ldconfig
@@ -948,12 +957,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %files
 # meta package
-
-%files wow
-%ifarch %{ix86} %{arm}
-%{_bindir}/wine
-%endif
-%{_bindir}/wineserver
 
 %files core
 %doc ANNOUNCE
@@ -987,21 +990,24 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/dxdiag.exe.so
 
 %ifarch %{ix86} %{arm}
-%{_bindir}/wine
+%{_bindir}/wine32
 %ifnarch %{arm}
-%{_bindir}/wine-preloader
+%{_bindir}/wine32-preloader
 %endif
+%{_bindir}/wineserver32
 %config %{_sysconfdir}/ld.so.conf.d/wine-32.conf
 %endif
 
 %ifarch x86_64
-%if 0%{?rhel} >= 7
-%{_bindir}/wine
-%endif
 %{_bindir}/wine64
 %{_bindir}/wine64-preloader
+%{_bindir}/wineserver64
 %config %{_sysconfdir}/ld.so.conf.d/wine-64.conf
 %endif
+
+%ghost %{_bindir}/wine
+%ghost %{_bindir}/wine-preloader
+%ghost %{_bindir}/wineserver
 
 %dir %{_libdir}/wine
 %dir %{_libdir}/wine/fakedlls
@@ -1497,6 +1503,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/iexplore.exe.so
 %{_libdir}/wine/x3daudio1_7.dll.so
 %{_libdir}/wine/xapofx1_1.dll.so
+%{_libdir}/wine/xaudio2_7.dll.so
 %{_libdir}/wine/xcopy.exe.so
 %{_libdir}/wine/xinput1_1.dll.so
 %{_libdir}/wine/xinput1_2.dll.so
@@ -1777,6 +1784,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Sun Jan 25 2015 Michael Cronenworth <mike@cchtml.com> - 1.7.35-1
+- version upgrade
+- use alternatives system, remove wow sub-package
+
 * Tue Jan 20 2015 Peter Robinson <pbrobinson@fedoraproject.org> 1.7.34-2
 - Rebuild (libgphoto2)
 
