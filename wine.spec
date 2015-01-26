@@ -658,11 +658,15 @@ export CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno
 mv %{buildroot}%{_bindir}/wineserver %{buildroot}%{_bindir}/wineserver64
 %else
 mv %{buildroot}%{_bindir}/wine %{buildroot}%{_bindir}/wine32
+%ifnarch %{arm}
 mv %{buildroot}%{_bindir}/wine-preloader %{buildroot}%{_bindir}/wine32-preloader
+%endif
 mv %{buildroot}%{_bindir}/wineserver %{buildroot}%{_bindir}/wineserver32
 %endif
 touch %{buildroot}%{_bindir}/wine
+%ifnarch %{arm}
 touch %{buildroot}%{_bindir}/wine-preloader
+%endif
 touch %{buildroot}%{_bindir}/wineserver
 
 # remove rpath
@@ -907,7 +911,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %posttrans core
 # needed temporarily until people get on alternatives
 rm -f %{_bindir}/wine
+%ifnarch %{arm}
 rm -f %{_bindir}/wine-preloader
+%endif
 rm -f %{_bindir}/wineserver
 %ifarch x86_64
 %{_sbindir}/alternatives --install %{_bindir}/wine \
@@ -916,11 +922,18 @@ rm -f %{_bindir}/wineserver
 %{_sbindir}/alternatives --install %{_bindir}/wineserver \
   wineserver %{_bindir}/wineserver64 20
 %else
+%ifnarch %{arm}
 %{_sbindir}/alternatives --install %{_bindir}/wine \
   wine %{_bindir}/wine32 20 \
   --slave %{_bindir}/wine-preloader wine-preloader %{_bindir}/wine32-preloader
 %{_sbindir}/alternatives --install %{_bindir}/wineserver \
   wineserver %{_bindir}/wineserver32 10
+%else
+%{_sbindir}/alternatives --install %{_bindir}/wine \
+  wine %{_bindir}/wine32 20
+%{_sbindir}/alternatives --install %{_bindir}/wineserver \
+  wineserver %{_bindir}/wineserver32 10
+%endif
 %endif
 
 %postun core
@@ -1006,7 +1019,9 @@ fi
 %endif
 
 %ghost %{_bindir}/wine
+%ifnarch %{arm}
 %ghost %{_bindir}/wine-preloader
+%endif
 %ghost %{_bindir}/wineserver
 
 %dir %{_libdir}/wine
