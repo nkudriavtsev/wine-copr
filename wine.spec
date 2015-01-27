@@ -11,7 +11,7 @@
 
 Name:           wine
 Version:        1.7.35
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -286,7 +286,7 @@ Obsoletes:      wine-nas <= 1.3.15
 Provides:       wine-nas = %{version}-%{release}
 
 # removed as of 1.7.35
-Obsoletes:      wine-wow <= 1.7.34
+Obsoletes:      wine-wow < 1.7.35
 Provides:       wine-wow = %{version}-%{release}
 
 %description core
@@ -1799,6 +1799,9 @@ fi
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Mon Jan 26 2015 Michael Cronenworth <mike@cchtml.com> - 1.7.35-2
+- Rebuild (libgphoto2)
+
 * Sun Jan 25 2015 Michael Cronenworth <mike@cchtml.com> - 1.7.35-1
 - version upgrade
 - use alternatives system, remove wow sub-package
