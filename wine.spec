@@ -10,8 +10,8 @@
 %endif # 0%{?fedora}
 
 Name:           wine
-Version:        1.7.35
-Release:        3%{?dist}
+Version:        1.7.36
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -57,7 +57,6 @@ Source501:      wine-tahoma.conf
 Source502:      wine-README-tahoma
 
 Patch511:       wine-cjk.patch
-Patch512:       0001-Bump-MSVCRT_MB_LEN_MAX-to-5-and-use-it-in-MSVCRT__wc.patch
 
 # wine compholio patches for pipelight.
 # pulseaudio-patch is covered by that patch-set, too.
@@ -601,7 +600,6 @@ This package adds the opencl driver for wine.
 %prep
 %setup -q
 %patch511 -p1 -b.cjk
-%patch512 -p1 -b.buf
 
 # setup and apply compholio-patches or pulseaudio-patch.
 # since the pulse patch is included in the compholio patches use it from
@@ -1235,6 +1233,7 @@ fi
 %{_libdir}/wine/dxgi.dll.so
 %{_libdir}/wine/dxva2.dll.so
 %{_libdir}/wine/eject.exe.so
+%{_libdir}/wine/evr.dll.so
 %{_libdir}/wine/explorerframe.dll.so
 %{_libdir}/wine/ext-ms-win-gdi-devcaps-l1-1-0.dll.so
 %{_libdir}/wine/faultrep.dll.so
@@ -1534,8 +1533,10 @@ fi
 
 %ifarch x86_64
 %{_libdir}/wine/nvapi64.dll.so
+%{_libdir}/wine/nvencodeapi64.dll.so
 %else
 %{_libdir}/wine/nvapi.dll.so
+%{_libdir}/wine/nvencodeapi.dll.so
 %endif
 
 # 16 bit and other non 64bit stuff
@@ -1801,6 +1802,9 @@ fi
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Sun Feb 08 2015 Michael Cronenworth <mike@cchtml.com> - 1.7.36-1
+- version upgrade
+
 * Wed Feb 04 2015 Orion Poplawski <orion@cora.nwra.com> - 1.7.35-3
 - Add patch to fix stack smashing (bug #1110419)
 
