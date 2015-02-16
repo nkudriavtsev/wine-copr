@@ -9,9 +9,17 @@
 %global compholio 1
 %endif # 0%{?fedora}
 
+# binfmt macros for RHEL
+%if 0%{?fedora} <= 20 || 0%{?rhel} == 7
+%_binfmtdir /usr/lib/binfmt.d
+%binfmt_apply() \
+/usr/lib/systemd/systemd-binfmt  %{?*} >/dev/null 2>&1 || : \
+%{nil}
+%endif
+
 Name:           wine
 Version:        1.7.36
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -61,6 +69,9 @@ Patch511:       wine-cjk.patch
 # wine compholio patches for pipelight.
 # pulseaudio-patch is covered by that patch-set, too.
 Source900: https://github.com/compholio/wine-compholio/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
+
+# https://bugs.wine-staging.com/show_bug.cgi?id=68
+Patch900:  wine-staging-rtlunwindex.patch
 
 %if !%{?no64bit}
 ExclusiveArch:  %{ix86} x86_64 %{arm}
@@ -292,7 +303,7 @@ Provides:       wine-wow = %{version}-%{release}
 %description core
 Wine core package includes the basic wine stuff needed by all other packages.
 
-%if 0%{?fedora} >= 15
+%if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 %package systemd
 Summary:        Systemd config for the wine binfmt handler
 Group:          Applications/Emulators
@@ -340,7 +351,7 @@ Requires(preun): /sbin/chkconfig, /sbin/service
 Requires(postun): desktop-file-utils >= 0.8
 Requires:       wine-core = %{version}-%{release}
 Requires:       wine-common = %{version}-%{release}
-%if 0%{?fedora} >= 15
+%if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 Requires:       wine-systemd = %{version}-%{release}
 %endif
 Requires:       hicolor-icon-theme
@@ -605,6 +616,7 @@ This package adds the opencl driver for wine.
 # since the pulse patch is included in the compholio patches use it from
 # there
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
+%patch900 -p1 -b.rtlunwindex
 
 %if 0%{?compholio}
 %{__make} -C patches DESTDIR="`pwd`" install
@@ -685,9 +697,9 @@ mkdir -p %{buildroot}%{_sysconfdir}/wine
 # Allow users to launch Windows programs by just clicking on the .exe file...
 mkdir -p %{buildroot}%{_initrddir}
 install -p -c -m 755 %{SOURCE1} %{buildroot}%{_initrddir}/wine
-%if 0%{?fedora} >= 15
-mkdir -p %{buildroot}%{_usr}/lib/binfmt.d
-install -p -c -m 644 %{SOURCE2} %{buildroot}%{_usr}/lib/binfmt.d/wine.conf
+%if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
+mkdir -p %{buildroot}%{_binfmtdir}
+install -p -c -m 644 %{SOURCE2} %{buildroot}%{_binfmtdir}/wine.conf
 %endif
 
 # add wine dir to desktop
@@ -868,7 +880,7 @@ if [ $1 -eq 0 ]; then
 fi
 
 %post systemd
-/bin/systemctl try-restart systemd-binfmt.service
+%binfmt_apply wine.conf
 
 %postun systemd
 if [ $1 -eq 0 ]; then
@@ -1733,9 +1745,9 @@ fi
 %{_datadir}/icons/hicolor/scalable/apps/*svg
 %endif
 
-%if 0%{?fedora} >= 15
+%if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 %files systemd
-%config %{_usr}/lib/binfmt.d/wine.conf
+%config %{_binfmtdir}/wine.conf
 
 %files sysvinit
 %endif
@@ -1802,6 +1814,10 @@ fi
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Mon Feb 16 2015 Michael Cronenworth <mike@cchtml.com> - 1.7.36-2
+- Patch for RtlUnwindEx fix (staging bz #68)
+- Use new systemd macros for binfmt handling
+
 * Sun Feb 08 2015 Michael Cronenworth <mike@cchtml.com> - 1.7.36-1
 - version upgrade
 
