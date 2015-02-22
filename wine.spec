@@ -18,8 +18,8 @@
 %endif
 
 Name:           wine
-Version:        1.7.36
-Release:        2%{?dist}
+Version:        1.7.37
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -69,9 +69,6 @@ Patch511:       wine-cjk.patch
 # wine compholio patches for pipelight.
 # pulseaudio-patch is covered by that patch-set, too.
 Source900: https://github.com/compholio/wine-compholio/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
-
-# https://bugs.wine-staging.com/show_bug.cgi?id=68
-Patch900:  wine-staging-rtlunwindex.patch
 
 %if !%{?no64bit}
 ExclusiveArch:  %{ix86} x86_64 %{arm}
@@ -616,7 +613,6 @@ This package adds the opencl driver for wine.
 # since the pulse patch is included in the compholio patches use it from
 # there
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
-%patch900 -p1 -b.rtlunwindex
 
 %if 0%{?compholio}
 %{__make} -C patches DESTDIR="`pwd`" install
@@ -1184,6 +1180,7 @@ fi
 %{_libdir}/wine/comdlg32.dll.so
 %{_libdir}/wine/compstui.dll.so
 %{_libdir}/wine/comsvcs.dll.so
+%{_libdir}/wine/connect.dll.so
 %{_libdir}/wine/credui.dll.so
 %{_libdir}/wine/crtdll.dll.so
 %{_libdir}/wine/crypt32.dll.so
@@ -1302,6 +1299,7 @@ fi
 %{_libdir}/wine/mciqtz32.dll.so
 %{_libdir}/wine/mciseq.dll.so
 %{_libdir}/wine/mciwave.dll.so
+%{_libdir}/wine/mf.dll.so
 %{_libdir}/wine/mfplat.dll.so
 %{_libdir}/wine/mfreadwrite.dll.so
 %{_libdir}/wine/mgmtapi.dll.so
@@ -1529,8 +1527,12 @@ fi
 %{_libdir}/wine/wined3d.dll.so
 %{_libdir}/wine/dnsapi.dll.so
 %{_libdir}/wine/iexplore.exe.so
+%{_libdir}/wine/x3daudio1_1.dll.so
 %{_libdir}/wine/x3daudio1_7.dll.so
 %{_libdir}/wine/xapofx1_1.dll.so
+%{_libdir}/wine/xapofx1_3.dll.so
+%{_libdir}/wine/xapofx1_4.dll.so
+%{_libdir}/wine/xapofx1_5.dll.so
 %{_libdir}/wine/xaudio2_7.dll.so
 %{_libdir}/wine/xcopy.exe.so
 %{_libdir}/wine/xinput1_1.dll.so
@@ -1814,6 +1816,10 @@ fi
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Sun Feb 22 2015 Andreas Bierfert <andreas.bierfert@lowlatency.de>
+- 1.7.37-1
+- version upgrade
+
 * Mon Feb 16 2015 Michael Cronenworth <mike@cchtml.com> - 1.7.36-2
 - Patch for RtlUnwindEx fix (staging bz #68)
 - Use new systemd macros for binfmt handling
