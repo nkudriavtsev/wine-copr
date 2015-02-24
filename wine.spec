@@ -1384,8 +1384,10 @@ fi
 %{_libdir}/wine/ntdll.dll.so
 %{_libdir}/wine/ntdsapi.dll.so
 %{_libdir}/wine/ntprint.dll.so
+%if 0%{?compholio}
 %{_libdir}/wine/nvcuda.dll.so
 %{_libdir}/wine/nvcuvid.dll.so
+%endif
 %{_libdir}/wine/objsel.dll.so
 %{_libdir}/wine/odbc32.dll.so
 %{_libdir}/wine/odbccp32.dll.so
@@ -1487,7 +1489,9 @@ fi
 %{_libdir}/wine/wiaservc.dll.so
 %{_libdir}/wine/windowscodecs.dll.so
 %{_libdir}/wine/windowscodecsext.dll.so
+%if 0%{?compholio}
 %{_libdir}/wine/wined3d-csmt.dll.so
+%endif
 %{_libdir}/wine/winegstreamer.dll.so
 %{_libdir}/wine/winejoystick.drv.so
 %{_libdir}/wine/winemapi.dll.so
@@ -1545,12 +1549,14 @@ fi
 %{_libdir}/wine/xpsprint.dll.so
 %{_libdir}/wine/xpssvcs.dll.so
 
+%if 0%{?compholio}
 %ifarch x86_64
 %{_libdir}/wine/nvapi64.dll.so
 %{_libdir}/wine/nvencodeapi64.dll.so
 %else
 %{_libdir}/wine/nvapi.dll.so
 %{_libdir}/wine/nvencodeapi.dll.so
+%endif
 %endif
 
 # 16 bit and other non 64bit stuff
@@ -1705,7 +1711,9 @@ fi
 %files ms-sans-serif-fonts
 %doc COPYING.LIB
 %{_datadir}/wine/fonts/sse*
+%if 0%{?compholio}
 %{_datadir}/wine/fonts/msyh.ttf
+%endif
 
 %files tahoma-fonts
 %doc COPYING.LIB
