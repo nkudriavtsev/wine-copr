@@ -1,5 +1,10 @@
+# Compiling the preloader fails with hardening enabled
+%undefine _hardened_build
+
 %global no64bit   0
+#global winegecko 2.36
 %global winegecko 2.34
+#global winemono  4.5.6
 %global winemono  4.5.4
 #global _default_patch_fuzz 2
 
@@ -18,7 +23,7 @@
 %endif
 
 Name:           wine
-Version:        1.7.37
+Version:        1.7.38
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -68,7 +73,9 @@ Patch511:       wine-cjk.patch
 
 # wine compholio patches for pipelight.
 # pulseaudio-patch is covered by that patch-set, too.
+%if 0%{?compholio}
 Source900: https://github.com/compholio/wine-compholio/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
+%endif
 
 %if !%{?no64bit}
 ExclusiveArch:  %{ix86} x86_64 %{arm}
@@ -612,9 +619,9 @@ This package adds the opencl driver for wine.
 # setup and apply compholio-patches or pulseaudio-patch.
 # since the pulse patch is included in the compholio patches use it from
 # there
+%if 0%{?compholio}
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
 
-%if 0%{?compholio}
 %{__make} -C patches DESTDIR="`pwd`" install
 
 # fix parallelized build
@@ -632,11 +639,19 @@ autoreconf
 %endif # 0%{?compholio}
 
 %build
+
+%if 0%{?fedora} > 21
+# GCC 5 has a optimization that causes wine to break
+export CFLAGS="\
+-fbranch-count-reg -fcombine-stack-adjustments -fcompare-elim -fcprop-registers -fdefer-pop -fforward-propagate -fguess-branch-probability -fif-conversion2 -fif-conversion -finline-functions-called-once -fipa-pure-const -fipa-profile -fipa-reference -fmerge-constants -fmove-loop-invariants -fshrink-wrap -fsplit-wide-types -fssa-phiopt -ftree-bit-ccp -ftree-ccp -ftree-ch -ftree-copy-prop -ftree-copyrename -ftree-dce -ftree-dominator-opts -ftree-dse -ftree-fre -ftree-sink -ftree-slsr -ftree-sra -ftree-pta -ftree-ter \
+-falign-functions -falign-jumps -falign-labels -falign-loops -fcaller-saves -fcrossjumping -fcse-follow-jumps -fdevirtualize -fdevirtualize-speculatively -fexpensive-optimizations -fgcse -fhoist-adjacent-loads -findirect-inlining -finline-small-functions -fipa-cp -fipa-cp-alignment -fipa-icf -fipa-icf-functions -fipa-ra -fipa-sra -fisolate-erroneous-paths-dereference -flra-remat -foptimize-sibling-calls -foptimize-strlen -fpartial-inlining -fpeephole2 -freorder-blocks -freorder-blocks-and-partition -freorder-functions -frerun-cse-after-loop -fschedule-insns2 -fstrict-aliasing -fstrict-overflow -fthread-jumps -ftree-builtin-call-dce -ftree-pre -ftree-switch-conversion -ftree-tail-merge -ftree-vrp -fvect-cost-model=cheap \
+-pipe -Wall -Werror=format-security  -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -g -mtune=generic -Wno-error"
+%else
 # disable fortify as it breaks wine
 # http://bugs.winehq.org/show_bug.cgi?id=24606
 # http://bugs.winehq.org/show_bug.cgi?id=25073
-
 export CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno-error"
+%endif
 
 %configure \
  --sysconfdir=%{_sysconfdir}/wine \
@@ -1532,6 +1547,11 @@ fi
 %{_libdir}/wine/dnsapi.dll.so
 %{_libdir}/wine/iexplore.exe.so
 %{_libdir}/wine/x3daudio1_1.dll.so
+%{_libdir}/wine/x3daudio1_2.dll.so
+%{_libdir}/wine/x3daudio1_3.dll.so
+%{_libdir}/wine/x3daudio1_4.dll.so
+%{_libdir}/wine/x3daudio1_5.dll.so
+%{_libdir}/wine/x3daudio1_6.dll.so
 %{_libdir}/wine/x3daudio1_7.dll.so
 %{_libdir}/wine/xapofx1_1.dll.so
 %{_libdir}/wine/xapofx1_3.dll.so
@@ -1824,6 +1844,9 @@ fi
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Sat Mar 07 2015 Michael Cronenworth <mike@cchtml.com> - 1.7.38-1
+- version upgrade
+
 * Sun Feb 22 2015 Andreas Bierfert <andreas.bierfert@lowlatency.de>
 - 1.7.37-1
 - version upgrade
