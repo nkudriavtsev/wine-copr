@@ -642,10 +642,14 @@ autoreconf
 
 %if 0%{?fedora} > 21
 # GCC 5 has a optimization that causes wine to break
+%ifnarch %{arm}
 export CFLAGS="\
 -fbranch-count-reg -fcombine-stack-adjustments -fcompare-elim -fcprop-registers -fdefer-pop -fforward-propagate -fguess-branch-probability -fif-conversion2 -fif-conversion -finline-functions-called-once -fipa-pure-const -fipa-profile -fipa-reference -fmerge-constants -fmove-loop-invariants -fshrink-wrap -fsplit-wide-types -fssa-phiopt -ftree-bit-ccp -ftree-ccp -ftree-ch -ftree-copy-prop -ftree-copyrename -ftree-dce -ftree-dominator-opts -ftree-dse -ftree-fre -ftree-sink -ftree-slsr -ftree-sra -ftree-pta -ftree-ter \
 -falign-functions -falign-jumps -falign-labels -falign-loops -fcaller-saves -fcrossjumping -fcse-follow-jumps -fdevirtualize -fdevirtualize-speculatively -fexpensive-optimizations -fgcse -fhoist-adjacent-loads -findirect-inlining -finline-small-functions -fipa-cp -fipa-cp-alignment -fipa-icf -fipa-icf-functions -fipa-ra -fipa-sra -fisolate-erroneous-paths-dereference -flra-remat -foptimize-sibling-calls -foptimize-strlen -fpartial-inlining -fpeephole2 -freorder-blocks -freorder-blocks-and-partition -freorder-functions -frerun-cse-after-loop -fschedule-insns2 -fstrict-aliasing -fstrict-overflow -fthread-jumps -ftree-builtin-call-dce -ftree-pre -ftree-switch-conversion -ftree-tail-merge -ftree-vrp -fvect-cost-model=cheap \
--pipe -Wall -Werror=format-security  -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -g -mtune=generic -Wno-error"
+-pipe -Wall -Werror=format-security -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -g -mtune=generic -Wno-error"
+%else
+export CFLAGS="-O0 -pipe -Wall -Werror=format-security -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -g -mtune=generic -Wno-error"
+%endif
 %else
 # disable fortify as it breaks wine
 # http://bugs.winehq.org/show_bug.cgi?id=24606
