@@ -2,10 +2,8 @@
 %undefine _hardened_build
 
 %global no64bit   0
-#global winegecko 2.36
-%global winegecko 2.34
-#global winemono  4.5.6
-%global winemono  4.5.4
+%global winegecko 2.36
+%global winemono  4.5.6
 #global _default_patch_fuzz 2
 
 # build with compholio-patches, see:  http://www.compholio.com/wine-compholio/
@@ -16,7 +14,7 @@
 
 # binfmt macros for RHEL
 %if 0%{?fedora} <= 20 || 0%{?rhel} == 7
-%_binfmtdir /usr/lib/binfmt.d
+%global _binfmtdir /usr/lib/binfmt.d
 %binfmt_apply() \
 /usr/lib/systemd/systemd-binfmt  %{?*} >/dev/null 2>&1 || : \
 %{nil}
@@ -24,7 +22,7 @@
 
 Name:           wine
 Version:        1.7.38
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -1848,6 +1846,9 @@ fi
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Sat Mar 07 2015 Michael Cronenworth <mike@cchtml.com> - 1.7.38-2
+- Fix wine-gecko and wine-mono versions
+
 * Sat Mar 07 2015 Michael Cronenworth <mike@cchtml.com> - 1.7.38-1
 - version upgrade
 
