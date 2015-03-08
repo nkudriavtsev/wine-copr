@@ -648,7 +648,7 @@ export CFLAGS="\
 -falign-functions -falign-jumps -falign-labels -falign-loops -fcaller-saves -fcrossjumping -fcse-follow-jumps -fdevirtualize -fdevirtualize-speculatively -fexpensive-optimizations -fgcse -fhoist-adjacent-loads -findirect-inlining -finline-small-functions -fipa-cp -fipa-cp-alignment -fipa-icf -fipa-icf-functions -fipa-ra -fipa-sra -fisolate-erroneous-paths-dereference -flra-remat -foptimize-sibling-calls -foptimize-strlen -fpartial-inlining -fpeephole2 -freorder-blocks -freorder-blocks-and-partition -freorder-functions -frerun-cse-after-loop -fschedule-insns2 -fstrict-aliasing -fstrict-overflow -fthread-jumps -ftree-builtin-call-dce -ftree-pre -ftree-switch-conversion -ftree-tail-merge -ftree-vrp -fvect-cost-model=cheap \
 -pipe -Wall -Werror=format-security -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -g -mtune=generic -Wno-error"
 %else
-export CFLAGS="-O0 -pipe -Wall -Werror=format-security -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -g -mtune=generic -Wno-error"
+export CFLAGS="-O0 -g -pipe -Wall -Werror=format-security -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=hard -Wno-error"
 %endif
 %else
 # disable fortify as it breaks wine
