@@ -15,7 +15,7 @@
 # binfmt macros for RHEL
 %if 0%{?fedora} <= 20 || 0%{?rhel} == 7
 %global _binfmtdir /usr/lib/binfmt.d
-%binfmt_apply() \
+%global binfmt_apply() \
 /usr/lib/systemd/systemd-binfmt  %{?*} >/dev/null 2>&1 || : \
 %{nil}
 %endif
