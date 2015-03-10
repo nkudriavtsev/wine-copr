@@ -22,7 +22,7 @@
 
 Name:           wine
 Version:        1.7.38
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -318,6 +318,7 @@ Requires(postun): systemd
 Register the wine binary handler for windows executables via systemd binfmt
 handling. See man binfmt.d for further information.
 
+%if 0%{?fedora} < 23
 %package sysvinit
 Summary:        SysV initscript for the wine binfmt handler
 Group:          Applications/Emulators
@@ -325,6 +326,7 @@ BuildArch:      noarch
 
 %description sysvinit
 Register the wine binary handler for windows executables via SysV init files.
+%endif
 %endif
 
 %package filesystem
@@ -708,8 +710,10 @@ chrpath --delete %{buildroot}%{_bindir}/wineserver32
 mkdir -p %{buildroot}%{_sysconfdir}/wine
 
 # Allow users to launch Windows programs by just clicking on the .exe file...
+%if 0%{?fedora} < 23
 mkdir -p %{buildroot}%{_initrddir}
 install -p -c -m 755 %{SOURCE1} %{buildroot}%{_initrddir}/wine
+%endif
 %if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 mkdir -p %{buildroot}%{_binfmtdir}
 install -p -c -m 644 %{SOURCE2} %{buildroot}%{_binfmtdir}/wine.conf
@@ -879,6 +883,7 @@ popd
 
 
 %if 0%{?fedora} >= 15
+%if 0%{?fedora} < 23
 %post sysvinit
 if [ $1 -eq 1 ]; then
 /sbin/chkconfig --add wine
@@ -891,6 +896,7 @@ if [ $1 -eq 0 ]; then
 /sbin/service wine stop >/dev/null 2>&1
 /sbin/chkconfig --del wine
 fi
+%endif
 
 %post systemd
 %binfmt_apply wine.conf
@@ -1781,9 +1787,11 @@ fi
 %files systemd
 %config %{_binfmtdir}/wine.conf
 
+%if 0%{?fedora} < 23
 %files sysvinit
-%endif
 %{_initrddir}/wine
+%endif
+%endif
 
 # ldap subpackage
 %files ldap
@@ -1846,6 +1854,9 @@ fi
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Tue Mar 10 2015 Adam Jackson <ajax@redhat.com> 1.7.38-3
+- Drop sysvinit subpackage on F23+
+
 * Sat Mar 07 2015 Michael Cronenworth <mike@cchtml.com> - 1.7.38-2
 - Fix wine-gecko and wine-mono versions
 
