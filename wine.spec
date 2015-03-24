@@ -21,8 +21,8 @@
 %endif
 
 Name:           wine
-Version:        1.7.38
-Release:        3%{?dist}
+Version:        1.7.39
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -68,6 +68,8 @@ Source501:      wine-tahoma.conf
 Source502:      wine-README-tahoma
 
 Patch511:       wine-cjk.patch
+# temporary workaround for GCC 5.0 optimization regressions
+Patch512:       wine-gcc5.patch
 
 # wine compholio patches for pipelight.
 # pulseaudio-patch is covered by that patch-set, too.
@@ -615,6 +617,9 @@ This package adds the opencl driver for wine.
 %prep
 %setup -q
 %patch511 -p1 -b.cjk
+%if 0%{?fedora} > 21
+%patch512 -p1 -b.gcc5
+%endif
 
 # setup and apply compholio-patches or pulseaudio-patch.
 # since the pulse patch is included in the compholio patches use it from
@@ -640,20 +645,13 @@ autoreconf
 
 %build
 
-%if 0%{?fedora} > 21
-# GCC 5 has a optimization that causes wine to break
-%ifnarch %{arm}
-export CFLAGS="\
--fbranch-count-reg -fcombine-stack-adjustments -fcompare-elim -fcprop-registers -fdefer-pop -fforward-propagate -fguess-branch-probability -fif-conversion2 -fif-conversion -finline-functions-called-once -fipa-pure-const -fipa-profile -fipa-reference -fmerge-constants -fmove-loop-invariants -fshrink-wrap -fsplit-wide-types -fssa-phiopt -ftree-bit-ccp -ftree-ccp -ftree-ch -ftree-copy-prop -ftree-copyrename -ftree-dce -ftree-dominator-opts -ftree-dse -ftree-fre -ftree-sink -ftree-slsr -ftree-sra -ftree-pta -ftree-ter \
--falign-functions -falign-jumps -falign-labels -falign-loops -fcaller-saves -fcrossjumping -fcse-follow-jumps -fdevirtualize -fdevirtualize-speculatively -fexpensive-optimizations -fgcse -fhoist-adjacent-loads -findirect-inlining -finline-small-functions -fipa-cp -fipa-cp-alignment -fipa-icf -fipa-icf-functions -fipa-ra -fipa-sra -fisolate-erroneous-paths-dereference -flra-remat -foptimize-sibling-calls -foptimize-strlen -fpartial-inlining -fpeephole2 -freorder-blocks -freorder-blocks-and-partition -freorder-functions -frerun-cse-after-loop -fschedule-insns2 -fstrict-aliasing -fstrict-overflow -fthread-jumps -ftree-builtin-call-dce -ftree-pre -ftree-switch-conversion -ftree-tail-merge -ftree-vrp -fvect-cost-model=cheap \
--pipe -Wall -Werror=format-security -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -g -mtune=generic -Wno-error"
-%else
-export CFLAGS="-O0 -g -pipe -Wall -Werror=format-security -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=hard -Wno-error"
-%endif
-%else
 # disable fortify as it breaks wine
 # http://bugs.winehq.org/show_bug.cgi?id=24606
 # http://bugs.winehq.org/show_bug.cgi?id=25073
+%if 0%{?fedora} > 21
+export TEMP_CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-O2/-O1/'`"
+export CFLAGS="`echo $TEMP_CFLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno-error"
+%else
 export CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno-error"
 %endif
 
@@ -1854,6 +1852,10 @@ fi
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Sun Mar 22 2015 Michael Cronenworth <mike@cchtml.com> 1.7.39-1
+- version upgrade
+- Enable some optimizations and workarounds for GCC5 regressions
+
 * Tue Mar 10 2015 Adam Jackson <ajax@redhat.com> 1.7.38-3
 - Drop sysvinit subpackage on F23+
 
