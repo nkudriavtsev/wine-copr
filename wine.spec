@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        1.7.39
+Version:        1.7.40
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -618,7 +618,7 @@ This package adds the opencl driver for wine.
 %setup -q
 %patch511 -p1 -b.cjk
 %if 0%{?fedora} > 21
-%patch512 -p1 -b.gcc5
+#patch512 -p1 -b.gcc5
 %endif
 
 # setup and apply compholio-patches or pulseaudio-patch.
@@ -649,7 +649,7 @@ autoreconf
 # http://bugs.winehq.org/show_bug.cgi?id=24606
 # http://bugs.winehq.org/show_bug.cgi?id=25073
 %if 0%{?fedora} > 21
-export TEMP_CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-O2/-O1/'`"
+export TEMP_CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-O2/-O0/'`"
 export CFLAGS="`echo $TEMP_CFLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno-error"
 %else
 export CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno-error"
@@ -1268,6 +1268,9 @@ fi
 %{_libdir}/wine/ext-ms-win-gdi-devcaps-l1-1-0.dll.so
 %{_libdir}/wine/faultrep.dll.so
 %{_libdir}/wine/fltlib.dll.so
+%if 0%{?compholio}
+%{_libdir}/wine/fltmgr.sys.so
+%endif
 %{_libdir}/wine/fntcache.dll.so
 %{_libdir}/wine/fontsub.dll.so
 %{_libdir}/wine/fusion.dll.so
@@ -1852,6 +1855,9 @@ fi
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Mon Apr 06 2015 Michael Cronenworth <mike@cchtml.com> 1.7.40-1
+- version upgrade
+
 * Sun Mar 22 2015 Michael Cronenworth <mike@cchtml.com> 1.7.39-1
 - version upgrade
 - Enable some optimizations and workarounds for GCC5 regressions
