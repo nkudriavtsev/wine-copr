@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        1.7.40
+Version:        1.7.41
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -135,7 +135,6 @@ BuildRequires:  gsm-devel
 BuildRequires:  libv4l-devel
 BuildRequires:  fontpackages-devel
 BuildRequires:  ImageMagick-devel
-BuildRequires:  gstreamer-devel gstreamer-plugins-base-devel
 BuildRequires:  libtiff-devel
 BuildRequires:  prelink
 BuildRequires:  gettext-devel
@@ -658,7 +657,7 @@ export CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno
 %configure \
  --sysconfdir=%{_sysconfdir}/wine \
  --x-includes=%{_includedir} --x-libraries=%{_libdir} \
- --without-hal --with-dbus \
+ --without-hal --with-dbus --without-gstreamer \
  --with-x \
  --with-pulse \
 %ifarch x86_64
@@ -1516,7 +1515,6 @@ fi
 %if 0%{?compholio}
 %{_libdir}/wine/wined3d-csmt.dll.so
 %endif
-%{_libdir}/wine/winegstreamer.dll.so
 %{_libdir}/wine/winejoystick.drv.so
 %{_libdir}/wine/winemapi.dll.so
 %{_libdir}/wine/winex11.drv.so
@@ -1855,6 +1853,10 @@ fi
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Sat Apr 18 2015 Michael Cronenworth <mike@cchtml.com> 1.7.41-1
+- version upgrade
+- Disable gstreamer support (rhbz#1204185)
+
 * Mon Apr 06 2015 Michael Cronenworth <mike@cchtml.com> 1.7.40-1
 - version upgrade
 
