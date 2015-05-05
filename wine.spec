@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        1.7.41
+Version:        1.7.42
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1853,6 +1853,9 @@ fi
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Mon May 04 2015 Michael Cronenworth <mike@cchtml.com> 1.7.42-1
+- version upgrade
+
 * Sat Apr 18 2015 Michael Cronenworth <mike@cchtml.com> 1.7.41-1
 - version upgrade
 - Disable gstreamer support (rhbz#1204185)
