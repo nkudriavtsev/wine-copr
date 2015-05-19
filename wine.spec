@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        1.7.42
+Version:        1.7.43
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1116,27 +1116,36 @@ fi
 %{_libdir}/wine/api-ms-win-core-console-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-datetime-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-datetime-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-debug-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-debug-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-errorhandling-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-errorhandling-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-errorhandling-l1-1-2.dll.so
 %{_libdir}/wine/api-ms-win-core-fibers-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-fibers-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-file-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-file-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-file-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-file-l2-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-handle-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-heap-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-heap-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-heap-obsolete-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-interlocked-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-interlocked-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-io-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-kernel32-legacy-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-libraryloader-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-libraryloader-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-localization-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-localization-l1-2-1.dll.so
 %{_libdir}/wine/api-ms-win-core-localization-obsolete-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-localregistry-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-memory-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-memory-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-namedpipe-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-namedpipe-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-core-processenvironment-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-processenvironment-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-processthreads-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-processthreads-l1-1-1.dll.so
@@ -1144,10 +1153,13 @@ fi
 %{_libdir}/wine/api-ms-win-core-profile-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-psapi-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-registry-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-rtlsupport-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-rtlsupport-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-shlwapi-legacy-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-string-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-synch-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-synch-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-core-sysinfo-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-sysinfo-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-sysinfo-l1-2-1.dll.so
 %{_libdir}/wine/api-ms-win-core-threadpool-legacy-l1-1-0.dll.so
@@ -1411,6 +1423,7 @@ fi
 %{_libdir}/wine/nvcuda.dll.so
 %{_libdir}/wine/nvcuvid.dll.so
 %endif
+%{_libdir}/wine/null.sys.so
 %{_libdir}/wine/objsel.dll.so
 %{_libdir}/wine/odbc32.dll.so
 %{_libdir}/wine/odbccp32.dll.so
@@ -1853,6 +1866,9 @@ fi
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Mon May 18 2015 Michael Cronenworth <mike@cchtml.com> 1.7.43-1
+- version upgrade
+
 * Mon May 04 2015 Michael Cronenworth <mike@cchtml.com> 1.7.42-1
 - version upgrade
 
