@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        1.7.43
+Version:        1.7.44
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1143,6 +1143,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-localregistry-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-memory-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-memory-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-misc-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-namedpipe-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-namedpipe-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-processenvironment-l1-1-0.dll.so
@@ -1353,6 +1354,7 @@ fi
 %{_libdir}/wine/mscat32.dll.so
 %{_libdir}/wine/mscoree.dll.so
 %{_libdir}/wine/msctf.dll.so
+%{_libdir}/wine/msctfp.dll.so
 %{_libdir}/wine/msdaps.dll.so
 %{_libdir}/wine/msdmo.dll.so
 %{_libdir}/wine/msftedit.dll.so
@@ -1423,7 +1425,6 @@ fi
 %{_libdir}/wine/nvcuda.dll.so
 %{_libdir}/wine/nvcuvid.dll.so
 %endif
-%{_libdir}/wine/null.sys.so
 %{_libdir}/wine/objsel.dll.so
 %{_libdir}/wine/odbc32.dll.so
 %{_libdir}/wine/odbccp32.dll.so
@@ -1866,6 +1867,9 @@ fi
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Sun May 31 2015 Michael Cronenworth <mike@cchtml.com> 1.7.44-1
+- version upgrade
+
 * Mon May 18 2015 Michael Cronenworth <mike@cchtml.com> 1.7.43-1
 - version upgrade
 
