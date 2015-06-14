@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        1.7.44
+Version:        1.7.45
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1867,6 +1867,9 @@ fi
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Sun Jun 14 2015 Michael Cronenworth <mike@cchtml.com> 1.7.45-1
+- version upgrade
+
 * Sun May 31 2015 Michael Cronenworth <mike@cchtml.com> 1.7.44-1
 - version upgrade
 
