@@ -22,7 +22,7 @@
 
 Name:           wine
 Version:        1.7.45
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -1867,6 +1867,9 @@ fi
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Fri Jun 19 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.7.45-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Sun Jun 14 2015 Michael Cronenworth <mike@cchtml.com> 1.7.45-1
 - version upgrade
 
