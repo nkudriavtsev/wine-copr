@@ -21,8 +21,8 @@
 %endif
 
 Name:           wine
-Version:        1.7.45
-Release:        2%{?dist}
+Version:        1.7.46
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -582,7 +582,7 @@ Summary: Pulseaudio support for wine
 Group: System Environment/Libraries
 Requires: wine-core = %{version}-%{release}
 # midi output
-Requires: wine-alsa = %{version}-%{release}
+Requires: wine-alsa%{?_isa} = %{version}-%{release}
 
 %description pulseaudio
 This package adds a pulseaudio driver for wine. Please do not report bugs in
@@ -1372,6 +1372,7 @@ fi
 %{_libdir}/wine/msls31.dll.so
 %{_libdir}/wine/msnet32.dll.so
 %{_libdir}/wine/mspatcha.dll.so
+%{_libdir}/wine/msscript.ocx.so
 %{_libdir}/wine/mssign32.dll.so
 %{_libdir}/wine/mssip32.dll.so
 %{_libdir}/wine/msrle32.dll.so
@@ -1867,6 +1868,9 @@ fi
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Mon Jun 29 2015 Michael Cronenworth <mike@cchtml.com> 1.7.46-1
+- version upgrade
+
 * Fri Jun 19 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.7.45-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
