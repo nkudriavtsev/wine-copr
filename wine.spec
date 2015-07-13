@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        1.7.46
+Version:        1.7.47
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1237,6 +1237,7 @@ fi
 %{_libdir}/wine/d3dx11_42.dll.so
 %{_libdir}/wine/d3dx11_43.dll.so
 %{_libdir}/wine/d3dxof.dll.so
+%{_libdir}/wine/davclnt.dll.so
 %{_libdir}/wine/dbgeng.dll.so
 %{_libdir}/wine/dbghelp.dll.so
 %{_libdir}/wine/dciman32.dll.so
@@ -1297,6 +1298,7 @@ fi
 %{_libdir}/wine/hh.exe.so
 %{_libdir}/wine/hhctrl.ocx.so
 %{_libdir}/wine/hid.dll.so
+%{_libdir}/wine/hidclass.sys.so
 %{_libdir}/wine/hlink.dll.so
 %{_libdir}/wine/hnetcfg.dll.so
 %{_libdir}/wine/httpapi.dll.so
@@ -1868,6 +1870,9 @@ fi
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Sun Jul 12 2015 Michael Cronenworth <mike@cchtml.com> 1.7.47-1
+- version upgrade
+
 * Mon Jun 29 2015 Michael Cronenworth <mike@cchtml.com> 1.7.46-1
 - version upgrade
 
