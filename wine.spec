@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        1.7.47
+Version:        1.7.48
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -136,13 +136,13 @@ BuildRequires:  libv4l-devel
 BuildRequires:  fontpackages-devel
 BuildRequires:  ImageMagick-devel
 BuildRequires:  libtiff-devel
-BuildRequires:  prelink
 BuildRequires:  gettext-devel
 BuildRequires:  chrpath
 
 # Silverlight DRM-stuff needs XATTR enabled.
 %if 0%{?compholio}
 BuildRequires:  libattr-devel
+BuildRequires:  libva-devel
 %endif # 0%{?compholio}
 
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6
@@ -246,6 +246,9 @@ Requires:       libpcap(x86-32)
 Requires:       mesa-libOSMesa(x86-32)
 Requires:       libv4l(x86-32)
 Requires:       unixODBC(x86-32)
+%if 0%{?compholio}
+Requires:       libva(x86-32)
+%endif
 %endif
 
 %ifarch x86_64
@@ -263,6 +266,9 @@ Requires:       libpcap(x86-64)
 Requires:       mesa-libOSMesa(x86-64)
 Requires:       libv4l(x86-64)
 Requires:       unixODBC(x86-64)
+%if 0%{?compholio}
+Requires:       libva(x86-64)
+%endif
 %endif
 
 %ifarch %{arm}
@@ -1870,6 +1876,9 @@ fi
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Fri Jul 31 2015 Michael Cronenworth <mike@cchtml.com> 1.7.48-1
+- version upgrade
+
 * Sun Jul 12 2015 Michael Cronenworth <mike@cchtml.com> 1.7.47-1
 - version upgrade
 
