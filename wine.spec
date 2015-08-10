@@ -22,7 +22,7 @@
 
 Name:           wine
 Version:        1.7.48
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -1876,6 +1876,9 @@ fi
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Mon Aug 10 2015 Björn Esser <bjoern.esser@gmail.com> - 1.7.48-2
+- rebuilt for mingw-wine-gecko-2.40
+
 * Fri Jul 31 2015 Michael Cronenworth <mike@cchtml.com> 1.7.48-1
 - version upgrade
 
