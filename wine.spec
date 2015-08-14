@@ -21,8 +21,8 @@
 %endif
 
 Name:           wine
-Version:        1.7.48
-Release:        2%{?dist}
+Version:        1.7.49
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -70,6 +70,8 @@ Source502:      wine-README-tahoma
 Patch511:       wine-cjk.patch
 # temporary workaround for GCC 5.0 optimization regressions
 Patch512:       wine-gcc5.patch
+# prelink has been retired, use linker method of base address relocation
+Patch513:       wine-relocate-base.patch
 
 # wine compholio patches for pipelight.
 # pulseaudio-patch is covered by that patch-set, too.
@@ -141,6 +143,7 @@ BuildRequires:  chrpath
 
 # Silverlight DRM-stuff needs XATTR enabled.
 %if 0%{?compholio}
+BuildRequires:  gtk3-devel
 BuildRequires:  libattr-devel
 BuildRequires:  libva-devel
 %endif # 0%{?compholio}
@@ -559,17 +562,17 @@ Summary: ISDN support for wine
 Group: System Environment/Libraries
 Requires: wine-core = %{version}-%{release}
 #FIXME: parallel installable rhbz#1164355
-#%ifarch x86_64
+#ifarch x86_64
 #Requires:       isdn4k-utils(x86-64)
-#%endif
+#endif
 
-#%ifarch %{ix86}
+#ifarch %{ix86}
 #Requires:       isdn4k-utils(x86-32)
-#%endif
+#endif
 
-#%ifarch %{arm}
+#ifarch %{arm}
 Requires:       isdn4k-utils
-#%endif
+#endif
 
 %description capi
 ISDN support for wine
@@ -625,6 +628,7 @@ This package adds the opencl driver for wine.
 %if 0%{?fedora} > 21
 #patch512 -p1 -b.gcc5
 %endif
+%patch513 -p1 -b.relocate
 
 # setup and apply compholio-patches or pulseaudio-patch.
 # since the pulse patch is included in the compholio patches use it from
@@ -1178,6 +1182,21 @@ fi
 %{_libdir}/wine/api-ms-win-core-winrt-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-winrt-string-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-xstate-l2-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-conio-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-convert-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-environment-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-filesystem-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-heap-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-locale-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-math-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-multibyte-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-private-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-process-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-runtime-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-stdio-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-string-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-time-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-utility-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-downlevel-advapi32-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-downlevel-advapi32-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-downlevel-normaliz-l1-1-0.dll.so
@@ -1510,6 +1529,7 @@ fi
 %{_libdir}/wine/taskkill.exe.so
 %{_libdir}/wine/taskschd.dll.so
 %{_libdir}/wine/traffic.dll.so
+%{_libdir}/wine/ucrtbase.dll.so
 %{_libdir}/wine/unicows.dll.so
 %{_libdir}/wine/unlodctr.exe.so
 %{_libdir}/wine/updspapi.dll.so
@@ -1519,11 +1539,16 @@ fi
 %{_libdir}/wine/user32.dll.so
 %{_libdir}/wine/usp10.dll.so
 %{_libdir}/wine/uxtheme.dll.so
+%if 0%{?compholio}
+%{_libdir}/wine/uxtheme-gtk.dll.so
+%endif
 %{_libdir}/wine/userenv.dll.so
 %{_libdir}/wine/vbscript.dll.so
 %{_libdir}/wine/vcomp.dll.so
 %{_libdir}/wine/vcomp90.dll.so
 %{_libdir}/wine/vcomp100.dll.so
+%{_libdir}/wine/vcomp110.dll.so
+%{_libdir}/wine/vcruntime140.dll.so
 %{_libdir}/wine/vdmdbg.dll.so
 %{_libdir}/wine/version.dll.so
 %{_libdir}/wine/vssapi.dll.so
@@ -1588,6 +1613,7 @@ fi
 %{_libdir}/wine/xapofx1_4.dll.so
 %{_libdir}/wine/xapofx1_5.dll.so
 %{_libdir}/wine/xaudio2_7.dll.so
+%{_libdir}/wine/xaudio2_8.dll.so
 %{_libdir}/wine/xcopy.exe.so
 %{_libdir}/wine/xinput1_1.dll.so
 %{_libdir}/wine/xinput1_2.dll.so
@@ -1876,6 +1902,9 @@ fi
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Fri Aug 14 2015 Michael Cronenworth <mike@cchtml.com> 1.7.49-1
+- version upgrade
+
 * Mon Aug 10 2015 Björn Esser <bjoern.esser@gmail.com> - 1.7.48-2
 - rebuilt for mingw-wine-gecko-2.40
 
