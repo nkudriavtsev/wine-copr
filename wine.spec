@@ -21,8 +21,8 @@
 %endif
 
 Name:           wine
-Version:        1.7.49
-Release:        2%{?dist}
+Version:        1.7.50
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -72,8 +72,6 @@ Patch511:       wine-cjk.patch
 Patch512:       wine-gcc5.patch
 # prelink has been retired, use linker method of base address relocation
 Patch513:       wine-relocate-base.patch
-# backport patch for gecko 2.40 support, should be released in wine 1.7.50
-Patch514:       wine-gecko-2.40.patch
 
 # wine compholio patches for pipelight.
 # pulseaudio-patch is covered by that patch-set, too.
@@ -631,7 +629,6 @@ This package adds the opencl driver for wine.
 #patch512 -p1 -b.gcc5
 %endif
 %patch513 -p1 -b.relocate
-%patch514 -p1 -b.gecko
 
 # setup and apply compholio-patches or pulseaudio-patch.
 # since the pulse patch is included in the compholio patches use it from
@@ -1905,6 +1902,9 @@ fi
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Mon Aug 24 2015 Michael Cronenworth <mike@cchtml.com> 1.7.50-1
+- version upgrade
+
 * Fri Aug 14 2015 Michael Cronenworth <mike@cchtml.com> 1.7.49-2
 - backport gecko 2.40 patch
 
