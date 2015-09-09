@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        1.7.50
+Version:        1.7.51
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -392,6 +392,9 @@ Requires:      wine-system-fonts = %{version}-%{release}
 Requires:      wine-marlett-fonts = %{version}-%{release}
 Requires:      wine-ms-sans-serif-fonts = %{version}-%{release}
 Requires:      wine-tahoma-fonts = %{version}-%{release}
+%if 0%{?compholio}
+Requires:      wine-times-new-roman-fonts = %{version}-%{release}
+%endif
 Requires:      wine-symbol-fonts = %{version}-%{release}
 Requires:      wine-wingdings-fonts = %{version}-%{release}
 # intermediate fix for #593140
@@ -492,6 +495,29 @@ Requires:      wine-tahoma-fonts = %{version}-%{release}
 
 %description tahoma-fonts-system
 %{summary}
+
+%if 0%{?compholio}
+%package times-new-roman-fonts
+Summary:       Wine Times New Roman font family
+Group:         User Interface/X
+BuildArch:     noarch
+Requires:      wine-filesystem = %{version}-%{release}
+
+%description times-new-roman-fonts
+%{summary}
+Please note: If you want system integration for wine times new roman fonts install the
+wine-times-new-roman-fonts-system package.
+
+%package times-new-roman-fonts-system
+Summary:       Wine Times New Roman font family system integration
+Group:         User Interface/X
+BuildArch:     noarch
+Requires:      fontpackages-filesystem
+Requires:      wine-times-new-roman-fonts = %{version}-%{release}
+
+%description times-new-roman-fonts-system
+%{summary}
+%endif
 
 %package symbol-fonts
 Summary:       Wine Symbol font family
@@ -873,6 +899,14 @@ install -p -m 0644 %{SOURCE501} %{buildroot}%{_fontconfig_templatedir}/20-wine-t
 
 ln -s %{_fontconfig_templatedir}/20-wine-tahoma-nobitmaps.conf \
       %{buildroot}%{_fontconfig_confdir}/20-wine-tahoma-nobitmaps.conf
+
+%if 0%{?compholio}
+# install Times New Roman font for system package
+install -p -m 0755 -d %{buildroot}/%{_datadir}/fonts/wine-times-new-roman-fonts
+pushd %{buildroot}/%{_datadir}/fonts/wine-times-new-roman-fonts
+ln -s ../../wine/fonts/times.ttf times.ttf
+popd
+%endif
 
 # install Wingdings font for system package
 install -p -m 0755 -d %{buildroot}/%{_datadir}/fonts/wine-wingdings-fonts
@@ -1801,6 +1835,15 @@ fi
 %{_fontconfig_confdir}/20-wine-tahoma*conf
 %{_fontconfig_templatedir}/20-wine-tahoma*conf
 
+%if 0%{?compholio}
+%files times-new-roman-fonts
+%doc COPYING.LIB
+%{_datadir}/wine/fonts/times.ttf
+
+%files times-new-roman-fonts-system
+%{_datadir}/fonts/wine-times-new-roman-fonts
+%endif
+
 %files symbol-fonts
 %doc COPYING.LIB
 %{_datadir}/wine/fonts/symbol.ttf
@@ -1902,6 +1945,9 @@ fi
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Tue Sep 08 2015 Michael Cronenworth <mike@cchtml.com> 1.7.51-1
+- version upgrade
+
 * Mon Aug 24 2015 Michael Cronenworth <mike@cchtml.com> 1.7.50-1
 - version upgrade
 
