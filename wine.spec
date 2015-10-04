@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        1.7.51
+Version:        1.7.52
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1054,6 +1054,9 @@ fi
 %doc VERSION
 # do not include huge changelogs .OLD .ALPHA .BETA (#204302)
 %doc documentation/README.*
+%if 0%{?compholio}
+%{_bindir}/msidb
+%endif
 %{_bindir}/winedump
 %{_libdir}/wine/explorer.exe.so
 %{_libdir}/wine/cabarc.exe.so
@@ -1107,6 +1110,7 @@ fi
 %{_libdir}/wine/conhost.exe.so
 %{_libdir}/wine/cscript.exe.so
 %{_libdir}/wine/dpnsvr.exe.so
+%{_libdir}/wine/eject.exe.so
 %{_libdir}/wine/expand.exe.so
 %{_libdir}/wine/extrac32.exe.so
 %{_libdir}/wine/findstr.exe.so
@@ -1114,6 +1118,9 @@ fi
 %{_libdir}/wine/ipconfig.exe.so
 %{_libdir}/wine/winhlp32.exe.so
 %{_libdir}/wine/mshta.exe.so
+%if 0%{?compholio}
+%{_libdir}/wine/msidb.exe.so
+%endif
 %{_libdir}/wine/msiexec.exe.so
 %{_libdir}/wine/net.exe.so
 %{_libdir}/wine/netstat.exe.so
@@ -1334,7 +1341,7 @@ fi
 %{_libdir}/wine/dxdiagn.dll.so
 %{_libdir}/wine/dxgi.dll.so
 %{_libdir}/wine/dxva2.dll.so
-%{_libdir}/wine/eject.exe.so
+%{_libdir}/wine/esent.dll.so
 %{_libdir}/wine/evr.dll.so
 %{_libdir}/wine/explorerframe.dll.so
 %{_libdir}/wine/ext-ms-win-gdi-devcaps-l1-1-0.dll.so
@@ -1417,6 +1424,7 @@ fi
 %{_libdir}/wine/msctf.dll.so
 %{_libdir}/wine/msctfp.dll.so
 %{_libdir}/wine/msdaps.dll.so
+%{_libdir}/wine/msdelta.dll.so
 %{_libdir}/wine/msdmo.dll.so
 %{_libdir}/wine/msftedit.dll.so
 %{_libdir}/wine/msg711.acm.so
@@ -1945,6 +1953,9 @@ fi
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Sat Oct 03 2015 Michael Cronenworth <mike@cchtml.com> 1.7.52-1
+- version upgrade
+
 * Tue Sep 08 2015 Michael Cronenworth <mike@cchtml.com> 1.7.51-1
 - version upgrade
 
