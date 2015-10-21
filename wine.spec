@@ -73,11 +73,9 @@ Patch512:       wine-gcc5.patch
 # prelink has been retired, use linker method of base address relocation
 Patch513:       wine-relocate-base.patch
 
-# wine compholio patches for pipelight.
+# wine compholio patches for wine-staging
 # pulseaudio-patch is covered by that patch-set, too.
-%if 0%{?compholio}
 Source900: https://github.com/compholio/wine-compholio/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
-%endif
 
 %if !%{?no64bit}
 ExclusiveArch:  %{ix86} x86_64 %{arm}
@@ -103,8 +101,10 @@ BuildRequires:  libusb-devel
 BuildRequires:  libxml2-devel
 BuildRequires:  libxslt-devel
 BuildRequires:  ncurses-devel
+%if 0%{?fedora}
 BuildRequires:  ocl-icd-devel
 BuildRequires:  opencl-headers
+%endif
 BuildRequires:  openldap-devel
 BuildRequires:  unixODBC-devel
 BuildRequires:  sane-backends-devel
@@ -169,7 +169,9 @@ Requires:       wine-pulseaudio(x86-32) = %{version}-%{release}
 %if 0%{?fedora} >= 10 || 0%{?rhel} == 6
 Requires:       wine-openal(x86-32) = %{version}-%{release}
 %endif
+%if 0%{?fedora}
 Requires:       wine-opencl(x86-32) = %{version}-%{release}
+%endif
 %if 0%{?fedora} >= 17
 Requires:       mingw32-wine-gecko = %winegecko
 Requires:       wine-mono = %winemono
@@ -190,8 +192,10 @@ Requires:       wine-twain(x86-64) = %{version}-%{release}
 Requires:       wine-pulseaudio(x86-64) = %{version}-%{release}
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6
 Requires:       wine-openal(x86-64) = %{version}-%{release}
-%endif
+%endif 
+%if 0%{?fedora}
 Requires:       wine-opencl(x86-64) = %{version}-%{release}
+%endif
 %if 0%{?fedora} >= 17
 Requires:       mingw64-wine-gecko = %winegecko
 Requires:       wine-mono = %winemono
@@ -208,7 +212,9 @@ Requires:       wine-ldap = %{version}-%{release}
 Requires:       wine-twain = %{version}-%{release}
 Requires:       wine-pulseaudio = %{version}-%{release}
 Requires:       wine-openal = %{version}-%{release}
+%if 0%{?fedora}
 Requires:       wine-opencl = %{version}-%{release}
+%endif
 Requires:       mesa-dri-drivers
 Requires:       samba-winbind-clients
 %endif
@@ -641,12 +647,14 @@ Requires: wine-core = %{version}-%{release}
 This package adds an openal driver for wine.
 %endif
 
+%if 0%{?fedora}
 %package opencl
 Summary: OpenCL support for wine
 Requires: wine-core = %{version}-%{release}
 
 %Description opencl
 This package adds the opencl driver for wine.
+%endif
 
 %prep
 %setup -q
@@ -659,8 +667,8 @@ This package adds the opencl driver for wine.
 # setup and apply compholio-patches or pulseaudio-patch.
 # since the pulse patch is included in the compholio patches use it from
 # there
-%if 0%{?compholio}
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
+%if 0%{?compholio}
 
 %{__make} -C patches DESTDIR="`pwd`" install
 
@@ -673,6 +681,8 @@ for p in `ls patches/winepulse-PulseAudio_Support/*patch`; do
 echo $p
 patch -p1 < $p
 done
+
+rm -rf patches/
 
 # already run after applying compholio-patchset
 autoreconf
@@ -1347,9 +1357,7 @@ fi
 %{_libdir}/wine/ext-ms-win-gdi-devcaps-l1-1-0.dll.so
 %{_libdir}/wine/faultrep.dll.so
 %{_libdir}/wine/fltlib.dll.so
-%if 0%{?compholio}
 %{_libdir}/wine/fltmgr.sys.so
-%endif
 %{_libdir}/wine/fntcache.dll.so
 %{_libdir}/wine/fontsub.dll.so
 %{_libdir}/wine/fusion.dll.so
@@ -1591,7 +1599,9 @@ fi
 %{_libdir}/wine/vcomp100.dll.so
 %{_libdir}/wine/vcomp110.dll.so
 %{_libdir}/wine/vcomp120.dll.so
+%if 0%{?compholio}
 %{_libdir}/wine/vcruntime140.dll.so
+%endif
 %{_libdir}/wine/vdmdbg.dll.so
 %{_libdir}/wine/version.dll.so
 %{_libdir}/wine/vssapi.dll.so
@@ -1959,8 +1969,10 @@ fi
 %{_libdir}/wine/openal32.dll.so
 %endif
 
+%if 0%{?fedora}
 %files opencl
 %{_libdir}/wine/opencl.dll.so
+%endif
 
 %changelog
 * Wed Oct 21 2015 Michael Cronenworth <mike@cchtml.com> 1.7.53-1
