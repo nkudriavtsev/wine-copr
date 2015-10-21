@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        1.7.52
+Version:        1.7.53
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1590,6 +1590,7 @@ fi
 %{_libdir}/wine/vcomp90.dll.so
 %{_libdir}/wine/vcomp100.dll.so
 %{_libdir}/wine/vcomp110.dll.so
+%{_libdir}/wine/vcomp120.dll.so
 %{_libdir}/wine/vcruntime140.dll.so
 %{_libdir}/wine/vdmdbg.dll.so
 %{_libdir}/wine/version.dll.so
@@ -1643,6 +1644,7 @@ fi
 %{_libdir}/wine/wined3d.dll.so
 %{_libdir}/wine/dnsapi.dll.so
 %{_libdir}/wine/iexplore.exe.so
+%{_libdir}/wine/x3daudio1_0.dll.so
 %{_libdir}/wine/x3daudio1_1.dll.so
 %{_libdir}/wine/x3daudio1_2.dll.so
 %{_libdir}/wine/x3daudio1_3.dll.so
@@ -1651,9 +1653,17 @@ fi
 %{_libdir}/wine/x3daudio1_6.dll.so
 %{_libdir}/wine/x3daudio1_7.dll.so
 %{_libdir}/wine/xapofx1_1.dll.so
+%{_libdir}/wine/xapofx1_2.dll.so
 %{_libdir}/wine/xapofx1_3.dll.so
 %{_libdir}/wine/xapofx1_4.dll.so
 %{_libdir}/wine/xapofx1_5.dll.so
+%{_libdir}/wine/xaudio2_0.dll.so
+%{_libdir}/wine/xaudio2_1.dll.so
+%{_libdir}/wine/xaudio2_2.dll.so
+%{_libdir}/wine/xaudio2_3.dll.so
+%{_libdir}/wine/xaudio2_4.dll.so
+%{_libdir}/wine/xaudio2_5.dll.so
+%{_libdir}/wine/xaudio2_6.dll.so
 %{_libdir}/wine/xaudio2_7.dll.so
 %{_libdir}/wine/xaudio2_8.dll.so
 %{_libdir}/wine/xcopy.exe.so
@@ -1953,6 +1963,9 @@ fi
 %{_libdir}/wine/opencl.dll.so
 
 %changelog
+* Wed Oct 21 2015 Michael Cronenworth <mike@cchtml.com> 1.7.53-1
+- version upgrade
+
 * Sat Oct 03 2015 Michael Cronenworth <mike@cchtml.com> 1.7.52-1
 - version upgrade
 

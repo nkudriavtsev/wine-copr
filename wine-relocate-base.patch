@@ -1,43 +1,86 @@
---- a/configure.ac.orig	2015-08-13 14:05:20.603210791 -0500
-+++ b/configure.ac	2015-08-14 09:20:46.380372331 -0500
-@@ -1021,6 +1021,9 @@
+From 509a781e793cc6d15d74e1ffc5fc8d4a3c31026a Mon Sep 17 00:00:00 2001
+From: Michael Cronenworth <mike@cchtml.com>
+Date: Wed, 21 Oct 2015 10:26:40 -0500
+Subject: [PATCH] winegcc: Check for linker relocation support before relying
+ on prelink
+
+Prelink was used to rewrite binares and set their text segment, but
+modern linkers support setting the value at link time. Prelink is
+being retired by upstream.
+
+Signed-off-by: Michael Cronenworth <mike@cchtml.com>
+---
+ configure.ac            | 11 ++++++++---
+ tools/winegcc/winegcc.c | 12 ++++++++++--
+ 2 files changed, 18 insertions(+), 5 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 5ab2d69..a30b552 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -988,10 +988,15 @@ wine-installed: main.o
                             *) LDEXECFLAGS="$LDEXECFLAGS -Wl,--section-start,.interp=0x7bf00400" ;;
                             esac
                            ])
+-          AC_PATH_PROG(PRELINK, prelink, false, [/sbin /usr/sbin $PATH])
+-          if test "x$PRELINK" = xfalse
 +          WINE_TRY_CFLAGS([-Wl,-Ttext-segment=0x7bc00000],
-+                          [AC_DEFINE([HAVE_TTEXT_SEGMENT],[1],[Define if
-+linker supports -Ttext-segment.])])
-           AC_PATH_PROG(PRELINK, prelink, false, [/sbin /usr/sbin $PATH])
-           if test "x$PRELINK" = xfalse
++                          [HAVE_TTEXT_SEGMENT="yes"])
++          if test "x$HAVE_TTEXT_SEGMENT" != "xyes"
            then
---- a/tools/winegcc/winegcc.c.orig	2015-08-14 09:26:57.802873676 -0500
-+++ b/tools/winegcc/winegcc.c	2015-08-14 09:25:17.290194637 -0500
-@@ -1134,6 +1134,12 @@
+-              WINE_WARNING([prelink not found, base address of core dlls won't be set correctly.])
++              AC_PATH_PROG(PRELINK, prelink, false, [/sbin /usr/sbin $PATH])
++              if test "x$PRELINK" = xfalse
++              then
++                  WINE_WARNING([prelink not found and linker does not support relocation, base address of core dlls won't be set correctly.])
++              fi
+           fi
+           ;;
+       esac
+diff --git a/tools/winegcc/winegcc.c b/tools/winegcc/winegcc.c
+index 3b2794e..fa62c34 100644
+--- a/tools/winegcc/winegcc.c
++++ b/tools/winegcc/winegcc.c
+@@ -778,6 +778,7 @@ static void build(struct options* opts)
+     const char *output_name, *spec_file, *lang;
+     int generate_app_loader = 1;
+     int fake_module = 0;
++    int text_segment = 0;
+     unsigned int j;
+ 
+     /* NOTE: for the files array we'll use the following convention:
+@@ -1112,6 +1113,11 @@ static void build(struct options* opts)
+     for ( j = 0 ; j < opts->linker_args->size ; j++ ) 
+         strarray_add(link_args, opts->linker_args->base[j]);
+ 
++    /* check linker support for setting text base address */
++    if (opts->image_base &&
++        !try_link(opts->prefix, link_args, strmake("-Wl,-Ttext-segment=%s", opts->image_base)))
++        text_segment = 1;
++
+     switch (opts->target_platform)
+     {
+     case PLATFORM_APPLE:
+@@ -1134,6 +1140,8 @@ static void build(struct options* opts)
          }
          break;
      default:
-+#ifdef HAVE_TTEXT_SEGMENT
-+        if (opts->image_base)
-+        {
++        if (text_segment)
 +            strarray_add(link_args, strmake("-Wl,-Ttext-segment=%s", opts->image_base));
-+        }
-+#endif
          break;
      }
  
-@@ -1167,6 +1173,7 @@
+@@ -1167,8 +1175,8 @@ static void build(struct options* opts)
      spawn(opts->prefix, link_args, 0);
      strarray_free (link_args);
  
-+#ifndef HAVE_TTEXT_SEGMENT
-     /* set the base address */
-     if (opts->image_base && !opts->target)
+-    /* set the base address */
+-    if (opts->image_base && !opts->target)
++    /* set the base address with prelink if linker support is not present */
++    if (opts->image_base && !opts->target && !text_segment)
      {
-@@ -1182,6 +1189,7 @@
-             strarray_free(prelink_args);
-         }
-     }
-+#endif
- 
-     /* create the loader script */
-     if (generate_app_loader)
+         const char *prelink = PRELINK;
+         if (prelink[0] && strcmp(prelink,"false"))
+-- 
+2.4.3
+
