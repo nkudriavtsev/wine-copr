@@ -1,8 +1,2280 @@
-From 2bd032d8e954693feb10cd85ada74a748ba493a8 Mon Sep 17 00:00:00 2001
+From c1ed02fb85b6992388afab9a5607069d124b64ec Mon Sep 17 00:00:00 2001
 From: Michael Cronenworth <mike@cchtml.com>
-Date: Wed, 4 Nov 2015 22:09:26 -0600
-Subject: [PATCH] Revert "makefiles: Read variable definitions from the top
- makefile instead of using Make.vars.in."
+Date: Wed, 4 Nov 2015 23:15:31 -0600
+Subject: [PATCH 01/12] Revert "makefiles: Specify whether to install program
+ binaries in the individual makefiles."
+
+This reverts commit 17ac5ba7f9909bfbd3c80c87a077f72ef4c1d19b.
+---
+ programs/msiexec/Makefile.in     |  2 --
+ programs/notepad/Makefile.in     |  2 --
+ programs/regedit/Makefile.in     |  2 --
+ programs/regsvr32/Makefile.in    |  2 --
+ programs/wineboot/Makefile.in    |  2 --
+ programs/winecfg/Makefile.in     |  2 --
+ programs/wineconsole/Makefile.in |  2 --
+ programs/winedbg/Makefile.in     |  2 --
+ programs/winefile/Makefile.in    |  2 --
+ programs/winemine/Makefile.in    |  2 --
+ programs/winepath/Makefile.in    |  2 --
+ programs/winetest/Makefile.in    |  2 --
+ tools/make_makefiles             | 50 +++++++++++++++++++++++++---------------
+ tools/makedep.c                  | 19 ---------------
+ 14 files changed, 32 insertions(+), 61 deletions(-)
+
+diff --git a/programs/msiexec/Makefile.in b/programs/msiexec/Makefile.in
+index 7686b10..6d0cf9a 100644
+--- a/programs/msiexec/Makefile.in
++++ b/programs/msiexec/Makefile.in
+@@ -11,5 +11,3 @@ RC_SRCS = rsrc.rc
+ MANPAGES = msiexec.man.in
+ 
+ SVG_SRCS = msiexec.svg
+-
+-INSTALL_LIB = msiexec.exe msiexec
+diff --git a/programs/notepad/Makefile.in b/programs/notepad/Makefile.in
+index e5d39a8..26e977d 100644
+--- a/programs/notepad/Makefile.in
++++ b/programs/notepad/Makefile.in
+@@ -11,5 +11,3 @@ RC_SRCS = notepad.rc
+ MANPAGES = notepad.man.in
+ 
+ SVG_SRCS = notepad.svg
+-
+-INSTALL_LIB = notepad.exe notepad
+diff --git a/programs/regedit/Makefile.in b/programs/regedit/Makefile.in
+index acbfbd4..c5dfd81 100644
+--- a/programs/regedit/Makefile.in
++++ b/programs/regedit/Makefile.in
+@@ -20,5 +20,3 @@ RC_SRCS = regedit.rc
+ MANPAGES = regedit.man.in
+ 
+ SVG_SRCS = regedit.svg
+-
+-INSTALL_LIB = regedit.exe regedit
+diff --git a/programs/regsvr32/Makefile.in b/programs/regsvr32/Makefile.in
+index e91f206..15646a6 100644
+--- a/programs/regsvr32/Makefile.in
++++ b/programs/regsvr32/Makefile.in
+@@ -8,5 +8,3 @@ C_SRCS = \
+ RC_SRCS = regsvr32.rc
+ 
+ MANPAGES = regsvr32.man.in
+-
+-INSTALL_LIB = regsvr32.exe regsvr32
+diff --git a/programs/wineboot/Makefile.in b/programs/wineboot/Makefile.in
+index 419ec16..f6da0f9 100644
+--- a/programs/wineboot/Makefile.in
++++ b/programs/wineboot/Makefile.in
+@@ -10,5 +10,3 @@ C_SRCS = \
+ RC_SRCS = wineboot.rc
+ 
+ MANPAGES = wineboot.man.in
+-
+-INSTALL_LIB = wineboot.exe wineboot
+diff --git a/programs/winecfg/Makefile.in b/programs/winecfg/Makefile.in
+index 7b52a69..4e66e04 100644
+--- a/programs/winecfg/Makefile.in
++++ b/programs/winecfg/Makefile.in
+@@ -22,5 +22,3 @@ MANPAGES = winecfg.man.in
+ SVG_SRCS = \
+ 	logo.svg \
+ 	winecfg.svg
+-
+-INSTALL_LIB = winecfg.exe winecfg
+diff --git a/programs/wineconsole/Makefile.in b/programs/wineconsole/Makefile.in
+index b1ba9ef..6cde7e3 100644
+--- a/programs/wineconsole/Makefile.in
++++ b/programs/wineconsole/Makefile.in
+@@ -13,5 +13,3 @@ C_SRCS = \
+ RC_SRCS = wineconsole.rc
+ 
+ MANPAGES = wineconsole.man.in
+-
+-INSTALL_LIB = wineconsole.exe wineconsole
+diff --git a/programs/winedbg/Makefile.in b/programs/winedbg/Makefile.in
+index 739c4eb..a56c359 100644
+--- a/programs/winedbg/Makefile.in
++++ b/programs/winedbg/Makefile.in
+@@ -34,5 +34,3 @@ LEX_SRCS   = debug.l
+ BISON_SRCS = dbg.y
+ 
+ MANPAGES = winedbg.man.in
+-
+-INSTALL_LIB = winedbg.exe winedbg
+diff --git a/programs/winefile/Makefile.in b/programs/winefile/Makefile.in
+index f400846..ac58f26 100644
+--- a/programs/winefile/Makefile.in
++++ b/programs/winefile/Makefile.in
+@@ -12,5 +12,3 @@ RC_SRCS = winefile.rc
+ MANPAGES = winefile.man.in
+ 
+ SVG_SRCS = winefile.svg
+-
+-INSTALL_LIB = winefile.exe winefile
+diff --git a/programs/winemine/Makefile.in b/programs/winemine/Makefile.in
+index ea9b9d3..f72e1b1 100644
+--- a/programs/winemine/Makefile.in
++++ b/programs/winemine/Makefile.in
+@@ -12,5 +12,3 @@ RC_SRCS = winemine.rc
+ MANPAGES = winemine.man.in
+ 
+ SVG_SRCS = winemine.svg
+-
+-INSTALL_LIB = winemine.exe winemine
+diff --git a/programs/winepath/Makefile.in b/programs/winepath/Makefile.in
+index ca28e30..16b5627 100644
+--- a/programs/winepath/Makefile.in
++++ b/programs/winepath/Makefile.in
+@@ -4,5 +4,3 @@ APPMODE   = -mconsole -municode
+ C_SRCS = winepath.c
+ 
+ MANPAGES = winepath.man.in
+-
+-INSTALL_LIB = winepath.exe winepath
+diff --git a/programs/winetest/Makefile.in b/programs/winetest/Makefile.in
+index 4070016..7bdfe2a 100644
+--- a/programs/winetest/Makefile.in
++++ b/programs/winetest/Makefile.in
+@@ -18,8 +18,6 @@ EXTRA_OBJS = build.res @ALL_TEST_RESOURCES@
+ 
+ EXTRA_TARGETS = build.rc build.nfo
+ 
+-INSTALL_LIB = none
+-
+ build.rc: dummy
+ 	build="BUILD_INFO STRINGRES build.nfo STRINGTABLE { 1 \"`GIT_DIR=$(top_srcdir)/.git git rev-parse HEAD 2>/dev/null`\" }" && (echo $$build | cmp -s - $@) || echo $$build >$@ || ($(RM) $@ && exit 1)
+ 
+diff --git a/tools/make_makefiles b/tools/make_makefiles
+index 96d8c01..4b539cd 100755
+--- a/tools/make_makefiles
++++ b/tools/make_makefiles
+@@ -21,6 +21,28 @@
+ 
+ use strict;
+ 
++# Programs that we want to install in the bin directory too
++my %bin_install =
++(
++  "msiexec" => 1,
++  "notepad" => 1,
++  "regedit" => 1,
++  "regsvr32" => 1,
++  "wineboot" => 1,
++  "winecfg" => 1,
++  "wineconsole" => 1,
++  "winedbg" => 1,
++  "winefile" => 1,
++  "winemine" => 1,
++  "winepath" => 1,
++);
++
++# Programs that we don't want to install at all
++my %dont_install =
++(
++  "winetest" => 1,
++);
++
+ # Dlls and programs that are 16-bit specific
+ my %modules16 =
+ (
+@@ -243,11 +265,18 @@ sub parse_makefile($)
+             ${$make{"=flags"}}{"implib"} = 1 if $var eq "IMPORTLIB";
+             next;
+         }
+-        if (/^\s*(BISON_SRCS|LEX_SRCS|IDL_SRCS|IMPLIB_SRCS|C_SRCS|OBJC_SRCS|MC_SRCS|RC_SRCS|SVG_SRCS|FONT_SRCS|IN_SRCS|PROGRAMS|EXTRA_TARGETS|MANPAGES|INSTALL_LIB|INSTALL_DEV)\s*=\s*(.*)/)
++        if (/^\s*(BISON_SRCS|LEX_SRCS|IDL_SRCS|IMPLIB_SRCS|C_SRCS|OBJC_SRCS|MC_SRCS|RC_SRCS|SVG_SRCS|FONT_SRCS|IN_SRCS|PROGRAMS|EXTRA_TARGETS|MANPAGES)\s*=\s*(.*)/)
+         {
+             my $var = $1;
+             my @list = split(/\s+/, $2);
+             $make{$var} = \@list;
++            ${$make{"=flags"}}{"clean"} = 1 if $var eq "PROGRAMS";
++            ${$make{"=flags"}}{"clean"} = 1 if $var eq "EXTRA_TARGETS";
++            next;
++        }
++        if (/^\s*INSTALL_(LIB|DEV)\s*=\s*/)
++        {
++            ${$make{"=flags"}}{$1 eq "LIB" ? "install-lib" : "install-dev"} = 1;
+             next;
+         }
+         if (/(install-lib|install-dev|clean)\s*:/)
+@@ -267,24 +296,9 @@ sub parse_makefile($)
+ 
+     if ($file =~ /^programs\/([^\/]+)\/Makefile/)
+     {
+-        my $prog = $1;
+-        if (defined $make{"INSTALL_LIB"})
+-        {
+-            ${$make{"=flags"}}{"install"} = 1 if grep { "$prog.exe" eq $_; } @{$make{"INSTALL_LIB"}};
+-            ${$make{"=flags"}}{"installbin"} = 1 if grep { $prog eq $_; } @{$make{"INSTALL_LIB"}};
+-        }
+-        else
+-        {
+-            ${$make{"=flags"}}{"install"} = 1;
+-        }
+-    }
+-
+-    unless (defined $make{"MODULE"})
+-    {
+-        ${$make{"=flags"}}{"install-lib"} = 1 if defined $make{"INSTALL_LIB"};
+-        ${$make{"=flags"}}{"install-dev"} = 1 if defined $make{"INSTALL_DEV"};
++        ${$make{"=flags"}}{"install"} = 1 unless $dont_install{$1};
++        ${$make{"=flags"}}{"installbin"} = 1 if $bin_install{$1};
+     }
+-    ${$make{"=flags"}}{"clean"} = 1 if defined $make{"PROGRAMS"} || defined $make{"EXTRA_TARGETS"};
+ 
+     if (defined $make{"=flags"} && defined $make{"MODULE"})
+     {
+diff --git a/tools/makedep.c b/tools/makedep.c
+index 2a1b8d4..7af3bc9 100644
+--- a/tools/makedep.c
++++ b/tools/makedep.c
+@@ -2214,17 +2214,11 @@ static struct strarray output_sources( struct makefile *make, struct strarray *t
+         {
+             strarray_add( &all_targets, strmake( "%s%s", make->module, dll_ext ));
+             strarray_add( &all_targets, strmake( "%s.fake", make->module ));
+-            add_install_rule( make, make->module, strmake( "%s%s", make->module, dll_ext ),
+-                              strmake( "p$(dlldir)/%s%s", make->module, dll_ext ));
+-            add_install_rule( make, make->module, strmake( "%s.fake", make->module ),
+-                              strmake( "d$(fakedlldir)/%s", make->module ));
+             output( "%s%s %s.fake:", module_path, dll_ext, module_path );
+         }
+         else
+         {
+             strarray_add( &all_targets, make->module );
+-            add_install_rule( make, make->module, make->module,
+-                              strmake( "p$(%s)/%s", spec_file ? "dlldir" : "bindir", make->module ));
+             output( "%s:", module_path );
+         }
+         if (spec_file) output_filename( spec_file );
+@@ -2259,8 +2253,6 @@ static struct strarray output_sources( struct makefile *make, struct strarray *t
+                 output_filenames( target_flags );
+                 if (make->is_win16) output_filename( "-m16" );
+                 output( "\n" );
+-                add_install_rule( make, make->importlib, strmake( "lib%s.def", make->importlib ),
+-                                  strmake( "d$(dlldir)/lib%s.def", make->importlib ));
+                 if (implib_objs.count)
+                 {
+                     strarray_add( &clean_files, strmake( "lib%s.def.a", make->importlib ));
+@@ -2272,8 +2264,6 @@ static struct strarray output_sources( struct makefile *make, struct strarray *t
+                     output_filenames_obj_dir( make, implib_objs );
+                     output( "\n" );
+                     output( "\t$(RANLIB) $@\n" );
+-                    add_install_rule( make, make->importlib, strmake( "lib%s.def.a", make->importlib ),
+-                                      strmake( "d$(dlldir)/lib%s.def.a", make->importlib ));
+                 }
+             }
+             else
+@@ -2286,8 +2276,6 @@ static struct strarray output_sources( struct makefile *make, struct strarray *t
+                 output_filenames( target_flags );
+                 output_filenames_obj_dir( make, implib_objs );
+                 output( "\n" );
+-                add_install_rule( make, make->importlib, strmake( "lib%s.a", make->importlib ),
+-                                  strmake( "d$(dlldir)/lib%s.a", make->importlib ));
+             }
+             if (crosstarget && !make->is_win16)
+             {
+@@ -2346,12 +2334,6 @@ static struct strarray output_sources( struct makefile *make, struct strarray *t
+             }
+             else output( "manpages htmlpages sgmlpages xmlpages::\n" );
+         }
+-        else if (*dll_ext)
+-        {
+-            char *binary = replace_extension( make->module, ".exe", "" );
+-            add_install_rule( make, binary, tools_dir_path( make, "wineapploader" ),
+-                              strmake( "s$(bindir)/%s", binary ));
+-        }
+     }
+ 
+     if (make->staticlib)
+@@ -2837,7 +2819,6 @@ static void update_makefile( const char *path )
+ 
+     make->install_lib_rules = empty_strarray;
+     make->install_dev_rules = empty_strarray;
+-    if (make->module && !make->install_lib.count) strarray_add( &make->install_lib, make->module );
+ 
+     make->include_args = empty_strarray;
+     make->define_args = empty_strarray;
+-- 
+2.4.3
+
+From e1b0769c11dc8f53e089eafedca66161484c0465 Mon Sep 17 00:00:00 2001
+From: Michael Cronenworth <mike@cchtml.com>
+Date: Wed, 4 Nov 2015 23:15:33 -0600
+Subject: [PATCH 02/12] Revert "makefiles: Fix the source path for ttf font
+ installs."
+
+This reverts commit a748b7bc47345f9fd3b10377da6817c3e6e29fe2.
+---
+ tools/makedep.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tools/makedep.c b/tools/makedep.c
+index 7af3bc9..2c2a97d 100644
+--- a/tools/makedep.c
++++ b/tools/makedep.c
+@@ -2057,7 +2057,7 @@ static struct strarray output_sources( struct makefile *make, struct strarray *t
+             }
+             if (source->file->flags & FLAG_INSTALL)
+             {
+-                strarray_add( &make->install_lib_rules, strmake( "%s.ttf", obj ));
++                strarray_add( &make->install_lib_rules, ttf_file );
+                 strarray_add( &make->install_lib_rules, strmake( "D$(fontdir)/%s.ttf", obj ));
+             }
+             if (source->file->flags & FLAG_SFD_FONTS)
+-- 
+2.4.3
+
+From 4acb2bf30de244cb8aad6ed62af36aa68e9015b4 Mon Sep 17 00:00:00 2001
+From: Michael Cronenworth <mike@cchtml.com>
+Date: Wed, 4 Nov 2015 23:15:34 -0600
+Subject: [PATCH 03/12] Revert "makefiles: Don't add source dependency for
+ symlinks."
+
+This reverts commit cc5d07fc8a58f3f87137992247344cdbdad9ef8d.
+---
+ tools/makedep.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tools/makedep.c b/tools/makedep.c
+index 2c2a97d..30bbc3e 100644
+--- a/tools/makedep.c
++++ b/tools/makedep.c
+@@ -1796,7 +1796,7 @@ static void output_install_rules( struct makefile *make, struct strarray files,
+     if (!files.count) return;
+ 
+     for (i = 0; i < files.count; i += 2)
+-        if (strchr( "dps", files.str[i + 1][0] ))  /* only for files copied from object dir */
++        if (files.str[i + 1][0] >= 'a' && files.str[i + 1][0] <= 'z')  /* only for files in object dir */
+             strarray_add_uniq( &targets, files.str[i] );
+ 
+     output( "install %s::", target );
+-- 
+2.4.3
+
+From 0c2d10f1c63546f8bba8a29adeb30224adc6064c Mon Sep 17 00:00:00 2001
+From: Michael Cronenworth <mike@cchtml.com>
+Date: Wed, 4 Nov 2015 23:16:39 -0600
+Subject: [PATCH 04/12] Revert "makefiles: Generate rules for installing
+ symlinks."
+
+This reverts commit 356e46a1ef9f866f4a548674b4811a98d1b1847c.
+---
+ tools/makedep.c           | 23 +----------------------
+ tools/winegcc/Makefile.in | 21 ++++++++++++++++++---
+ 2 files changed, 19 insertions(+), 25 deletions(-)
+
+diff --git a/tools/makedep.c b/tools/makedep.c
+index 30bbc3e..ffd286f 100644
+--- a/tools/makedep.c
++++ b/tools/makedep.c
+@@ -1831,9 +1831,6 @@ static void output_install_rules( struct makefile *make, struct strarray files,
+             output( "\t%s $(INSTALL_SCRIPT_FLAGS) %s $(DESTDIR)%s\n",
+                     install_sh, src_dir_path( make, file ), dest + 1 );
+             break;
+-        case 'y':  /* symlink */
+-            output( "\t$(RM) $(DESTDIR)%s && $(LN_S) %s $(DESTDIR)%s\n", dest + 1, file, dest + 1 );
+-            break;
+         default:
+             assert(0);
+         }
+@@ -1856,7 +1853,7 @@ static void output_install_rules( struct makefile *make, struct strarray files,
+ static struct strarray output_sources( struct makefile *make, struct strarray *testlist_files )
+ {
+     struct incl_file *source;
+-    unsigned int i, j;
++    unsigned int i;
+     struct strarray object_files = empty_strarray;
+     struct strarray crossobj_files = empty_strarray;
+     struct strarray res_files = empty_strarray;
+@@ -2021,7 +2018,6 @@ static struct strarray output_sources( struct makefile *make, struct strarray *t
+         {
+             if (strendswith( obj, ".man" ) && source->file->args)
+             {
+-                struct strarray symlinks;
+                 char *dir, *dest = replace_extension( obj, ".man", "" );
+                 char *lang = strchr( dest, '.' );
+                 char *section = source->file->args;
+@@ -2032,10 +2028,6 @@ static struct strarray output_sources( struct makefile *make, struct strarray *t
+                 }
+                 else dir = strmake( "$(mandir)/man%s", section );
+                 add_install_rule( make, dest, xstrdup(obj), strmake( "d%s/%s.%s", dir, dest, section ));
+-                symlinks = get_expanded_make_var_array( make, file_local_var( dest, "SYMLINKS" ));
+-                for (j = 0; j < symlinks.count; j++)
+-                    add_install_rule( make, symlinks.str[j], strmake( "%s.%s", dest, section ),
+-                                      strmake( "y%s/%s.%s", dir, symlinks.str[j], section ));
+                 free( dest );
+                 free( dir );
+                 strarray_add( &all_targets, xstrdup(obj) );
+@@ -2455,8 +2447,6 @@ static struct strarray output_sources( struct makefile *make, struct strarray *t
+         struct strarray all_libs = empty_strarray;
+         struct strarray objs = get_expanded_make_var_array( make,
+                                                  file_local_var( make->programs.str[i], "OBJS" ));
+-        struct strarray symlinks = get_expanded_make_var_array( make,
+-                                                 file_local_var( make->programs.str[i], "SYMLINKS" ));
+ 
+         if (!objs.count) objs = object_files;
+         output( "%s:", obj_dir_path( make, program ) );
+@@ -2495,19 +2485,8 @@ static struct strarray output_sources( struct makefile *make, struct strarray *t
+         output( "\n" );
+         strarray_add( &all_targets, program );
+ 
+-        if (symlinks.count)
+-        {
+-            output_filenames_obj_dir( make, symlinks );
+-            output( ": %s\n", obj_dir_path( make, program ));
+-            output( "\t$(RM) $@ && $(LN_S) %s $@\n", obj_dir_path( make, program ));
+-            strarray_addall( &all_targets, symlinks );
+-        }
+-
+         add_install_rule( make, program, program_installed ? program_installed : program,
+                           strmake( "p$(bindir)/%s", program ));
+-        for (j = 0; j < symlinks.count; j++)
+-            add_install_rule( make, symlinks.str[j], program,
+-                              strmake( "y$(bindir)/%s%s", symlinks.str[j], exe_ext ));
+     }
+ 
+     for (i = 0; i < make->scripts.count; i++)
+diff --git a/tools/winegcc/Makefile.in b/tools/winegcc/Makefile.in
+index daeb91b..1a3b2a7 100644
+--- a/tools/winegcc/Makefile.in
++++ b/tools/winegcc/Makefile.in
+@@ -2,8 +2,6 @@ PROGRAMS = winegcc
+ 
+ MANPAGES = winegcc.man.in
+ 
+-winegcc_SYMLINKS = winecpp wineg++
+-
+ C_SRCS = \
+ 	utils.c \
+ 	winegcc.c
+@@ -18,4 +16,21 @@ winegcc_EXTRADEFS = \
+ 	-DLD="\"$(LD)\"" \
+ 	-DPRELINK="\"$(PRELINK)\""
+ 
+-INSTALL_DEV = $(PROGRAMS) $(winegcc_SYMLINKS)
++INSTALL_DEV = $(PROGRAMS)
++
++EXTRA_TARGETS = winecpp$(EXEEXT) wineg++$(EXEEXT)
++
++all: $(EXTRA_TARGETS)
++
++winecpp$(EXEEXT) wineg++$(EXEEXT): winegcc$(EXEEXT)
++	$(RM) $@ && $(LN_S) winegcc$(EXEEXT) $@
++
++install install-dev::
++	cd $(DESTDIR)$(bindir) && $(RM) wineg++$(EXEEXT) && $(LN_S) winegcc$(EXEEXT) wineg++$(EXEEXT)
++	cd $(DESTDIR)$(bindir) && $(RM) winecpp$(EXEEXT) && $(LN_S) winegcc$(EXEEXT) winecpp$(EXEEXT)
++	cd $(DESTDIR)$(mandir)/man$(prog_manext) && $(RM) wineg++.$(prog_manext) && $(LN_S) winegcc.$(prog_manext) wineg++.$(prog_manext)
++	cd $(DESTDIR)$(mandir)/man$(prog_manext) && $(RM) winecpp.$(prog_manext) && $(LN_S) winegcc.$(prog_manext) winecpp.$(prog_manext)
++
++uninstall::
++	$(RM) $(DESTDIR)$(bindir)/wineg++$(EXEEXT) $(DESTDIR)$(bindir)/winecpp$(EXEEXT)
++	$(RM) $(DESTDIR)$(mandir)/man$(prog_manext)/wineg++.$(prog_manext) $(DESTDIR)$(mandir)/man$(prog_manext)/winecpp.$(prog_manext)
+-- 
+2.4.3
+
+From 6fc5a15518b51a55681bb20c51dfc93f45816cc2 Mon Sep 17 00:00:00 2001
+From: Michael Cronenworth <mike@cchtml.com>
+Date: Wed, 4 Nov 2015 23:16:49 -0600
+Subject: [PATCH 05/12] Revert "makefiles: Generate rules for installing
+ scripts."
+
+This reverts commit 5cd3395975f687ba8390fddda38bd110d98b30ed.
+---
+ tools/makedep.c             |  6 ------
+ tools/winedump/Makefile.in  |  9 +++++++--
+ tools/winemaker/Makefile.in | 10 +++++++---
+ 3 files changed, 14 insertions(+), 11 deletions(-)
+
+diff --git a/tools/makedep.c b/tools/makedep.c
+index ffd286f..9a21397 100644
+--- a/tools/makedep.c
++++ b/tools/makedep.c
+@@ -150,7 +150,6 @@ struct makefile
+     struct strarray include_args;
+     struct strarray define_args;
+     struct strarray programs;
+-    struct strarray scripts;
+     struct strarray appmode;
+     struct strarray imports;
+     struct strarray delayimports;
+@@ -2489,10 +2488,6 @@ static struct strarray output_sources( struct makefile *make, struct strarray *t
+                           strmake( "p$(bindir)/%s", program ));
+     }
+ 
+-    for (i = 0; i < make->scripts.count; i++)
+-        add_install_rule( make, make->scripts.str[i], make->scripts.str[i],
+-                          strmake( "S$(bindir)/%s", make->scripts.str[i] ));
+-
+     if (all_targets.count)
+     {
+         output( "all:" );
+@@ -2780,7 +2775,6 @@ static void update_makefile( const char *path )
+     make->importlib     = get_expanded_make_variable( make, "IMPORTLIB" );
+ 
+     make->programs      = get_expanded_make_var_array( make, "PROGRAMS" );
+-    make->scripts       = get_expanded_make_var_array( make, "SCRIPTS" );
+     make->appmode       = get_expanded_make_var_array( make, "APPMODE" );
+     make->imports       = get_expanded_make_var_array( make, "IMPORTS" );
+     make->delayimports  = get_expanded_make_var_array( make, "DELAYIMPORTS" );
+diff --git a/tools/winedump/Makefile.in b/tools/winedump/Makefile.in
+index b55ac72..a93f078 100644
+--- a/tools/winedump/Makefile.in
++++ b/tools/winedump/Makefile.in
+@@ -1,6 +1,5 @@
+ PROGRAMS = winedump
+ MANPAGES = winedump.man.in
+-SCRIPTS  = function_grep.pl
+ 
+ C_SRCS = \
+ 	debug.c \
+@@ -24,4 +23,10 @@ C_SRCS = \
+ 	symbol.c \
+ 	tlb.c
+ 
+-INSTALL_DEV = $(PROGRAMS) $(SCRIPTS)
++INSTALL_DEV = $(PROGRAMS)
++
++install install-dev::
++	$(INSTALL_SCRIPT) $(srcdir)/function_grep.pl $(DESTDIR)$(bindir)/function_grep.pl
++
++uninstall::
++	$(RM) $(DESTDIR)$(bindir)/function_grep.pl
+diff --git a/tools/winemaker/Makefile.in b/tools/winemaker/Makefile.in
+index 37e345d..6afa016 100644
+--- a/tools/winemaker/Makefile.in
++++ b/tools/winemaker/Makefile.in
+@@ -1,8 +1,12 @@
+-SCRIPTS = winemaker
+-
+ MANPAGES = \
+ 	winemaker.de.UTF-8.man.in \
+ 	winemaker.fr.UTF-8.man.in \
+ 	winemaker.man.in
+ 
+-INSTALL_DEV = $(SCRIPTS)
++INSTALL_DEV = winemaker
++
++install install-dev::
++	$(INSTALL_SCRIPT) $(srcdir)/winemaker $(DESTDIR)$(bindir)/winemaker
++
++uninstall::
++	$(RM) $(DESTDIR)$(bindir)/winemaker
+-- 
+2.4.3
+
+From 2b9f92aa8ed4a88321b0e60af01a2715cab19f11 Mon Sep 17 00:00:00 2001
+From: Michael Cronenworth <mike@cchtml.com>
+Date: Wed, 4 Nov 2015 23:16:57 -0600
+Subject: [PATCH 06/12] Revert "makefiles: Generate rules for installing
+ programs."
+
+This reverts commit da340169d6518cf42f1cbe169fbf120383202bdc.
+---
+ configure                   |  15 ++++-
+ configure.ac                |  15 ++++-
+ server/Makefile.in          |   8 ++-
+ tools/make_makefiles        |   5 --
+ tools/makedep.c             | 135 ++++++++------------------------------------
+ tools/widl/Makefile.in      |   8 ++-
+ tools/winebuild/Makefile.in |   8 ++-
+ tools/winedump/Makefile.in  |   7 ++-
+ tools/winegcc/Makefile.in   |   9 +--
+ tools/winemaker/Makefile.in |   4 +-
+ tools/wmc/Makefile.in       |   8 ++-
+ tools/wrc/Makefile.in       |   8 ++-
+ 12 files changed, 97 insertions(+), 133 deletions(-)
+
+diff --git a/configure b/configure
+index b3a1f26..8cf26e4 100755
+--- a/configure
++++ b/configure
+@@ -7852,6 +7852,12 @@ libwine_soversion=`expr $libwine_version : '\([0-9]*\)\..*'`
+ 
+ LOADER_RULES="
+ all: wine.inf
++
++install install-lib:: $wine_binary-installed
++	\$(INSTALL_PROGRAM) $wine_binary-installed \$(DESTDIR)\$(bindir)/$wine_binary
++
++uninstall::
++	\$(RM) \$(DESTDIR)\$(bindir)/$wine_binary
+ "
+ 
+ 
+@@ -14939,13 +14945,18 @@ case $host_os in
+ preloader_EXTRADEFS = $BUILTINFLAG
+ ${wine_binary}_preloader_OBJS = preloader.o
+ ${wine_binary}_preloader_LDFLAGS = -static -nostartfiles -nodefaultlibs -Wl,-Ttext=0x7c400000
++
++install install-lib:: $wine_binary-preloader
++	\$(INSTALL_PROGRAM) $wine_binary-preloader \$(DESTDIR)\$(bindir)/$wine_binary-preloader
++
++uninstall::
++	\$(RM) \$(DESTDIR)\$(bindir)/$wine_binary-preloader
+ " ;;
+     esac
+     ;;
+ esac
+ as_fn_append LOADER_RULES "
+ PROGRAMS = $loader_programs
+-INSTALL_LIB = $loader_programs
+ "
+ 
+ 
+@@ -18280,7 +18291,7 @@ clean::
+ 	\$(RM) fonts server tools $with_wine64/loader/wine $with_wine64/loader/wine-preloader"
+ else
+     as_fn_append LOADER_RULES "
+-install install-lib:: wine.inf
++install install-lib:: wine.inf install-man-pages
+ 	\$(INSTALL_DATA) wine.inf \$(DESTDIR)\$(datadir)/wine/wine.inf
+ 	\$(INSTALL_DATA) \$(srcdir)/l_intl.nls \$(DESTDIR)\$(datadir)/wine/l_intl.nls
+ 
+diff --git a/configure.ac b/configure.ac
+index 3d48b67..ff74f8d 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -691,6 +691,12 @@ libwine_soversion=`expr $libwine_version : '\([[0-9]]*\)\..*'`
+ 
+ AC_SUBST(LOADER_RULES,["
+ all: wine.inf
++
++install install-lib:: $wine_binary-installed
++	\$(INSTALL_PROGRAM) $wine_binary-installed \$(DESTDIR)\$(bindir)/$wine_binary
++
++uninstall::
++	\$(RM) \$(DESTDIR)\$(bindir)/$wine_binary
+ "])
+ 
+ case $host_os in
+@@ -2033,13 +2039,18 @@ case $host_os in
+ preloader_EXTRADEFS = $BUILTINFLAG
+ ${wine_binary}_preloader_OBJS = preloader.o
+ ${wine_binary}_preloader_LDFLAGS = -static -nostartfiles -nodefaultlibs -Wl,-Ttext=0x7c400000
++
++install install-lib:: $wine_binary-preloader
++	\$(INSTALL_PROGRAM) $wine_binary-preloader \$(DESTDIR)\$(bindir)/$wine_binary-preloader
++
++uninstall::
++	\$(RM) \$(DESTDIR)\$(bindir)/$wine_binary-preloader
+ "]) ;;
+     esac
+     ;;
+ esac
+ AS_VAR_APPEND([LOADER_RULES],["
+ PROGRAMS = $loader_programs
+-INSTALL_LIB = $loader_programs
+ "])
+ 
+ dnl **** Check for functions ****
+@@ -3747,7 +3758,7 @@ clean::
+ 	\$(RM) fonts server tools $with_wine64/loader/wine $with_wine64/loader/wine-preloader])
+ else
+     AS_VAR_APPEND([LOADER_RULES],["
+-install install-lib:: wine.inf
++install install-lib:: wine.inf install-man-pages
+ 	\$(INSTALL_DATA) wine.inf \$(DESTDIR)\$(datadir)/wine/wine.inf
+ 	\$(INSTALL_DATA) \$(srcdir)/l_intl.nls \$(DESTDIR)\$(datadir)/wine/l_intl.nls
+ 
+diff --git a/server/Makefile.in b/server/Makefile.in
+index 75ba199..7a1ac11 100644
+--- a/server/Makefile.in
++++ b/server/Makefile.in
+@@ -52,4 +52,10 @@ MANPAGES = \
+ 
+ EXTRALIBS = -lwine $(POLL_LIBS) $(RT_LIBS)
+ 
+-INSTALL_LIB = $(PROGRAMS)
++.PHONY: install install-lib uninstall
++
++install install-lib:: wineserver-installed install-man-pages
++	$(INSTALL_PROGRAM) wineserver-installed $(DESTDIR)$(bindir)/wineserver
++
++uninstall::
++	$(RM) $(DESTDIR)$(bindir)/wineserver
+diff --git a/tools/make_makefiles b/tools/make_makefiles
+index 4b539cd..069d0ae 100755
+--- a/tools/make_makefiles
++++ b/tools/make_makefiles
+@@ -274,11 +274,6 @@ sub parse_makefile($)
+             ${$make{"=flags"}}{"clean"} = 1 if $var eq "EXTRA_TARGETS";
+             next;
+         }
+-        if (/^\s*INSTALL_(LIB|DEV)\s*=\s*/)
+-        {
+-            ${$make{"=flags"}}{$1 eq "LIB" ? "install-lib" : "install-dev"} = 1;
+-            next;
+-        }
+         if (/(install-lib|install-dev|clean)\s*:/)
+         {
+             ${$make{"=flags"}}{$1} = 1;
+diff --git a/tools/makedep.c b/tools/makedep.c
+index 9a21397..295e5e8 100644
+--- a/tools/makedep.c
++++ b/tools/makedep.c
+@@ -154,10 +154,6 @@ struct makefile
+     struct strarray imports;
+     struct strarray delayimports;
+     struct strarray extradllflags;
+-    struct strarray install_lib;
+-    struct strarray install_dev;
+-    struct strarray install_lib_rules;
+-    struct strarray install_dev_rules;
+     struct list     sources;
+     struct list     includes;
+     const char     *base_dir;
+@@ -1761,92 +1757,6 @@ static void output_include( struct incl_file *pFile, struct incl_file *owner )
+ 
+ 
+ /*******************************************************************
+- *         add_install_rule
+- */
+-static void add_install_rule( struct makefile *make, const char *target,
+-                              const char *file, const char *dest )
+-{
+-    if (strarray_exists( &make->install_lib, target ))
+-    {
+-        strarray_add( &make->install_lib_rules, file );
+-        strarray_add( &make->install_lib_rules, dest );
+-    }
+-    else if (strarray_exists( &make->install_dev, target ))
+-    {
+-        strarray_add( &make->install_dev_rules, file );
+-        strarray_add( &make->install_dev_rules, dest );
+-    }
+-}
+-
+-
+-/*******************************************************************
+- *         output_install_rules
+- *
+- * Rules are stored as a (file,dest) pair of values.
+- * The first char of dest indicates the type of install.
+- */
+-static void output_install_rules( struct makefile *make, struct strarray files,
+-                                  const char *target, struct strarray *phony_targets )
+-{
+-    unsigned int i;
+-    char *install_sh;
+-    struct strarray targets = empty_strarray;
+-
+-    if (!files.count) return;
+-
+-    for (i = 0; i < files.count; i += 2)
+-        if (files.str[i + 1][0] >= 'a' && files.str[i + 1][0] <= 'z')  /* only for files in object dir */
+-            strarray_add_uniq( &targets, files.str[i] );
+-
+-    output( "install %s::", target );
+-    output_filenames_obj_dir( make, targets );
+-    output( "\n" );
+-
+-    install_sh = top_dir_path( make, "tools/install-sh" );
+-    for (i = 0; i < files.count; i += 2)
+-    {
+-        const char *file = files.str[i];
+-        const char *dest = files.str[i + 1];
+-
+-        switch (*dest)
+-        {
+-        case 'd':  /* data file */
+-            output( "\t%s -m 644 $(INSTALL_DATA_FLAGS) %s $(DESTDIR)%s\n",
+-                    install_sh, obj_dir_path( make, file ), dest + 1 );
+-            break;
+-        case 'D':  /* data file in source dir */
+-            output( "\t%s -m 644 $(INSTALL_DATA_FLAGS) %s $(DESTDIR)%s\n",
+-                    install_sh, src_dir_path( make, file ), dest + 1 );
+-            break;
+-        case 'p':  /* program file */
+-            output( "\tSTRIPPROG=\"$(STRIP)\" %s $(INSTALL_PROGRAM_FLAGS) %s $(DESTDIR)%s\n",
+-                    install_sh, obj_dir_path( make, file ), dest + 1 );
+-            break;
+-        case 's':  /* script */
+-            output( "\t%s $(INSTALL_SCRIPT_FLAGS) %s $(DESTDIR)%s\n",
+-                    install_sh, obj_dir_path( make, file ), dest + 1 );
+-            break;
+-        case 'S':  /* script in source dir */
+-            output( "\t%s $(INSTALL_SCRIPT_FLAGS) %s $(DESTDIR)%s\n",
+-                    install_sh, src_dir_path( make, file ), dest + 1 );
+-            break;
+-        default:
+-            assert(0);
+-        }
+-    }
+-
+-    output( "uninstall::\n" );
+-    output( "\t$(RM)" );
+-    for (i = 0; i < files.count; i += 2) output_filename( strmake( "$(DESTDIR)%s", files.str[i + 1] + 1 ));
+-    output( "\n" );
+-
+-    strarray_add( phony_targets, "install" );
+-    strarray_add( phony_targets, target );
+-    strarray_add( phony_targets, "uninstall" );
+-}
+-
+-
+-/*******************************************************************
+  *         output_sources
+  */
+ static struct strarray output_sources( struct makefile *make, struct strarray *testlist_files )
+@@ -2023,13 +1933,18 @@ static struct strarray output_sources( struct makefile *make, struct strarray *t
+                 if (lang)
+                 {
+                     *lang++ = 0;
+-                    dir = strmake( "$(mandir)/%s/man%s", lang, section );
++                    dir = strmake( "$(DESTDIR)$(mandir)/%s/man%s", lang, section );
+                 }
+-                else dir = strmake( "$(mandir)/man%s", section );
+-                add_install_rule( make, dest, xstrdup(obj), strmake( "d%s/%s.%s", dir, dest, section ));
++                else dir = strmake( "$(DESTDIR)$(mandir)/man%s", section );
++                output( "install-man-pages:: %s\n", obj_dir_path( make, obj ));
++                output( "\t$(INSTALL_DATA) %s %s/%s.%s\n", obj_dir_path( make, obj ), dir, dest, section );
++                output( "uninstall::\n" );
++                output( "\t$(RM) %s/%s.%s\n", dir, dest, section );
+                 free( dest );
+                 free( dir );
+                 strarray_add( &all_targets, xstrdup(obj) );
++                strarray_add_uniq( &phony_targets, "install-man-pages" );
++                strarray_add_uniq( &phony_targets, "uninstall" );
+             }
+             else strarray_add( &clean_files, xstrdup(obj) );
+             output( "%s: %s\n", obj_dir_path( make, obj ), source->filename );
+@@ -2048,8 +1963,10 @@ static struct strarray output_sources( struct makefile *make, struct strarray *t
+             }
+             if (source->file->flags & FLAG_INSTALL)
+             {
+-                strarray_add( &make->install_lib_rules, ttf_file );
+-                strarray_add( &make->install_lib_rules, strmake( "D$(fontdir)/%s.ttf", obj ));
++                output( "install install-lib::\n" );
++                output( "\t$(INSTALL_DATA) %s $(DESTDIR)$(fontdir)/%s.ttf\n", ttf_file, obj );
++                output( "uninstall::\n" );
++                output( "\t$(RM) $(DESTDIR)$(fontdir)/%s.ttf\n", obj );
+             }
+             if (source->file->flags & FLAG_SFD_FONTS)
+             {
+@@ -2064,10 +1981,19 @@ static struct strarray output_sources( struct makefile *make, struct strarray *t
+                     output( "%s: %s %s\n", obj_dir_path( make, font ),
+                             tools_path( make, "sfnt2fon" ), ttf_file );
+                     output( "\t%s -o $@ %s %s\n", tools_path( make, "sfnt2fon" ), ttf_file, args );
+-                    strarray_add( &make->install_lib_rules, xstrdup(font) );
+-                    strarray_add( &make->install_lib_rules, strmake( "d$(fontdir)/%s", font ));
++                    output( "install install-lib:: %s\n", font );
++                    output( "\t$(INSTALL_DATA) %s $(DESTDIR)$(fontdir)/%s\n",
++                            obj_dir_path( make, font ), font );
++                    output( "uninstall::\n" );
++                    output( "\t$(RM) $(DESTDIR)$(fontdir)/%s\n", font );
+                 }
+             }
++            if (source->file->flags & (FLAG_INSTALL | FLAG_SFD_FONTS))
++            {
++                strarray_add_uniq( &phony_targets, "install" );
++                strarray_add_uniq( &phony_targets, "install-lib" );
++                strarray_add_uniq( &phony_targets, "uninstall" );
++            }
+             continue;  /* no dependencies */
+         }
+         else if (!strcmp( ext, "svg" ))  /* svg file */
+@@ -2441,7 +2367,6 @@ static struct strarray output_sources( struct makefile *make, struct strarray *t
+ 
+     for (i = 0; i < make->programs.count; i++)
+     {
+-        char *program_installed = NULL;
+         char *program = strmake( "%s%s", make->programs.str[i], exe_ext );
+         struct strarray all_libs = empty_strarray;
+         struct strarray objs = get_expanded_make_var_array( make,
+@@ -2464,7 +2389,8 @@ static struct strarray output_sources( struct makefile *make, struct strarray *t
+             strarray_add( &all_libs, strmake( "-L%s", top_obj_dir_path( make, "libs/wine" )));
+             if (ldrpath_local && ldrpath_install)
+             {
+-                program_installed = strmake( "%s-installed%s", make->programs.str[i], exe_ext );
++                char *program_installed = strmake( "%s-installed%s", make->programs.str[i], exe_ext );
++
+                 output_filename( ldrpath_local );
+                 output_filenames( all_libs );
+                 output_filename( "$(LDFLAGS)" );
+@@ -2483,9 +2409,6 @@ static struct strarray output_sources( struct makefile *make, struct strarray *t
+         output_filename( "$(LDFLAGS)" );
+         output( "\n" );
+         strarray_add( &all_targets, program );
+-
+-        add_install_rule( make, program, program_installed ? program_installed : program,
+-                          strmake( "p$(bindir)/%s", program ));
+     }
+ 
+     if (all_targets.count)
+@@ -2495,9 +2418,6 @@ static struct strarray output_sources( struct makefile *make, struct strarray *t
+         output( "\n" );
+     }
+ 
+-    output_install_rules( make, make->install_lib_rules, "install-lib", &phony_targets );
+-    output_install_rules( make, make->install_dev_rules, "install-dev", &phony_targets );
+-
+     strarray_addall( &clean_files, object_files );
+     strarray_addall( &clean_files, crossobj_files );
+     strarray_addall( &clean_files, res_files );
+@@ -2779,8 +2699,6 @@ static void update_makefile( const char *path )
+     make->imports       = get_expanded_make_var_array( make, "IMPORTS" );
+     make->delayimports  = get_expanded_make_var_array( make, "DELAYIMPORTS" );
+     make->extradllflags = get_expanded_make_var_array( make, "EXTRADLLFLAGS" );
+-    make->install_lib   = get_expanded_make_var_array( make, "INSTALL_LIB" );
+-    make->install_dev   = get_expanded_make_var_array( make, "INSTALL_DEV" );
+ 
+     if (make->module && strendswith( make->module, ".a" )) make->staticlib = make->module;
+ 
+@@ -2790,9 +2708,6 @@ static void update_makefile( const char *path )
+     for (i = 0; i < make->imports.count && !make->use_msvcrt; i++)
+         make->use_msvcrt = !strncmp( make->imports.str[i], "msvcr", 5 );
+ 
+-    make->install_lib_rules = empty_strarray;
+-    make->install_dev_rules = empty_strarray;
+-
+     make->include_args = empty_strarray;
+     make->define_args = empty_strarray;
+     strarray_add( &make->define_args, "-D__WINESRC__" );
+diff --git a/tools/widl/Makefile.in b/tools/widl/Makefile.in
+index f8111f3..0c5595e 100644
+--- a/tools/widl/Makefile.in
++++ b/tools/widl/Makefile.in
+@@ -23,4 +23,10 @@ widl_EXTRADEFS = -DDEFAULT_INCLUDE_DIR=\"${includedir}/windows/\"
+ 
+ EXTRALIBS = $(LIBWPP)
+ 
+-INSTALL_DEV = $(PROGRAMS)
++.PHONY: install install-dev uninstall
++
++install install-dev:: widl$(EXEEXT) install-man-pages
++	$(INSTALL_PROGRAM) widl$(EXEEXT) $(DESTDIR)$(bindir)/widl$(EXEEXT)
++
++uninstall::
++	$(RM) $(DESTDIR)$(bindir)/widl$(EXEEXT)
+diff --git a/tools/winebuild/Makefile.in b/tools/winebuild/Makefile.in
+index 0511012..3958902 100644
+--- a/tools/winebuild/Makefile.in
++++ b/tools/winebuild/Makefile.in
+@@ -12,4 +12,10 @@ C_SRCS = \
+ 	spec32.c \
+ 	utils.c
+ 
+-INSTALL_DEV = $(PROGRAMS)
++.PHONY: install install-dev uninstall
++
++install install-dev:: winebuild$(EXEEXT) install-man-pages
++	$(INSTALL_PROGRAM) winebuild$(EXEEXT) $(DESTDIR)$(bindir)/winebuild$(EXEEXT)
++
++uninstall::
++	$(RM) $(DESTDIR)$(bindir)/winebuild$(EXEEXT)
+diff --git a/tools/winedump/Makefile.in b/tools/winedump/Makefile.in
+index a93f078..dd36cff 100644
+--- a/tools/winedump/Makefile.in
++++ b/tools/winedump/Makefile.in
+@@ -23,10 +23,11 @@ C_SRCS = \
+ 	symbol.c \
+ 	tlb.c
+ 
+-INSTALL_DEV = $(PROGRAMS)
++.PHONY: install install-dev uninstall
+ 
+-install install-dev::
++install install-dev:: winedump$(EXEEXT) install-man-pages
++	$(INSTALL_PROGRAM) winedump$(EXEEXT) $(DESTDIR)$(bindir)/winedump$(EXEEXT)
+ 	$(INSTALL_SCRIPT) $(srcdir)/function_grep.pl $(DESTDIR)$(bindir)/function_grep.pl
+ 
+ uninstall::
+-	$(RM) $(DESTDIR)$(bindir)/function_grep.pl
++	$(RM) $(DESTDIR)$(bindir)/function_grep.pl $(DESTDIR)$(bindir)/winedump$(EXEEXT)
+diff --git a/tools/winegcc/Makefile.in b/tools/winegcc/Makefile.in
+index 1a3b2a7..3c0670b 100644
+--- a/tools/winegcc/Makefile.in
++++ b/tools/winegcc/Makefile.in
+@@ -16,8 +16,6 @@ winegcc_EXTRADEFS = \
+ 	-DLD="\"$(LD)\"" \
+ 	-DPRELINK="\"$(PRELINK)\""
+ 
+-INSTALL_DEV = $(PROGRAMS)
+-
+ EXTRA_TARGETS = winecpp$(EXEEXT) wineg++$(EXEEXT)
+ 
+ all: $(EXTRA_TARGETS)
+@@ -25,12 +23,15 @@ all: $(EXTRA_TARGETS)
+ winecpp$(EXEEXT) wineg++$(EXEEXT): winegcc$(EXEEXT)
+ 	$(RM) $@ && $(LN_S) winegcc$(EXEEXT) $@
+ 
+-install install-dev::
++.PHONY: install install-dev uninstall
++
++install install-dev:: winegcc$(EXEEXT) install-man-pages
++	$(INSTALL_PROGRAM) winegcc$(EXEEXT) $(DESTDIR)$(bindir)/winegcc$(EXEEXT)
+ 	cd $(DESTDIR)$(bindir) && $(RM) wineg++$(EXEEXT) && $(LN_S) winegcc$(EXEEXT) wineg++$(EXEEXT)
+ 	cd $(DESTDIR)$(bindir) && $(RM) winecpp$(EXEEXT) && $(LN_S) winegcc$(EXEEXT) winecpp$(EXEEXT)
+ 	cd $(DESTDIR)$(mandir)/man$(prog_manext) && $(RM) wineg++.$(prog_manext) && $(LN_S) winegcc.$(prog_manext) wineg++.$(prog_manext)
+ 	cd $(DESTDIR)$(mandir)/man$(prog_manext) && $(RM) winecpp.$(prog_manext) && $(LN_S) winegcc.$(prog_manext) winecpp.$(prog_manext)
+ 
+ uninstall::
+-	$(RM) $(DESTDIR)$(bindir)/wineg++$(EXEEXT) $(DESTDIR)$(bindir)/winecpp$(EXEEXT)
++	$(RM) $(DESTDIR)$(bindir)/winegcc$(EXEEXT) $(DESTDIR)$(bindir)/wineg++$(EXEEXT) $(DESTDIR)$(bindir)/winecpp$(EXEEXT)
+ 	$(RM) $(DESTDIR)$(mandir)/man$(prog_manext)/wineg++.$(prog_manext) $(DESTDIR)$(mandir)/man$(prog_manext)/winecpp.$(prog_manext)
+diff --git a/tools/winemaker/Makefile.in b/tools/winemaker/Makefile.in
+index 6afa016..7095ecf 100644
+--- a/tools/winemaker/Makefile.in
++++ b/tools/winemaker/Makefile.in
+@@ -3,9 +3,9 @@ MANPAGES = \
+ 	winemaker.fr.UTF-8.man.in \
+ 	winemaker.man.in
+ 
+-INSTALL_DEV = winemaker
++.PHONY: install install-dev uninstall
+ 
+-install install-dev::
++install install-dev:: install-man-pages
+ 	$(INSTALL_SCRIPT) $(srcdir)/winemaker $(DESTDIR)$(bindir)/winemaker
+ 
+ uninstall::
+diff --git a/tools/wmc/Makefile.in b/tools/wmc/Makefile.in
+index 41b7236..12a917d 100644
+--- a/tools/wmc/Makefile.in
++++ b/tools/wmc/Makefile.in
+@@ -13,4 +13,10 @@ BISON_SRCS = mcy.y
+ 
+ EXTRALIBS = $(GETTEXTPO_LIBS) $(LIBWINE_STATIC)
+ 
+-INSTALL_DEV = $(PROGRAMS)
++.PHONY: install install-dev uninstall
++
++install install-dev:: wmc$(EXEEXT) install-man-pages
++	$(INSTALL_PROGRAM) wmc$(EXEEXT) $(DESTDIR)$(bindir)/wmc$(EXEEXT)
++
++uninstall::
++	$(RM) $(DESTDIR)$(bindir)/wmc$(EXEEXT)
+diff --git a/tools/wrc/Makefile.in b/tools/wrc/Makefile.in
+index 37dbe03..b6f8093 100644
+--- a/tools/wrc/Makefile.in
++++ b/tools/wrc/Makefile.in
+@@ -19,4 +19,10 @@ wrc_EXTRADEFS = -DINCLUDEDIR="\"${includedir}\""
+ 
+ EXTRALIBS = $(GETTEXTPO_LIBS) $(LIBWPP) $(LIBWINE_STATIC)
+ 
+-INSTALL_DEV = $(PROGRAMS)
++.PHONY: install install-dev uninstall
++
++install install-dev:: wrc$(EXEEXT) install-man-pages
++	$(INSTALL_PROGRAM) wrc$(EXEEXT) $(DESTDIR)$(bindir)/wrc$(EXEEXT)
++
++uninstall::
++	$(RM) $(DESTDIR)$(bindir)/wrc$(EXEEXT)
+-- 
+2.4.3
+
+From d6efc2ae486683881d5e13f455cc1e3f04a6b3c4 Mon Sep 17 00:00:00 2001
+From: Michael Cronenworth <mike@cchtml.com>
+Date: Wed, 4 Nov 2015 23:17:06 -0600
+Subject: [PATCH 07/12] Revert "makefiles: Automatically add RPATH support for
+ programs that use libwine."
+
+This reverts commit a1515c68d4d4b4334f44b098debba2548a16ca38.
+---
+ configure          | 48 +++++++++++++++++++++++++++++-------------------
+ configure.ac       | 48 +++++++++++++++++++++++++++++-------------------
+ loader/Makefile.in |  2 ++
+ server/Makefile.in | 14 ++++++++++++--
+ tools/makedep.c    | 24 ------------------------
+ 5 files changed, 72 insertions(+), 64 deletions(-)
+
+diff --git a/configure b/configure
+index 8cf26e4..534afff 100755
+--- a/configure
++++ b/configure
+@@ -7847,14 +7847,14 @@ distclean::
+ 
+ wine_binary="wine"
+ test "x$enable_win64" != "xyes" || wine_binary="wine64"
+-loader_programs="$wine_binary"
++loader_programs="$wine_binary wine-installed"
+ libwine_soversion=`expr $libwine_version : '\([0-9]*\)\..*'`
+ 
+ LOADER_RULES="
+ all: wine.inf
+ 
+-install install-lib:: $wine_binary-installed
+-	\$(INSTALL_PROGRAM) $wine_binary-installed \$(DESTDIR)\$(bindir)/$wine_binary
++install install-lib:: wine-installed
++	\$(INSTALL_PROGRAM) wine-installed \$(DESTDIR)\$(bindir)/$wine_binary
+ 
+ uninstall::
+ 	\$(RM) \$(DESTDIR)\$(bindir)/$wine_binary
+@@ -8017,7 +8017,7 @@ done
+     LIBEXT="dylib"
+     DLLFLAGS="$DLLFLAGS -fPIC"
+     LIBWINE_LDFLAGS="-multiply_defined suppress"
+-    LDRPATH_INSTALL="-Wl,-rpath,@loader_path/\`\$(MAKEDEP) -R \${bindir} \${libdir}\`"
++    LDRPATH_INSTALL="-Wl,-rpath,@loader_path/\`\$(MAKEDEP) -R \$(bindir) \$(libdir)\`"
+     LDRPATH_LOCAL="-Wl,-rpath,@loader_path/\$(top_builddir)/libs/wine"
+         COREFOUNDATION_LIBS="-framework CoreFoundation"
+ 
+@@ -8262,9 +8262,11 @@ uninstall::
+ 
+ 
+     as_fn_append LOADER_RULES "
+-${wine_binary}_OBJS = main.o
+-${wine_binary}_LDFLAGS = $LDEXECFLAGS -lwine \$(PTHREAD_LIBS)
+-$wine_binary $wine_binary-installed: wine_info.plist
++$wine_binary: main.o wine_info.plist
++	\$(CC) -o \$@ $LDEXECFLAGS main.o \$(LIBWINE) \$(LIBPORT) \$(EXTRALIBS) \$(LDFLAGS) \$(LDRPATH_LOCAL)
++
++wine-installed: main.o wine_info.plist
++	\$(CC) -o \$@ $LDEXECFLAGS main.o \$(LIBWINE) \$(LIBPORT) \$(EXTRALIBS) \$(LDFLAGS) \$(LDRPATH_INSTALL)
+ "
+     ;;
+ 
+@@ -8323,7 +8325,7 @@ eval ac_res=\$$as_ac_var
+ 	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
+ $as_echo "$ac_res" >&6; }
+ if eval test \"x\$"$as_ac_var"\" = x"yes"; then :
+-  LDRPATH_INSTALL="-Wl,--rpath,\\\$\$ORIGIN/\`\$(MAKEDEP) -R \${bindir} \${libdir}\`"
++  LDRPATH_INSTALL="-Wl,--rpath,\\\$\$ORIGIN/\`\$(MAKEDEP) -R \$(bindir) \$(libdir)\`"
+                      LDRPATH_LOCAL="-Wl,--rpath,\\\$\$ORIGIN/\$(top_builddir)/libs/wine"
+ else
+   as_ac_var=`$as_echo "ac_cv_cflags_-fPIC -Wl,-R,\\$ORIGIN/../lib" | $as_tr_sh`
+@@ -8351,7 +8353,7 @@ eval ac_res=\$$as_ac_var
+ 	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
+ $as_echo "$ac_res" >&6; }
+ if eval test \"x\$"$as_ac_var"\" = x"yes"; then :
+-  LDRPATH_INSTALL="-Wl,-R,\\\$\$ORIGIN/\`\$(MAKEDEP) -R \${bindir} \${libdir}\`"
++  LDRPATH_INSTALL="-Wl,-R,\\\$\$ORIGIN/\`\$(MAKEDEP) -R \$(bindir) \$(libdir)\`"
+                           LDRPATH_LOCAL="-Wl,-R,\\\$\$ORIGIN/\$(top_builddir)/libs/wine"
+ fi
+ fi
+@@ -8430,8 +8432,11 @@ uninstall::
+ 
+ 
+     as_fn_append LOADER_RULES "
+-${wine_binary}_OBJS = main.o
+-${wine_binary}_LDFLAGS = $LDEXECFLAGS -lwine \$(PTHREAD_LIBS)
++$wine_binary: main.o
++	\$(CC) -o \$@ $LDEXECFLAGS main.o \$(LIBWINE) \$(LIBPORT) \$(EXTRALIBS) \$(LDFLAGS) \$(LDRPATH_LOCAL)
++
++wine-installed: main.o
++	\$(CC) -o \$@ $LDEXECFLAGS main.o \$(LIBWINE) \$(LIBPORT) \$(EXTRALIBS) \$(LDFLAGS) \$(LDRPATH_INSTALL)
+ "
+     ;;
+ 
+@@ -8594,7 +8599,7 @@ eval ac_res=\$$as_ac_var
+ 	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
+ $as_echo "$ac_res" >&6; }
+ if eval test \"x\$"$as_ac_var"\" = x"yes"; then :
+-  LDRPATH_INSTALL="-Wl,--rpath,\\\$\$ORIGIN/\`\$(MAKEDEP) -R \${bindir} \${libdir}\`"
++  LDRPATH_INSTALL="-Wl,--rpath,\\\$\$ORIGIN/\`\$(MAKEDEP) -R \$(bindir) \$(libdir)\`"
+                        LDRPATH_LOCAL="-Wl,--rpath,\\\$\$ORIGIN/\$(top_builddir)/libs/wine"
+ else
+   as_ac_var=`$as_echo "ac_cv_cflags_-fPIC -Wl,-R,\\$ORIGIN/../lib" | $as_tr_sh`
+@@ -8622,7 +8627,7 @@ eval ac_res=\$$as_ac_var
+ 	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
+ $as_echo "$ac_res" >&6; }
+ if eval test \"x\$"$as_ac_var"\" = x"yes"; then :
+-  LDRPATH_INSTALL="-Wl,-R,\\\$\$ORIGIN/\`\$(MAKEDEP) -R \${bindir} \${libdir}\`"
++  LDRPATH_INSTALL="-Wl,-R,\\\$\$ORIGIN/\`\$(MAKEDEP) -R \$(bindir) \$(libdir)\`"
+                             LDRPATH_LOCAL="-Wl,-R,\\\$\$ORIGIN/\$(top_builddir)/libs/wine"
+ fi
+ fi
+@@ -8814,8 +8819,11 @@ uninstall::
+ 
+ 
+     as_fn_append LOADER_RULES "
+-${wine_binary}_OBJS = main.o
+-${wine_binary}_LDFLAGS = $LDEXECFLAGS -lwine \$(PTHREAD_LIBS)
++$wine_binary: main.o
++	\$(CC) -o \$@ $LDEXECFLAGS main.o \$(LIBWINE) \$(LIBPORT) \$(EXTRALIBS) \$(LDFLAGS) \$(LDRPATH_LOCAL)
++
++wine-installed: main.o
++	\$(CC) -o \$@ $LDEXECFLAGS main.o \$(LIBWINE) \$(LIBPORT) \$(EXTRALIBS) \$(LDFLAGS) \$(LDRPATH_INSTALL)
+ "
+     if test -z "$with_wine64"
+     then
+@@ -14942,21 +14950,23 @@ case $host_os in
+         test "$wine_binary" = wine || wine_fn_ignore_file "loader/wine-preloader"
+         loader_programs="$loader_programs $wine_binary-preloader"
+         as_fn_append LOADER_RULES "
+-preloader_EXTRADEFS = $BUILTINFLAG
+-${wine_binary}_preloader_OBJS = preloader.o
+-${wine_binary}_preloader_LDFLAGS = -static -nostartfiles -nodefaultlibs -Wl,-Ttext=0x7c400000
++$wine_binary-preloader: preloader.o
++	\$(CC) -o \$@ -static -nostartfiles -nodefaultlibs -Wl,-Ttext=0x7c400000 preloader.o \$(LIBPORT) \$(LDFLAGS)
+ 
+ install install-lib:: $wine_binary-preloader
+ 	\$(INSTALL_PROGRAM) $wine_binary-preloader \$(DESTDIR)\$(bindir)/$wine_binary-preloader
+ 
+ uninstall::
+ 	\$(RM) \$(DESTDIR)\$(bindir)/$wine_binary-preloader
++
++preloader_EXTRADEFS = $BUILTINFLAG
+ " ;;
+     esac
+     ;;
+ esac
+ as_fn_append LOADER_RULES "
+-PROGRAMS = $loader_programs
++EXTRA_TARGETS = $loader_programs
++all: $loader_programs
+ "
+ 
+ 
+diff --git a/configure.ac b/configure.ac
+index ff74f8d..cdc68fe 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -686,14 +686,14 @@ WINE_CONFIG_HELPERS
+ 
+ wine_binary="wine"
+ test "x$enable_win64" != "xyes" || wine_binary="wine64"
+-loader_programs="$wine_binary"
++loader_programs="$wine_binary wine-installed"
+ libwine_soversion=`expr $libwine_version : '\([[0-9]]*\)\..*'`
+ 
+ AC_SUBST(LOADER_RULES,["
+ all: wine.inf
+ 
+-install install-lib:: $wine_binary-installed
+-	\$(INSTALL_PROGRAM) $wine_binary-installed \$(DESTDIR)\$(bindir)/$wine_binary
++install install-lib:: wine-installed
++	\$(INSTALL_PROGRAM) wine-installed \$(DESTDIR)\$(bindir)/$wine_binary
+ 
+ uninstall::
+ 	\$(RM) \$(DESTDIR)\$(bindir)/$wine_binary
+@@ -754,7 +754,7 @@ uninstall::
+     LIBEXT="dylib"
+     DLLFLAGS="$DLLFLAGS -fPIC"
+     LIBWINE_LDFLAGS="-multiply_defined suppress"
+-    LDRPATH_INSTALL="-Wl,-rpath,@loader_path/\`\$(MAKEDEP) -R \${bindir} \${libdir}\`"
++    LDRPATH_INSTALL="-Wl,-rpath,@loader_path/\`\$(MAKEDEP) -R \$(bindir) \$(libdir)\`"
+     LDRPATH_LOCAL="-Wl,-rpath,@loader_path/\$(top_builddir)/libs/wine"
+     dnl declare needed frameworks
+     AC_SUBST(COREFOUNDATION_LIBS,"-framework CoreFoundation")
+@@ -891,9 +891,11 @@ uninstall::
+ "])
+ 
+     AS_VAR_APPEND([LOADER_RULES],["
+-${wine_binary}_OBJS = main.o
+-${wine_binary}_LDFLAGS = $LDEXECFLAGS -lwine \$(PTHREAD_LIBS)
+-$wine_binary $wine_binary-installed: wine_info.plist
++$wine_binary: main.o wine_info.plist
++	\$(CC) -o \$@ $LDEXECFLAGS main.o \$(LIBWINE) \$(LIBPORT) \$(EXTRALIBS) \$(LDFLAGS) \$(LDRPATH_LOCAL)
++
++wine-installed: main.o wine_info.plist
++	\$(CC) -o \$@ $LDEXECFLAGS main.o \$(LIBWINE) \$(LIBPORT) \$(EXTRALIBS) \$(LDFLAGS) \$(LDRPATH_INSTALL)
+ "])
+     ;;
+ 
+@@ -905,10 +907,10 @@ $wine_binary $wine_binary-installed: wine_info.plist
+     WINE_TRY_CFLAGS([-fPIC -Wl,--export-dynamic],
+                     [LDEXECFLAGS="-Wl,--export-dynamic"])
+     WINE_TRY_CFLAGS([-fPIC -Wl,--rpath,\$ORIGIN/../lib],
+-                    [LDRPATH_INSTALL="-Wl,--rpath,\\\$\$ORIGIN/\`\$(MAKEDEP) -R \${bindir} \${libdir}\`"
++                    [LDRPATH_INSTALL="-Wl,--rpath,\\\$\$ORIGIN/\`\$(MAKEDEP) -R \$(bindir) \$(libdir)\`"
+                      LDRPATH_LOCAL="-Wl,--rpath,\\\$\$ORIGIN/\$(top_builddir)/libs/wine"],
+         [WINE_TRY_CFLAGS([-fPIC -Wl,-R,\$ORIGIN/../lib],
+-                         [LDRPATH_INSTALL="-Wl,-R,\\\$\$ORIGIN/\`\$(MAKEDEP) -R \${bindir} \${libdir}\`"
++                         [LDRPATH_INSTALL="-Wl,-R,\\\$\$ORIGIN/\`\$(MAKEDEP) -R \$(bindir) \$(libdir)\`"
+                           LDRPATH_LOCAL="-Wl,-R,\\\$\$ORIGIN/\$(top_builddir)/libs/wine"])])
+ 
+     WINE_TRY_CFLAGS([-Wl,--enable-new-dtags],
+@@ -938,8 +940,11 @@ uninstall::
+ "])
+ 
+     AS_VAR_APPEND([LOADER_RULES],["
+-${wine_binary}_OBJS = main.o
+-${wine_binary}_LDFLAGS = $LDEXECFLAGS -lwine \$(PTHREAD_LIBS)
++$wine_binary: main.o
++	\$(CC) -o \$@ $LDEXECFLAGS main.o \$(LIBWINE) \$(LIBPORT) \$(EXTRALIBS) \$(LDFLAGS) \$(LDRPATH_LOCAL)
++
++wine-installed: main.o
++	\$(CC) -o \$@ $LDEXECFLAGS main.o \$(LIBWINE) \$(LIBPORT) \$(EXTRALIBS) \$(LDFLAGS) \$(LDRPATH_INSTALL)
+ "])
+     ;;
+ 
+@@ -966,10 +971,10 @@ ${wine_binary}_LDFLAGS = $LDEXECFLAGS -lwine \$(PTHREAD_LIBS)
+                       [LDEXECFLAGS="-Wl,--export-dynamic"])
+ 
+       WINE_TRY_CFLAGS([-fPIC -Wl,--rpath,\$ORIGIN/../lib],
+-                      [LDRPATH_INSTALL="-Wl,--rpath,\\\$\$ORIGIN/\`\$(MAKEDEP) -R \${bindir} \${libdir}\`"
++                      [LDRPATH_INSTALL="-Wl,--rpath,\\\$\$ORIGIN/\`\$(MAKEDEP) -R \$(bindir) \$(libdir)\`"
+                        LDRPATH_LOCAL="-Wl,--rpath,\\\$\$ORIGIN/\$(top_builddir)/libs/wine"],
+           [WINE_TRY_CFLAGS([-fPIC -Wl,-R,\$ORIGIN/../lib],
+-                           [LDRPATH_INSTALL="-Wl,-R,\\\$\$ORIGIN/\`\$(MAKEDEP) -R \${bindir} \${libdir}\`"
++                           [LDRPATH_INSTALL="-Wl,-R,\\\$\$ORIGIN/\`\$(MAKEDEP) -R \$(bindir) \$(libdir)\`"
+                             LDRPATH_LOCAL="-Wl,-R,\\\$\$ORIGIN/\$(top_builddir)/libs/wine"])])
+ 
+       WINE_TRY_CFLAGS([-Wl,--enable-new-dtags],
+@@ -1028,8 +1033,11 @@ uninstall::
+ "])
+ 
+     AS_VAR_APPEND([LOADER_RULES],["
+-${wine_binary}_OBJS = main.o
+-${wine_binary}_LDFLAGS = $LDEXECFLAGS -lwine \$(PTHREAD_LIBS)
++$wine_binary: main.o
++	\$(CC) -o \$@ $LDEXECFLAGS main.o \$(LIBWINE) \$(LIBPORT) \$(EXTRALIBS) \$(LDFLAGS) \$(LDRPATH_LOCAL)
++
++wine-installed: main.o
++	\$(CC) -o \$@ $LDEXECFLAGS main.o \$(LIBWINE) \$(LIBPORT) \$(EXTRALIBS) \$(LDFLAGS) \$(LDRPATH_INSTALL)
+ "])
+     if test -z "$with_wine64"
+     then
+@@ -2036,21 +2044,23 @@ case $host_os in
+         test "$wine_binary" = wine || WINE_IGNORE_FILE("loader/wine-preloader")
+         loader_programs="$loader_programs $wine_binary-preloader"
+         AS_VAR_APPEND([LOADER_RULES],["
+-preloader_EXTRADEFS = $BUILTINFLAG
+-${wine_binary}_preloader_OBJS = preloader.o
+-${wine_binary}_preloader_LDFLAGS = -static -nostartfiles -nodefaultlibs -Wl,-Ttext=0x7c400000
++$wine_binary-preloader: preloader.o
++	\$(CC) -o \$@ -static -nostartfiles -nodefaultlibs -Wl,-Ttext=0x7c400000 preloader.o \$(LIBPORT) \$(LDFLAGS)
+ 
+ install install-lib:: $wine_binary-preloader
+ 	\$(INSTALL_PROGRAM) $wine_binary-preloader \$(DESTDIR)\$(bindir)/$wine_binary-preloader
+ 
+ uninstall::
+ 	\$(RM) \$(DESTDIR)\$(bindir)/$wine_binary-preloader
++
++preloader_EXTRADEFS = $BUILTINFLAG
+ "]) ;;
+     esac
+     ;;
+ esac
+ AS_VAR_APPEND([LOADER_RULES],["
+-PROGRAMS = $loader_programs
++EXTRA_TARGETS = $loader_programs
++all: $loader_programs
+ "])
+ 
+ dnl **** Check for functions ****
+diff --git a/loader/Makefile.in b/loader/Makefile.in
+index 7719801..95e4798 100644
+--- a/loader/Makefile.in
++++ b/loader/Makefile.in
+@@ -1,3 +1,5 @@
++EXTRALIBS = $(PTHREAD_LIBS)
++
+ C_SRCS = \
+ 	main.c \
+ 	preloader.c
+diff --git a/server/Makefile.in b/server/Makefile.in
+index 7a1ac11..e7fb603 100644
+--- a/server/Makefile.in
++++ b/server/Makefile.in
+@@ -1,4 +1,4 @@
+-PROGRAMS = wineserver
++EXTRALIBS = $(POLL_LIBS) $(RT_LIBS)
+ 
+ C_SRCS = \
+ 	async.c \
+@@ -45,12 +45,22 @@ C_SRCS = \
+ 	window.c \
+ 	winstation.c
+ 
++EXTRA_TARGETS = wineserver wineserver-installed
++
+ MANPAGES = \
+ 	wineserver.de.UTF-8.man.in \
+ 	wineserver.fr.UTF-8.man.in \
+ 	wineserver.man.in
+ 
+-EXTRALIBS = -lwine $(POLL_LIBS) $(RT_LIBS)
++OBJS = $(C_SRCS:.c=.o)
++
++all: $(EXTRA_TARGETS)
++
++wineserver: $(OBJS)
++	$(CC) -o $@ $(OBJS) $(LIBWINE) $(LIBPORT) $(LDFLAGS) $(EXTRALIBS) $(LIBS) $(LDRPATH_LOCAL)
++
++wineserver-installed: $(OBJS)
++	$(CC) -o $@ $(OBJS) $(LIBWINE) $(LIBPORT) $(LDFLAGS) $(EXTRALIBS) $(LIBS) $(LDRPATH_INSTALL)
+ 
+ .PHONY: install install-lib uninstall
+ 
+diff --git a/tools/makedep.c b/tools/makedep.c
+index 295e5e8..8c5abde 100644
+--- a/tools/makedep.c
++++ b/tools/makedep.c
+@@ -1778,8 +1778,6 @@ static struct strarray output_sources( struct makefile *make, struct strarray *t
+     struct strarray subdirs = empty_strarray;
+     struct strarray phony_targets = empty_strarray;
+     struct strarray all_targets = empty_strarray;
+-    char *ldrpath_local   = get_expanded_make_variable( make, "LDRPATH_LOCAL" );
+-    char *ldrpath_install = get_expanded_make_variable( make, "LDRPATH_INSTALL" );
+ 
+     for (i = 0; i < linguas.count; i++)
+         strarray_add( &mo_files, strmake( "%s/%s.mo", top_obj_dir_path( make, "po" ), linguas.str[i] ));
+@@ -2383,28 +2381,6 @@ static struct strarray output_sources( struct makefile *make, struct strarray *t
+         strarray_addall( &all_libs, libs );
+         strarray_addall( &all_libs, get_expanded_make_var_array( make,
+                                                       file_local_var( make->programs.str[i], "LDFLAGS" )));
+-
+-        if (strarray_exists( &all_libs, "-lwine" ))
+-        {
+-            strarray_add( &all_libs, strmake( "-L%s", top_obj_dir_path( make, "libs/wine" )));
+-            if (ldrpath_local && ldrpath_install)
+-            {
+-                char *program_installed = strmake( "%s-installed%s", make->programs.str[i], exe_ext );
+-
+-                output_filename( ldrpath_local );
+-                output_filenames( all_libs );
+-                output_filename( "$(LDFLAGS)" );
+-                output( "\n" );
+-                output( "%s:", obj_dir_path( make, program_installed ) );
+-                output_filenames_obj_dir( make, objs );
+-                output( "\n" );
+-                output( "\t$(CC) -o $@" );
+-                output_filenames_obj_dir( make, objs );
+-                output_filename( ldrpath_install );
+-                strarray_add( &all_targets, program_installed );
+-            }
+-        }
+-
+         output_filenames( all_libs );
+         output_filename( "$(LDFLAGS)" );
+         output( "\n" );
+-- 
+2.4.3
+
+From 15ac6de3059fb8b0ebcf0b682a9fe013aba63f33 Mon Sep 17 00:00:00 2001
+From: Michael Cronenworth <mike@cchtml.com>
+Date: Wed, 4 Nov 2015 23:18:40 -0600
+Subject: [PATCH 08/12] Revert "makefiles: Read variable definitions from the
+ top makefile instead of using Make.vars.in."
+
+This reverts commit ef557a8a8a47100a3a0eb0662c93e38634afed89.
+
+# Conflicts:
+#	aclocal.m4
+#	configure
+#	tools/makedep.c
+---
+ configure                   |  3 +--
+ configure.ac                |  3 +--
+ server/Makefile.in          |  4 +---
+ tools/Makefile.in           | 16 ++++++++++++++--
+ tools/make_makefiles        |  1 -
+ tools/makedep.c             | 46 +++------------------------------------------
+ tools/sfnt2fon/Makefile.in  |  7 +++++--
+ tools/widl/Makefile.in      |  9 ++++++---
+ tools/winebuild/Makefile.in |  9 +++++++--
+ tools/winedump/Makefile.in  |  9 +++++++--
+ tools/winegcc/Makefile.in   | 12 +++++++-----
+ tools/wmc/Makefile.in       |  8 ++++++--
+ tools/wrc/Makefile.in       |  8 ++++++--
+ 13 files changed, 64 insertions(+), 71 deletions(-)
+
+diff --git a/configure b/configure
+index 534afff..4717706 100755
+--- a/configure
++++ b/configure
+@@ -14965,8 +14965,7 @@ preloader_EXTRADEFS = $BUILTINFLAG
+     ;;
+ esac
+ as_fn_append LOADER_RULES "
+-EXTRA_TARGETS = $loader_programs
+-all: $loader_programs
++PROGRAMS = $loader_programs
+ "
+ 
+ 
+diff --git a/configure.ac b/configure.ac
+index cdc68fe..c915638 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -2059,8 +2059,7 @@ preloader_EXTRADEFS = $BUILTINFLAG
+     ;;
+ esac
+ AS_VAR_APPEND([LOADER_RULES],["
+-EXTRA_TARGETS = $loader_programs
+-all: $loader_programs
++PROGRAMS = $loader_programs
+ "])
+ 
+ dnl **** Check for functions ****
+diff --git a/server/Makefile.in b/server/Makefile.in
+index e7fb603..19a4fac 100644
+--- a/server/Makefile.in
++++ b/server/Makefile.in
+@@ -45,7 +45,7 @@ C_SRCS = \
+ 	window.c \
+ 	winstation.c
+ 
+-EXTRA_TARGETS = wineserver wineserver-installed
++PROGRAMS = wineserver wineserver-installed
+ 
+ MANPAGES = \
+ 	wineserver.de.UTF-8.man.in \
+@@ -54,8 +54,6 @@ MANPAGES = \
+ 
+ OBJS = $(C_SRCS:.c=.o)
+ 
+-all: $(EXTRA_TARGETS)
+-
+ wineserver: $(OBJS)
+ 	$(CC) -o $@ $(OBJS) $(LIBWINE) $(LIBPORT) $(LDFLAGS) $(EXTRALIBS) $(LIBS) $(LDRPATH_LOCAL)
+ 
+diff --git a/tools/Makefile.in b/tools/Makefile.in
+index bc13cc9..fa7e990 100644
+--- a/tools/Makefile.in
++++ b/tools/Makefile.in
+@@ -1,10 +1,22 @@
+ PROGRAMS = \
+-	make_xftmpl
++	make_xftmpl$(EXEEXT)
+ 
+ C_SRCS = \
+-	make_xftmpl.c
++	make_xftmpl.c \
++	makedep.c
+ 
+ IN_SRCS = \
+ 	wineapploader.in
+ 
+ all: wineapploader
++
++make_xftmpl$(EXEEXT): make_xftmpl.o
++	$(CC) $(CFLAGS) -o $@ make_xftmpl.o $(LIBPORT) $(LDFLAGS)
++
++.PHONY: install install-dev uninstall
++
++install install-dev:: install-man-pages
++	$(INSTALL_SCRIPT) $(srcdir)/winemaker $(DESTDIR)$(bindir)/winemaker
++
++uninstall::
++	$(RM) $(DESTDIR)$(bindir)/winemaker
+diff --git a/tools/make_makefiles b/tools/make_makefiles
+index 069d0ae..266f33a 100755
+--- a/tools/make_makefiles
++++ b/tools/make_makefiles
+@@ -110,7 +110,6 @@ my %ignored_source_files = (
+     "dlls/wineps.drv/afm2c.c" => 1,
+     "dlls/wineps.drv/mkagl.c" => 1,
+     "programs/winetest/dist.rc" => 1,
+-    "tools/makedep.c" => 1,
+ );
+ 
+ my (@linguas, @makefiles, %makefiles);
+diff --git a/tools/makedep.c b/tools/makedep.c
+index 8c5abde..3c30a0c 100644
+--- a/tools/makedep.c
++++ b/tools/makedep.c
+@@ -149,7 +149,6 @@ struct makefile
+     struct strarray vars;
+     struct strarray include_args;
+     struct strarray define_args;
+-    struct strarray programs;
+     struct strarray appmode;
+     struct strarray imports;
+     struct strarray delayimports;
+@@ -1561,19 +1560,6 @@ static struct strarray get_expanded_make_var_array( struct makefile *make, const
+ 
+ 
+ /*******************************************************************
+- *         file_local_var
+- */
+-static char *file_local_var( const char *file, const char *name )
+-{
+-    char *p, *var;
+-
+-    var = strmake( "%s_%s", file, name );
+-    for (p = var; *p; p++) if (!isalnum( *p )) *p = '_';
+-    return var;
+-}
+-
+-
+-/*******************************************************************
+  *         set_make_variable
+  */
+ static int set_make_variable( struct strarray *array, const char *assignment )
+@@ -1777,7 +1763,7 @@ static struct strarray output_sources( struct makefile *make, struct strarray *t
+     struct strarray includes = empty_strarray;
+     struct strarray subdirs = empty_strarray;
+     struct strarray phony_targets = empty_strarray;
+-    struct strarray all_targets = empty_strarray;
++    struct strarray all_targets = get_expanded_make_var_array( make, "PROGRAMS" );
+ 
+     for (i = 0; i < linguas.count; i++)
+         strarray_add( &mo_files, strmake( "%s/%s.mo", top_obj_dir_path( make, "po" ), linguas.str[i] ));
+@@ -1807,7 +1793,7 @@ static struct strarray output_sources( struct makefile *make, struct strarray *t
+             strarray_add_uniq( &subdirs, subdir );
+         }
+ 
+-        extradefs = get_expanded_make_var_array( make, file_local_var( obj, "EXTRADEFS" ));
++        extradefs = get_expanded_make_var_array( make, strmake( "%s_EXTRADEFS", obj ));
+ 
+         if (!strcmp( ext, "y" ))  /* yacc file */
+         {
+@@ -2283,7 +2269,7 @@ static struct strarray output_sources( struct makefile *make, struct strarray *t
+ 
+         for (i = 0; i < make->imports.count; i++)
+             strarray_add( &all_libs, strmake( "-l%s", make->imports.str[i] ));
+-        strarray_addall( &all_libs, libs );
++        strarray_addall( &all_libs, get_expanded_make_var_array( make, "LIBS" ));
+ 
+         strarray_add( &all_targets, strmake( "%s%s", testmodule, dll_ext ));
+         strarray_add( &clean_files, strmake( "%s%s", stripped, dll_ext ));
+@@ -2363,30 +2349,6 @@ static struct strarray output_sources( struct makefile *make, struct strarray *t
+         *testlist_files = strarray_replace_extension( &ok_files, ".ok", "" );
+     }
+ 
+-    for (i = 0; i < make->programs.count; i++)
+-    {
+-        char *program = strmake( "%s%s", make->programs.str[i], exe_ext );
+-        struct strarray all_libs = empty_strarray;
+-        struct strarray objs = get_expanded_make_var_array( make,
+-                                                 file_local_var( make->programs.str[i], "OBJS" ));
+-
+-        if (!objs.count) objs = object_files;
+-        output( "%s:", obj_dir_path( make, program ) );
+-        output_filenames_obj_dir( make, objs );
+-        output( "\n" );
+-        output( "\t$(CC) -o $@" );
+-        output_filenames_obj_dir( make, objs );
+-        strarray_add( &all_libs, top_obj_dir_path( make, "libs/port/libwine_port.a" ));
+-        strarray_addall( &all_libs, get_expanded_make_var_array( make, "EXTRALIBS" ));
+-        strarray_addall( &all_libs, libs );
+-        strarray_addall( &all_libs, get_expanded_make_var_array( make,
+-                                                      file_local_var( make->programs.str[i], "LDFLAGS" )));
+-        output_filenames( all_libs );
+-        output_filename( "$(LDFLAGS)" );
+-        output( "\n" );
+-        strarray_add( &all_targets, program );
+-    }
+-
+     if (all_targets.count)
+     {
+         output( "all:" );
+@@ -2670,7 +2632,6 @@ static void update_makefile( const char *path )
+     make->staticlib     = get_expanded_make_variable( make, "STATICLIB" );
+     make->importlib     = get_expanded_make_variable( make, "IMPORTLIB" );
+ 
+-    make->programs      = get_expanded_make_var_array( make, "PROGRAMS" );
+     make->appmode       = get_expanded_make_var_array( make, "APPMODE" );
+     make->imports       = get_expanded_make_var_array( make, "IMPORTS" );
+     make->delayimports  = get_expanded_make_var_array( make, "DELAYIMPORTS" );
+@@ -2855,7 +2816,6 @@ int main( int argc, char *argv[] )
+ 
+     if (root_src_dir && !strcmp( root_src_dir, "." )) root_src_dir = NULL;
+     if (tools_dir && !strcmp( tools_dir, "." )) tools_dir = NULL;
+-    if (!exe_ext) exe_ext = "";
+     if (!tools_ext) tools_ext = "";
+     if (!dll_prefix) dll_prefix = "";
+     if (!man_ext) man_ext = "3w";
+diff --git a/tools/sfnt2fon/Makefile.in b/tools/sfnt2fon/Makefile.in
+index 5a92d85..a975154 100644
+--- a/tools/sfnt2fon/Makefile.in
++++ b/tools/sfnt2fon/Makefile.in
+@@ -1,6 +1,9 @@
+-PROGRAMS = sfnt2fon
++PROGRAMS = sfnt2fon$(EXEEXT)
+ 
+ C_SRCS = sfnt2fon.c
+ 
+ EXTRAINCL = $(FREETYPE_CFLAGS)
+-EXTRALIBS = $(FREETYPE_LIBS) $(LIBWINE_STATIC)
++EXTRALIBS = $(FREETYPE_LIBS)
++
++sfnt2fon$(EXEEXT): sfnt2fon.o
++	$(CC) $(CFLAGS) -o $@ sfnt2fon.o $(LIBWINE_STATIC) $(LIBPORT) $(EXTRALIBS) $(LDFLAGS)
+diff --git a/tools/widl/Makefile.in b/tools/widl/Makefile.in
+index 0c5595e..a57f54f 100644
+--- a/tools/widl/Makefile.in
++++ b/tools/widl/Makefile.in
+@@ -1,4 +1,4 @@
+-PROGRAMS = widl
++PROGRAMS = widl$(EXEEXT)
+ MANPAGES = widl.man.in
+ 
+ C_SRCS = \
+@@ -21,11 +21,14 @@ BISON_SRCS = parser.y
+ 
+ widl_EXTRADEFS = -DDEFAULT_INCLUDE_DIR=\"${includedir}/windows/\"
+ 
+-EXTRALIBS = $(LIBWPP)
++OBJS = $(C_SRCS:.c=.o) $(BISON_SRCS:.y=.tab.o) $(LEX_SRCS:.l=.yy.o)
++
++widl$(EXEEXT): $(OBJS) $(LIBWPP)
++	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LIBWPP) $(LIBPORT) $(LDFLAGS)
+ 
+ .PHONY: install install-dev uninstall
+ 
+-install install-dev:: widl$(EXEEXT) install-man-pages
++install install-dev:: $(PROGRAMS) install-man-pages
+ 	$(INSTALL_PROGRAM) widl$(EXEEXT) $(DESTDIR)$(bindir)/widl$(EXEEXT)
+ 
+ uninstall::
+diff --git a/tools/winebuild/Makefile.in b/tools/winebuild/Makefile.in
+index 3958902..f5f4603 100644
+--- a/tools/winebuild/Makefile.in
++++ b/tools/winebuild/Makefile.in
+@@ -1,4 +1,4 @@
+-PROGRAMS = winebuild
++PROGRAMS = winebuild$(EXEEXT)
+ MANPAGES = winebuild.man.in
+ 
+ C_SRCS = \
+@@ -12,9 +12,14 @@ C_SRCS = \
+ 	spec32.c \
+ 	utils.c
+ 
++OBJS = $(C_SRCS:.c=.o)
++
++winebuild$(EXEEXT): $(OBJS)
++	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LIBPORT) $(LDFLAGS)
++
+ .PHONY: install install-dev uninstall
+ 
+-install install-dev:: winebuild$(EXEEXT) install-man-pages
++install install-dev:: $(PROGRAMS) install-man-pages
+ 	$(INSTALL_PROGRAM) winebuild$(EXEEXT) $(DESTDIR)$(bindir)/winebuild$(EXEEXT)
+ 
+ uninstall::
+diff --git a/tools/winedump/Makefile.in b/tools/winedump/Makefile.in
+index dd36cff..7b925c3 100644
+--- a/tools/winedump/Makefile.in
++++ b/tools/winedump/Makefile.in
+@@ -1,4 +1,4 @@
+-PROGRAMS = winedump
++PROGRAMS = winedump$(EXEEXT)
+ MANPAGES = winedump.man.in
+ 
+ C_SRCS = \
+@@ -23,9 +23,14 @@ C_SRCS = \
+ 	symbol.c \
+ 	tlb.c
+ 
++OBJS = $(C_SRCS:.c=.o)
++
++winedump$(EXEEXT): $(OBJS)
++	$(CC) $(CFLAGS) -o winedump$(EXEEXT) $(OBJS) $(LIBPORT) $(LDFLAGS)
++
+ .PHONY: install install-dev uninstall
+ 
+-install install-dev:: winedump$(EXEEXT) install-man-pages
++install install-dev:: $(PROGRAMS) install-man-pages
+ 	$(INSTALL_PROGRAM) winedump$(EXEEXT) $(DESTDIR)$(bindir)/winedump$(EXEEXT)
+ 	$(INSTALL_SCRIPT) $(srcdir)/function_grep.pl $(DESTDIR)$(bindir)/function_grep.pl
+ 
+diff --git a/tools/winegcc/Makefile.in b/tools/winegcc/Makefile.in
+index 3c0670b..370a2e4 100644
+--- a/tools/winegcc/Makefile.in
++++ b/tools/winegcc/Makefile.in
+@@ -1,4 +1,7 @@
+-PROGRAMS = winegcc
++PROGRAMS = \
++	winecpp$(EXEEXT) \
++	winegcc$(EXEEXT) \
++	wineg++$(EXEEXT)
+ 
+ MANPAGES = winegcc.man.in
+ 
+@@ -16,16 +19,15 @@ winegcc_EXTRADEFS = \
+ 	-DLD="\"$(LD)\"" \
+ 	-DPRELINK="\"$(PRELINK)\""
+ 
+-EXTRA_TARGETS = winecpp$(EXEEXT) wineg++$(EXEEXT)
+-
+-all: $(EXTRA_TARGETS)
++winegcc$(EXEEXT): winegcc.o utils.o
++	$(CC) $(CFLAGS) -o $@ winegcc.o utils.o $(LIBPORT) $(LDFLAGS)
+ 
+ winecpp$(EXEEXT) wineg++$(EXEEXT): winegcc$(EXEEXT)
+ 	$(RM) $@ && $(LN_S) winegcc$(EXEEXT) $@
+ 
+ .PHONY: install install-dev uninstall
+ 
+-install install-dev:: winegcc$(EXEEXT) install-man-pages
++install install-dev:: $(PROGRAMS) install-man-pages
+ 	$(INSTALL_PROGRAM) winegcc$(EXEEXT) $(DESTDIR)$(bindir)/winegcc$(EXEEXT)
+ 	cd $(DESTDIR)$(bindir) && $(RM) wineg++$(EXEEXT) && $(LN_S) winegcc$(EXEEXT) wineg++$(EXEEXT)
+ 	cd $(DESTDIR)$(bindir) && $(RM) winecpp$(EXEEXT) && $(LN_S) winegcc$(EXEEXT) winecpp$(EXEEXT)
+diff --git a/tools/wmc/Makefile.in b/tools/wmc/Makefile.in
+index 12a917d..c163e34 100644
+--- a/tools/wmc/Makefile.in
++++ b/tools/wmc/Makefile.in
+@@ -1,5 +1,6 @@
+-PROGRAMS = wmc
++PROGRAMS = wmc$(EXEEXT)
+ MANPAGES = wmc.man.in
++ALL_LIBS = $(GETTEXTPO_LIBS) $(LIBWINE_STATIC) $(LIBPORT)
+ 
+ C_SRCS = \
+ 	lang.c \
+@@ -11,7 +12,10 @@ C_SRCS = \
+ 
+ BISON_SRCS = mcy.y
+ 
+-EXTRALIBS = $(GETTEXTPO_LIBS) $(LIBWINE_STATIC)
++OBJS = $(C_SRCS:.c=.o) $(BISON_SRCS:.y=.tab.o)
++
++wmc$(EXEEXT): $(OBJS)
++	$(CC) $(CFLAGS) -o $@ $(OBJS) $(ALL_LIBS) $(LDFLAGS)
+ 
+ .PHONY: install install-dev uninstall
+ 
+diff --git a/tools/wrc/Makefile.in b/tools/wrc/Makefile.in
+index b6f8093..056de1c 100644
+--- a/tools/wrc/Makefile.in
++++ b/tools/wrc/Makefile.in
+@@ -1,5 +1,6 @@
+-PROGRAMS = wrc
++PROGRAMS = wrc$(EXEEXT)
+ MANPAGES = wrc.man.in
++ALL_LIBS = $(GETTEXTPO_LIBS) $(LIBWPP) $(LIBWINE_STATIC) $(LIBPORT)
+ 
+ C_SRCS = \
+ 	dumpres.c \
+@@ -17,7 +18,10 @@ BISON_SRCS = parser.y
+ 
+ wrc_EXTRADEFS = -DINCLUDEDIR="\"${includedir}\""
+ 
+-EXTRALIBS = $(GETTEXTPO_LIBS) $(LIBWPP) $(LIBWINE_STATIC)
++OBJS = $(C_SRCS:.c=.o) $(BISON_SRCS:.y=.tab.o) $(LEX_SRCS:.l=.yy.o)
++
++wrc$(EXEEXT): $(OBJS) $(LIBWPP)
++	$(CC) $(CFLAGS) -o $@ $(OBJS) $(ALL_LIBS) $(LDFLAGS)
+ 
+ .PHONY: install install-dev uninstall
+ 
+-- 
+2.4.3
+
+From 049cf292e292f135ca304a23a596bb9e32e9ae9b Mon Sep 17 00:00:00 2001
+From: Michael Cronenworth <mike@cchtml.com>
+Date: Wed, 4 Nov 2015 23:18:56 -0600
+Subject: [PATCH 09/12] Revert "makefiles: Fix expansion of '$$' in make
+ variables."
+
+This reverts commit 581be47a45b2c566083e543d28609708b26002e2.
+---
+ tools/makedep.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/tools/makedep.c b/tools/makedep.c
+index 3c30a0c..c81a57e 100644
+--- a/tools/makedep.c
++++ b/tools/makedep.c
+@@ -1518,21 +1518,23 @@ static char *get_expanded_make_variable( struct makefile *make, const char *name
+             var = get_make_variable( make, p + 2 );
+             tmp = replace_substr( expand, p, end - p, var ? var : "" );
+             free( var );
+-            /* switch to the new string */
+-            p = tmp + (p - expand);
+-            free( expand );
+-            expand = tmp;
+         }
+         else if (p[1] == '{')  /* don't expand ${} variables */
+         {
+             if (!(end = strchr( p + 2, '}' ))) fatal_error( "syntax error in '%s'\n", expand );
+             p = end + 1;
++            continue;
+         }
+         else if (p[1] == '$')
+         {
+-            p += 2;
++            tmp = replace_substr( expand, p, 2, "$" );
+         }
+         else fatal_error( "syntax error in '%s'\n", expand );
++
++        /* switch to the new string */
++        p = tmp + (p - expand);
++        free( expand );
++        expand = tmp;
+     }
+ 
+     /* consider empty variables undefined */
+-- 
+2.4.3
+
+From 0b4781cbc1c55118361539779557e64211b9a246 Mon Sep 17 00:00:00 2001
+From: Michael Cronenworth <mike@cchtml.com>
+Date: Wed, 4 Nov 2015 23:19:06 -0600
+Subject: [PATCH 10/12] Revert "makefiles: Avoid running config.status when not
+ necessary."
+
+This reverts commit e0b1e8154dccd8a238a7cf6afb8e96520248ebd7.
+---
+ aclocal.m4           | 17 +++--------------
+ configure            | 23 ++++++-----------------
+ configure.ac         |  6 +++---
+ tools/make_makefiles |  4 ----
+ tools/makedep.c      | 48 +++++++++---------------------------------------
+ 5 files changed, 21 insertions(+), 77 deletions(-)
+
+diff --git a/aclocal.m4 b/aclocal.m4
+index e236c92..13bab9b 100644
+--- a/aclocal.m4
++++ b/aclocal.m4
+@@ -225,24 +225,13 @@ wine_fn_has_flag ()
+ 
+ wine_fn_depend_rules ()
+ {
+-    if wine_fn_has_flag config
+-    then
+-        wine_fn_append_rule \
++    wine_fn_append_rule \
+ "$ac_dir/Makefile: $srcdir/$ac_dir/Makefile.in Makefile config.status \$(MAKEDEP)
+-	@./config.status --file $ac_dir/Makefile && \$(MAKEDEP) -iMakefile $ac_dir
++	@./config.status --file $ac_dir/Makefile && \$(MAKEDEP) $ac_dir
+ depend: $ac_dir/depend
+ .PHONY: $ac_dir/depend
+ $ac_dir/depend: \$(MAKEDEP) dummy
+-	@./config.status --file $ac_dir/Makefile && \$(MAKEDEP) -iMakefile $ac_dir"
+-    else
+-        wine_fn_append_rule \
+-"$ac_dir/Makefile: $srcdir/$ac_dir/Makefile.in Makefile \$(MAKEDEP)
+-	\$(MAKEDEP) $ac_dir
+-depend: $ac_dir/depend
+-.PHONY: $ac_dir/depend
+-$ac_dir/depend: \$(MAKEDEP) dummy
+-	\$(MAKEDEP) $ac_dir"
+-    fi
++	@./config.status --file $ac_dir/Makefile && \$(MAKEDEP) $ac_dir"
+ }
+ 
+ wine_fn_pot_rules ()
+diff --git a/configure b/configure
+index 4717706..659f513 100755
+--- a/configure
++++ b/configure
+@@ -7389,24 +7389,13 @@ wine_fn_has_flag ()
+ 
+ wine_fn_depend_rules ()
+ {
+-    if wine_fn_has_flag config
+-    then
+-        wine_fn_append_rule \
++    wine_fn_append_rule \
+ "$ac_dir/Makefile: $srcdir/$ac_dir/Makefile.in Makefile config.status \$(MAKEDEP)
+-	@./config.status --file $ac_dir/Makefile && \$(MAKEDEP) -iMakefile $ac_dir
++	@./config.status --file $ac_dir/Makefile && \$(MAKEDEP) $ac_dir
+ depend: $ac_dir/depend
+ .PHONY: $ac_dir/depend
+ $ac_dir/depend: \$(MAKEDEP) dummy
+-	@./config.status --file $ac_dir/Makefile && \$(MAKEDEP) -iMakefile $ac_dir"
+-    else
+-        wine_fn_append_rule \
+-"$ac_dir/Makefile: $srcdir/$ac_dir/Makefile.in Makefile \$(MAKEDEP)
+-	\$(MAKEDEP) $ac_dir
+-depend: $ac_dir/depend
+-.PHONY: $ac_dir/depend
+-$ac_dir/depend: \$(MAKEDEP) dummy
+-	\$(MAKEDEP) $ac_dir"
+-    fi
++	@./config.status --file $ac_dir/Makefile && \$(MAKEDEP) $ac_dir"
+ }
+ 
+ wine_fn_pot_rules ()
+@@ -18055,9 +18044,9 @@ wine_fn_config_makefile documentation enable_documentation clean
+ wine_fn_config_makefile fonts enable_fonts clean,install-lib
+ wine_fn_config_makefile include enable_include clean,install-dev
+ wine_fn_config_makefile libs/port enable_libs_port
+-wine_fn_config_makefile libs/wine enable_libs_wine clean,config,install-dev,install-lib
++wine_fn_config_makefile libs/wine enable_libs_wine clean,install-dev,install-lib
+ wine_fn_config_makefile libs/wpp enable_libs_wpp
+-wine_fn_config_makefile loader enable_loader clean,config,install-lib,manpage
++wine_fn_config_makefile loader enable_loader clean,install-lib,manpage
+ wine_fn_config_program arp enable_arp install
+ wine_fn_config_program aspnet_regiis enable_aspnet_regiis install
+ wine_fn_config_program attrib enable_attrib install,po
+@@ -18135,7 +18124,7 @@ wine_fn_config_program winemenubuilder enable_winemenubuilder install
+ wine_fn_config_program winemine enable_winemine install,installbin,manpage,po
+ wine_fn_config_program winemsibuilder enable_winemsibuilder install
+ wine_fn_config_program winepath enable_winepath install,installbin,manpage
+-wine_fn_config_program winetest enable_winetest clean,config
++wine_fn_config_program winetest enable_winetest clean
+ wine_fn_config_program winevdm enable_win16 install
+ wine_fn_config_program winhelp.exe16 enable_win16 install
+ wine_fn_config_program winhlp32 enable_winhlp32 install,po
+diff --git a/configure.ac b/configure.ac
+index c915638..f6449a6 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -3504,9 +3504,9 @@ WINE_CONFIG_MAKEFILE([documentation],,[clean])
+ WINE_CONFIG_MAKEFILE([fonts],,[clean,install-lib])
+ WINE_CONFIG_MAKEFILE([include],,[clean,install-dev])
+ WINE_CONFIG_MAKEFILE([libs/port])
+-WINE_CONFIG_MAKEFILE([libs/wine],,[clean,config,install-dev,install-lib])
++WINE_CONFIG_MAKEFILE([libs/wine],,[clean,install-dev,install-lib])
+ WINE_CONFIG_MAKEFILE([libs/wpp])
+-WINE_CONFIG_MAKEFILE([loader],,[clean,config,install-lib,manpage])
++WINE_CONFIG_MAKEFILE([loader],,[clean,install-lib,manpage])
+ WINE_CONFIG_PROGRAM(arp,,[install])
+ WINE_CONFIG_PROGRAM(aspnet_regiis,,[install])
+ WINE_CONFIG_PROGRAM(attrib,,[install,po])
+@@ -3584,7 +3584,7 @@ WINE_CONFIG_PROGRAM(winemenubuilder,,[install])
+ WINE_CONFIG_PROGRAM(winemine,,[install,installbin,manpage,po])
+ WINE_CONFIG_PROGRAM(winemsibuilder,,[install])
+ WINE_CONFIG_PROGRAM(winepath,,[install,installbin,manpage])
+-WINE_CONFIG_PROGRAM(winetest,,[clean,config])
++WINE_CONFIG_PROGRAM(winetest,,[clean])
+ WINE_CONFIG_PROGRAM(winevdm,enable_win16,[install])
+ WINE_CONFIG_PROGRAM(winhelp.exe16,enable_win16,[install])
+ WINE_CONFIG_PROGRAM(winhlp32,,[install,po])
+diff --git a/tools/make_makefiles b/tools/make_makefiles
+index 266f33a..f0b40c0 100755
+--- a/tools/make_makefiles
++++ b/tools/make_makefiles
+@@ -282,10 +282,6 @@ sub parse_makefile($)
+         {
+             die "Variable $1 in $file.in is obsolete";
+         }
+-        if (/\@[A-Z_]+\@/)  # config.status substitution variable
+-        {
+-            ${$make{"=flags"}}{"config"} = 1;
+-        }
+     }
+ 
+     if ($file =~ /^programs\/([^\/]+)\/Makefile/)
+diff --git a/tools/makedep.c b/tools/makedep.c
+index c81a57e..104711e 100644
+--- a/tools/makedep.c
++++ b/tools/makedep.c
+@@ -171,8 +171,7 @@ struct makefile
+ 
+ static struct makefile *top_makefile;
+ 
+-static const char *output_makefile_name = "Makefile";
+-static const char *input_makefile_name;
++static const char *makefile_name = "Makefile";
+ static const char *input_file_name;
+ static const char *output_file_name;
+ static const char *temp_file_name;
+@@ -185,8 +184,7 @@ static const char Usage[] =
+     "Usage: makedep [options] directories\n"
+     "Options:\n"
+     "   -R from to  Compute the relative path between two directories\n"
+-    "   -fxxx       Store output in file 'xxx' (default: Makefile)\n"
+-    "   -ixxx       Read input from file 'xxx' (default: Makefile.in)\n";
++    "   -fxxx       Store output in file 'xxx' (default: Makefile)\n";
+ 
+ 
+ #ifndef __GNUC__
+@@ -1462,28 +1460,6 @@ static struct incl_file *add_src_file( struct makefile *make, const char *name )
+ 
+ 
+ /*******************************************************************
+- *         open_input_makefile
+- */
+-static FILE *open_input_makefile( struct makefile *make )
+-{
+-    FILE *ret;
+-
+-    if (make->base_dir)
+-        input_file_name = base_dir_path( make, input_makefile_name );
+-    else
+-        input_file_name = output_makefile_name;  /* always use output name for main Makefile */
+-
+-    input_line = 0;
+-    if (!(ret = fopen( input_file_name, "r" )))
+-    {
+-        input_file_name = root_dir_path( input_file_name );
+-        if (!(ret = fopen( input_file_name, "r" ))) fatal_perror( "open" );
+-    }
+-    return ret;
+-}
+-
+-
+-/*******************************************************************
+  *         get_make_variable
+  */
+ static char *get_make_variable( struct makefile *make, const char *name )
+@@ -1602,7 +1578,10 @@ static struct makefile *parse_makefile( const char *path, const char *separator
+         if (!strcmp( make->base_dir, "." )) make->base_dir = NULL;
+     }
+ 
+-    file = open_input_makefile( make );
++    input_file_name = base_dir_path( make, makefile_name );
++    if (!(file = fopen( input_file_name, "r" ))) fatal_perror( "open" );
++
++    input_line = 0;
+     while ((buffer = get_line( file )))
+     {
+         if (separator && !strncmp( buffer, separator, strlen(separator) )) break;
+@@ -2559,16 +2538,15 @@ static void output_dependencies( struct makefile *make )
+     char buffer[1024];
+     FILE *src_file;
+ 
+-    output_file_name = base_dir_path( make, output_makefile_name );
++    output_file_name = base_dir_path( make, makefile_name );
+     output_file = create_temp_file( output_file_name );
+     output_top_variables( make );
+ 
+     /* copy the contents of the source makefile */
+-    src_file = open_input_makefile( make );
++    if (!(src_file = fopen( output_file_name, "r" ))) fatal_perror( "open" );
+     while (fgets( buffer, sizeof(buffer), src_file ))
+         if (fwrite( buffer, 1, strlen(buffer), output_file ) != strlen(buffer)) fatal_perror( "write" );
+     if (fclose( src_file )) fatal_perror( "close" );
+-    input_file_name = NULL;
+ 
+     targets = output_sources( make, &testlist_files );
+ 
+@@ -2662,9 +2640,6 @@ static void update_makefile( const char *path )
+     list_init( &make->sources );
+     list_init( &make->includes );
+ 
+-    /* FIXME: target dir has to exist to allow locating srcdir-relative include files */
+-    if (make->base_dir) create_dir( make->base_dir );
+-
+     for (var = source_vars; *var; var++)
+     {
+         value = get_expanded_make_var_array( make, *var );
+@@ -2725,10 +2700,7 @@ static int parse_option( const char *opt )
+     switch(opt[1])
+     {
+     case 'f':
+-        if (opt[2]) output_makefile_name = opt + 2;
+-        break;
+-    case 'i':
+-        if (opt[2]) input_makefile_name = opt + 2;
++        if (opt[2]) makefile_name = opt + 2;
+         break;
+     case 'R':
+         relative_dir_mode = 1;
+@@ -2790,8 +2762,6 @@ int main( int argc, char *argv[] )
+ 
+     for (i = 0; i < HASH_SIZE; i++) list_init( &files[i] );
+ 
+-    if (!input_makefile_name) input_makefile_name = strmake( "%s.in", output_makefile_name );
+-
+     top_makefile = parse_makefile( NULL, "# End of common header" );
+ 
+     linguas      = get_expanded_make_var_array( top_makefile, "LINGUAS" );
+-- 
+2.4.3
+
+From c28d8ee034dcabeed5cbddc03d64914c5ca36aab Mon Sep 17 00:00:00 2001
+From: Michael Cronenworth <mike@cchtml.com>
+Date: Wed, 4 Nov 2015 23:19:13 -0600
+Subject: [PATCH 11/12] Revert "makefiles: Get rid of the support for updating
+ a makefile in place."
+
+This reverts commit 6222e49c37c1fa9120bd3eff6fc48dc902f2d312.
+---
+ tools/makedep.c | 49 +++++++++++++++++++++++++++++++++----------------
+ 1 file changed, 33 insertions(+), 16 deletions(-)
+
+diff --git a/tools/makedep.c b/tools/makedep.c
+index 104711e..119294b 100644
+--- a/tools/makedep.c
++++ b/tools/makedep.c
+@@ -172,6 +172,7 @@ struct makefile
+ static struct makefile *top_makefile;
+ 
+ static const char *makefile_name = "Makefile";
++static const char *Separator = "### Dependencies";
+ static const char *input_file_name;
+ static const char *output_file_name;
+ static const char *temp_file_name;
+@@ -184,7 +185,8 @@ static const char Usage[] =
+     "Usage: makedep [options] directories\n"
+     "Options:\n"
+     "   -R from to  Compute the relative path between two directories\n"
+-    "   -fxxx       Store output in file 'xxx' (default: Makefile)\n";
++    "   -fxxx       Store output in file 'xxx' (default: Makefile)\n"
++    "   -sxxx       Use 'xxx' as separator (default: \"### Dependencies\")\n";
+ 
+ 
+ #ifndef __GNUC__
+@@ -2532,27 +2534,38 @@ static void output_top_variables( struct makefile *make )
+ /*******************************************************************
+  *         output_dependencies
+  */
+-static void output_dependencies( struct makefile *make )
++static void output_dependencies( struct makefile *make, const char *path )
+ {
+     struct strarray targets, testlist_files = empty_strarray, ignore_files = empty_strarray;
+-    char buffer[1024];
+     FILE *src_file;
+ 
+-    output_file_name = base_dir_path( make, makefile_name );
+-    output_file = create_temp_file( output_file_name );
+-    output_top_variables( make );
++    if (Separator && ((src_file = fopen( path, "r" ))))
++    {
++        char buffer[1024];
++        int found = 0;
+ 
+-    /* copy the contents of the source makefile */
+-    if (!(src_file = fopen( output_file_name, "r" ))) fatal_perror( "open" );
+-    while (fgets( buffer, sizeof(buffer), src_file ))
+-        if (fwrite( buffer, 1, strlen(buffer), output_file ) != strlen(buffer)) fatal_perror( "write" );
+-    if (fclose( src_file )) fatal_perror( "close" );
++        output_file = create_temp_file( path );
++        output_top_variables( make );
++        while (fgets( buffer, sizeof(buffer), src_file ) && !found)
++        {
++            if (fwrite( buffer, 1, strlen(buffer), output_file ) != strlen(buffer)) fatal_perror( "write" );
++            found = !strncmp( buffer, Separator, strlen(Separator) );
++        }
++        if (fclose( src_file )) fatal_perror( "close" );
++        if (!found) output( "\n%s\n", Separator );
++    }
++    else
++    {
++        if (!(output_file = fopen( path, Separator ? "a" : "w" )))
++            fatal_perror( "%s", path );
++        output_top_variables( make );
++    }
+ 
+     targets = output_sources( make, &testlist_files );
+ 
+     fclose( output_file );
+     output_file = NULL;
+-    rename_temp_file( output_file_name );
++    if (temp_file_name) rename_temp_file( path );
+ 
+     strarray_add( &ignore_files, ".gitignore" );
+     strarray_add( &ignore_files, "Makefile" );
+@@ -2563,8 +2576,6 @@ static void output_dependencies( struct makefile *make )
+         output_testlist( base_dir_path( make, "testlist.c" ), testlist_files );
+     if (!make->src_dir && make->base_dir)
+         output_gitignore( base_dir_path( make, ".gitignore" ), ignore_files );
+-
+-    output_file_name = NULL;
+ }
+ 
+ 
+@@ -2595,7 +2606,7 @@ static void update_makefile( const char *path )
+     struct incl_file *file;
+     struct makefile *make;
+ 
+-    make = parse_makefile( path, NULL );
++    make = parse_makefile( path, Separator );
+ 
+     if (root_src_dir)
+     {
+@@ -2660,7 +2671,9 @@ static void update_makefile( const char *path )
+ 
+     LIST_FOR_EACH_ENTRY( file, &make->includes, struct incl_file, entry ) parse_file( make, file, 0 );
+ 
+-    output_dependencies( make );
++    output_file_name = base_dir_path( make, makefile_name );
++    output_dependencies( make, output_file_name );
++    output_file_name = NULL;
+ }
+ 
+ 
+@@ -2705,6 +2718,10 @@ static int parse_option( const char *opt )
+     case 'R':
+         relative_dir_mode = 1;
+         break;
++    case 's':
++        if (opt[2]) Separator = opt + 2;
++        else Separator = NULL;
++        break;
+     default:
+         fprintf( stderr, "Unknown option '%s'\n%s", opt, Usage );
+         exit(1);
+-- 
+2.4.3
+
+From 6b23dbddf40220c570d0b73fba2c8355ce0f8aa4 Mon Sep 17 00:00:00 2001
+From: Michael Cronenworth <mike@cchtml.com>
+Date: Wed, 4 Nov 2015 23:19:21 -0600
+Subject: [PATCH 12/12] Revert "makefiles: Read variable definitions from the
+ top makefile instead of using Make.vars.in."
 
 This reverts commit ef557a8a8a47100a3a0eb0662c93e38634afed89.
 ---
@@ -206,7 +2478,7 @@ index 13bab9b..f7a12f1 100644
  
  wine_fn_pot_rules ()
 diff --git a/configure b/configure
-index 38c3c6c..83b7c32 100755
+index 659f513..dcaf8a8 100755
 --- a/configure
 +++ b/configure
 @@ -7390,12 +7390,12 @@ wine_fn_has_flag ()
@@ -225,7 +2497,7 @@ index 38c3c6c..83b7c32 100755
  }
  
  wine_fn_pot_rules ()
-@@ -17187,7 +17187,7 @@ CLEAN_FILES = *.o *.a *.so *.res *.fake *.ok *.tab.[ch] *.yy.c
+@@ -17221,7 +17221,7 @@ CLEAN_FILES = *.o *.a *.so *.res *.fake *.ok *.tab.[ch] *.yy.c
  .INIT: Makefile
  .MAKEFILEDEPS:
  all: Makefile
@@ -234,7 +2506,7 @@ index 38c3c6c..83b7c32 100755
  	@./config.status Make.tmp Makefile"
  
  test "$srcdir" = . && wine_fn_append_rule "all: .gitignore
-@@ -18187,7 +18187,7 @@ fi
+@@ -18222,7 +18222,7 @@ fi
  ac_config_commands="$ac_config_commands Makefile"
  
  
@@ -243,7 +2515,7 @@ index 38c3c6c..83b7c32 100755
  
  
  
-@@ -19004,7 +19004,7 @@ do
+@@ -19039,7 +19039,7 @@ do
      "wine64") CONFIG_LINKS="$CONFIG_LINKS wine64:tools/winewrapper" ;;
      "tools/makedep") CONFIG_COMMANDS="$CONFIG_COMMANDS tools/makedep" ;;
      "Makefile") CONFIG_COMMANDS="$CONFIG_COMMANDS Makefile" ;;
@@ -253,10 +2525,10 @@ index 38c3c6c..83b7c32 100755
  
    *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
 diff --git a/configure.ac b/configure.ac
-index 88efdc9..a494266 100644
+index f6449a6..8f77155 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -2682,7 +2682,7 @@ CLEAN_FILES = *.o *.a *.so *.res *.fake *.ok *.tab.[[ch]] *.yy.c
+@@ -2692,7 +2692,7 @@ CLEAN_FILES = *.o *.a *.so *.res *.fake *.ok *.tab.[[ch]] *.yy.c
  .INIT: Makefile
  .MAKEFILEDEPS:
  all: Makefile
@@ -265,7 +2537,7 @@ index 88efdc9..a494266 100644
  	@./config.status Make.tmp Makefile])
  
  test "$srcdir" = . && WINE_APPEND_RULE(
-@@ -3682,7 +3682,7 @@ _WINE_EOF
+@@ -3693,7 +3693,7 @@ _WINE_EOF
      AS_ERROR([could not create Makefile])
  }])
  
