@@ -1,0 +1,349 @@
+From 2bd032d8e954693feb10cd85ada74a748ba493a8 Mon Sep 17 00:00:00 2001
+From: Michael Cronenworth <mike@cchtml.com>
+Date: Wed, 4 Nov 2015 22:09:26 -0600
+Subject: [PATCH] Revert "makefiles: Read variable definitions from the top
+ makefile instead of using Make.vars.in."
+
+This reverts commit ef557a8a8a47100a3a0eb0662c93e38634afed89.
+---
+ Make.vars.in    | 77 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ Makefile.in     | 76 --------------------------------------------------------
+ aclocal.m4      |  6 ++---
+ configure       | 12 ++++-----
+ configure.ac    |  4 +--
+ tools/makedep.c | 33 +++++--------------------
+ 6 files changed, 94 insertions(+), 114 deletions(-)
+ create mode 100644 Make.vars.in
+
+diff --git a/Make.vars.in b/Make.vars.in
+new file mode 100644
+index 0000000..e2de171
+--- /dev/null
++++ b/Make.vars.in
+@@ -0,0 +1,77 @@
++# @configure_input@      -*-Makefile-*-
++
++prefix          = @prefix@
++exec_prefix     = @exec_prefix@
++bindir          = @bindir@
++libdir          = @libdir@
++datarootdir     = @datarootdir@
++datadir         = @datadir@
++mandir          = @mandir@
++fontdir         = ${datadir}/wine/fonts
++includedir      = @includedir@/wine
++dlldir          = @dlldir@
++fakedlldir      = ${dlldir}/fakedlls
++top_srcdir      = @top_srcdir@
++top_builddir    = @top_builddir@
++srcdir          = @srcdir@
++SHELL           = /bin/sh
++RM              = rm -f
++MV              = mv
++CC              = @CC@
++CXX             = @CXX@
++CPPBIN          = @CPPBIN@
++CROSSCC         = @CROSSCC@
++CFLAGS          = @CFLAGS@
++CPPFLAGS        = @CPPFLAGS@
++EXTRACFLAGS     = @EXTRACFLAGS@
++MSVCRTFLAGS     = @BUILTINFLAG@
++TARGETFLAGS     = @TARGETFLAGS@
++UNWINDFLAGS     = @UNWINDFLAGS@
++LIBS            = @LIBS@
++BISON           = @BISON@
++FLEX            = @FLEX@
++EXEEXT          = @EXEEXT@
++DLLPREFIX       = @DLLPREFIX@
++TOOLSEXT        = @TOOLSEXT@
++DLLTOOL         = @DLLTOOL@
++AR              = @AR@
++ARFLAGS         = @ARFLAGS@
++RANLIB          = @RANLIB@
++STRIP           = @STRIP@
++LN_S            = @LN_S@
++TOOLSDIR        = @TOOLSDIR@
++LD              = @LD@
++LDFLAGS         = @LDFLAGS@
++DLLFLAGS        = @DLLFLAGS@
++PRELINK         = @PRELINK@
++FONTFORGE       = @FONTFORGE@
++RSVG            = @RSVG@
++CONVERT         = @CONVERT@
++ICOTOOL         = @ICOTOOL@
++MSGFMT          = @MSGFMT@
++CROSSTARGET     = @CROSSTARGET@
++LINGUAS         = @LINGUAS@
++RUNTESTFLAGS    = -q -P wine
++MAKEDEP         = $(TOOLSDIR)/tools/makedep$(TOOLSEXT)
++WINEBUILD       = $(TOOLSDIR)/tools/winebuild/winebuild$(TOOLSEXT)
++WRC             = $(TOOLSDIR)/tools/wrc/wrc$(TOOLSEXT)
++LIBPORT         = $(top_builddir)/libs/port/libwine_port.a
++LIBWPP          = $(top_builddir)/libs/wpp/libwpp.a
++LIBWINE         = -L$(top_builddir)/libs/wine -lwine
++LIBWINE_STATIC  = $(top_builddir)/libs/wine/libwine_static.a
++SED_CMD         = LC_ALL=C sed -e 's,@bindir\@,$(bindir),g' -e 's,@dlldir\@,$(dlldir),g' -e 's,@PACKAGE_STRING\@,@PACKAGE_STRING@,g' -e 's,@PACKAGE_VERSION\@,@PACKAGE_VERSION@,g'
++LDRPATH_INSTALL = @LDRPATH_INSTALL@
++LDRPATH_LOCAL   = @LDRPATH_LOCAL@
++INSTALL_PROGRAM = STRIPPROG="$(STRIP)" $(top_srcdir)/tools/install-sh $(INSTALL_PROGRAM_FLAGS)
++INSTALL_SCRIPT  = $(top_srcdir)/tools/install-sh $(INSTALL_SCRIPT_FLAGS)
++INSTALL_DATA    = $(top_srcdir)/tools/install-sh -m 644 $(INSTALL_DATA_FLAGS)
++prog_manext     = 1
++api_manext      = 3w
++conf_manext     = 5
++@ALL_VARS_RULES@
++@SET_MAKE@
++
++all:
++.PHONY: all
++
++# End of common header
+diff --git a/Makefile.in b/Makefile.in
+index fc37ae2..9c5158d 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -18,82 +18,6 @@
+ # sgmlpages:       compile sgml source for the Wine API Guide
+ # xmlpages:        compile xml source for the Wine API Guide
+ 
+-# Start of common header
+-# The following variable definitions are copied into all makefiles
+-
+-prefix          = @prefix@
+-exec_prefix     = @exec_prefix@
+-bindir          = @bindir@
+-libdir          = @libdir@
+-datarootdir     = @datarootdir@
+-datadir         = @datadir@
+-mandir          = @mandir@
+-fontdir         = ${datadir}/wine/fonts
+-includedir      = @includedir@/wine
+-dlldir          = @dlldir@
+-fakedlldir      = ${dlldir}/fakedlls
+-top_srcdir      = @top_srcdir@
+-top_builddir    = @top_builddir@
+-srcdir          = @srcdir@
+-SHELL           = /bin/sh
+-RM              = rm -f
+-MV              = mv
+-CC              = @CC@
+-CXX             = @CXX@
+-CPPBIN          = @CPPBIN@
+-CROSSCC         = @CROSSCC@
+-CFLAGS          = @CFLAGS@
+-CPPFLAGS        = @CPPFLAGS@
+-EXTRACFLAGS     = @EXTRACFLAGS@
+-MSVCRTFLAGS     = @BUILTINFLAG@
+-TARGETFLAGS     = @TARGETFLAGS@
+-UNWINDFLAGS     = @UNWINDFLAGS@
+-LIBS            = @LIBS@
+-BISON           = @BISON@
+-FLEX            = @FLEX@
+-EXEEXT          = @EXEEXT@
+-DLLPREFIX       = @DLLPREFIX@
+-TOOLSEXT        = @TOOLSEXT@
+-DLLTOOL         = @DLLTOOL@
+-AR              = @AR@
+-ARFLAGS         = @ARFLAGS@
+-RANLIB          = @RANLIB@
+-STRIP           = @STRIP@
+-LN_S            = @LN_S@
+-TOOLSDIR        = @TOOLSDIR@
+-LD              = @LD@
+-LDFLAGS         = @LDFLAGS@
+-DLLFLAGS        = @DLLFLAGS@
+-PRELINK         = @PRELINK@
+-FONTFORGE       = @FONTFORGE@
+-RSVG            = @RSVG@
+-CONVERT         = @CONVERT@
+-ICOTOOL         = @ICOTOOL@
+-MSGFMT          = @MSGFMT@
+-CROSSTARGET     = @CROSSTARGET@
+-LINGUAS         = @LINGUAS@
+-RUNTESTFLAGS    = -q -P wine
+-MAKEDEP         = $(TOOLSDIR)/tools/makedep$(TOOLSEXT)
+-WINEBUILD       = $(TOOLSDIR)/tools/winebuild/winebuild$(TOOLSEXT)
+-WRC             = $(TOOLSDIR)/tools/wrc/wrc$(TOOLSEXT)
+-LIBPORT         = $(top_builddir)/libs/port/libwine_port.a
+-LIBWPP          = $(top_builddir)/libs/wpp/libwpp.a
+-LIBWINE         = -L$(top_builddir)/libs/wine -lwine
+-LIBWINE_STATIC  = $(top_builddir)/libs/wine/libwine_static.a
+-SED_CMD         = LC_ALL=C sed -e 's,@bindir\@,$(bindir),g' -e 's,@dlldir\@,$(dlldir),g' -e 's,@PACKAGE_STRING\@,@PACKAGE_STRING@,g' -e 's,@PACKAGE_VERSION\@,@PACKAGE_VERSION@,g'
+-LDRPATH_INSTALL = @LDRPATH_INSTALL@
+-LDRPATH_LOCAL   = @LDRPATH_LOCAL@
+-INSTALL_PROGRAM = STRIPPROG="$(STRIP)" $(top_srcdir)/tools/install-sh $(INSTALL_PROGRAM_FLAGS)
+-INSTALL_SCRIPT  = $(top_srcdir)/tools/install-sh $(INSTALL_SCRIPT_FLAGS)
+-INSTALL_DATA    = $(top_srcdir)/tools/install-sh -m 644 $(INSTALL_DATA_FLAGS)
+-prog_manext     = 1
+-api_manext      = 3w
+-conf_manext     = 5
+-@ALL_VARS_RULES@
+-@SET_MAKE@
+-
+-# End of common header
+-
+ all: wine
+ 	@echo "Wine build complete."
+ 
+diff --git a/aclocal.m4 b/aclocal.m4
+index 13bab9b..f7a12f1 100644
+--- a/aclocal.m4
++++ b/aclocal.m4
+@@ -226,12 +226,12 @@ wine_fn_has_flag ()
+ wine_fn_depend_rules ()
+ {
+     wine_fn_append_rule \
+-"$ac_dir/Makefile: $srcdir/$ac_dir/Makefile.in Makefile config.status \$(MAKEDEP)
+-	@./config.status --file $ac_dir/Makefile && \$(MAKEDEP) $ac_dir
++"$ac_dir/Makefile: $srcdir/$ac_dir/Makefile.in $srcdir/Make.vars.in config.status \$(MAKEDEP)
++	@./config.status --file $ac_dir/Makefile:Make.vars.in:$ac_dir/Makefile.in && \$(MAKEDEP) $ac_dir
+ depend: $ac_dir/depend
+ .PHONY: $ac_dir/depend
+ $ac_dir/depend: \$(MAKEDEP) dummy
+-	@./config.status --file $ac_dir/Makefile && \$(MAKEDEP) $ac_dir"
++	@./config.status --file $ac_dir/Makefile:Make.vars.in:$ac_dir/Makefile.in && \$(MAKEDEP) $ac_dir"
+ }
+ 
+ wine_fn_pot_rules ()
+diff --git a/configure b/configure
+index 38c3c6c..83b7c32 100755
+--- a/configure
++++ b/configure
+@@ -7390,12 +7390,12 @@ wine_fn_has_flag ()
+ wine_fn_depend_rules ()
+ {
+     wine_fn_append_rule \
+-"$ac_dir/Makefile: $srcdir/$ac_dir/Makefile.in Makefile config.status \$(MAKEDEP)
+-	@./config.status --file $ac_dir/Makefile && \$(MAKEDEP) $ac_dir
++"$ac_dir/Makefile: $srcdir/$ac_dir/Makefile.in $srcdir/Make.vars.in config.status \$(MAKEDEP)
++	@./config.status --file $ac_dir/Makefile:Make.vars.in:$ac_dir/Makefile.in && \$(MAKEDEP) $ac_dir
+ depend: $ac_dir/depend
+ .PHONY: $ac_dir/depend
+ $ac_dir/depend: \$(MAKEDEP) dummy
+-	@./config.status --file $ac_dir/Makefile && \$(MAKEDEP) $ac_dir"
++	@./config.status --file $ac_dir/Makefile:Make.vars.in:$ac_dir/Makefile.in && \$(MAKEDEP) $ac_dir"
+ }
+ 
+ wine_fn_pot_rules ()
+@@ -17187,7 +17187,7 @@ CLEAN_FILES = *.o *.a *.so *.res *.fake *.ok *.tab.[ch] *.yy.c
+ .INIT: Makefile
+ .MAKEFILEDEPS:
+ all: Makefile
+-Makefile: $srcdir/Makefile.in config.status \$(MAKEDEP)
++Makefile: $srcdir/Makefile.in $srcdir/Make.vars.in config.status \$(MAKEDEP)
+ 	@./config.status Make.tmp Makefile"
+ 
+ test "$srcdir" = . && wine_fn_append_rule "all: .gitignore
+@@ -18187,7 +18187,7 @@ fi
+ ac_config_commands="$ac_config_commands Makefile"
+ 
+ 
+-ac_config_files="$ac_config_files Make.tmp:Makefile.in"
++ac_config_files="$ac_config_files Make.tmp:Make.vars.in:Makefile.in"
+ 
+ 
+ 
+@@ -19004,7 +19004,7 @@ do
+     "wine64") CONFIG_LINKS="$CONFIG_LINKS wine64:tools/winewrapper" ;;
+     "tools/makedep") CONFIG_COMMANDS="$CONFIG_COMMANDS tools/makedep" ;;
+     "Makefile") CONFIG_COMMANDS="$CONFIG_COMMANDS Makefile" ;;
+-    "Make.tmp") CONFIG_FILES="$CONFIG_FILES Make.tmp:Makefile.in" ;;
++    "Make.tmp") CONFIG_FILES="$CONFIG_FILES Make.tmp:Make.vars.in:Makefile.in" ;;
+     ".gitignore") CONFIG_COMMANDS="$CONFIG_COMMANDS .gitignore" ;;
+ 
+   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
+diff --git a/configure.ac b/configure.ac
+index 88efdc9..a494266 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -2682,7 +2682,7 @@ CLEAN_FILES = *.o *.a *.so *.res *.fake *.ok *.tab.[[ch]] *.yy.c
+ .INIT: Makefile
+ .MAKEFILEDEPS:
+ all: Makefile
+-Makefile: $srcdir/Makefile.in config.status \$(MAKEDEP)
++Makefile: $srcdir/Makefile.in $srcdir/Make.vars.in config.status \$(MAKEDEP)
+ 	@./config.status Make.tmp Makefile])
+ 
+ test "$srcdir" = . && WINE_APPEND_RULE(
+@@ -3682,7 +3682,7 @@ _WINE_EOF
+     AS_ERROR([could not create Makefile])
+ }])
+ 
+-AC_CONFIG_FILES([Make.tmp:Makefile.in])
++AC_CONFIG_FILES([Make.tmp:Make.vars.in:Makefile.in])
+ 
+ dnl Some final makefile rules
+ 
+diff --git a/tools/makedep.c b/tools/makedep.c
+index 119294b..54aab45 100644
+--- a/tools/makedep.c
++++ b/tools/makedep.c
+@@ -1751,7 +1751,6 @@ static struct strarray output_sources( struct makefile *make, struct strarray *t
+     for (i = 0; i < linguas.count; i++)
+         strarray_add( &mo_files, strmake( "%s/%s.mo", top_obj_dir_path( make, "po" ), linguas.str[i] ));
+ 
+-    strarray_add( &phony_targets, "all" );
+     strarray_add( &includes, strmake( "-I%s", obj_dir_path( make, "" )));
+     if (make->src_dir) strarray_add( &includes, strmake( "-I%s", make->src_dir ));
+     if (make->parent_dir) strarray_add( &includes, strmake( "-I%s", src_dir_path( make, make->parent_dir )));
+@@ -2514,51 +2513,31 @@ static void output_gitignore( const char *dest, struct strarray files )
+ 
+ 
+ /*******************************************************************
+- *         output_top_variables
+- */
+-static void output_top_variables( struct makefile *make )
+-{
+-    unsigned int i;
+-    struct strarray *vars = &top_makefile->vars;
+-
+-    if (!make->base_dir) return;  /* don't output variables in the top makefile */
+-
+-    output( "# Automatically generated by make depend; DO NOT EDIT!!\n\n" );
+-    output( "all:\n\n" );
+-    for (i = 0; i < vars->count; i += 2)
+-        output( "%s = %s\n", vars->str[i], get_make_variable( make, vars->str[i] ));
+-    output( "\n" );
+-}
+-
+-
+-/*******************************************************************
+  *         output_dependencies
+  */
+ static void output_dependencies( struct makefile *make, const char *path )
+ {
+     struct strarray targets, testlist_files = empty_strarray, ignore_files = empty_strarray;
+-    FILE *src_file;
+ 
+-    if (Separator && ((src_file = fopen( path, "r" ))))
++    if (Separator && ((output_file = fopen( path, "r" ))))
+     {
+         char buffer[1024];
++        FILE *tmp_file = create_temp_file( path );
+         int found = 0;
+ 
+-        output_file = create_temp_file( path );
+-        output_top_variables( make );
+-        while (fgets( buffer, sizeof(buffer), src_file ) && !found)
++        while (fgets( buffer, sizeof(buffer), output_file ) && !found)
+         {
+-            if (fwrite( buffer, 1, strlen(buffer), output_file ) != strlen(buffer)) fatal_perror( "write" );
++            if (fwrite( buffer, 1, strlen(buffer), tmp_file ) != strlen(buffer)) fatal_perror( "write" );
+             found = !strncmp( buffer, Separator, strlen(Separator) );
+         }
+-        if (fclose( src_file )) fatal_perror( "close" );
++        if (fclose( output_file )) fatal_perror( "write" );
++        output_file = tmp_file;
+         if (!found) output( "\n%s\n", Separator );
+     }
+     else
+     {
+         if (!(output_file = fopen( path, Separator ? "a" : "w" )))
+             fatal_perror( "%s", path );
+-        output_top_variables( make );
+     }
+ 
+     targets = output_sources( make, &testlist_files );
+-- 
+2.4.3
+

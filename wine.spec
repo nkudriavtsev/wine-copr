@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        1.7.53
+Version:        1.7.54
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -70,8 +70,9 @@ Source502:      wine-README-tahoma
 Patch511:       wine-cjk.patch
 # temporary workaround for GCC 5.0 optimization regressions
 Patch512:       wine-gcc5.patch
-# prelink has been retired, use linker method of base address relocation
-Patch513:       wine-relocate-base.patch
+# broken man page install target
+Patch513:       wine-revert-makefiles.patch
+Patch514:       wine-revert-makefiles-staging.patch
 
 # wine compholio patches for wine-staging
 # pulseaudio-patch is covered by that patch-set, too.
@@ -662,7 +663,7 @@ This package adds the opencl driver for wine.
 %if 0%{?fedora} > 21
 #patch512 -p1 -b.gcc5
 %endif
-%patch513 -p1 -b.relocate
+%patch513 -p1 -b.revert-makefiles
 
 # setup and apply compholio-patches or pulseaudio-patch.
 # since the pulse patch is included in the compholio patches use it from
@@ -670,6 +671,7 @@ This package adds the opencl driver for wine.
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
 %if 0%{?compholio}
 
+%patch514 -p1 -b.revert-makefiles-staging
 %{__make} -C patches DESTDIR="`pwd`" install
 
 # fix parallelized build
@@ -1611,6 +1613,7 @@ fi
 %{_libdir}/wine/wer.dll.so
 %{_libdir}/wine/wevtapi.dll.so
 %{_libdir}/wine/wiaservc.dll.so
+%{_libdir}/wine/wimgapi.dll.so
 %{_libdir}/wine/windowscodecs.dll.so
 %{_libdir}/wine/windowscodecsext.dll.so
 %if 0%{?compholio}
@@ -1975,6 +1978,9 @@ fi
 %endif
 
 %changelog
+* Wed Nov 04 2015 Michael Cronenworth <mike@cchtml.com> 1.7.54-1
+- version upgrade
+
 * Wed Oct 21 2015 Michael Cronenworth <mike@cchtml.com> 1.7.53-1
 - version upgrade
 
