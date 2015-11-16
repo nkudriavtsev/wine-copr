@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        1.7.54
+Version:        1.7.55
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -70,9 +70,6 @@ Source502:      wine-README-tahoma
 Patch511:       wine-cjk.patch
 # temporary workaround for GCC 5.0 optimization regressions
 Patch512:       wine-gcc5.patch
-# broken man page install target
-Patch513:       wine-revert-makefiles.patch
-Patch514:       wine-revert-makefiles-staging.patch
 
 # wine compholio patches for wine-staging
 # pulseaudio-patch is covered by that patch-set, too.
@@ -627,8 +624,7 @@ Requires: wine-core = %{version}-%{release}
 Requires: wine-alsa%{?_isa} = %{version}-%{release}
 
 %description pulseaudio
-This package adds a pulseaudio driver for wine. Please do not report bugs in
-the pulseaudio wine backend at winehq.
+This package adds a pulseaudio driver for wine.
 
 %package alsa
 Summary: Alsa support for wine
@@ -663,15 +659,11 @@ This package adds the opencl driver for wine.
 %if 0%{?fedora} > 21
 #patch512 -p1 -b.gcc5
 %endif
-%patch513 -p1 -b.revert-makefiles
 
-# setup and apply compholio-patches or pulseaudio-patch.
-# since the pulse patch is included in the compholio patches use it from
-# there
+# setup and apply wine-staging patches
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
 %if 0%{?compholio}
 
-%patch514 -p1 -b.revert-makefiles-staging
 %{__make} -C patches DESTDIR="`pwd`" install
 
 # fix parallelized build
@@ -679,15 +671,8 @@ sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
 
 %else # 0%{?compholio}
 
-for p in `ls patches/winepulse-PulseAudio_Support/*patch`; do
-echo $p
-patch -p1 < $p
-done
-
 rm -rf patches/
 
-# already run after applying compholio-patchset
-autoreconf
 %endif # 0%{?compholio}
 
 %build
@@ -707,7 +692,6 @@ export CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno
  --x-includes=%{_includedir} --x-libraries=%{_libdir} \
  --without-hal --with-dbus --without-gstreamer \
  --with-x \
- --with-pulse \
 %ifarch x86_64
  --enable-win64 \
 %endif
@@ -934,6 +918,13 @@ do iconv -f iso8859-1 -t utf-8 README.$lang > \
 done;
 popd
 
+# wine makefiles are currently broken and don't install the wine man page
+install -p -m 0644 loader/wine.man %{buildroot}%{_mandir}/man1/wine.1
+install -p -m 0644 loader/wine.de.UTF-8.man %{buildroot}%{_mandir}/de.UTF-8/man1/wine.1
+install -p -m 0644 loader/wine.fr.UTF-8.man %{buildroot}%{_mandir}/fr.UTF-8/man1/wine.1
+mkdir -p %{buildroot}%{_mandir}/pl.UTF-8/man1
+install -p -m 0644 loader/wine.pl.UTF-8.man %{buildroot}%{_mandir}/pl.UTF-8/man1/wine.1
+
 
 %if 0%{?fedora} >= 15
 %if 0%{?fedora} < 23
@@ -993,12 +984,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %post core -p /sbin/ldconfig
 
 %posttrans core
-# needed temporarily until people get on alternatives
-rm -f %{_bindir}/wine
-%ifnarch %{arm}
-rm -f %{_bindir}/wine-preloader
-%endif
-rm -f %{_bindir}/wineserver
 %ifarch x86_64
 %{_sbindir}/alternatives --install %{_bindir}/wine \
   wine %{_bindir}/wine64 10 \
@@ -1163,6 +1148,7 @@ fi
 %{_libdir}/wine/winemenubuilder.exe.so
 %{_libdir}/wine/winecfg.exe.so
 %{_libdir}/wine/winedevice.exe.so
+%{_libdir}/wine/wmplayer.exe.so
 %{_libdir}/wine/wscript.exe.so
 %{_libdir}/wine/uninstaller.exe.so
 
@@ -1279,7 +1265,9 @@ fi
 %{_libdir}/wine/avifil32.dll.so
 %{_libdir}/wine/avrt.dll.so
 %{_libdir}/wine/bcrypt.dll.so
+%{_libdir}/wine/bluetoothapis.dll.so
 %{_libdir}/wine/browseui.dll.so
+%{_libdir}/wine/bthprops.cpl.so
 %{_libdir}/wine/cabinet.dll.so
 %{_libdir}/wine/cards.dll.so
 %{_libdir}/wine/cfgmgr32.dll.so
@@ -1801,10 +1789,10 @@ fi
 %{_mandir}/man1/winefile.1*
 %{_mandir}/man1/winemine.1*
 %{_mandir}/man1/winepath.1*
-%lang(fr) %{_mandir}/fr.UTF-8/man1/wine.1*
-%lang(fr) %{_mandir}/fr.UTF-8/man1/wineserver.1*
 %lang(de) %{_mandir}/de.UTF-8/man1/wine.1*
 %lang(de) %{_mandir}/de.UTF-8/man1/wineserver.1*
+%lang(fr) %{_mandir}/fr.UTF-8/man1/wine.1*
+%lang(fr) %{_mandir}/fr.UTF-8/man1/wineserver.1*
 %lang(pl) %{_mandir}/pl.UTF-8/man1/wine.1*
 
 %files fonts
@@ -1978,6 +1966,9 @@ fi
 %endif
 
 %changelog
+* Sun Nov 15 2015 Michael Cronenworth <mike@cchtml.com> 1.7.55-1
+- version upgrade
+
 * Wed Nov 04 2015 Michael Cronenworth <mike@cchtml.com> 1.7.54-1
 - version upgrade
 
