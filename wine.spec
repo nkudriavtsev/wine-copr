@@ -21,15 +21,15 @@
 %endif
 
 Name:           wine
-Version:        1.7.55
-Release:        1%{?dist}
+Version:        1.8
+Release:        0.1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
 License:        LGPLv2+
 URL:            http://www.winehq.org/
-Source0:        http://downloads.sourceforge.net/wine/wine-%{version}.tar.bz2
-Source10:       http://downloads.sourceforge.net/wine/wine-%{version}.tar.bz2.sign
+Source0:        http://downloads.sourceforge.net/wine/wine-%{version}-rc3.tar.bz2
+Source10:       http://downloads.sourceforge.net/wine/wine-%{version}-rc3.tar.bz2.sign
 
 Source1:        wine.init
 Source2:        wine.systemd
@@ -73,7 +73,7 @@ Patch512:       wine-gcc5.patch
 
 # wine compholio patches for wine-staging
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/compholio/wine-compholio/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
+Source900: https://github.com/compholio/wine-compholio/archive/v%{version}-rc3.tar.gz#/wine-staging-%{version}-rc3.tar.gz
 
 %if !%{?no64bit}
 ExclusiveArch:  %{ix86} x86_64 %{arm}
@@ -654,7 +654,7 @@ This package adds the opencl driver for wine.
 %endif
 
 %prep
-%setup -q
+%setup -q -n wine-%{version}-rc3
 %patch511 -p1 -b.cjk
 %if 0%{?fedora} > 21
 #patch512 -p1 -b.gcc5
@@ -1568,6 +1568,9 @@ fi
 %{_libdir}/wine/tapi32.dll.so
 %{_libdir}/wine/taskkill.exe.so
 %{_libdir}/wine/taskschd.dll.so
+%if 0%{?compholio}
+%{_libdir}/wine/tdi.sys.so
+%endif
 %{_libdir}/wine/traffic.dll.so
 %{_libdir}/wine/ucrtbase.dll.so
 %{_libdir}/wine/unicows.dll.so
@@ -1966,6 +1969,9 @@ fi
 %endif
 
 %changelog
+* Sun Dec 06 2015 Michael Cronenworth <mike@cchtml.com> 1.8-0.1
+- version upgrade, 1.8-rc3
+
 * Sun Nov 15 2015 Michael Cronenworth <mike@cchtml.com> 1.7.55-1
 - version upgrade
 
