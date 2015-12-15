@@ -22,14 +22,14 @@
 
 Name:           wine
 Version:        1.8
-Release:        0.1%{?dist}
+Release:        0.2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
 License:        LGPLv2+
 URL:            http://www.winehq.org/
-Source0:        http://downloads.sourceforge.net/wine/wine-%{version}-rc3.tar.bz2
-Source10:       http://downloads.sourceforge.net/wine/wine-%{version}-rc3.tar.bz2.sign
+Source0:        http://downloads.sourceforge.net/wine/wine-%{version}-rc4.tar.bz2
+Source10:       http://downloads.sourceforge.net/wine/wine-%{version}-rc4.tar.bz2.sign
 
 Source1:        wine.init
 Source2:        wine.systemd
@@ -73,7 +73,7 @@ Patch512:       wine-gcc5.patch
 
 # wine compholio patches for wine-staging
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/compholio/wine-compholio/archive/v%{version}-rc3.tar.gz#/wine-staging-%{version}-rc3.tar.gz
+Source900: https://github.com/compholio/wine-compholio/archive/v%{version}-rc4.tar.gz#/wine-staging-%{version}-rc4.tar.gz
 
 %if !%{?no64bit}
 ExclusiveArch:  %{ix86} x86_64 %{arm}
@@ -654,7 +654,7 @@ This package adds the opencl driver for wine.
 %endif
 
 %prep
-%setup -q -n wine-%{version}-rc3
+%setup -q -n wine-%{version}-rc4
 %patch511 -p1 -b.cjk
 %if 0%{?fedora} > 21
 #patch512 -p1 -b.gcc5
@@ -680,12 +680,7 @@ rm -rf patches/
 # disable fortify as it breaks wine
 # http://bugs.winehq.org/show_bug.cgi?id=24606
 # http://bugs.winehq.org/show_bug.cgi?id=25073
-%if 0%{?fedora} > 21
-export TEMP_CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-O2/-O0/'`"
-export CFLAGS="`echo $TEMP_CFLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno-error"
-%else
 export CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno-error"
-%endif
 
 %configure \
  --sysconfdir=%{_sysconfdir}/wine \
@@ -1969,6 +1964,10 @@ fi
 %endif
 
 %changelog
+* Tue Dec 15 2015 Michael Cronenworth <mike@cchtml.com> 1.8-0.2
+- version upgrade, 1.8-rc4
+- enabling compiler optimizations again (-O2), thanks to gcc 5.3
+
 * Sun Dec 06 2015 Michael Cronenworth <mike@cchtml.com> 1.8-0.1
 - version upgrade, 1.8-rc3
 
