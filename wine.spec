@@ -22,14 +22,14 @@
 
 Name:           wine
 Version:        1.8
-Release:        0.2%{?dist}
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
 License:        LGPLv2+
 URL:            http://www.winehq.org/
-Source0:        http://downloads.sourceforge.net/wine/wine-%{version}-rc4.tar.bz2
-Source10:       http://downloads.sourceforge.net/wine/wine-%{version}-rc4.tar.bz2.sign
+Source0:        http://downloads.sourceforge.net/wine/wine-%{version}.tar.bz2
+Source10:       http://downloads.sourceforge.net/wine/wine-%{version}.tar.bz2.sign
 
 Source1:        wine.init
 Source2:        wine.systemd
@@ -68,12 +68,10 @@ Source501:      wine-tahoma.conf
 Source502:      wine-README-tahoma
 
 Patch511:       wine-cjk.patch
-# temporary workaround for GCC 5.0 optimization regressions
-Patch512:       wine-gcc5.patch
 
 # wine compholio patches for wine-staging
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/compholio/wine-compholio/archive/v%{version}-rc4.tar.gz#/wine-staging-%{version}-rc4.tar.gz
+Source900: https://github.com/compholio/wine-compholio/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
 
 %if !%{?no64bit}
 ExclusiveArch:  %{ix86} x86_64 %{arm}
@@ -654,11 +652,8 @@ This package adds the opencl driver for wine.
 %endif
 
 %prep
-%setup -q -n wine-%{version}-rc4
+%setup -q -n wine-%{version}
 %patch511 -p1 -b.cjk
-%if 0%{?fedora} > 21
-#patch512 -p1 -b.gcc5
-%endif
 
 # setup and apply wine-staging patches
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
@@ -1964,6 +1959,9 @@ fi
 %endif
 
 %changelog
+* Wed Dec 23 2015 Michael Cronenworth <mike@cchtml.com> 1.8-1
+- version upgrade
+
 * Tue Dec 15 2015 Michael Cronenworth <mike@cchtml.com> 1.8-0.2
 - version upgrade, 1.8-rc4
 - enabling compiler optimizations again (-O2), thanks to gcc 5.3
