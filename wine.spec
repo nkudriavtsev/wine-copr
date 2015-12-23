@@ -1582,9 +1582,7 @@ fi
 %{_libdir}/wine/vcomp100.dll.so
 %{_libdir}/wine/vcomp110.dll.so
 %{_libdir}/wine/vcomp120.dll.so
-%if 0%{?compholio}
 %{_libdir}/wine/vcruntime140.dll.so
-%endif
 %{_libdir}/wine/vdmdbg.dll.so
 %{_libdir}/wine/version.dll.so
 %{_libdir}/wine/vssapi.dll.so
