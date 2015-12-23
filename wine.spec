@@ -1,7 +1,27 @@
+# Compiling the preloader fails with hardening enabled
+%undefine _hardened_build
+
 %global no64bit   0
+%global winegecko 2.40
+%global winemono  4.5.6
+#global _default_patch_fuzz 2
+
+# build with compholio-patches, see:  http://www.compholio.com/wine-compholio/
+# uncomment to enable; comment-out to disable.
+%if 0%{?fedora}
+%global compholio 1
+%endif # 0%{?fedora}
+
+# binfmt macros for RHEL
+%if 0%{?fedora} <= 20 || 0%{?rhel} == 7
+%global _binfmtdir /usr/lib/binfmt.d
+%global binfmt_apply() \
+/usr/lib/systemd/systemd-binfmt  %{?*} >/dev/null 2>&1 || : \
+%{nil}
+%endif
 
 Name:           wine
-Version:        1.6.1
+Version:        1.8
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -30,10 +50,6 @@ Source108:      wine-wordpad.desktop
 Source109:      wine-oleview.desktop
 
 # build fixes
-# do not check for glAccum
-# adjusted for 1.6.1
-# original patch: wget http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/app-emulation/wine/files/wine-1.5.17-osmesa-check.patch?revision=1.1
-Patch1:          wine-1.6.1-osmesa-check.patch
 
 # wine bugs
 
@@ -53,18 +69,9 @@ Source502:      wine-README-tahoma
 
 Patch511:       wine-cjk.patch
 
-## winepulse backend
-# http://repo.or.cz/w/wine/multimedia.git
-# Wed, 29 May 2013 08:06:36 +0000
-# configure
-# configure.ac
-# dlls/mmdevapi/main.c
-# dlls/winepulse.drv
-# 
-Patch1001:      wine-pulse-1.5.31.patch
-# use winealsa for midi in the pa backend
-# http://repo.or.cz/w/wine/multimedia.git/commit/8f39a12639ee1d39c8caaf5f2ab72540d281814e
-Patch1002:      wine-pulse-winmm-Load-winealsa-if-winepulse-is-found.patch
+# wine compholio patches for wine-staging
+# pulseaudio-patch is covered by that patch-set, too.
+Source900: https://github.com/compholio/wine-compholio/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
 
 %if !%{?no64bit}
 ExclusiveArch:  %{ix86} x86_64 %{arm}
@@ -79,7 +86,7 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  alsa-lib-devel
 BuildRequires:  audiofile-devel
 BuildRequires:  freeglut-devel
-BuildRequires:  lcms-devel
+BuildRequires:  lcms2-devel
 BuildRequires:  libieee1284-devel
 BuildRequires:  libjpeg-devel
 BuildRequires:  libpng-devel
@@ -90,6 +97,10 @@ BuildRequires:  libusb-devel
 BuildRequires:  libxml2-devel
 BuildRequires:  libxslt-devel
 BuildRequires:  ncurses-devel
+%if 0%{?fedora}
+BuildRequires:  ocl-icd-devel
+BuildRequires:  opencl-headers
+%endif
 BuildRequires:  openldap-devel
 BuildRequires:  unixODBC-devel
 BuildRequires:  sane-backends-devel
@@ -97,6 +108,7 @@ BuildRequires:  zlib-devel
 BuildRequires:  fontforge freetype-devel
 BuildRequires:  libgphoto2-devel
 BuildRequires:  isdn4k-utils-devel
+BuildRequires:  libpcap-devel
 # modular x
 BuildRequires:  libX11-devel
 BuildRequires:  mesa-libGL-devel mesa-libGLU-devel mesa-libOSMesa-devel
@@ -121,11 +133,16 @@ BuildRequires:  gsm-devel
 BuildRequires:  libv4l-devel
 BuildRequires:  fontpackages-devel
 BuildRequires:  ImageMagick-devel
-BuildRequires:  gstreamer-devel gstreamer-plugins-base-devel
 BuildRequires:  libtiff-devel
-BuildRequires:  prelink
 BuildRequires:  gettext-devel
 BuildRequires:  chrpath
+
+# Silverlight DRM-stuff needs XATTR enabled.
+%if 0%{?compholio}
+BuildRequires:  gtk3-devel
+BuildRequires:  libattr-devel
+BuildRequires:  libva-devel
+%endif # 0%{?compholio}
 
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6
 BuildRequires:  openal-soft-devel
@@ -138,22 +155,26 @@ Requires:       wine-fonts = %{version}-%{release}
 
 # x86-32 parts
 %ifarch %{ix86} x86_64
+%if 0%{?fedora} || 0%{?rhel} <= 6
 Requires:       wine-core(x86-32) = %{version}-%{release}
 Requires:       wine-capi(x86-32) = %{version}-%{release}
 Requires:       wine-cms(x86-32) = %{version}-%{release}
 Requires:       wine-ldap(x86-32) = %{version}-%{release}
 Requires:       wine-twain(x86-32) = %{version}-%{release}
 Requires:       wine-pulseaudio(x86-32) = %{version}-%{release}
-%if 0%{?fedora} >= 10 || 0%{?rhel} >= 6
+%if 0%{?fedora} >= 10 || 0%{?rhel} == 6
 Requires:       wine-openal(x86-32) = %{version}-%{release}
 %endif
+%if 0%{?fedora}
+Requires:       wine-opencl(x86-32) = %{version}-%{release}
+%endif
+%if 0%{?fedora} >= 17
+Requires:       mingw32-wine-gecko = %winegecko
+Requires:       wine-mono = %winemono
+%endif
+#  wait for rhbz#968860 to require arch-specific samba-winbind-clients
 Requires:       /usr/bin/ntlm_auth
 Requires:       mesa-dri-drivers(x86-32)
-%endif
-
-%ifarch %{ix86}
-%if 0%{?fedora} >= 10 || 0%{?rhel} >= 6
-Requires:       wine-wow(x86-32) = %{version}-%{release}
 %endif
 %endif
 
@@ -167,10 +188,15 @@ Requires:       wine-twain(x86-64) = %{version}-%{release}
 Requires:       wine-pulseaudio(x86-64) = %{version}-%{release}
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6
 Requires:       wine-openal(x86-64) = %{version}-%{release}
+%endif 
+%if 0%{?fedora}
+Requires:       wine-opencl(x86-64) = %{version}-%{release}
+%endif
+%if 0%{?fedora} >= 17
+Requires:       mingw64-wine-gecko = %winegecko
+Requires:       wine-mono = %winemono
 %endif
 Requires:       mesa-dri-drivers(x86-64)
-Requires:       wine-wow(x86-64) = %{version}-%{release}
-Conflicts:      wine-wow(x86-32) = %{version}-%{release}
 %endif
 
 # ARM parts
@@ -182,7 +208,9 @@ Requires:       wine-ldap = %{version}-%{release}
 Requires:       wine-twain = %{version}-%{release}
 Requires:       wine-pulseaudio = %{version}-%{release}
 Requires:       wine-openal = %{version}-%{release}
-Requires:       wine-wow = %{version}-%{release}
+%if 0%{?fedora}
+Requires:       wine-opencl = %{version}-%{release}
+%endif
 Requires:       mesa-dri-drivers
 Requires:       samba-winbind-clients
 %endif
@@ -194,7 +222,7 @@ package includes a program loader, which allows unmodified Windows
 .dll files if they are available.
 
 In Fedora wine is a meta-package which will install everything needed for wine
-to work smoothly. Smaller setups can be achieved by installing some of the 
+to work smoothly. Smaller setups can be achieved by installing some of the
 wine-* sub packages.
 
 %package core
@@ -202,6 +230,8 @@ Summary:        Wine core package
 Group:          Applications/Emulators
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
+Requires(posttrans):   %{_sbindir}/alternatives
+Requires(preun):       %{_sbindir}/alternatives
 
 # require -filesystem
 Requires:       wine-filesystem = %{version}-%{release}
@@ -210,16 +240,40 @@ Requires:       wine-filesystem = %{version}-%{release}
 Requires:       freetype(x86-32)
 Requires:       nss-mdns(x86-32)
 Requires:       gnutls(x86-32)
-Requires:       libXrender(x86-32)
+Requires:       libXcomposite(x86-32)
 Requires:       libXcursor(x86-32)
+Requires:       libXinerama(x86-32)
+Requires:       libXrandr(x86-32)
+Requires:       libXrender(x86-32)
+#dlopen in windowscodesc (fixes rhbz#1085075)
+Requires:       libpng(x86-32)
+Requires:       libpcap(x86-32)
+Requires:       mesa-libOSMesa(x86-32)
+Requires:       libv4l(x86-32)
+Requires:       unixODBC(x86-32)
+%if 0%{?compholio}
+Requires:       libva(x86-32)
+%endif
 %endif
 
 %ifarch x86_64
 Requires:       freetype(x86-64)
 Requires:       nss-mdns(x86-64)
 Requires:       gnutls(x86-64)
-Requires:       libXrender(x86-64)
+Requires:       libXcomposite(x86-64)
 Requires:       libXcursor(x86-64)
+Requires:       libXinerama(x86-64)
+Requires:       libXrandr(x86-64)
+Requires:       libXrender(x86-64)
+#dlopen in windowscodesc (fixes rhbz#1085075)
+Requires:       libpng(x86-64)
+Requires:       libpcap(x86-64)
+Requires:       mesa-libOSMesa(x86-64)
+Requires:       libv4l(x86-64)
+Requires:       unixODBC(x86-64)
+%if 0%{?compholio}
+Requires:       libva(x86-64)
+%endif
 %endif
 
 %ifarch %{arm}
@@ -228,6 +282,12 @@ Requires:       nss-mdns
 Requires:       gnutls
 Requires:       libXrender
 Requires:       libXcursor
+#dlopen in windowscodesc (fixes rhbz#1085075)
+Requires:       libpng
+Requires:       libpcap
+Requires:       mesa-libOSMesa
+Requires:       libv4l
+Requires:       unixODBC
 %endif
 
 # old removed packages
@@ -250,29 +310,14 @@ Provides:       wine-oss = %{version}-%{release}
 Obsoletes:      wine-nas <= 1.3.15
 Provides:       wine-nas = %{version}-%{release}
 
+# removed as of 1.7.35
+Obsoletes:      wine-wow < 1.7.35
+Provides:       wine-wow = %{version}-%{release}
+
 %description core
 Wine core package includes the basic wine stuff needed by all other packages.
 
-%package wow
-Summary:        Files for wine wow separation
-Group:          Applications/Emulators
-
-%ifarch x86_64
-Requires:       wine-core(x86-64) = %{version}-%{release}
-%endif
-
-%ifarch %{ix86}
-Requires:       wine-core(x86-32) = %{version}-%{release}
-%endif
-
-%ifarch %{arm}
-Requires:       wine-core = %{version}-%{release}
-%endif
-
-%description wow
-%{summary}
-
-%if 0%{?fedora} >= 15
+%if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 %package systemd
 Summary:        Systemd config for the wine binfmt handler
 Group:          Applications/Emulators
@@ -284,7 +329,9 @@ Requires(postun): systemd
 %description systemd
 Register the wine binary handler for windows executables via systemd binfmt
 handling. See man binfmt.d for further information.
+%endif
 
+%if 0%{?fedora} < 23 || 0%{?rhel} < 7
 %package sysvinit
 Summary:        SysV initscript for the wine binfmt handler
 Group:          Applications/Emulators
@@ -318,16 +365,13 @@ Requires(post): /sbin/chkconfig, /sbin/service,
 Requires(post): desktop-file-utils >= 0.8
 Requires(preun): /sbin/chkconfig, /sbin/service
 Requires(postun): desktop-file-utils >= 0.8
-%ifarch %{arm}
 Requires:       wine-core = %{version}-%{release}
-%else
-Requires:       wine-core(x86-32) = %{version}-%{release}
-%endif
 Requires:       wine-common = %{version}-%{release}
-%if 0%{?fedora} >= 15
+%if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 Requires:       wine-systemd = %{version}-%{release}
 %endif
 Requires:       hicolor-icon-theme
+BuildArch:      noarch
 
 %description desktop
 Desktop integration features for wine, including mime-types and a binary format
@@ -337,6 +381,12 @@ handler service.
 Summary:       Wine font files
 Group:         Applications/Emulators
 BuildArch:     noarch
+# arial-fonts are available with compholio-patchset, only.
+%if 0%{?compholio}
+Requires:      wine-arial-fonts = %{version}-%{release}
+%else # 0%{?compholio}
+Obsoletes:     wine-arial-fonts <= %{version}-%{release}
+%endif # 0%{?compholio}
 Requires:      wine-courier-fonts = %{version}-%{release}
 Requires:      wine-fixedsys-fonts = %{version}-%{release}
 Requires:      wine-small-fonts = %{version}-%{release}
@@ -344,6 +394,9 @@ Requires:      wine-system-fonts = %{version}-%{release}
 Requires:      wine-marlett-fonts = %{version}-%{release}
 Requires:      wine-ms-sans-serif-fonts = %{version}-%{release}
 Requires:      wine-tahoma-fonts = %{version}-%{release}
+%if 0%{?compholio}
+Requires:      wine-times-new-roman-fonts = %{version}-%{release}
+%endif
 Requires:      wine-symbol-fonts = %{version}-%{release}
 Requires:      wine-wingdings-fonts = %{version}-%{release}
 # intermediate fix for #593140
@@ -354,6 +407,17 @@ Requires:      liberation-narrow-fonts
 
 %description fonts
 %{summary}
+
+%if 0%{?compholio}
+%package arial-fonts
+Summary:       Wine Arial font family
+Group:         User Interface/X
+BuildArch:     noarch
+Requires:      fontpackages-filesystem
+
+%description arial-fonts
+%{summary}
+%endif # 0%{?compholio}
 
 %package courier-fonts
 Summary:       Wine Courier font family
@@ -434,6 +498,29 @@ Requires:      wine-tahoma-fonts = %{version}-%{release}
 %description tahoma-fonts-system
 %{summary}
 
+%if 0%{?compholio}
+%package times-new-roman-fonts
+Summary:       Wine Times New Roman font family
+Group:         User Interface/X
+BuildArch:     noarch
+Requires:      wine-filesystem = %{version}-%{release}
+
+%description times-new-roman-fonts
+%{summary}
+Please note: If you want system integration for wine times new roman fonts install the
+wine-times-new-roman-fonts-system package.
+
+%package times-new-roman-fonts-system
+Summary:       Wine Times New Roman font family system integration
+Group:         User Interface/X
+BuildArch:     noarch
+Requires:      fontpackages-filesystem
+Requires:      wine-times-new-roman-fonts = %{version}-%{release}
+
+%description times-new-roman-fonts-system
+%{summary}
+%endif
+
 %package symbol-fonts
 Summary:       Wine Symbol font family
 Group:         User Interface/X
@@ -450,6 +537,18 @@ BuildArch:     noarch
 Requires:      fontpackages-filesystem
 
 %description wingdings-fonts
+%{summary}
+Please note: If you want system integration for wine wingdings fonts install the
+wine-wingdings-fonts-system package.
+
+%package wingdings-fonts-system
+Summary:       Wine Wingdings font family system integration
+Group:         User Interface/X
+BuildArch:     noarch
+Requires:      fontpackages-filesystem
+Requires:      wine-wingdings-fonts = %{version}-%{release}
+
+%description wingdings-fonts-system
 %{summary}
 
 
@@ -473,6 +572,15 @@ Color Management for wine
 Summary: Twain support for wine
 Group: System Environment/Libraries
 Requires: wine-core = %{version}-%{release}
+%ifarch %{ix86}
+Requires: sane-backends-libs(x86-32)
+%endif
+%ifarch x86_64
+Requires: sane-backends-libs(x86-64)
+%endif
+%ifarch %{arm}
+Requires: sane-backends-libs
+%endif
 
 %description twain
 Twain support for wine
@@ -481,6 +589,18 @@ Twain support for wine
 Summary: ISDN support for wine
 Group: System Environment/Libraries
 Requires: wine-core = %{version}-%{release}
+#FIXME: parallel installable rhbz#1164355
+#ifarch x86_64
+#Requires:       isdn4k-utils(x86-64)
+#endif
+
+#ifarch %{ix86}
+#Requires:       isdn4k-utils(x86-32)
+#endif
+
+#ifarch %{arm}
+Requires:       isdn4k-utils
+#endif
 
 %description capi
 ISDN support for wine
@@ -499,11 +619,10 @@ Summary: Pulseaudio support for wine
 Group: System Environment/Libraries
 Requires: wine-core = %{version}-%{release}
 # midi output
-Requires: wine-alsa = %{version}-%{release}
+Requires: wine-alsa%{?_isa} = %{version}-%{release}
 
 %description pulseaudio
-This package adds a pulseaudio driver for wine. Please do not report bugs in
-the pulseaudio wine backend at winehq.
+This package adds a pulseaudio driver for wine.
 
 %package alsa
 Summary: Alsa support for wine
@@ -523,37 +642,53 @@ Requires: wine-core = %{version}-%{release}
 This package adds an openal driver for wine.
 %endif
 
+%if 0%{?fedora}
+%package opencl
+Summary: OpenCL support for wine
+Requires: wine-core = %{version}-%{release}
+
+%Description opencl
+This package adds the opencl driver for wine.
+%endif
+
 %prep
-%setup -q
-
-%patch1 -p1 -b.osmesa
-
+%setup -q -n wine-%{version}
 %patch511 -p1 -b.cjk
 
-%patch1001 -p1 -b.winepulse
-%patch1002 -p1 -b.winepulse-midi
+# setup and apply wine-staging patches
+gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
+%if 0%{?compholio}
 
-autoreconf
+%{__make} -C patches DESTDIR="`pwd`" install
+
+# fix parallelized build
+sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
+
+%else # 0%{?compholio}
+
+rm -rf patches/
+
+%endif # 0%{?compholio}
 
 %build
+
 # disable fortify as it breaks wine
 # http://bugs.winehq.org/show_bug.cgi?id=24606
 # http://bugs.winehq.org/show_bug.cgi?id=25073
-
 export CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno-error"
 
 %configure \
  --sysconfdir=%{_sysconfdir}/wine \
  --x-includes=%{_includedir} --x-libraries=%{_libdir} \
- --without-hal --with-dbus \
+ --without-hal --with-dbus --without-gstreamer \
  --with-x \
- --with-pulse \
 %ifarch x86_64
  --enable-win64 \
 %endif
+%{?compholio: --with-xattr} \
  --disable-tests
 
-%{__make} TARGETFLAGS="" %{?_smp_mflags}
+%{__make} %{?_smp_mflags} TARGETFLAGS=""
 
 %install
 
@@ -564,24 +699,43 @@ export CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno
         LDCONFIG=/bin/true \
         UPDATE_DESKTOP_DATABASE=/bin/true
 
+# setup for alternatives usage
+%ifarch x86_64
+mv %{buildroot}%{_bindir}/wineserver %{buildroot}%{_bindir}/wineserver64
+%else
+mv %{buildroot}%{_bindir}/wine %{buildroot}%{_bindir}/wine32
+%ifnarch %{arm}
+mv %{buildroot}%{_bindir}/wine-preloader %{buildroot}%{_bindir}/wine32-preloader
+%endif
+mv %{buildroot}%{_bindir}/wineserver %{buildroot}%{_bindir}/wineserver32
+%endif
+touch %{buildroot}%{_bindir}/wine
+%ifnarch %{arm}
+touch %{buildroot}%{_bindir}/wine-preloader
+%endif
+touch %{buildroot}%{_bindir}/wineserver
+
 # remove rpath
 chrpath --delete %{buildroot}%{_bindir}/wmc
 chrpath --delete %{buildroot}%{_bindir}/wrc
-chrpath --delete %{buildroot}%{_bindir}/wineserver
 %ifarch x86_64
 chrpath --delete %{buildroot}%{_bindir}/wine64
+chrpath --delete %{buildroot}%{_bindir}/wineserver64
 %else
-chrpath --delete %{buildroot}%{_bindir}/wine
+chrpath --delete %{buildroot}%{_bindir}/wine32
+chrpath --delete %{buildroot}%{_bindir}/wineserver32
 %endif
 
 mkdir -p %{buildroot}%{_sysconfdir}/wine
 
 # Allow users to launch Windows programs by just clicking on the .exe file...
+%if 0%{?fedora} < 23
 mkdir -p %{buildroot}%{_initrddir}
 install -p -c -m 755 %{SOURCE1} %{buildroot}%{_initrddir}/wine
-%if 0%{?fedora} >= 15
-mkdir -p %{buildroot}%{_sysconfdir}/binfmt.d/
-install -p -c -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/binfmt.d/wine.conf
+%endif
+%if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
+mkdir -p %{buildroot}%{_binfmtdir}
+install -p -c -m 644 %{SOURCE2} %{buildroot}%{_binfmtdir}/wine.conf
 %endif
 
 # add wine dir to desktop
@@ -599,10 +753,10 @@ mkdir -p %{buildroot}%{_datadir}/wine/gecko
 mkdir -p %{buildroot}%{_datadir}/wine/mono
 
 # extract and install icons
-%if 0%{?fedora} > 10 || 0%{?rhel} >=6
+%if 0%{?fedora} > 10
 mkdir -p %{buildroot}%{_datadir}/icons/hicolor/scalable/apps
 
-# This nasty replacement masks a composite program icon .SVG down
+# This replacement masks a composite program icon .SVG down
 # so that only its full-size scalable icon is visible
 PROGRAM_ICONFIX='s/height="272"/height="256"/;'\
 's/width="632"/width="256"\n'\
@@ -717,35 +871,12 @@ install -p -m644 %{SOURCE5} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %endif
 
 
-# install fonts
-install -p -m 0755 -d %{buildroot}/%{_datadir}/fonts/wine-courier-fonts
-mv %{buildroot}/%{_datadir}/wine/fonts/cou* %{buildroot}/%{_datadir}/fonts/wine-courier-fonts/
-
-install -p -m 0755 -d %{buildroot}/%{_datadir}/fonts/wine-fixedsys-fonts
-mv %{buildroot}/%{_datadir}/wine/fonts/*vgafix.fon %{buildroot}/%{_datadir}/fonts/wine-fixedsys-fonts/
-
-install -p -m 0755 -d %{buildroot}/%{_datadir}/fonts/wine-system-fonts
-mv %{buildroot}/%{_datadir}/wine/fonts/*sys.* %{buildroot}/%{_datadir}/fonts/wine-system-fonts/
-mv %{buildroot}/%{_datadir}/wine/fonts/vgas*.* %{buildroot}/%{_datadir}/fonts/wine-system-fonts/
-
-install -p -m 0755 -d %{buildroot}/%{_datadir}/fonts/wine-small-fonts
-mv %{buildroot}/%{_datadir}/wine/fonts/sma* %{buildroot}/%{_datadir}/fonts/wine-small-fonts/
-mv %{buildroot}/%{_datadir}/wine/fonts/jsma* %{buildroot}/%{_datadir}/fonts/wine-small-fonts/
-
-install -p -m 0755 -d %{buildroot}/%{_datadir}/fonts/wine-marlett-fonts
-mv %{buildroot}/%{_datadir}/wine/fonts/marlett.ttf %{buildroot}/%{_datadir}/fonts/wine-marlett-fonts/
-
-install -p -m 0755 -d %{buildroot}/%{_datadir}/fonts/wine-ms-sans-serif-fonts
-mv %{buildroot}/%{_datadir}/wine/fonts/sse* %{buildroot}/%{_datadir}/fonts/wine-ms-sans-serif-fonts/
-
+# install Tahoma font for system package
 install -p -m 0755 -d %{buildroot}/%{_datadir}/fonts/wine-tahoma-fonts
 pushd %{buildroot}/%{_datadir}/fonts/wine-tahoma-fonts
 ln -s ../../wine/fonts/tahoma.ttf tahoma.ttf
 ln -s ../../wine/fonts/tahomabd.ttf tahomabd.ttf
 popd
-
-install -p -m 0755 -d %{buildroot}/%{_datadir}/fonts/wine-symbol-fonts
-mv %{buildroot}/%{_datadir}/wine/fonts/symbol.ttf %{buildroot}/%{_datadir}/fonts/wine-symbol-fonts/
 
 # add config and readme for tahoma
 install -m 0755 -d %{buildroot}%{_fontconfig_templatedir} \
@@ -755,9 +886,19 @@ install -p -m 0644 %{SOURCE501} %{buildroot}%{_fontconfig_templatedir}/20-wine-t
 ln -s %{_fontconfig_templatedir}/20-wine-tahoma-nobitmaps.conf \
       %{buildroot}%{_fontconfig_confdir}/20-wine-tahoma-nobitmaps.conf
 
-install -p -m 0755 -d %{buildroot}/%{_datadir}/fonts/wine-wingdings-fonts
-mv %{buildroot}/%{_datadir}/wine/fonts/wingding.ttf %{buildroot}/%{_datadir}/fonts/wine-wingdings-fonts/
+%if 0%{?compholio}
+# install Times New Roman font for system package
+install -p -m 0755 -d %{buildroot}/%{_datadir}/fonts/wine-times-new-roman-fonts
+pushd %{buildroot}/%{_datadir}/fonts/wine-times-new-roman-fonts
+ln -s ../../wine/fonts/times.ttf times.ttf
+popd
+%endif
 
+# install Wingdings font for system package
+install -p -m 0755 -d %{buildroot}/%{_datadir}/fonts/wine-wingdings-fonts
+pushd %{buildroot}/%{_datadir}/fonts/wine-wingdings-fonts
+ln -s ../../wine/fonts/wingding.ttf wingding.ttf
+popd
 
 # clean readme files
 pushd documentation
@@ -767,16 +908,15 @@ do iconv -f iso8859-1 -t utf-8 README.$lang > \
 done;
 popd
 
+# wine makefiles are currently broken and don't install the wine man page
+install -p -m 0644 loader/wine.man %{buildroot}%{_mandir}/man1/wine.1
+install -p -m 0644 loader/wine.de.UTF-8.man %{buildroot}%{_mandir}/de.UTF-8/man1/wine.1
+install -p -m 0644 loader/wine.fr.UTF-8.man %{buildroot}%{_mandir}/fr.UTF-8/man1/wine.1
+mkdir -p %{buildroot}%{_mandir}/pl.UTF-8/man1
+install -p -m 0644 loader/wine.pl.UTF-8.man %{buildroot}%{_mandir}/pl.UTF-8/man1/wine.1
 
-%if 0%{?fedora} >= 15
-%post systemd
-/bin/systemctl try-restart systemd-binfmt.service
 
-%postun systemd
-if [ $1 -eq 0 ]; then
-/bin/systemctl try-restart systemd-binfmt.service
-fi
-
+%if 0%{?fedora} < 23 || 0%{?rhel} < 7
 %post sysvinit
 if [ $1 -eq 1 ]; then
 /sbin/chkconfig --add wine
@@ -789,27 +929,21 @@ if [ $1 -eq 0 ]; then
 /sbin/service wine stop >/dev/null 2>&1
 /sbin/chkconfig --del wine
 fi
+%endif
 
-%post desktop
-update-desktop-database &>/dev/null || :
-touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
+%if 0%{?fedora} >= 15
+%post systemd
+%binfmt_apply wine.conf
 
-%else
-%post desktop
-update-desktop-database &>/dev/null || :
-touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
-if [ $1 -eq 1 ]; then
-/sbin/chkconfig --add wine
-/sbin/chkconfig --level 2345 wine on
-/sbin/service wine start &>/dev/null || :
-fi
-
-%preun desktop
+%postun systemd
 if [ $1 -eq 0 ]; then
-/sbin/service wine stop >/dev/null 2>&1
-/sbin/chkconfig --del wine
+/bin/systemctl try-restart systemd-binfmt.service
 fi
 %endif
+
+%post desktop
+update-desktop-database &>/dev/null || :
+touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
 
 %postun desktop
 update-desktop-database &>/dev/null || :
@@ -822,7 +956,46 @@ fi
 gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %post core -p /sbin/ldconfig
-%postun core -p /sbin/ldconfig
+
+%posttrans core
+%if 0%{?rhel} == 6
+# needed temporarily until people get on alternatives
+rm -f %{_bindir}/wine
+rm -f %{_bindir}/wine-preloader
+rm -f %{_bindir}/wineserver
+%endif
+%ifarch x86_64
+%{_sbindir}/alternatives --install %{_bindir}/wine \
+  wine %{_bindir}/wine64 10 \
+  --slave %{_bindir}/wine-preloader wine-preloader %{_bindir}/wine64-preloader
+%{_sbindir}/alternatives --install %{_bindir}/wineserver \
+  wineserver %{_bindir}/wineserver64 20
+%else
+%ifnarch %{arm}
+%{_sbindir}/alternatives --install %{_bindir}/wine \
+  wine %{_bindir}/wine32 20 \
+  --slave %{_bindir}/wine-preloader wine-preloader %{_bindir}/wine32-preloader
+%{_sbindir}/alternatives --install %{_bindir}/wineserver \
+  wineserver %{_bindir}/wineserver32 10
+%else
+%{_sbindir}/alternatives --install %{_bindir}/wine \
+  wine %{_bindir}/wine32 20
+%{_sbindir}/alternatives --install %{_bindir}/wineserver \
+  wineserver %{_bindir}/wineserver32 10
+%endif
+%endif
+
+%postun core
+/sbin/ldconfig
+if [ $1 -eq 0 ] ; then
+%ifarch x86_64
+  %{_sbindir}/alternatives --remove wine %{_bindir}/wine64
+  %{_sbindir}/alternatives --remove wineserver %{_bindir}/wineserver64
+%else
+  %{_sbindir}/alternatives --remove wine %{_bindir}/wine32
+  %{_sbindir}/alternatives --remove wineserver %{_bindir}/wineserver32
+%endif
+fi
 
 %post ldap -p /sbin/ldconfig
 %postun ldap -p /sbin/ldconfig
@@ -847,12 +1020,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %files
 # meta package
 
-%files wow
-%ifarch %{ix86} %{arm}
-%{_bindir}/wine
-%endif
-%{_bindir}/wineserver
-
 %files core
 %doc ANNOUNCE
 %doc COPYING.LIB
@@ -864,6 +1031,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %doc VERSION
 # do not include huge changelogs .OLD .ALPHA .BETA (#204302)
 %doc documentation/README.*
+%if 0%{?compholio}
+%{_bindir}/msidb
+%endif
 %{_bindir}/winedump
 %{_libdir}/wine/explorer.exe.so
 %{_libdir}/wine/cabarc.exe.so
@@ -885,28 +1055,39 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/dxdiag.exe.so
 
 %ifarch %{ix86} %{arm}
-%{_bindir}/wine
+%{_bindir}/wine32
 %ifnarch %{arm}
-%{_bindir}/wine-preloader
+%{_bindir}/wine32-preloader
 %endif
+%{_bindir}/wineserver32
 %config %{_sysconfdir}/ld.so.conf.d/wine-32.conf
 %endif
 
 %ifarch x86_64
 %{_bindir}/wine64
 %{_bindir}/wine64-preloader
+%{_bindir}/wineserver64
 %config %{_sysconfdir}/ld.so.conf.d/wine-64.conf
 %endif
+
+%ghost %{_bindir}/wine
+%ifnarch %{arm}
+%ghost %{_bindir}/wine-preloader
+%endif
+%ghost %{_bindir}/wineserver
 
 %dir %{_libdir}/wine
 %dir %{_libdir}/wine/fakedlls
 %{_libdir}/wine/fakedlls/*
 
 %{_libdir}/wine/attrib.exe.so
+%{_libdir}/wine/arp.exe.so
 %{_libdir}/wine/aspnet_regiis.exe.so
 %{_libdir}/wine/cacls.exe.so
 %{_libdir}/wine/conhost.exe.so
 %{_libdir}/wine/cscript.exe.so
+%{_libdir}/wine/dpnsvr.exe.so
+%{_libdir}/wine/eject.exe.so
 %{_libdir}/wine/expand.exe.so
 %{_libdir}/wine/extrac32.exe.so
 %{_libdir}/wine/findstr.exe.so
@@ -914,6 +1095,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/ipconfig.exe.so
 %{_libdir}/wine/winhlp32.exe.so
 %{_libdir}/wine/mshta.exe.so
+%if 0%{?compholio}
+%{_libdir}/wine/msidb.exe.so
+%endif
 %{_libdir}/wine/msiexec.exe.so
 %{_libdir}/wine/net.exe.so
 %{_libdir}/wine/netstat.exe.so
@@ -929,18 +1113,22 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/rpcss.exe.so
 %{_libdir}/wine/rundll32.exe.so
 %{_libdir}/wine/schtasks.exe.so
+%{_libdir}/wine/sdbinst.exe.so
 %{_libdir}/wine/secedit.exe.so
 %{_libdir}/wine/servicemodelreg.exe.so
 %{_libdir}/wine/services.exe.so
 %{_libdir}/wine/start.exe.so
+%{_libdir}/wine/tasklist.exe.so
 %{_libdir}/wine/termsv.exe.so
 %{_libdir}/wine/view.exe.so
+%{_libdir}/wine/wevtutil.exe.so
 %{_libdir}/wine/wineboot.exe.so
 %{_libdir}/wine/winebrowser.exe.so
 %{_libdir}/wine/wineconsole.exe.so
 %{_libdir}/wine/winemenubuilder.exe.so
 %{_libdir}/wine/winecfg.exe.so
 %{_libdir}/wine/winedevice.exe.so
+%{_libdir}/wine/wmplayer.exe.so
 %{_libdir}/wine/wscript.exe.so
 %{_libdir}/wine/uninstaller.exe.so
 
@@ -953,10 +1141,81 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/advapi32.dll.so
 %{_libdir}/wine/advpack.dll.so
 %{_libdir}/wine/amstream.dll.so
+%{_libdir}/wine/api-ms-win-core-com-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-console-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-datetime-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-datetime-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-debug-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-debug-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-errorhandling-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-errorhandling-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-errorhandling-l1-1-2.dll.so
+%{_libdir}/wine/api-ms-win-core-fibers-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-fibers-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-file-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-file-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-core-file-l2-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-file-l2-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-handle-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-heap-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-heap-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-core-heap-obsolete-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-interlocked-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-interlocked-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-core-io-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-kernel32-legacy-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-libraryloader-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-libraryloader-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-localization-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-core-localization-l1-2-1.dll.so
+%{_libdir}/wine/api-ms-win-core-localization-obsolete-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-localregistry-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-memory-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-memory-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-misc-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-namedpipe-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-namedpipe-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-core-processenvironment-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-processenvironment-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-processthreads-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-processthreads-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-processthreads-l1-1-2.dll.so
+%{_libdir}/wine/api-ms-win-core-profile-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-psapi-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-registry-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-rtlsupport-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-rtlsupport-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-core-shlwapi-legacy-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-string-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-synch-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-synch-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-core-sysinfo-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-sysinfo-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-core-sysinfo-l1-2-1.dll.so
+%{_libdir}/wine/api-ms-win-core-threadpool-legacy-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-timezone-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-url-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-util-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-winrt-error-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-winrt-error-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-winrt-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-winrt-string-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-xstate-l2-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-conio-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-convert-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-environment-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-filesystem-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-heap-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-locale-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-math-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-multibyte-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-private-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-process-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-runtime-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-stdio-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-string-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-time-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-crt-utility-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-downlevel-advapi32-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-downlevel-advapi32-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-downlevel-normaliz-l1-1-0.dll.so
@@ -966,37 +1225,54 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/api-ms-win-downlevel-shlwapi-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-downlevel-user32-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-downlevel-version-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-eventing-provider-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-ntuser-dc-access-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-base-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-security-base-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-security-sddl-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-service-core-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-service-management-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-service-winsvc-l1-2-0.dll.so
 %{_libdir}/wine/apphelp.dll.so
 %{_libdir}/wine/appwiz.cpl.so
 %{_libdir}/wine/atl.dll.so
 %{_libdir}/wine/atl80.dll.so
+%{_libdir}/wine/atl90.dll.so
 %{_libdir}/wine/atl100.dll.so
+%{_libdir}/wine/atl110.dll.so
 %{_libdir}/wine/authz.dll.so
 %{_libdir}/wine/avicap32.dll.so
 %{_libdir}/wine/avifil32.dll.so
 %{_libdir}/wine/avrt.dll.so
 %{_libdir}/wine/bcrypt.dll.so
+%{_libdir}/wine/bluetoothapis.dll.so
 %{_libdir}/wine/browseui.dll.so
+%{_libdir}/wine/bthprops.cpl.so
 %{_libdir}/wine/cabinet.dll.so
 %{_libdir}/wine/cards.dll.so
 %{_libdir}/wine/cfgmgr32.dll.so
 %{_libdir}/wine/clock.exe.so
 %{_libdir}/wine/clusapi.dll.so
+%{_libdir}/wine/combase.dll.so
 %{_libdir}/wine/comcat.dll.so
 %{_libdir}/wine/comctl32.dll.so
 %{_libdir}/wine/comdlg32.dll.so
 %{_libdir}/wine/compstui.dll.so
+%{_libdir}/wine/comsvcs.dll.so
+%{_libdir}/wine/connect.dll.so
 %{_libdir}/wine/credui.dll.so
 %{_libdir}/wine/crtdll.dll.so
 %{_libdir}/wine/crypt32.dll.so
 %{_libdir}/wine/cryptdlg.dll.so
 %{_libdir}/wine/cryptdll.dll.so
+%{_libdir}/wine/cryptext.dll.so
 %{_libdir}/wine/cryptnet.dll.so
 %{_libdir}/wine/cryptui.dll.so
 %{_libdir}/wine/ctapi32.dll.so
 %{_libdir}/wine/ctl3d32.dll.so
+%{_libdir}/wine/d2d1.dll.so
 %{_libdir}/wine/d3d10.dll.so
+%{_libdir}/wine/d3d10_1.dll.so
 %{_libdir}/wine/d3d10core.dll.so
 %{_libdir}/wine/d3d11.dll.so
 %{_libdir}/wine/d3dcompiler_*.dll.so
@@ -1004,7 +1280,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/d3drm.dll.so
 %{_libdir}/wine/d3dx9_*.dll.so
 %{_libdir}/wine/d3dx10_*.dll.so
+%{_libdir}/wine/d3dx11_42.dll.so
+%{_libdir}/wine/d3dx11_43.dll.so
 %{_libdir}/wine/d3dxof.dll.so
+%{_libdir}/wine/davclnt.dll.so
 %{_libdir}/wine/dbgeng.dll.so
 %{_libdir}/wine/dbghelp.dll.so
 %{_libdir}/wine/dciman32.dll.so
@@ -1031,6 +1310,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/dpnet.dll.so
 %{_libdir}/wine/dpnhpast.dll.so
 %{_libdir}/wine/dpnlobby.dll.so
+%{_libdir}/wine/dpvoice.dll.so
 %{_libdir}/wine/dpwsockx.dll.so
 %{_libdir}/wine/drmclien.dll.so
 %{_libdir}/wine/dsound.dll.so
@@ -1040,10 +1320,16 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/dwrite.dll.so
 %{_libdir}/wine/dxdiagn.dll.so
 %{_libdir}/wine/dxgi.dll.so
-%{_libdir}/wine/eject.exe.so
+%{_libdir}/wine/dxva2.dll.so
+%{_libdir}/wine/esent.dll.so
+%{_libdir}/wine/evr.dll.so
 %{_libdir}/wine/explorerframe.dll.so
+%{_libdir}/wine/ext-ms-win-gdi-devcaps-l1-1-0.dll.so
 %{_libdir}/wine/faultrep.dll.so
 %{_libdir}/wine/fltlib.dll.so
+%{_libdir}/wine/fltmgr.sys.so
+%{_libdir}/wine/fntcache.dll.so
+%{_libdir}/wine/fontsub.dll.so
 %{_libdir}/wine/fusion.dll.so
 %{_libdir}/wine/fwpuclnt.dll.so
 %{_libdir}/wine/gameux.dll.so
@@ -1056,6 +1342,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/hh.exe.so
 %{_libdir}/wine/hhctrl.ocx.so
 %{_libdir}/wine/hid.dll.so
+%{_libdir}/wine/hidclass.sys.so
 %{_libdir}/wine/hlink.dll.so
 %{_libdir}/wine/hnetcfg.dll.so
 %{_libdir}/wine/httpapi.dll.so
@@ -1078,7 +1365,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/itss.dll.so
 %{_libdir}/wine/joy.cpl.so
 %{_libdir}/wine/jscript.dll.so
+%{_libdir}/wine/jsproxy.dll.so
 %{_libdir}/wine/kernel32.dll.so
+%{_libdir}/wine/ksuser.dll.so
 %{_libdir}/wine/ktmw32.dll.so
 %{_libdir}/wine/loadperf.dll.so
 %{_libdir}/wine/localspl.dll.so
@@ -1092,6 +1381,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/mciqtz32.dll.so
 %{_libdir}/wine/mciseq.dll.so
 %{_libdir}/wine/mciwave.dll.so
+%{_libdir}/wine/mf.dll.so
+%{_libdir}/wine/mfplat.dll.so
+%{_libdir}/wine/mfreadwrite.dll.so
 %{_libdir}/wine/mgmtapi.dll.so
 %{_libdir}/wine/midimap.dll.so
 %{_libdir}/wine/mlang.dll.so
@@ -1104,10 +1396,13 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/msacm32.dll.so
 %{_libdir}/wine/msacm32.drv.so
 %{_libdir}/wine/msadp32.acm.so
+%{_libdir}/wine/msasn1.dll.so
 %{_libdir}/wine/mscat32.dll.so
 %{_libdir}/wine/mscoree.dll.so
 %{_libdir}/wine/msctf.dll.so
+%{_libdir}/wine/msctfp.dll.so
 %{_libdir}/wine/msdaps.dll.so
+%{_libdir}/wine/msdelta.dll.so
 %{_libdir}/wine/msdmo.dll.so
 %{_libdir}/wine/msftedit.dll.so
 %{_libdir}/wine/msg711.acm.so
@@ -1124,6 +1419,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/msls31.dll.so
 %{_libdir}/wine/msnet32.dll.so
 %{_libdir}/wine/mspatcha.dll.so
+%{_libdir}/wine/msscript.ocx.so
 %{_libdir}/wine/mssign32.dll.so
 %{_libdir}/wine/mssip32.dll.so
 %{_libdir}/wine/msrle32.dll.so
@@ -1138,12 +1434,16 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/msvcp90.dll.so
 %{_libdir}/wine/msvcp100.dll.so
 %{_libdir}/wine/msvcp110.dll.so
+%{_libdir}/wine/msvcp120.dll.so
+%{_libdir}/wine/msvcp120_app.dll.so
 %{_libdir}/wine/msvcr70.dll.so
 %{_libdir}/wine/msvcr71.dll.so
 %{_libdir}/wine/msvcr80.dll.so
 %{_libdir}/wine/msvcr90.dll.so
 %{_libdir}/wine/msvcr100.dll.so
 %{_libdir}/wine/msvcr110.dll.so
+%{_libdir}/wine/msvcr120.dll.so
+%{_libdir}/wine/msvcr120_app.dll.so
 %{_libdir}/wine/msvcrt.dll.so
 %{_libdir}/wine/msvcrt20.dll.so
 %{_libdir}/wine/msvcrt40.dll.so
@@ -1157,14 +1457,22 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/msxml4.dll.so
 %{_libdir}/wine/msxml6.dll.so
 %{_libdir}/wine/nddeapi.dll.so
+%{_libdir}/wine/ndis.sys.so
 %{_libdir}/wine/netapi32.dll.so
+%{_libdir}/wine/netcfgx.dll.so
+%{_libdir}/wine/netprofm.dll.so
 %{_libdir}/wine/netsh.exe.so
 %{_libdir}/wine/newdev.dll.so
 %{_libdir}/wine/normaliz.dll.so
 %{_libdir}/wine/npmshtml.dll.so
+%{_libdir}/wine/npptools.dll.so
 %{_libdir}/wine/ntdll.dll.so
 %{_libdir}/wine/ntdsapi.dll.so
 %{_libdir}/wine/ntprint.dll.so
+%if 0%{?compholio}
+%{_libdir}/wine/nvcuda.dll.so
+%{_libdir}/wine/nvcuvid.dll.so
+%endif
 %{_libdir}/wine/objsel.dll.so
 %{_libdir}/wine/odbc32.dll.so
 %{_libdir}/wine/odbccp32.dll.so
@@ -1178,12 +1486,14 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/olepro32.dll.so
 %{_libdir}/wine/olesvr32.dll.so
 %{_libdir}/wine/olethk32.dll.so
+%{_libdir}/wine/packager.dll.so
 %{_libdir}/wine/pdh.dll.so
 %{_libdir}/wine/photometadatahandler.dll.so
 %{_libdir}/wine/pidgen.dll.so
 %{_libdir}/wine/powrprof.dll.so
 %{_libdir}/wine/presentationfontcache.exe.so
 %{_libdir}/wine/printui.dll.so
+%{_libdir}/wine/prntvpt.dll.so
 %{_libdir}/wine/propsys.dll.so
 %{_libdir}/wine/psapi.dll.so
 %{_libdir}/wine/pstorec.dll.so
@@ -1218,6 +1528,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/sfc_os.dll.so
 %{_libdir}/wine/shdoclc.dll.so
 %{_libdir}/wine/shdocvw.dll.so
+%{_libdir}/wine/schedsvc.dll.so
 %{_libdir}/wine/shell32.dll.so
 %{_libdir}/wine/shfolder.dll.so
 %{_libdir}/wine/shlwapi.dll.so
@@ -1232,10 +1543,16 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/svchost.exe.so
 %{_libdir}/wine/svrapi.dll.so
 %{_libdir}/wine/sxs.dll.so
+%{_libdir}/wine/systeminfo.exe.so
 %{_libdir}/wine/t2embed.dll.so
 %{_libdir}/wine/tapi32.dll.so
 %{_libdir}/wine/taskkill.exe.so
+%{_libdir}/wine/taskschd.dll.so
+%if 0%{?compholio}
+%{_libdir}/wine/tdi.sys.so
+%endif
 %{_libdir}/wine/traffic.dll.so
+%{_libdir}/wine/ucrtbase.dll.so
 %{_libdir}/wine/unicows.dll.so
 %{_libdir}/wine/unlodctr.exe.so
 %{_libdir}/wine/updspapi.dll.so
@@ -1245,21 +1562,32 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/user32.dll.so
 %{_libdir}/wine/usp10.dll.so
 %{_libdir}/wine/uxtheme.dll.so
+%if 0%{?compholio}
+%{_libdir}/wine/uxtheme-gtk.dll.so
+%endif
 %{_libdir}/wine/userenv.dll.so
 %{_libdir}/wine/vbscript.dll.so
 %{_libdir}/wine/vcomp.dll.so
 %{_libdir}/wine/vcomp90.dll.so
 %{_libdir}/wine/vcomp100.dll.so
+%{_libdir}/wine/vcomp110.dll.so
+%{_libdir}/wine/vcomp120.dll.so
+%{_libdir}/wine/vcruntime140.dll.so
 %{_libdir}/wine/vdmdbg.dll.so
 %{_libdir}/wine/version.dll.so
+%{_libdir}/wine/vssapi.dll.so
+%{_libdir}/wine/wbemdisp.dll.so
 %{_libdir}/wine/wbemprox.dll.so
 %{_libdir}/wine/webservices.dll.so
 %{_libdir}/wine/wer.dll.so
 %{_libdir}/wine/wevtapi.dll.so
 %{_libdir}/wine/wiaservc.dll.so
+%{_libdir}/wine/wimgapi.dll.so
 %{_libdir}/wine/windowscodecs.dll.so
 %{_libdir}/wine/windowscodecsext.dll.so
-%{_libdir}/wine/winegstreamer.dll.so
+%if 0%{?compholio}
+%{_libdir}/wine/wined3d-csmt.dll.so
+%endif
 %{_libdir}/wine/winejoystick.drv.so
 %{_libdir}/wine/winemapi.dll.so
 %{_libdir}/wine/winex11.drv.so
@@ -1273,6 +1601,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/wmi.dll.so
 %{_libdir}/wine/wmic.exe.so
 %{_libdir}/wine/wmiutils.dll.so
+%{_libdir}/wine/wmp.dll.so
 %{_libdir}/wine/wmvcore.dll.so
 %{_libdir}/wine/spoolss.dll.so
 %{_libdir}/wine/winscard.dll.so
@@ -1280,6 +1609,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/wintrust.dll.so
 %{_libdir}/wine/wlanapi.dll.so
 %{_libdir}/wine/wnaspi32.dll.so
+%{_libdir}/wine/wpcap.dll.so
 %{_libdir}/wine/ws2_32.dll.so
 %{_libdir}/wine/wshom.ocx.so
 %{_libdir}/wine/wsnmp32.dll.so
@@ -1296,16 +1626,50 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/wined3d.dll.so
 %{_libdir}/wine/dnsapi.dll.so
 %{_libdir}/wine/iexplore.exe.so
+%{_libdir}/wine/x3daudio1_0.dll.so
+%{_libdir}/wine/x3daudio1_1.dll.so
+%{_libdir}/wine/x3daudio1_2.dll.so
+%{_libdir}/wine/x3daudio1_3.dll.so
+%{_libdir}/wine/x3daudio1_4.dll.so
+%{_libdir}/wine/x3daudio1_5.dll.so
+%{_libdir}/wine/x3daudio1_6.dll.so
+%{_libdir}/wine/x3daudio1_7.dll.so
 %{_libdir}/wine/xapofx1_1.dll.so
+%{_libdir}/wine/xapofx1_2.dll.so
+%{_libdir}/wine/xapofx1_3.dll.so
+%{_libdir}/wine/xapofx1_4.dll.so
+%{_libdir}/wine/xapofx1_5.dll.so
+%{_libdir}/wine/xaudio2_0.dll.so
+%{_libdir}/wine/xaudio2_1.dll.so
+%{_libdir}/wine/xaudio2_2.dll.so
+%{_libdir}/wine/xaudio2_3.dll.so
+%{_libdir}/wine/xaudio2_4.dll.so
+%{_libdir}/wine/xaudio2_5.dll.so
+%{_libdir}/wine/xaudio2_6.dll.so
+%if 0%{?rhel} > 6
+%{_libdir}/wine/xaudio2_7.dll.so
+%endif
+%{_libdir}/wine/xaudio2_8.dll.so
 %{_libdir}/wine/xcopy.exe.so
 %{_libdir}/wine/xinput1_1.dll.so
 %{_libdir}/wine/xinput1_2.dll.so
 %{_libdir}/wine/xinput1_3.dll.so
+%{_libdir}/wine/xinput1_4.dll.so
 %{_libdir}/wine/xinput9_1_0.dll.so
 %{_libdir}/wine/xmllite.dll.so
 %{_libdir}/wine/xolehlp.dll.so
 %{_libdir}/wine/xpsprint.dll.so
 %{_libdir}/wine/xpssvcs.dll.so
+
+%if 0%{?compholio}
+%ifarch x86_64
+%{_libdir}/wine/nvapi64.dll.so
+%{_libdir}/wine/nvencodeapi64.dll.so
+%else
+%{_libdir}/wine/nvapi.dll.so
+%{_libdir}/wine/nvencodeapi.dll.so
+%endif
+%endif
 
 # 16 bit and other non 64bit stuff
 %ifnarch x86_64 %{arm}
@@ -1380,7 +1744,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %dir %{_datadir}/wine/gecko
 %dir %{_datadir}/wine/mono
 %dir %{_datadir}/wine/fonts
-%{_datadir}/wine/generic.ppd
 %{_datadir}/wine/wine.inf
 %{_datadir}/wine/l_intl.nls
 
@@ -1409,38 +1772,60 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_mandir}/man1/winefile.1*
 %{_mandir}/man1/winemine.1*
 %{_mandir}/man1/winepath.1*
-%lang(fr) %{_mandir}/fr.UTF-8/man1/wine.1*
-%lang(fr) %{_mandir}/fr.UTF-8/man1/wineserver.1*
 %lang(de) %{_mandir}/de.UTF-8/man1/wine.1*
 %lang(de) %{_mandir}/de.UTF-8/man1/wineserver.1*
+%lang(fr) %{_mandir}/fr.UTF-8/man1/wine.1*
+%lang(fr) %{_mandir}/fr.UTF-8/man1/wineserver.1*
 %lang(pl) %{_mandir}/pl.UTF-8/man1/wine.1*
 
 %files fonts
 # meta package
 
+%if 0%{?compholio}
+%files arial-fonts
+%doc COPYING.LIB
+%{_datadir}/wine/fonts/arial*
+%endif #0%{?compholio}
+
 %files courier-fonts
 %doc COPYING.LIB
-%{_datadir}/fonts/wine-courier-fonts
+%{_datadir}/wine/fonts/cou*
 
 %files fixedsys-fonts
 %doc COPYING.LIB
-%{_datadir}/fonts/wine-fixedsys-fonts
+%{_datadir}/wine/fonts/*vgafix.fon
 
 %files system-fonts
 %doc COPYING.LIB
-%{_datadir}/fonts/wine-system-fonts
+%{_datadir}/wine/fonts/cvgasys.fon
+%{_datadir}/wine/fonts/hvgasys.fon
+%{_datadir}/wine/fonts/jvgasys.fon
+%{_datadir}/wine/fonts/svgasys.fon
+%{_datadir}/wine/fonts/vgas1255.fon
+%{_datadir}/wine/fonts/vgas1256.fon
+%{_datadir}/wine/fonts/vgas1257.fon
+%{_datadir}/wine/fonts/vgas874.fon
+%{_datadir}/wine/fonts/vgasys.fon
+%{_datadir}/wine/fonts/vgasyse.fon
+%{_datadir}/wine/fonts/vgasysg.fon
+%{_datadir}/wine/fonts/vgasysr.fon
+%{_datadir}/wine/fonts/vgasyst.fon
 
 %files small-fonts
 %doc COPYING.LIB
-%{_datadir}/fonts/wine-small-fonts
+%{_datadir}/wine/fonts/sma*
+%{_datadir}/wine/fonts/jsma*
 
 %files marlett-fonts
 %doc COPYING.LIB
-%{_datadir}/fonts/wine-marlett-fonts
+%{_datadir}/wine/fonts/marlett.ttf
 
 %files ms-sans-serif-fonts
 %doc COPYING.LIB
-%{_datadir}/fonts/wine-ms-sans-serif-fonts
+%{_datadir}/wine/fonts/sse*
+%if 0%{?compholio}
+%{_datadir}/wine/fonts/msyh.ttf
+%endif
 
 %files tahoma-fonts
 %doc COPYING.LIB
@@ -1452,12 +1837,24 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_fontconfig_confdir}/20-wine-tahoma*conf
 %{_fontconfig_templatedir}/20-wine-tahoma*conf
 
+%if 0%{?compholio}
+%files times-new-roman-fonts
+%doc COPYING.LIB
+%{_datadir}/wine/fonts/times.ttf
+
+%files times-new-roman-fonts-system
+%{_datadir}/fonts/wine-times-new-roman-fonts
+%endif
+
 %files symbol-fonts
 %doc COPYING.LIB
-%{_datadir}/fonts/wine-symbol-fonts
+%{_datadir}/wine/fonts/symbol.ttf
 
 %files wingdings-fonts
 %doc COPYING.LIB
+%{_datadir}/wine/fonts/wingding.ttf
+
+%files wingdings-fonts-system
 %{_datadir}/fonts/wine-wingdings-fonts
 
 %files desktop
@@ -1475,17 +1872,19 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_datadir}/applications/wine-oleview.desktop
 %{_datadir}/desktop-directories/Wine.directory
 %config %{_sysconfdir}/xdg/menus/applications-merged/wine.menu
-%if 0%{?fedora} >= 10 || 0%{?rhel} >= 6
+%if 0%{?fedora} >= 10
 %{_datadir}/icons/hicolor/scalable/apps/*svg
 %endif
 
-%if 0%{?fedora} >= 15
+%if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 %files systemd
-%config %{_sysconfdir}/binfmt.d/wine.conf
-
-%files sysvinit
+%config %{_binfmtdir}/wine.conf
 %endif
+
+%if 0%{?fedora} < 23 || 0%{?rhel} < 7
+%files sysvinit
 %{_initrddir}/wine
+%endif
 
 # ldap subpackage
 %files ldap
@@ -1544,15 +1943,303 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/wine/openal32.dll.so
 %endif
 
+%if 0%{?fedora}
+%files opencl
+%{_libdir}/wine/opencl.dll.so
+%endif
+
 %changelog
-* Fri Nov 22 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
-- 1.6.1-1
+* Wed Dec 23 2015 Michael Cronenworth <mike@cchtml.com> 1.8-1
 - version upgrade
 
+* Tue Dec 15 2015 Michael Cronenworth <mike@cchtml.com> 1.8-0.2
+- version upgrade, 1.8-rc4
+- enabling compiler optimizations again (-O2), thanks to gcc 5.3
+
+* Sun Dec 06 2015 Michael Cronenworth <mike@cchtml.com> 1.8-0.1
+- version upgrade, 1.8-rc3
+
+* Sun Nov 15 2015 Michael Cronenworth <mike@cchtml.com> 1.7.55-1
+- version upgrade
+
+* Wed Nov 04 2015 Michael Cronenworth <mike@cchtml.com> 1.7.54-1
+- version upgrade
+
+* Wed Oct 21 2015 Michael Cronenworth <mike@cchtml.com> 1.7.53-1
+- version upgrade
+
+* Sat Oct 03 2015 Michael Cronenworth <mike@cchtml.com> 1.7.52-1
+- version upgrade
+
+* Tue Sep 08 2015 Michael Cronenworth <mike@cchtml.com> 1.7.51-1
+- version upgrade
+
+* Mon Aug 24 2015 Michael Cronenworth <mike@cchtml.com> 1.7.50-1
+- version upgrade
+
+* Fri Aug 14 2015 Michael Cronenworth <mike@cchtml.com> 1.7.49-2
+- backport gecko 2.40 patch
+
+* Fri Aug 14 2015 Michael Cronenworth <mike@cchtml.com> 1.7.49-1
+- version upgrade
+
+* Mon Aug 10 2015 Björn Esser <bjoern.esser@gmail.com> - 1.7.48-2
+- rebuilt for mingw-wine-gecko-2.40
+
+* Fri Jul 31 2015 Michael Cronenworth <mike@cchtml.com> 1.7.48-1
+- version upgrade
+
+* Sun Jul 12 2015 Michael Cronenworth <mike@cchtml.com> 1.7.47-1
+- version upgrade
+
+* Mon Jun 29 2015 Michael Cronenworth <mike@cchtml.com> 1.7.46-1
+- version upgrade
+
+* Fri Jun 19 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.7.45-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
+* Sun Jun 14 2015 Michael Cronenworth <mike@cchtml.com> 1.7.45-1
+- version upgrade
+
+* Sun May 31 2015 Michael Cronenworth <mike@cchtml.com> 1.7.44-1
+- version upgrade
+
+* Mon May 18 2015 Michael Cronenworth <mike@cchtml.com> 1.7.43-1
+- version upgrade
+
+* Mon May 04 2015 Michael Cronenworth <mike@cchtml.com> 1.7.42-1
+- version upgrade
+
+* Sat Apr 18 2015 Michael Cronenworth <mike@cchtml.com> 1.7.41-1
+- version upgrade
+- Disable gstreamer support (rhbz#1204185)
+
+* Mon Apr 06 2015 Michael Cronenworth <mike@cchtml.com> 1.7.40-1
+- version upgrade
+
+* Sun Mar 22 2015 Michael Cronenworth <mike@cchtml.com> 1.7.39-1
+- version upgrade
+- Enable some optimizations and workarounds for GCC5 regressions
+
+* Tue Mar 10 2015 Adam Jackson <ajax@redhat.com> 1.7.38-3
+- Drop sysvinit subpackage on F23+
+
+* Sat Mar 07 2015 Michael Cronenworth <mike@cchtml.com> - 1.7.38-2
+- Fix wine-gecko and wine-mono versions
+
+* Sat Mar 07 2015 Michael Cronenworth <mike@cchtml.com> - 1.7.38-1
+- version upgrade
+
+* Sun Feb 22 2015 Andreas Bierfert <andreas.bierfert@lowlatency.de>
+- 1.7.37-1
+- version upgrade
+
+* Mon Feb 16 2015 Michael Cronenworth <mike@cchtml.com> - 1.7.36-2
+- Patch for RtlUnwindEx fix (staging bz #68)
+- Use new systemd macros for binfmt handling
+
+* Sun Feb 08 2015 Michael Cronenworth <mike@cchtml.com> - 1.7.36-1
+- version upgrade
+
+* Wed Feb 04 2015 Orion Poplawski <orion@cora.nwra.com> - 1.7.35-3
+- Add patch to fix stack smashing (bug #1110419)
+
+* Mon Jan 26 2015 Michael Cronenworth <mike@cchtml.com> - 1.7.35-2
+- Rebuild (libgphoto2)
+
+* Sun Jan 25 2015 Michael Cronenworth <mike@cchtml.com> - 1.7.35-1
+- version upgrade
+- use alternatives system, remove wow sub-package
+
+* Tue Jan 20 2015 Peter Robinson <pbrobinson@fedoraproject.org> 1.7.34-2
+- Rebuild (libgphoto2)
+
+* Sat Jan 10 2015 Michael Cronenworth <mike@cchtml.com>
+- 1.7.34-1
+- version upgrade
+- enable OpenCL support (rhbz#1176605)
+
+* Sun Dec 14 2014 Michael Cronenworth <mike@cchtml.com>
+- 1.7.33-1
+- version upgrade
+
+* Sun Nov 30 2014 Michael Cronenworth <mike@cchtml.com>
+- 1.7.32-1
+- version upgrade
+- wine-mono upgrade
+
+* Fri Nov 14 2014 Andreas Bierfert <andreas.bierfert@lowlatency.de>
+- 1.7.31-1
+- version upgrade
+- wine-gecko upgrade
+- add some missing arch requires
+
+* Sun Nov 02 2014 Andreas Bierfert <andreas.bierfert@lowlatency.de>
+- 1.7.30-1
+- version upgrade (rhbz#1159548)
+- use winepulse patch from compholio patchset when build w/o
+  compholio (rhbz#1151862)
+
+* Fri Oct 24 2014 Michael Cronenworth <mike@cchtml.com>
+- 1.7.29-1
+- version upgrade
+
+* Sun Oct 05 2014 Michael Cronenworth <mike@cchtml.com>
+- 1.7.28-1
+- version upgrade
+- New sub-package for wingdings font system integration
+
+* Wed Sep 24 2014 Michael Cronenworth <mike@cchtml.com>
+- 1.7.27-1
+- version upgrade
+
+* Mon Sep 08 2014 Michael Cronenworth <mike@cchtml.com>
+- 1.7.26-1
+- version upgrade
+
+* Sun Aug 24 2014 Michael Cronenworth <mike@cchtml.com>
+- 1.7.25-1
+- version upgrade
+
+* Mon Aug 18 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.7.24-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+
+* Fri Aug 15 2014 Michael Cronenworth <mike@cchtml.com>
+- 1.7.24-1
+- version upgrade
+- No longer install Wine fonts into system directory (rhbz#1039763)
+
+* Thu Jul 17 2014 Björn Esser <bjoern.esser@gmail.com> - 1.7.22-4
+- prevent accidential build with compholio-patchset on EPEL
+- rebuild for pulseaudio (bug #1117683)
+
+* Mon Jul 14 2014 Björn Esser <bjoern.esser@gmail.com> - 1.7.22-3
+- dropped virtual Provides: %%{name}(compholio)
+
+* Sat Jul 12 2014 Björn Esser <bjoern.esser@gmail.com> - 1.7.22-2
+- added conditionalized option to build with compholio-patchset for pipelight
+  Source900 -- compholio-patchset, wine-arial-fonts sub-package,
+  BR: libattr-devel and configure --with-xattr for Silverlight DRM-stuff
+
+* Fri Jul 11 2014 Michael Cronenworth <mike@cchtml.com>
+- 1.7.22-1
+- version upgrade
+
+* Wed Jul 09 2014 Michael Cronenworth <mike@cchtml.com>
+- 1.7.21-2
+- Fixes for EPEL7 (rhbz#1117422)
+
+* Tue Jul 01 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.21-1
+- version upgrade
+
+* Thu Jun 19 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.20-1
+- version upgrade
+
+* Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.7.19-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
+* Sun May 18 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.19-1
+- version upgrade
+
+* Sat May 10 2014 Michael Cronenworth <mike@cchtml.com>
+- 1.7.18-1
+- version upgrade
+
+* Fri Apr 25 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.17-2
+- fix systemd binfmt location (rhbz#1090170)
+
+* Tue Apr 22 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.17-1
+- version upgrade
+
+* Mon Apr 07 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.16-2
+- explicitly require libpng (fixes rhbz#1085075)
+
+* Mon Apr 07 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.16-1
+- version upgrade
+
+* Mon Mar 24 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.15-1
+- version upgrade
+
+* Sat Mar 08 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.14-1
+- version upgrade
+
+* Sun Feb 23 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.13-1
+- version upgrade
+- upgraded winepulse
+
+* Sat Feb 08 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.12-1
+- version upgrade
+
+* Sun Jan 26 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.11-1
+- version upgrade
+
+* Thu Jan 09 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.10-1
+- version upgrade
+- upgraded winepulse
+
+* Sun Dec 08 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.8-1
+- version upgrade
+- wine mono 4.5.2
+- upgraded winepulse
+
+* Sat Nov 23 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.7-1
+- version upgrade
+
+* Mon Oct 28 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.5-1
+- version upgrade (rhbz#1023716)
+- upgraded winepulse
+
+* Sat Oct 12 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.4-1
+- version upgrade (rhbz#1018601)
+
 * Sat Sep 28 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
-- 1.6-4
-- cleanup for el6
-- pull in relevant bits from 1.7.x spec
+- 1.7.3-1
+- version upgrade (rhbz#1008441)
+- upgraded winepulse
+- wine gecko 2.24
+- fix systemd subpackage scriplet (rhbz#1010742)
+
+* Sun Sep 15 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.2-1
+- version upgrade
+- workaround for rhbz#968860
+- upgraded winepulse
+
+* Sat Aug 31 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.1-2
+- fix icons with patch provided by Frank Dana (rhbz#997543)
+- pull in mesa-dri-drivers in meta package to make direct rendering work out
+  of the box (rhbz#827776)
+- restart systemd binfmt handler on post/postun (rhbz#912354)
+- add arabic translation to fedora desktop files provided by Mosaab Alzoubi
+  (rhbz#979770)
+
+* Sat Aug 31 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.1-1
+- version upgrade
+- build with lcms2
+
+* Sat Aug 17 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.0-1
+- version upgrade
+- wine pulse update
 
 * Sun Aug 04 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.6-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
@@ -2618,7 +3305,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 * Sat Apr 15 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 0.9.12-1
 - fix rpath issues (#187429,#188905)
-- version upgrade 
+- version upgrade
 
 * Mon Apr 03 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 0.9.11-1
@@ -2670,9 +3357,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 - fix cflags for compile
 - test new BR
 
-* Wed Jan 04 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>     
-0.9.4-5                                                                 
-- fix #176834 
+* Wed Jan 04 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+0.9.4-5
+- fix #176834
 
 * Mon Jan 02 2006 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 0.9.4-4
