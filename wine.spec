@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        1.8
+Version:        1.9.0
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1185,6 +1185,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-misc-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-namedpipe-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-namedpipe-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-core-path-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-processenvironment-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-processenvironment-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-processthreads-l1-1-0.dll.so
@@ -1239,6 +1240,7 @@ fi
 %{_libdir}/wine/api-ms-win-ntuser-dc-access-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-base-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-base-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-security-lsalookup-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-sddl-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-service-core-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-service-management-l1-1-0.dll.so
@@ -1957,6 +1959,9 @@ fi
 %endif
 
 %changelog
+* Mon Dec 28 2015 Michael Cronenworth <mike@cchtml.com> 1.9.0-1
+- version upgrade
+
 * Wed Dec 23 2015 Michael Cronenworth <mike@cchtml.com> 1.8-1
 - version upgrade
 
