@@ -2,7 +2,7 @@
 %undefine _hardened_build
 
 %global no64bit   0
-%global winegecko 2.40
+%global winegecko 2.44
 %global winemono  4.5.6
 #global _default_patch_fuzz 2
 
@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        1.9.1
+Version:        1.9.2
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -136,6 +136,8 @@ BuildRequires:  ImageMagick-devel
 BuildRequires:  libtiff-devel
 BuildRequires:  gettext-devel
 BuildRequires:  chrpath
+BuildRequires:  gstreamer1-devel
+BuildRequires:  gstreamer1-plugins-base-devel
 
 # Silverlight DRM-stuff needs XATTR enabled.
 %if 0%{?compholio}
@@ -680,7 +682,7 @@ export CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno
 %configure \
  --sysconfdir=%{_sysconfdir}/wine \
  --x-includes=%{_includedir} --x-libraries=%{_libdir} \
- --without-hal --with-dbus --without-gstreamer \
+ --without-hal --with-dbus \
  --with-x \
 %ifarch x86_64
  --enable-win64 \
@@ -1246,6 +1248,27 @@ fi
 %{_libdir}/wine/api-ms-win-service-core-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-service-management-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-service-winsvc-l1-2-0.dll.so
+%if 0%{?compholio}
+%{_libdir}/wine/api-ms-win-appmodel-runtime-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-apiquery-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-com-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-delayload-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-heap-l2-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-kernel32-legacy-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-libraryloader-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-core-memory-l1-1-2.dll.so
+%{_libdir}/wine/api-ms-win-core-quirks-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-shlwapi-obsolete-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-core-threadpool-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-core-winrt-registration-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-wow64-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-eventing-classicprovider-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-rtcore-ntuser-draw-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-rtcore-ntuser-window-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-shcore-obsolete-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-shcore-stream-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-shcore-thread-l1-1-0.dll.so
+%endif
 %{_libdir}/wine/apphelp.dll.so
 %{_libdir}/wine/appwiz.cpl.so
 %{_libdir}/wine/atl.dll.so
@@ -1338,6 +1361,15 @@ fi
 %{_libdir}/wine/evr.dll.so
 %{_libdir}/wine/explorerframe.dll.so
 %{_libdir}/wine/ext-ms-win-gdi-devcaps-l1-1-0.dll.so
+%if 0%{?compholio}
+%{_libdir}/wine/ext-ms-win-appmodel-usercontext-l1-1-0.dll.so
+%{_libdir}/wine/ext-ms-win-kernel32-package-current-l1-1-0.dll.so
+%{_libdir}/wine/ext-ms-win-ntuser-mouse-l1-1-0.dll.so
+%{_libdir}/wine/ext-ms-win-rtcore-ntuser-syscolors-l1-1-0.dll.so
+%{_libdir}/wine/ext-ms-win-rtcore-ntuser-sysparams-l1-1-0.dll.so
+%{_libdir}/wine/ext-ms-win-uxtheme-themes-l1-1-0.dll.so
+%{_libdir}/wine/ext-ms-win-xaml-pal-l1-1-0.dll.so
+%endif
 %{_libdir}/wine/faultrep.dll.so
 %{_libdir}/wine/fltlib.dll.so
 %{_libdir}/wine/fltmgr.sys.so
@@ -1363,6 +1395,9 @@ fi
 %{_libdir}/wine/icinfo.exe.so
 %{_libdir}/wine/icmp.dll.so
 %{_libdir}/wine/ieframe.dll.so
+%if 0%{?compholio}
+%{_libdir}/wine/iertutil.dll.so
+%endif
 %{_libdir}/wine/imaadp32.acm.so
 %{_libdir}/wine/imagehlp.dll.so
 %{_libdir}/wine/imm32.dll.so
@@ -1374,12 +1409,16 @@ fi
 %{_libdir}/wine/inkobj.dll.so
 %{_libdir}/wine/inseng.dll.so
 %{_libdir}/wine/iphlpapi.dll.so
+%{_libdir}/wine/irprops.cpl.so
 %{_libdir}/wine/itircl.dll.so
 %{_libdir}/wine/itss.dll.so
 %{_libdir}/wine/joy.cpl.so
 %{_libdir}/wine/jscript.dll.so
 %{_libdir}/wine/jsproxy.dll.so
 %{_libdir}/wine/kernel32.dll.so
+%if 0%{?compholio}
+%{_libdir}/wine/kernelbase.dll.so
+%endif
 %{_libdir}/wine/ksuser.dll.so
 %{_libdir}/wine/ktmw32.dll.so
 %{_libdir}/wine/loadperf.dll.so
@@ -1539,6 +1578,9 @@ fi
 %{_libdir}/wine/serialui.dll.so
 %{_libdir}/wine/setupapi.dll.so
 %{_libdir}/wine/sfc_os.dll.so
+%if 0%{?compholio}
+%{_libdir}/wine/shcore.dll.so
+%endif
 %{_libdir}/wine/shdoclc.dll.so
 %{_libdir}/wine/shdocvw.dll.so
 %{_libdir}/wine/schedsvc.dll.so
@@ -1601,6 +1643,7 @@ fi
 %if 0%{?compholio}
 %{_libdir}/wine/wined3d-csmt.dll.so
 %endif
+%{_libdir}/wine/winegstreamer.dll.so
 %{_libdir}/wine/winejoystick.drv.so
 %{_libdir}/wine/winemapi.dll.so
 %{_libdir}/wine/winex11.drv.so
@@ -1661,6 +1704,7 @@ fi
 %{_libdir}/wine/xaudio2_6.dll.so
 %{_libdir}/wine/xaudio2_7.dll.so
 %{_libdir}/wine/xaudio2_8.dll.so
+%{_libdir}/wine/xaudio2_9.dll.so
 %{_libdir}/wine/xcopy.exe.so
 %{_libdir}/wine/xinput1_1.dll.so
 %{_libdir}/wine/xinput1_2.dll.so
@@ -1960,6 +2004,10 @@ fi
 %endif
 
 %changelog
+* Sun Jan 24 2016 Michael Cronenworth <mike@cchtml.com> 1.9.2-1
+- version upgrade
+- enable gstreamer support
+
 * Sun Jan 10 2016 Michael Cronenworth <mike@cchtml.com> 1.9.1-1
 - version upgrade
 
