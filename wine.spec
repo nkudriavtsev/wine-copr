@@ -2,7 +2,11 @@
 %undefine _hardened_build
 
 %global no64bit   0
+%if 0%{?fedora} > 23
 %global winegecko 2.44
+%else
+%global winegecko 2.40
+%endif
 %global winemono  4.5.6
 #global _default_patch_fuzz 2
 
