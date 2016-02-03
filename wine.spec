@@ -9,7 +9,7 @@
 # build with compholio-patches, see:  http://www.compholio.com/wine-compholio/
 # uncomment to enable; comment-out to disable.
 %if 0%{?fedora}
-%global compholio 1
+%global compholio 0
 %endif # 0%{?fedora}
 
 # binfmt macros for RHEL
@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        1.8
+Version:        1.8.1
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -71,7 +71,7 @@ Patch511:       wine-cjk.patch
 
 # wine compholio patches for wine-staging
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/compholio/wine-compholio/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
+#Source900: https://github.com/compholio/wine-compholio/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
 
 %if !%{?no64bit}
 ExclusiveArch:  %{ix86} x86_64 %{arm}
@@ -655,9 +655,9 @@ This package adds the opencl driver for wine.
 %setup -q -n wine-%{version}
 %patch511 -p1 -b.cjk
 
+%if 0%{?compholio}
 # setup and apply wine-staging patches
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
-%if 0%{?compholio}
 
 %{__make} -C patches DESTDIR="`pwd`" install
 
@@ -1957,6 +1957,9 @@ fi
 %endif
 
 %changelog
+* Wed Feb 03 2016 Michael Cronenworth <mike@cchtml.com> 1.8.1-1
+- version upgrade
+
 * Wed Dec 23 2015 Michael Cronenworth <mike@cchtml.com> 1.8-1
 - version upgrade
 
