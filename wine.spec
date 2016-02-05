@@ -26,7 +26,7 @@
 
 Name:           wine
 Version:        1.9.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -2008,6 +2008,9 @@ fi
 %endif
 
 %changelog
+* Fri Feb 05 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
 * Sun Jan 24 2016 Michael Cronenworth <mike@cchtml.com> 1.9.2-1
 - version upgrade
 - enable gstreamer support
