@@ -2,11 +2,7 @@
 %undefine _hardened_build
 
 %global no64bit   0
-%if 0%{?fedora} > 23
 %global winegecko 2.44
-%else
-%global winegecko 2.40
-%endif
 %global winemono  4.5.6
 #global _default_patch_fuzz 2
 
@@ -25,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        1.9.2
+Version:        1.9.3
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1460,6 +1456,7 @@ fi
 %{_libdir}/wine/msdaps.dll.so
 %{_libdir}/wine/msdelta.dll.so
 %{_libdir}/wine/msdmo.dll.so
+%{_libdir}/wine/msdrm.dll.so
 %{_libdir}/wine/msftedit.dll.so
 %{_libdir}/wine/msg711.acm.so
 %{_libdir}/wine/msgsm32.acm.so
@@ -2008,6 +2005,9 @@ fi
 %endif
 
 %changelog
+* Mon Feb 08 2016 Michael Cronenworth <mike@cchtml.com> 1.9.3-1
+- version upgrade
+
 * Sun Jan 24 2016 Michael Cronenworth <mike@cchtml.com> 1.9.2-1
 - version upgrade
 - enable gstreamer support
