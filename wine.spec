@@ -2008,6 +2008,9 @@ fi
 * Mon Feb 08 2016 Michael Cronenworth <mike@cchtml.com> 1.9.3-1
 - version upgrade
 
+* Fri Feb 05 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.9.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
 * Sun Jan 24 2016 Michael Cronenworth <mike@cchtml.com> 1.9.2-1
 - version upgrade
 - enable gstreamer support
