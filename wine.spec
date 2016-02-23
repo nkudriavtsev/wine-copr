@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        1.9.3
+Version:        1.9.4
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1183,6 +1183,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-kernel32-legacy-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-libraryloader-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-libraryloader-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-localization-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-localization-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-localization-l1-2-1.dll.so
 %{_libdir}/wine/api-ms-win-core-localization-obsolete-l1-1-0.dll.so
@@ -1396,6 +1397,7 @@ fi
 %{_libdir}/wine/hlink.dll.so
 %{_libdir}/wine/hnetcfg.dll.so
 %{_libdir}/wine/httpapi.dll.so
+%{_libdir}/wine/icacls.exe.so
 %{_libdir}/wine/iccvid.dll.so
 %{_libdir}/wine/icinfo.exe.so
 %{_libdir}/wine/icmp.dll.so
@@ -1593,6 +1595,9 @@ fi
 %{_libdir}/wine/shell32.dll.so
 %{_libdir}/wine/shfolder.dll.so
 %{_libdir}/wine/shlwapi.dll.so
+%if 0%{?compholio}
+%{_libdir}/wine/shutdown.exe.so
+%endif
 %{_libdir}/wine/slbcsp.dll.so
 %{_libdir}/wine/slc.dll.so
 %{_libdir}/wine/snmpapi.dll.so
@@ -2010,6 +2015,9 @@ fi
 %endif
 
 %changelog
+* Mon Feb 22 2016 Michael Cronenworth <mike@cchtml.com> 1.9.4-1
+- version upgrade
+
 * Mon Feb 08 2016 Michael Cronenworth <mike@cchtml.com> 1.9.3-1
 - version upgrade
 
