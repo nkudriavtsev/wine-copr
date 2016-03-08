@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        1.9.4
+Version:        1.9.5
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -2015,6 +2015,9 @@ fi
 %endif
 
 %changelog
+* Tue Mar 08 2016 Michael Cronenworth <mike@cchtml.com> 1.9.5-1
+- version upgrade
+
 * Mon Feb 22 2016 Michael Cronenworth <mike@cchtml.com> 1.9.4-1
 - version upgrade
 
