@@ -3,7 +3,7 @@
 
 %global no64bit   0
 %global winegecko 2.44
-%global winemono  4.5.6
+%global winemono  4.6.0
 #global _default_patch_fuzz 2
 
 # build with compholio-patches, see:  http://www.compholio.com/wine-compholio/
@@ -22,7 +22,7 @@
 
 Name:           wine
 Version:        1.9.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -2015,6 +2015,9 @@ fi
 %endif
 
 %changelog
+* Tue Mar 08 2016 Michael Cronenworth <mike@cchtml.com> 1.9.5-2
+- update mono requirement
+
 * Tue Mar 08 2016 Michael Cronenworth <mike@cchtml.com> 1.9.5-1
 - version upgrade
 
