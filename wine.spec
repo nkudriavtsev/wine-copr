@@ -21,8 +21,8 @@
 %endif
 
 Name:           wine
-Version:        1.9.5
-Release:        2%{?dist}
+Version:        1.9.6
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -1171,6 +1171,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-fibers-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-file-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-file-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-core-file-l1-2-1.dll.so
 %{_libdir}/wine/api-ms-win-core-file-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-file-l2-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-handle-l1-1-0.dll.so
@@ -1190,6 +1191,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-localregistry-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-memory-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-memory-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-memory-l1-1-2.dll.so
 %{_libdir}/wine/api-ms-win-core-misc-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-namedpipe-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-namedpipe-l1-2-0.dll.so
@@ -1206,6 +1208,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-rtlsupport-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-shlwapi-legacy-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-string-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-string-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-synch-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-synch-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-sysinfo-l1-1-0.dll.so
@@ -1215,6 +1218,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-timezone-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-url-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-util-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-version-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-winrt-error-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-winrt-error-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-winrt-l1-1-0.dll.so
@@ -1262,7 +1266,6 @@ fi
 %{_libdir}/wine/api-ms-win-core-heap-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-kernel32-legacy-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-libraryloader-l1-2-0.dll.so
-%{_libdir}/wine/api-ms-win-core-memory-l1-1-2.dll.so
 %{_libdir}/wine/api-ms-win-core-quirks-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-shlwapi-obsolete-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-threadpool-l1-2-0.dll.so
@@ -1642,6 +1645,10 @@ fi
 %{_libdir}/wine/vdmdbg.dll.so
 %{_libdir}/wine/version.dll.so
 %{_libdir}/wine/vssapi.dll.so
+%if 0%{?compholio}
+%{_libdir}/wine/vulkan-1.dll.so
+%{_libdir}/wine/vulkan.dll.so
+%endif
 %{_libdir}/wine/wbemdisp.dll.so
 %{_libdir}/wine/wbemprox.dll.so
 %{_libdir}/wine/webservices.dll.so
@@ -1665,6 +1672,7 @@ fi
 %{_libdir}/wine/winnls32.dll.so
 %{_libdir}/wine/winspool.drv.so
 %{_libdir}/wine/winsta.dll.so
+%{_libdir}/wine/wmasf.dll.so
 %{_libdir}/wine/wmi.dll.so
 %{_libdir}/wine/wmic.exe.so
 %{_libdir}/wine/wmiutils.dll.so
@@ -1684,6 +1692,9 @@ fi
 %{_libdir}/wine/wtsapi32.dll.so
 %{_libdir}/wine/wuapi.dll.so
 %{_libdir}/wine/wuaueng.dll.so
+%if 0%{?compholio}
+%{_libdir}/wine/wuauserv.exe.so
+%endif
 %{_libdir}/wine/security.dll.so
 %{_libdir}/wine/sfc.dll.so
 %{_libdir}/wine/wineps.drv.so
@@ -2015,6 +2026,9 @@ fi
 %endif
 
 %changelog
+* Mon Mar 21 2016 Michael Cronenworth <mike@cchtml.com> 1.9.6-1
+- version upgrade
+
 * Tue Mar 08 2016 Michael Cronenworth <mike@cchtml.com> 1.9.5-2
 - update mono requirement
 
