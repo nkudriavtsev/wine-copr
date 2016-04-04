@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        1.9.6
+Version:        1.9.7
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1108,6 +1108,9 @@ fi
 %{_libdir}/wine/expand.exe.so
 %{_libdir}/wine/extrac32.exe.so
 %{_libdir}/wine/findstr.exe.so
+%if 0%{?compholio}
+%{_libdir}/wine/fsutil.exe.so
+%endif
 %{_libdir}/wine/hostname.exe.so
 %{_libdir}/wine/ipconfig.exe.so
 %{_libdir}/wine/winhlp32.exe.so
@@ -2026,6 +2029,9 @@ fi
 %endif
 
 %changelog
+* Sun Apr 03 2016 Michael Cronenworth <mike@cchtml.com> 1.9.7-1
+- version upgrade
+
 * Mon Mar 21 2016 Michael Cronenworth <mike@cchtml.com> 1.9.6-1
 - version upgrade
 
