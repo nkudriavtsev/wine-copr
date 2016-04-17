@@ -3,7 +3,7 @@
 
 %global no64bit   0
 %global winegecko 2.44
-%global winemono  4.6.0
+%global winemono  4.6.2
 #global _default_patch_fuzz 2
 
 # build with compholio-patches, see:  http://www.compholio.com/wine-compholio/
@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        1.9.7
+Version:        1.9.8
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -677,12 +677,7 @@ rm -rf patches/
 # disable fortify as it breaks wine
 # http://bugs.winehq.org/show_bug.cgi?id=24606
 # http://bugs.winehq.org/show_bug.cgi?id=25073
-%if 0%{?fedora} > 23
 export CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno-error"
-%else
-export TEMP_CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-O2/-O0/'`"
-export CFLAGS="`echo $TEMP_CFLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno-error"
-%endif
 
 %configure \
  --sysconfdir=%{_sysconfdir}/wine \
@@ -1383,6 +1378,9 @@ fi
 %{_libdir}/wine/ext-ms-win-xaml-pal-l1-1-0.dll.so
 %endif
 %{_libdir}/wine/faultrep.dll.so
+%if 0%{?compholio}
+%{_libdir}/wine/feclient.dll.so
+%endif
 %{_libdir}/wine/fltlib.dll.so
 %{_libdir}/wine/fltmgr.sys.so
 %{_libdir}/wine/fntcache.dll.so
@@ -1625,6 +1623,9 @@ fi
 %endif
 %{_libdir}/wine/traffic.dll.so
 %{_libdir}/wine/ucrtbase.dll.so
+%if 0%{?compholio}
+%{_libdir}/wine/uiautomationcore.dll.so
+%endif
 %{_libdir}/wine/unicows.dll.so
 %{_libdir}/wine/unlodctr.exe.so
 %{_libdir}/wine/updspapi.dll.so
@@ -2029,6 +2030,9 @@ fi
 %endif
 
 %changelog
+* Sun Apr 17 2016 Michael Cronenworth <mike@cchtml.com> 1.9.8-1
+- version upgrade
+
 * Sun Apr 03 2016 Michael Cronenworth <mike@cchtml.com> 1.9.7-1
 - version upgrade
 
