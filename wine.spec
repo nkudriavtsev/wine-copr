@@ -2,7 +2,7 @@
 %undefine _hardened_build
 
 %global no64bit   0
-%global winegecko 2.44
+%global winegecko 2.47
 %global winemono  4.6.2
 #global _default_patch_fuzz 2
 
@@ -22,7 +22,7 @@
 
 Name:           wine
 Version:        1.9.10
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -2030,6 +2030,9 @@ fi
 %endif
 
 %changelog
+* Tue May 24 2016 Michael Cronenworth <mike@cchtml.com> 1.9.10-2
+- gecko update
+
 * Tue May 17 2016 Michael Cronenworth <mike@cchtml.com> 1.9.10-1
 - version upgrade
 
