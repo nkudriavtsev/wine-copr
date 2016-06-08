@@ -2,7 +2,11 @@
 %undefine _hardened_build
 
 %global no64bit   0
+%if 0%{?fedora} <= 23
+%global winegecko 2.44
+%else
 %global winegecko 2.47
+%endif
 %global winemono  4.6.2
 #global _default_patch_fuzz 2
 
@@ -21,8 +25,8 @@
 %endif
 
 Name:           wine
-Version:        1.9.10
-Release:        2%{?dist}
+Version:        1.9.11
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -1521,6 +1525,7 @@ fi
 %{_libdir}/wine/msxml4.dll.so
 %{_libdir}/wine/msxml6.dll.so
 %{_libdir}/wine/nddeapi.dll.so
+%{_libdir}/wine/ncrypt.dll.so
 %{_libdir}/wine/ndis.sys.so
 %{_libdir}/wine/netapi32.dll.so
 %{_libdir}/wine/netcfgx.dll.so
@@ -2030,6 +2035,9 @@ fi
 %endif
 
 %changelog
+* Tue Jun 07 2016 Michael Cronenworth <mike@cchtml.com> 1.9.11-1
+- version update
+
 * Tue May 24 2016 Michael Cronenworth <mike@cchtml.com> 1.9.10-2
 - gecko update
 
