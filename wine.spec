@@ -7,7 +7,7 @@
 %else
 %global winegecko 2.47
 %endif
-%global winemono  4.6.2
+%global winemono  4.6.3
 #global _default_patch_fuzz 2
 
 # build with compholio-patches, see:  http://www.compholio.com/wine-compholio/
@@ -25,7 +25,7 @@
 %endif
 
 Name:           wine
-Version:        1.9.11
+Version:        1.9.12
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -2035,6 +2035,9 @@ fi
 %endif
 
 %changelog
+* Wed Jun 15 2016 Michael Cronenworth <mike@cchtml.com> 1.9.12-1
+- version update
+
 * Tue Jun 07 2016 Michael Cronenworth <mike@cchtml.com> 1.9.11-1
 - version update
 
