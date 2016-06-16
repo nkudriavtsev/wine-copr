@@ -1,0 +1,94 @@
+From 3e08f247b8bf105f1548648b93fad4a672ac7d7b Mon Sep 17 00:00:00 2001
+From: Michael Cronenworth <mike@cchtml.com>
+Date: Wed, 15 Jun 2016 19:03:22 -0500
+Subject: [PATCH] configure: Check for GnuTLS block size function
+
+Instead of providing an extern, perform a configure check. The
+function return type changed from signed to unsigned in GnuTLS 3.5.
+
+Signed-off-by: Michael Cronenworth <mike@cchtml.com>
+---
+ configure                      | 37 +++++++++++++++++++++++++++++++++++++
+ configure.ac                   |  3 +++
+ dlls/secur32/schannel_gnutls.c |  3 ---
+ 3 files changed, 40 insertions(+), 3 deletions(-)
+
+diff --git a/configure b/configure
+index d1a6a68..1c39a6c 100755
+--- a/configure
++++ b/configure
+@@ -11655,6 +11655,43 @@ CPPFLAGS=$ac_save_CPPFLAGS
+ test -z "$GNUTLS_CFLAGS" || GNUTLS_CFLAGS=`echo " $GNUTLS_CFLAGS" | sed 's/ -I\([^/]\)/ -I\$(top_builddir)\/\1/g'`
+ test -z "$GNUTLS_LIBS" || GNUTLS_LIBS=`echo " $GNUTLS_LIBS" | sed 's/ -L\([^/]\)/ -L\$(top_builddir)\/\1/g'`
+ 
++    if ${GNUTLS_CFLAGS:+false} :; then :
++  if ${PKG_CONFIG+:} false; then :
++  GNUTLS_CFLAGS=`$PKG_CONFIG --cflags gnutls 2>/dev/null`
++fi
++fi
++
++if ${GNUTLS_LIBS:+false} :; then :
++  if ${PKG_CONFIG+:} false; then :
++  GNUTLS_LIBS=`$PKG_CONFIG --libs gnutls 2>/dev/null`
++fi
++fi
++
++
++$as_echo "$as_me:${as_lineno-$LINENO}: gnutls cflags: $GNUTLS_CFLAGS" >&5
++$as_echo "$as_me:${as_lineno-$LINENO}: gnutls libs: $GNUTLS_LIBS" >&5
++ac_save_CPPFLAGS=$CPPFLAGS
++CPPFLAGS="$CPPFLAGS $GNUTLS_CFLAGS"
++ac_wine_check_funcs_save_LIBS="$LIBS"
++LIBS="$LIBS $GNUTLS_LIBS"
++for ac_func in gnutls_cipher_get_block_size
++do :
++  ac_fn_c_check_func "$LINENO" "gnutls_cipher_get_block_size" "ac_cv_func_gnutls_cipher_get_block_size"
++if test "x$ac_cv_func_gnutls_cipher_get_block_size" = xyes; then :
++  cat >>confdefs.h <<_ACEOF
++#define HAVE_GNUTLS_CIPHER_GET_BLOCK_SIZE 1
++_ACEOF
++
++else
++  as_fn_append wine_notices "|libgnutls ${notice_platform}development files too old, no block size support."
++fi
++done
++
++LIBS="$ac_wine_check_funcs_save_LIBS"
++CPPFLAGS=$ac_save_CPPFLAGS
++test -z "$GNUTLS_CFLAGS" || GNUTLS_CFLAGS=`echo " $GNUTLS_CFLAGS" | sed 's/ -I\([^/]\)/ -I\$(top_builddir)\/\1/g'`
++test -z "$GNUTLS_LIBS" || GNUTLS_LIBS=`echo " $GNUTLS_LIBS" | sed 's/ -L\([^/]\)/ -L\$(top_builddir)\/\1/g'`
++
+ fi
+ if test "x$ac_cv_lib_soname_gnutls" = "x"; then :
+   case "x$with_gnutls" in
+diff --git a/configure.ac b/configure.ac
+index 7f234b2..6ae8dde 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -1268,6 +1268,9 @@ then
+                  WINE_CHECK_LIB_FUNCS(gnutls_hash,[$GNUTLS_LIBS],,
+                                       [WINE_NOTICE([libgnutls ${notice_platform}development files too old, no bcrypt hash support.])])])],
+             [GNUTLS_CFLAGS=""])])
++    WINE_PACKAGE_FLAGS(GNUTLS,[gnutls],,,,
++        [WINE_CHECK_LIB_FUNCS(gnutls_cipher_get_block_size,[$GNUTLS_LIBS],,
++                              [WINE_NOTICE([libgnutls ${notice_platform}development files too old, no block size support.])])])
+ fi
+ WINE_WARNING_WITH(gnutls,[test "x$ac_cv_lib_soname_gnutls" = "x"],
+                  [libgnutls ${notice_platform}development files not found, no schannel support.])
+diff --git a/dlls/secur32/schannel_gnutls.c b/dlls/secur32/schannel_gnutls.c
+index b10b629..2388c55 100644
+--- a/dlls/secur32/schannel_gnutls.c
++++ b/dlls/secur32/schannel_gnutls.c
+@@ -41,9 +41,6 @@
+ WINE_DEFAULT_DEBUG_CHANNEL(secur32);
+ WINE_DECLARE_DEBUG_CHANNEL(winediag);
+ 
+-/* Not present in gnutls version < 2.9.10. */
+-extern int gnutls_cipher_get_block_size(gnutls_cipher_algorithm_t algorithm);
+-
+ static void *libgnutls_handle;
+ #define MAKE_FUNCPTR(f) static typeof(f) * p##f
+ MAKE_FUNCPTR(gnutls_alert_get);
+-- 
+2.5.5
+

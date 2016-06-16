@@ -72,6 +72,8 @@ Source501:      wine-tahoma.conf
 Source502:      wine-README-tahoma
 
 Patch511:       wine-cjk.patch
+# GnuTLS 3.5 fix
+Patch512:       wine-gnutls-3.5.patch
 
 # wine compholio patches for wine-staging
 # pulseaudio-patch is covered by that patch-set, too.
@@ -660,6 +662,7 @@ This package adds the opencl driver for wine.
 %prep
 %setup -q -n wine-%{version}
 %patch511 -p1 -b.cjk
+%patch512 -p1 -b.gnutls
 
 # setup and apply wine-staging patches
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
