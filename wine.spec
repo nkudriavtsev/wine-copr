@@ -1648,8 +1648,8 @@ fi
 %{_libdir}/wine/xaudio2_6.dll.so
 %if 0%{?rhel} > 6
 %{_libdir}/wine/xaudio2_7.dll.so
-%endif
 %{_libdir}/wine/xaudio2_8.dll.so
+%endif
 %{_libdir}/wine/xcopy.exe.so
 %{_libdir}/wine/xinput1_1.dll.so
 %{_libdir}/wine/xinput1_2.dll.so
