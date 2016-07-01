@@ -25,7 +25,7 @@
 %endif
 
 Name:           wine
-Version:        1.9.12
+Version:        1.9.13
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -72,8 +72,7 @@ Source501:      wine-tahoma.conf
 Source502:      wine-README-tahoma
 
 Patch511:       wine-cjk.patch
-# GnuTLS 3.5 fix
-Patch512:       wine-gnutls-3.5.patch
+Patch512:       wine-cups-2.2.patch
 
 # wine compholio patches for wine-staging
 # pulseaudio-patch is covered by that patch-set, too.
@@ -663,7 +662,7 @@ This package adds the opencl driver for wine.
 %prep
 %setup -q -n wine-%{version}
 %patch511 -p1 -b.cjk
-%patch512 -p1 -b.gnutls
+%patch512 -p1 -b.cups
 
 # setup and apply wine-staging patches
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
@@ -2039,6 +2038,9 @@ fi
 %endif
 
 %changelog
+* Fri Jul 01 2016 Michael Cronenworth <mike@cchtml.com> 1.9.13-1
+- version update
+
 * Wed Jun 15 2016 Michael Cronenworth <mike@cchtml.com> 1.9.12-1
 - version update
 
