@@ -25,7 +25,7 @@
 %endif
 
 Name:           wine
-Version:        1.9.15
+Version:        1.9.16
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1505,6 +1505,7 @@ fi
 %{_libdir}/wine/msvcp110.dll.so
 %{_libdir}/wine/msvcp120.dll.so
 %{_libdir}/wine/msvcp120_app.dll.so
+%{_libdir}/wine/msvcp140.dll.so
 %{_libdir}/wine/msvcr70.dll.so
 %{_libdir}/wine/msvcr71.dll.so
 %{_libdir}/wine/msvcr80.dll.so
@@ -2037,6 +2038,9 @@ fi
 %endif
 
 %changelog
+* Tue Aug 09 2016 Michael Cronenworth <mike@cchtml.com> 1.9.16-1
+- version update
+
 * Fri Jul 29 2016 Michael Cronenworth <mike@cchtml.com> 1.9.15-1
 - version update
 
