@@ -731,7 +731,7 @@ mv %{buildroot}%{_bindir}/wineserver %{buildroot}%{_bindir}/wineserver64
 mv %{buildroot}%{_bindir}/wine %{buildroot}%{_bindir}/wine32
 mv %{buildroot}%{_bindir}/wineserver %{buildroot}%{_bindir}/wineserver32
 %endif
-%ifnarch %{arm} aarch64
+%ifnarch %{arm} aarch64 x86_64
 mv %{buildroot}%{_bindir}/wine-preloader %{buildroot}%{_bindir}/wine32-preloader
 %endif
 touch %{buildroot}%{_bindir}/wine
