@@ -78,7 +78,7 @@ Patch511:       wine-cjk.patch
 Source900: https://github.com/compholio/wine-compholio/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
 
 %if !%{?no64bit}
-ExclusiveArch:  %{ix86} x86_64 %{arm}
+ExclusiveArch:  %{ix86} x86_64 %{arm} aarch64
 %else
 ExclusiveArch:  %{ix86} %{arm}
 %endif
@@ -207,7 +207,7 @@ Requires:       mesa-dri-drivers(x86-64)
 %endif
 
 # ARM parts
-%ifarch %{arm}
+%ifarch %{arm} aarch64
 Requires:       wine-core = %{version}-%{release}
 Requires:       wine-capi = %{version}-%{release}
 Requires:       wine-cms = %{version}-%{release}
@@ -220,6 +220,20 @@ Requires:       wine-opencl = %{version}-%{release}
 %endif
 Requires:       mesa-dri-drivers
 Requires:       samba-winbind-clients
+%endif
+
+# aarch64 parts
+%ifarch aarch64
+Requires:       wine-core(aarch64) = %{version}-%{release}
+Requires:       wine-capi(aarch64) = %{version}-%{release}
+Requires:       wine-cms(aarch64) = %{version}-%{release}
+Requires:       wine-ldap(aarch64) = %{version}-%{release}
+Requires:       wine-twain(aarch64) = %{version}-%{release}
+Requires:       wine-pulseaudio(aarch64) = %{version}-%{release}
+Requires:       wine-openal(aarch64) = %{version}-%{release}
+Requires:       wine-opencl(aarch64) = %{version}-%{release}
+Requires:       mingw64-wine-gecko = %winegecko
+Requires:       mesa-dri-drivers(aarch64)
 %endif
 
 %description
@@ -283,7 +297,7 @@ Requires:       libva(x86-64)
 %endif
 %endif
 
-%ifarch %{arm}
+%ifarch %{arm} aarch64
 Requires:       freetype
 Requires:       nss-mdns
 Requires:       gnutls
@@ -295,6 +309,9 @@ Requires:       libpcap
 Requires:       mesa-libOSMesa
 Requires:       libv4l
 Requires:       unixODBC
+%if 0%{?compholio}
+Requires:       libva
+%endif
 %endif
 
 # old removed packages
@@ -585,7 +602,7 @@ Requires: sane-backends-libs(x86-32)
 %ifarch x86_64
 Requires: sane-backends-libs(x86-64)
 %endif
-%ifarch %{arm}
+%ifarch %{arm} aarch64
 Requires: sane-backends-libs
 %endif
 
@@ -666,7 +683,7 @@ This package adds the opencl driver for wine.
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
 %if 0%{?compholio}
 
-%{__make} -C patches DESTDIR="`pwd`" install
+make -C patches DESTDIR="`pwd`" install
 
 # fix parallelized build
 sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
@@ -689,13 +706,13 @@ export CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno
  --x-includes=%{_includedir} --x-libraries=%{_libdir} \
  --without-hal --with-dbus \
  --with-x \
-%ifarch x86_64
+%ifarch x86_64 aarch64
  --enable-win64 \
 %endif
 %{?compholio: --with-xattr} \
  --disable-tests
 
-%{__make} %{?_smp_mflags} TARGETFLAGS=""
+make %{?_smp_mflags} TARGETFLAGS=""
 
 %install
 
@@ -707,14 +724,15 @@ export CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno
         UPDATE_DESKTOP_DATABASE=/bin/true
 
 # setup for alternatives usage
-%ifarch x86_64
+%ifarch x86_64 aarch64
 mv %{buildroot}%{_bindir}/wineserver %{buildroot}%{_bindir}/wineserver64
-%else
-mv %{buildroot}%{_bindir}/wine %{buildroot}%{_bindir}/wine32
-%ifnarch %{arm}
-mv %{buildroot}%{_bindir}/wine-preloader %{buildroot}%{_bindir}/wine32-preloader
 %endif
+%ifarch %{ix86} %{arm}
+mv %{buildroot}%{_bindir}/wine %{buildroot}%{_bindir}/wine32
 mv %{buildroot}%{_bindir}/wineserver %{buildroot}%{_bindir}/wineserver32
+%endif
+%ifnarch %{arm} aarch64 x86_64
+mv %{buildroot}%{_bindir}/wine-preloader %{buildroot}%{_bindir}/wine32-preloader
 %endif
 touch %{buildroot}%{_bindir}/wine
 %ifnarch %{arm}
@@ -725,7 +743,7 @@ touch %{buildroot}%{_bindir}/wineserver
 # remove rpath
 chrpath --delete %{buildroot}%{_bindir}/wmc
 chrpath --delete %{buildroot}%{_bindir}/wrc
-%ifarch x86_64
+%ifarch x86_64 aarch64
 chrpath --delete %{buildroot}%{_bindir}/wine64
 chrpath --delete %{buildroot}%{_bindir}/wineserver64
 %else
@@ -873,7 +891,7 @@ mkdir -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 install -p -m644 %{SOURCE4} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %endif
 
-%ifarch x86_64
+%ifarch x86_64 aarch64
 install -p -m644 %{SOURCE5} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %endif
 
@@ -981,7 +999,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %post core -p /sbin/ldconfig
 
 %posttrans core
-%ifarch x86_64
+%ifarch x86_64 aarch64
 %{_sbindir}/alternatives --install %{_bindir}/wine \
   wine %{_bindir}/wine64 10 \
   --slave %{_bindir}/wine-preloader wine-preloader %{_bindir}/wine64-preloader
@@ -1005,7 +1023,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %postun core
 /sbin/ldconfig
 if [ $1 -eq 0 ] ; then
-%ifarch x86_64
+%ifarch x86_64 aarch64 aarch64
   %{_sbindir}/alternatives --remove wine %{_bindir}/wine64
   %{_sbindir}/alternatives --remove wineserver %{_bindir}/wineserver64
 %else
@@ -1080,11 +1098,13 @@ fi
 %config %{_sysconfdir}/ld.so.conf.d/wine-32.conf
 %endif
 
-%ifarch x86_64
+%ifarch x86_64 aarch64
 %{_bindir}/wine64
-%{_bindir}/wine64-preloader
 %{_bindir}/wineserver64
 %config %{_sysconfdir}/ld.so.conf.d/wine-64.conf
+%endif
+%ifarch x86_64
+%{_bindir}/wine64-preloader
 %endif
 
 %ghost %{_bindir}/wine
@@ -1754,7 +1774,7 @@ fi
 %{_libdir}/wine/xpssvcs.dll.so
 
 %if 0%{?compholio}
-%ifarch x86_64
+%ifarch x86_64 aarch64
 %{_libdir}/wine/nvapi64.dll.so
 %{_libdir}/wine/nvencodeapi64.dll.so
 %else
@@ -1764,7 +1784,7 @@ fi
 %endif
 
 # 16 bit and other non 64bit stuff
-%ifnarch x86_64 %{arm}
+%ifnarch x86_64 %{arm} aarch64
 %{_libdir}/wine/winevdm.exe.so
 %{_libdir}/wine/ifsmgr.vxd.so
 %{_libdir}/wine/mmdevldr.vxd.so
@@ -2043,6 +2063,9 @@ fi
 %changelog
 * Sun Aug 28 2016 Michael Cronenworth <mike@cchtml.com> 1.9.17-1
 - version update
+
+* Sat Aug 20 2016 Peter Robinson <pbrobinson@fedoraproject.org> 1.9.16-2
+- build on aarch64
 
 * Tue Aug 09 2016 Michael Cronenworth <mike@cchtml.com> 1.9.16-1
 - version update
