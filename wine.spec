@@ -25,7 +25,7 @@
 %endif
 
 Name:           wine
-Version:        1.9.16
+Version:        1.9.17
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1163,6 +1163,7 @@ fi
 %{_libdir}/wine/amstream.dll.so
 %{_libdir}/wine/api-ms-win-core-com-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-console-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-console-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-datetime-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-datetime-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-debug-l1-1-0.dll.so
@@ -1307,6 +1308,7 @@ fi
 %{_libdir}/wine/comdlg32.dll.so
 %{_libdir}/wine/compstui.dll.so
 %{_libdir}/wine/comsvcs.dll.so
+%{_libdir}/wine/concrt140.dll.so
 %{_libdir}/wine/connect.dll.so
 %{_libdir}/wine/credui.dll.so
 %{_libdir}/wine/crtdll.dll.so
@@ -1653,6 +1655,7 @@ fi
 %{_libdir}/wine/vcomp100.dll.so
 %{_libdir}/wine/vcomp110.dll.so
 %{_libdir}/wine/vcomp120.dll.so
+%{_libdir}/wine/vcomp140.dll.so
 %{_libdir}/wine/vcruntime140.dll.so
 %{_libdir}/wine/vdmdbg.dll.so
 %{_libdir}/wine/version.dll.so
@@ -2038,6 +2041,9 @@ fi
 %endif
 
 %changelog
+* Sun Aug 28 2016 Michael Cronenworth <mike@cchtml.com> 1.9.17-1
+- version update
+
 * Tue Aug 09 2016 Michael Cronenworth <mike@cchtml.com> 1.9.16-1
 - version update
 
