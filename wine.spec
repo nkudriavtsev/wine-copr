@@ -25,7 +25,7 @@
 %endif
 
 Name:           wine
-Version:        1.9.17
+Version:        1.9.18
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1205,6 +1205,8 @@ fi
 %{_libdir}/wine/api-ms-win-core-interlocked-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-interlocked-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-io-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-job-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-job-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-kernel32-legacy-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-libraryloader-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-libraryloader-l1-1-1.dll.so
@@ -1219,6 +1221,8 @@ fi
 %{_libdir}/wine/api-ms-win-core-misc-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-namedpipe-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-namedpipe-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-core-namespace-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-normalization-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-path-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-processenvironment-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-processenvironment-l1-2-0.dll.so
@@ -1233,6 +1237,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-shlwapi-legacy-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-string-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-string-l2-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-string-obsolete-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-synch-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-synch-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-sysinfo-l1-1-0.dll.so
@@ -1240,6 +1245,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-sysinfo-l1-2-1.dll.so
 %{_libdir}/wine/api-ms-win-core-threadpool-legacy-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-timezone-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-toolhelp-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-url-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-util-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-version-l1-1-0.dll.so
@@ -1273,6 +1279,7 @@ fi
 %{_libdir}/wine/api-ms-win-downlevel-user32-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-downlevel-version-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-eventing-provider-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-eventlog-legacy-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-ntuser-dc-access-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-base-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-base-l1-2-0.dll.so
@@ -1282,6 +1289,7 @@ fi
 %{_libdir}/wine/api-ms-win-service-core-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-service-management-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-service-winsvc-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-shell-shellfolders-l1-1-0.dll.so
 %if 0%{?compholio}
 %{_libdir}/wine/api-ms-win-appmodel-runtime-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-apiquery-l1-1-0.dll.so
@@ -1510,6 +1518,7 @@ fi
 %{_libdir}/wine/msls31.dll.so
 %{_libdir}/wine/msnet32.dll.so
 %{_libdir}/wine/mspatcha.dll.so
+%{_libdir}/wine/msports.dll.so
 %{_libdir}/wine/msscript.ocx.so
 %{_libdir}/wine/mssign32.dll.so
 %{_libdir}/wine/mssip32.dll.so
@@ -1719,6 +1728,7 @@ fi
 %{_libdir}/wine/wintrust.dll.so
 %{_libdir}/wine/wlanapi.dll.so
 %{_libdir}/wine/wnaspi32.dll.so
+%{_libdir}/wine/wpc.dll.so
 %{_libdir}/wine/wpcap.dll.so
 %{_libdir}/wine/ws2_32.dll.so
 %{_libdir}/wine/wshom.ocx.so
@@ -2061,6 +2071,9 @@ fi
 %endif
 
 %changelog
+* Wed Sep 07 2016 Michael Cronenworth <mike@cchtml.com> 1.9.18-1
+- version update
+
 * Sun Aug 28 2016 Michael Cronenworth <mike@cchtml.com> 1.9.17-1
 - version update
 
