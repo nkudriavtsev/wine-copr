@@ -26,7 +26,7 @@
 
 Name:           wine
 Version:        1.9.18
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -224,16 +224,16 @@ Requires:       samba-winbind-clients
 
 # aarch64 parts
 %ifarch aarch64
-Requires:       wine-core(aarch64) = %{version}-%{release}
-Requires:       wine-capi(aarch64) = %{version}-%{release}
-Requires:       wine-cms(aarch64) = %{version}-%{release}
-Requires:       wine-ldap(aarch64) = %{version}-%{release}
-Requires:       wine-twain(aarch64) = %{version}-%{release}
-Requires:       wine-pulseaudio(aarch64) = %{version}-%{release}
-Requires:       wine-openal(aarch64) = %{version}-%{release}
-Requires:       wine-opencl(aarch64) = %{version}-%{release}
+Requires:       wine-core(aarch-64) = %{version}-%{release}
+Requires:       wine-capi(aarch-64) = %{version}-%{release}
+Requires:       wine-cms(aarch-64) = %{version}-%{release}
+Requires:       wine-ldap(aarch-64) = %{version}-%{release}
+Requires:       wine-twain(aarch-64) = %{version}-%{release}
+Requires:       wine-pulseaudio(aarch-64) = %{version}-%{release}
+Requires:       wine-openal(aarch-64) = %{version}-%{release}
+Requires:       wine-opencl(aarch-64) = %{version}-%{release}
 Requires:       mingw64-wine-gecko = %winegecko
-Requires:       mesa-dri-drivers(aarch64)
+Requires:       mesa-dri-drivers(aarch-64)
 %endif
 
 %description
@@ -2071,6 +2071,9 @@ fi
 %endif
 
 %changelog
+* Thu Sep 15 2016 Peter Robinson <pbrobinson@fedoraproject.org> 1.9.18-2
+- fix aarch64 definition
+
 * Wed Sep 07 2016 Michael Cronenworth <mike@cchtml.com> 1.9.18-1
 - version update
 
