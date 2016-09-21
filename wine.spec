@@ -25,8 +25,8 @@
 %endif
 
 Name:           wine
-Version:        1.9.18
-Release:        2%{?dist}
+Version:        1.9.19
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -1181,6 +1181,7 @@ fi
 %{_libdir}/wine/advapi32.dll.so
 %{_libdir}/wine/advpack.dll.so
 %{_libdir}/wine/amstream.dll.so
+%{_libdir}/wine/api-ms-win-core-atoms-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-com-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-console-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-console-l2-1-0.dll.so
@@ -1208,12 +1209,16 @@ fi
 %{_libdir}/wine/api-ms-win-core-job-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-job-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-kernel32-legacy-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-kernel32-private-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-libraryloader-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-libraryloader-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-localization-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-localization-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-localization-l1-2-1.dll.so
+%{_libdir}/wine/api-ms-win-core-localization-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-localization-obsolete-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-localization-obsolete-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-core-localization-private-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-localregistry-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-memory-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-memory-l1-1-1.dll.so
@@ -1224,6 +1229,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-namespace-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-normalization-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-path-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-privateprofile-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-processenvironment-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-processenvironment-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-processthreads-l1-1-0.dll.so
@@ -1231,26 +1237,35 @@ fi
 %{_libdir}/wine/api-ms-win-core-processthreads-l1-1-2.dll.so
 %{_libdir}/wine/api-ms-win-core-profile-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-psapi-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-realtime-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-registry-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-registryuserspecific-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-rtlsupport-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-rtlsupport-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-shlwapi-legacy-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-shlwapi-obsolete-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-sidebyside-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-string-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-string-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-string-obsolete-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-stringansi-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-synch-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-synch-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-sysinfo-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-sysinfo-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-sysinfo-l1-2-1.dll.so
+%{_libdir}/wine/api-ms-win-core-threadpool-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-threadpool-legacy-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-timezone-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-toolhelp-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-url-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-util-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-version-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-versionansi-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-windowserrorreporting-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-winrt-error-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-winrt-error-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-winrt-errorprivate-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-winrt-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-winrt-string-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-xstate-l2-1-0.dll.so
@@ -1289,6 +1304,7 @@ fi
 %{_libdir}/wine/api-ms-win-service-core-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-service-management-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-service-winsvc-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-shell-shellcom-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-shell-shellfolders-l1-1-0.dll.so
 %if 0%{?compholio}
 %{_libdir}/wine/api-ms-win-appmodel-runtime-l1-1-1.dll.so
@@ -1513,6 +1529,7 @@ fi
 %{_libdir}/wine/msimtf.dll.so
 %{_libdir}/wine/msimg32.dll.so
 %{_libdir}/wine/msimsg.dll.so
+%{_libdir}/wine/msinfo32.exe.so
 %{_libdir}/wine/msisip.dll.so
 %{_libdir}/wine/msisys.ocx.so
 %{_libdir}/wine/msls31.dll.so
@@ -1702,6 +1719,7 @@ fi
 %{_libdir}/wine/wimgapi.dll.so
 %{_libdir}/wine/windowscodecs.dll.so
 %{_libdir}/wine/windowscodecsext.dll.so
+%{_libdir}/wine/winebus.sys.so
 %if 0%{?compholio}
 %{_libdir}/wine/wined3d-csmt.dll.so
 %endif
@@ -2071,6 +2089,9 @@ fi
 %endif
 
 %changelog
+* Mon Sep 19 2016 Michael Cronenworth <mike@cchtml.com> 1.9.19-1
+- version update
+
 * Thu Sep 15 2016 Peter Robinson <pbrobinson@fedoraproject.org> 1.9.18-2
 - fix aarch64 definition
 
