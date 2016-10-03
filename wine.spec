@@ -25,7 +25,7 @@
 %endif
 
 Name:           wine
-Version:        1.9.19
+Version:        1.9.20
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1181,7 +1181,10 @@ fi
 %{_libdir}/wine/advapi32.dll.so
 %{_libdir}/wine/advpack.dll.so
 %{_libdir}/wine/amstream.dll.so
+%{_libdir}/wine/api-ms-win-core-appcompat-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-appinit-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-atoms-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-bem-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-com-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-console-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-console-l2-1-0.dll.so
@@ -1189,6 +1192,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-datetime-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-debug-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-debug-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-delayload-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-errorhandling-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-errorhandling-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-errorhandling-l1-1-2.dll.so
@@ -1205,6 +1209,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-heap-obsolete-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-interlocked-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-interlocked-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-core-io-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-io-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-job-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-job-l2-1-0.dll.so
@@ -1212,6 +1217,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-kernel32-private-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-libraryloader-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-libraryloader-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-libraryloader-l1-2-2.dll.so
 %{_libdir}/wine/api-ms-win-core-localization-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-localization-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-localization-l1-2-1.dll.so
@@ -1261,6 +1267,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-url-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-util-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-version-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-version-private-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-versionansi-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-windowserrorreporting-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-winrt-error-l1-1-0.dll.so
@@ -1268,6 +1275,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-winrt-errorprivate-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-winrt-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-winrt-string-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-xstate-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-xstate-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-crt-conio-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-crt-convert-l1-1-0.dll.so
@@ -1293,16 +1301,24 @@ fi
 %{_libdir}/wine/api-ms-win-downlevel-shlwapi-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-downlevel-user32-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-downlevel-version-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-eventing-consumer-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-eventing-controller-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-eventing-provider-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-eventlog-legacy-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-ntuser-dc-access-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-security-audit-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-security-base-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-base-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-security-base-private-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-security-lsalookup-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-lsalookup-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-security-sddl-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-service-core-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-service-core-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-service-management-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-service-management-l2-1-0.dll.so
+%{_libdir}/wine/api-ms-win-service-private-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-service-winsvc-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-service-winsvc-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-shell-shellcom-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-shell-shellfolders-l1-1-0.dll.so
@@ -1471,6 +1487,7 @@ fi
 %{_libdir}/wine/inkobj.dll.so
 %{_libdir}/wine/inseng.dll.so
 %{_libdir}/wine/iphlpapi.dll.so
+%{_libdir}/wine/iprop.dll.so
 %{_libdir}/wine/irprops.cpl.so
 %{_libdir}/wine/itircl.dll.so
 %{_libdir}/wine/itss.dll.so
@@ -2089,6 +2106,9 @@ fi
 %endif
 
 %changelog
+* Sun Oct 02 2016 Michael Cronenworth <mike@cchtml.com> 1.9.20-1
+- version update
+
 * Mon Sep 19 2016 Michael Cronenworth <mike@cchtml.com> 1.9.19-1
 - version update
 
