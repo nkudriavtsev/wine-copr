@@ -25,7 +25,7 @@
 %endif
 
 Name:           wine
-Version:        1.9.20
+Version:        1.9.21
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1683,6 +1683,7 @@ fi
 %{_libdir}/wine/stdole2.tlb.so
 %{_libdir}/wine/stdole32.tlb.so
 %{_libdir}/wine/sti.dll.so
+%{_libdir}/wine/subst.exe.so
 %{_libdir}/wine/svchost.exe.so
 %{_libdir}/wine/svrapi.dll.so
 %{_libdir}/wine/sxs.dll.so
@@ -1741,6 +1742,7 @@ fi
 %{_libdir}/wine/wined3d-csmt.dll.so
 %endif
 %{_libdir}/wine/winegstreamer.dll.so
+%{_libdir}/wine/winehid.sys.so
 %{_libdir}/wine/winejoystick.drv.so
 %{_libdir}/wine/winemapi.dll.so
 %{_libdir}/wine/winex11.drv.so
@@ -2106,6 +2108,9 @@ fi
 %endif
 
 %changelog
+* Mon Oct 17 2016 Michael Cronenworth <mike@cchtml.com> 1.9.21-1
+- version update
+
 * Sun Oct 02 2016 Michael Cronenworth <mike@cchtml.com> 1.9.20-1
 - version update
 
