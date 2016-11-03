@@ -25,7 +25,7 @@
 %endif
 
 Name:           wine
-Version:        1.9.21
+Version:        1.9.22
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1243,6 +1243,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-processthreads-l1-1-2.dll.so
 %{_libdir}/wine/api-ms-win-core-profile-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-psapi-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-psapi-obsolete-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-realtime-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-registry-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-registryuserspecific-l1-1-0.dll.so
@@ -1434,7 +1435,11 @@ fi
 %{_libdir}/wine/esent.dll.so
 %{_libdir}/wine/evr.dll.so
 %{_libdir}/wine/explorerframe.dll.so
+%{_libdir}/wine/ext-ms-win-gdi-dc-create-l1-1-1.dll.so
 %{_libdir}/wine/ext-ms-win-gdi-devcaps-l1-1-0.dll.so
+%{_libdir}/wine/ext-ms-win-ntuser-message-l1-1-1.dll.so
+%{_libdir}/wine/ext-ms-win-ntuser-uicontext-ext-l1-1-0.dll.so
+%{_libdir}/wine/ext-ms-win-rtcore-ntuser-dpi-l1-1-0.dll.so
 %if 0%{?compholio}
 %{_libdir}/wine/ext-ms-win-appmodel-usercontext-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-kernel32-package-current-l1-1-0.dll.so
@@ -2108,6 +2113,9 @@ fi
 %endif
 
 %changelog
+* Thu Nov 03 2016 Michael Cronenworth <mike@cchtml.com> 1.9.22-1
+- version update
+
 * Mon Oct 17 2016 Michael Cronenworth <mike@cchtml.com> 1.9.21-1
 - version update
 
