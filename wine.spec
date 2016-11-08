@@ -13,7 +13,7 @@
 %endif # 0%{?fedora}
 
 # binfmt macros for RHEL
-%if 0%{?fedora} <= 20 || 0%{?rhel} == 7
+%if 0%{?rhel} == 7
 %global _binfmtdir /usr/lib/binfmt.d
 %global binfmt_apply() \
 /usr/lib/systemd/systemd-binfmt  %{?*} >/dev/null 2>&1 || : \
@@ -22,7 +22,7 @@
 
 Name:           wine
 Version:        1.8.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -124,9 +124,6 @@ BuildRequires:  libXmu-devel
 BuildRequires:  libXi-devel
 BuildRequires:  libXcursor-devel
 BuildRequires:  dbus-devel
-%if !0%{?fedora} >= 16
-BuildRequires:  hal-devel
-%endif
 BuildRequires:  gnutls-devel
 BuildRequires:  pulseaudio-libs-devel
 BuildRequires:  gsm-devel
@@ -237,6 +234,8 @@ Requires(preun):       %{_sbindir}/alternatives
 Requires:       wine-filesystem = %{version}-%{release}
 
 %ifarch %{ix86}
+# CUPS support uses dlopen - rhbz#1367537
+Requires:       cups-libs(x86-32)
 Requires:       freetype(x86-32)
 Requires:       nss-mdns(x86-32)
 Requires:       gnutls(x86-32)
@@ -257,6 +256,8 @@ Requires:       libva(x86-32)
 %endif
 
 %ifarch x86_64
+# CUPS support uses dlopen - rhbz#1367537
+Requires:       cups-libs(x86-64)
 Requires:       freetype(x86-64)
 Requires:       nss-mdns(x86-64)
 Requires:       gnutls(x86-64)
@@ -276,7 +277,9 @@ Requires:       libva(x86-64)
 %endif
 %endif
 
-%ifarch %{arm}
+%ifarch %{arm} aarch64
+# CUPS support uses dlopen - rhbz#1367537
+Requires:       cups-libs
 Requires:       freetype
 Requires:       nss-mdns
 Requires:       gnutls
@@ -329,8 +332,9 @@ Requires(postun): systemd
 %description systemd
 Register the wine binary handler for windows executables via systemd binfmt
 handling. See man binfmt.d for further information.
+%endif
 
-%if 0%{?fedora} < 23
+%if 0%{?rhel} < 7
 %package sysvinit
 Summary:        SysV initscript for the wine binfmt handler
 Group:          Applications/Emulators
@@ -338,7 +342,6 @@ BuildArch:      noarch
 
 %description sysvinit
 Register the wine binary handler for windows executables via SysV init files.
-%endif
 %endif
 
 %package filesystem
@@ -369,6 +372,9 @@ Requires:       wine-core = %{version}-%{release}
 Requires:       wine-common = %{version}-%{release}
 %if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 Requires:       wine-systemd = %{version}-%{release}
+%endif
+%if 0%{?rhel} < 7
+Requires:       wine-sysvinit = %{version}-%{release}
 %endif
 Requires:       hicolor-icon-theme
 BuildArch:      noarch
@@ -729,7 +735,7 @@ chrpath --delete %{buildroot}%{_bindir}/wineserver32
 mkdir -p %{buildroot}%{_sysconfdir}/wine
 
 # Allow users to launch Windows programs by just clicking on the .exe file...
-%if 0%{?fedora} < 23
+%if 0%{?rhel} < 7
 mkdir -p %{buildroot}%{_initrddir}
 install -p -c -m 755 %{SOURCE1} %{buildroot}%{_initrddir}/wine
 %endif
@@ -916,8 +922,7 @@ mkdir -p %{buildroot}%{_mandir}/pl.UTF-8/man1
 install -p -m 0644 loader/wine.pl.UTF-8.man %{buildroot}%{_mandir}/pl.UTF-8/man1/wine.1
 
 
-%if 0%{?fedora} >= 15
-%if 0%{?fedora} < 23
+%if 0%{?rhel} < 7
 %post sysvinit
 if [ $1 -eq 1 ]; then
 /sbin/chkconfig --add wine
@@ -932,6 +937,7 @@ if [ $1 -eq 0 ]; then
 fi
 %endif
 
+%if 0%{?fedora} >= 15 || 0%{?rhel} > 6
 %post systemd
 %binfmt_apply wine.conf
 
@@ -939,27 +945,11 @@ fi
 if [ $1 -eq 0 ]; then
 /bin/systemctl try-restart systemd-binfmt.service
 fi
-
-%post desktop
-update-desktop-database &>/dev/null || :
-touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
-
-%else
-%post desktop
-update-desktop-database &>/dev/null || :
-touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
-if [ $1 -eq 1 ]; then
-/sbin/chkconfig --add wine
-/sbin/chkconfig --level 2345 wine on
-/sbin/service wine start &>/dev/null || :
-fi
-
-%preun desktop
-if [ $1 -eq 0 ]; then
-/sbin/service wine stop >/dev/null 2>&1
-/sbin/chkconfig --del wine
-fi
 %endif
+
+%post desktop
+update-desktop-database &>/dev/null || :
+touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
 
 %postun desktop
 update-desktop-database &>/dev/null || :
@@ -1887,11 +1877,11 @@ fi
 %if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 %files systemd
 %config %{_binfmtdir}/wine.conf
+%endif
 
-%if 0%{?fedora} < 23
+%if 0%{?rhel} < 7
 %files sysvinit
 %{_initrddir}/wine
-%endif
 %endif
 
 # ldap subpackage
@@ -1957,6 +1947,10 @@ fi
 %endif
 
 %changelog
+* Mon Nov 07 2016 Michael Cronenworth <mike@cchtml.com> 1.8.5-2
+- remove old cruft and fix scriptlets (rhbz#1314762)
+- add hard dependency on cups-libs (rhbz#1367537)
+
 * Fri Oct 07 2016 Michael Cronenworth <mike@cchtml.com> 1.8.5-1
 - version upgrade
 
