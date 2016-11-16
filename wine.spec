@@ -2,11 +2,7 @@
 %undefine _hardened_build
 
 %global no64bit   0
-%if 0%{?fedora} <= 23
-%global winegecko 2.44
-%else
 %global winegecko 2.47
-%endif
 %global winemono  4.6.3
 #global _default_patch_fuzz 2
 
@@ -17,7 +13,7 @@
 %endif # 0%{?fedora}
 
 # binfmt macros for RHEL
-%if 0%{?fedora} <= 20 || 0%{?rhel} == 7
+%if 0%{?rhel} == 7
 %global _binfmtdir /usr/lib/binfmt.d
 %global binfmt_apply() \
 /usr/lib/systemd/systemd-binfmt  %{?*} >/dev/null 2>&1 || : \
@@ -25,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        1.9.22
+Version:        1.9.23
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -109,6 +105,7 @@ BuildRequires:  openldap-devel
 BuildRequires:  perl-generators
 BuildRequires:  unixODBC-devel
 BuildRequires:  sane-backends-devel
+BuildRequires:  systemd-devel
 BuildRequires:  zlib-devel
 BuildRequires:  fontforge freetype-devel
 BuildRequires:  libgphoto2-devel
@@ -129,9 +126,6 @@ BuildRequires:  libXmu-devel
 BuildRequires:  libXi-devel
 BuildRequires:  libXcursor-devel
 BuildRequires:  dbus-devel
-%if !0%{?fedora} >= 16
-BuildRequires:  hal-devel
-%endif
 BuildRequires:  gnutls-devel
 BuildRequires:  pulseaudio-libs-devel
 BuildRequires:  gsm-devel
@@ -143,6 +137,9 @@ BuildRequires:  gettext-devel
 BuildRequires:  chrpath
 BuildRequires:  gstreamer1-devel
 BuildRequires:  gstreamer1-plugins-base-devel
+%if 0%{?fedora} > 24
+BuildRequires:  mpg123-devel
+%endif
 
 # Silverlight DRM-stuff needs XATTR enabled.
 %if 0%{?compholio}
@@ -258,6 +255,8 @@ Requires(preun):       %{_sbindir}/alternatives
 Requires:       wine-filesystem = %{version}-%{release}
 
 %ifarch %{ix86}
+# CUPS support uses dlopen - rhbz#1367537
+Requires:       cups-libs(x86-32)
 Requires:       freetype(x86-32)
 Requires:       nss-mdns(x86-32)
 Requires:       gnutls(x86-32)
@@ -278,6 +277,8 @@ Requires:       libva(x86-32)
 %endif
 
 %ifarch x86_64
+# CUPS support uses dlopen - rhbz#1367537
+Requires:       cups-libs(x86-64)
 Requires:       freetype(x86-64)
 Requires:       nss-mdns(x86-64)
 Requires:       gnutls(x86-64)
@@ -298,6 +299,8 @@ Requires:       libva(x86-64)
 %endif
 
 %ifarch %{arm} aarch64
+# CUPS support uses dlopen - rhbz#1367537
+Requires:       cups-libs
 Requires:       freetype
 Requires:       nss-mdns
 Requires:       gnutls
@@ -313,26 +316,6 @@ Requires:       unixODBC
 Requires:       libva
 %endif
 %endif
-
-# old removed packages
-Obsoletes:      wine-arts < 0.9.34
-Provides:       wine-arts = %{version}-%{release}
-Obsoletes:      wine-tools <= 1.1.27
-Provides:       wine-tools = %{version}-%{release}
-
-# removed as of 1.3.25 (new sound api)
-Obsoletes:      wine-esd <= 1.3.24
-Provides:       wine-esd = %{version}-%{release}
-Obsoletes:      wine-jack <= 1.3.24
-Provides:       wine-jack = %{version}-%{release}
-
-# removed as of 1.3.19 (we don't support oss4)
-Obsoletes:      wine-oss <= 1.3.18
-Provides:       wine-oss = %{version}-%{release}
-
-# removed as of 1.3.16
-Obsoletes:      wine-nas <= 1.3.15
-Provides:       wine-nas = %{version}-%{release}
 
 # removed as of 1.7.35
 Obsoletes:      wine-wow < 1.7.35
@@ -353,8 +336,9 @@ Requires(postun): systemd
 %description systemd
 Register the wine binary handler for windows executables via systemd binfmt
 handling. See man binfmt.d for further information.
+%endif
 
-%if 0%{?fedora} < 23
+%if 0%{?rhel} < 7
 %package sysvinit
 Summary:        SysV initscript for the wine binfmt handler
 Group:          Applications/Emulators
@@ -362,7 +346,6 @@ BuildArch:      noarch
 
 %description sysvinit
 Register the wine binary handler for windows executables via SysV init files.
-%endif
 %endif
 
 %package filesystem
@@ -393,6 +376,9 @@ Requires:       wine-core = %{version}-%{release}
 Requires:       wine-common = %{version}-%{release}
 %if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 Requires:       wine-systemd = %{version}-%{release}
+%endif
+%if 0%{?rhel} < 7
+Requires:       wine-sysvinit = %{version}-%{release}
 %endif
 Requires:       hicolor-icon-theme
 BuildArch:      noarch
@@ -613,18 +599,15 @@ Twain support for wine
 Summary: ISDN support for wine
 Group: System Environment/Libraries
 Requires: wine-core = %{version}-%{release}
-#FIXME: parallel installable rhbz#1164355
-#ifarch x86_64
-#Requires:       isdn4k-utils(x86-64)
-#endif
-
-#ifarch %{ix86}
-#Requires:       isdn4k-utils(x86-32)
-#endif
-
-#ifarch %{arm}
+%ifarch x86_64
+Requires:       isdn4k-utils(x86-64)
+%endif
+%ifarch %{ix86}
+Requires:       isdn4k-utils(x86-32)
+%endif
+%ifarch %{arm} aarch64
 Requires:       isdn4k-utils
-#endif
+%endif
 
 %description capi
 ISDN support for wine
@@ -754,7 +737,7 @@ chrpath --delete %{buildroot}%{_bindir}/wineserver32
 mkdir -p %{buildroot}%{_sysconfdir}/wine
 
 # Allow users to launch Windows programs by just clicking on the .exe file...
-%if 0%{?fedora} < 23
+%if 0%{?rhel} < 7
 mkdir -p %{buildroot}%{_initrddir}
 install -p -c -m 755 %{SOURCE1} %{buildroot}%{_initrddir}/wine
 %endif
@@ -941,8 +924,7 @@ mkdir -p %{buildroot}%{_mandir}/pl.UTF-8/man1
 install -p -m 0644 loader/wine.pl.UTF-8.man %{buildroot}%{_mandir}/pl.UTF-8/man1/wine.1
 
 
-%if 0%{?fedora} >= 15
-%if 0%{?fedora} < 23
+%if 0%{?rhel} < 7
 %post sysvinit
 if [ $1 -eq 1 ]; then
 /sbin/chkconfig --add wine
@@ -957,6 +939,7 @@ if [ $1 -eq 0 ]; then
 fi
 %endif
 
+%if 0%{?fedora} >= 15 || 0%{?rhel} > 6
 %post systemd
 %binfmt_apply wine.conf
 
@@ -964,27 +947,11 @@ fi
 if [ $1 -eq 0 ]; then
 /bin/systemctl try-restart systemd-binfmt.service
 fi
-
-%post desktop
-update-desktop-database &>/dev/null || :
-touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
-
-%else
-%post desktop
-update-desktop-database &>/dev/null || :
-touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
-if [ $1 -eq 1 ]; then
-/sbin/chkconfig --add wine
-/sbin/chkconfig --level 2345 wine on
-/sbin/service wine start &>/dev/null || :
-fi
-
-%preun desktop
-if [ $1 -eq 0 ]; then
-/sbin/service wine stop >/dev/null 2>&1
-/sbin/chkconfig --del wine
-fi
 %endif
+
+%post desktop
+update-desktop-database &>/dev/null || :
+touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
 
 %postun desktop
 update-desktop-database &>/dev/null || :
@@ -1302,11 +1269,13 @@ fi
 %{_libdir}/wine/api-ms-win-downlevel-shlwapi-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-downlevel-user32-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-downlevel-version-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-dx-d3dkmt-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-eventing-consumer-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-eventing-controller-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-eventing-provider-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-eventlog-legacy-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-ntuser-dc-access-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-rtcore-ntuser-private-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-audit-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-security-base-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-base-l1-2-0.dll.so
@@ -1435,10 +1404,19 @@ fi
 %{_libdir}/wine/esent.dll.so
 %{_libdir}/wine/evr.dll.so
 %{_libdir}/wine/explorerframe.dll.so
+%{_libdir}/wine/ext-ms-win-gdi-dc-l1-2-0.dll.so
 %{_libdir}/wine/ext-ms-win-gdi-dc-create-l1-1-1.dll.so
 %{_libdir}/wine/ext-ms-win-gdi-devcaps-l1-1-0.dll.so
+%{_libdir}/wine/ext-ms-win-gdi-draw-l1-1-1.dll.so
+%{_libdir}/wine/ext-ms-win-gdi-render-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-message-l1-1-1.dll.so
+%{_libdir}/wine/ext-ms-win-ntuser-private-l1-1-1.dll.so
+%{_libdir}/wine/ext-ms-win-ntuser-rectangle-ext-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-uicontext-ext-l1-1-0.dll.so
+%{_libdir}/wine/ext-ms-win-ntuser-window-l1-1-1.dll.so
+%{_libdir}/wine/ext-ms-win-rtcore-gdi-object-l1-1-0.dll.so
+%{_libdir}/wine/ext-ms-win-rtcore-gdi-rgn-l1-1-0.dll.so
+%{_libdir}/wine/ext-ms-win-rtcore-ntuser-dc-access-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-rtcore-ntuser-dpi-l1-1-0.dll.so
 %if 0%{?compholio}
 %{_libdir}/wine/ext-ms-win-appmodel-usercontext-l1-1-0.dll.so
@@ -1750,6 +1728,9 @@ fi
 %{_libdir}/wine/winehid.sys.so
 %{_libdir}/wine/winejoystick.drv.so
 %{_libdir}/wine/winemapi.dll.so
+%if 0%{?fedora} > 24
+%{_libdir}/wine/winemp3.acm.so
+%endif
 %{_libdir}/wine/winex11.drv.so
 %{_libdir}/wine/wing32.dll.so
 %{_libdir}/wine/winhttp.dll.so
@@ -2043,11 +2024,11 @@ fi
 %if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 %files systemd
 %config %{_binfmtdir}/wine.conf
+%endif
 
-%if 0%{?fedora} < 23
+%if 0%{?rhel} < 7
 %files sysvinit
 %{_initrddir}/wine
-%endif
 %endif
 
 # ldap subpackage
@@ -2113,6 +2094,12 @@ fi
 %endif
 
 %changelog
+* Wed Nov 16 2016 Michael Cronenworth <mike@cchtml.com> 1.9.23-1
+- version update
+- remove old cruft in spec
+- add hard cups-libs dependency (rhbz#1367537)
+- include mp3 support (rhbz#1395711)
+
 * Thu Nov 03 2016 Michael Cronenworth <mike@cchtml.com> 1.9.22-1
 - version update
 
