@@ -22,7 +22,7 @@
 
 Name:           wine
 Version:        1.9.23
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -332,13 +332,14 @@ Requires:       systemd >= 23
 BuildArch:      noarch
 Requires(post):  systemd
 Requires(postun): systemd
+Obsoletes:      wine-sysvinit < %{version}-%{release}
 
 %description systemd
 Register the wine binary handler for windows executables via systemd binfmt
 handling. See man binfmt.d for further information.
 %endif
 
-%if 0%{?rhel} < 7
+%if 0%{?rhel} == 6
 %package sysvinit
 Summary:        SysV initscript for the wine binfmt handler
 Group:          Applications/Emulators
@@ -377,7 +378,7 @@ Requires:       wine-common = %{version}-%{release}
 %if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 Requires:       wine-systemd = %{version}-%{release}
 %endif
-%if 0%{?rhel} < 7
+%if 0%{?rhel} == 6
 Requires:       wine-sysvinit = %{version}-%{release}
 %endif
 Requires:       hicolor-icon-theme
@@ -916,6 +917,10 @@ do iconv -f iso8859-1 -t utf-8 README.$lang > \
 done;
 popd
 
+%if 0%{?fedora} || 0%{?rhel} > 6
+rm -f %{buildroot}%{_initrddir}/wine
+%endif
+
 # wine makefiles are currently broken and don't install the wine man page
 install -p -m 0644 loader/wine.man %{buildroot}%{_mandir}/man1/wine.1
 install -p -m 0644 loader/wine.de.UTF-8.man %{buildroot}%{_mandir}/de.UTF-8/man1/wine.1
@@ -924,7 +929,7 @@ mkdir -p %{buildroot}%{_mandir}/pl.UTF-8/man1
 install -p -m 0644 loader/wine.pl.UTF-8.man %{buildroot}%{_mandir}/pl.UTF-8/man1/wine.1
 
 
-%if 0%{?rhel} < 7
+%if 0%{?rhel} == 6
 %post sysvinit
 if [ $1 -eq 1 ]; then
 /sbin/chkconfig --add wine
@@ -2026,7 +2031,7 @@ fi
 %config %{_binfmtdir}/wine.conf
 %endif
 
-%if 0%{?rhel} < 7
+%if 0%{?rhel} == 6
 %files sysvinit
 %{_initrddir}/wine
 %endif
@@ -2094,6 +2099,9 @@ fi
 %endif
 
 %changelog
+* Wed Nov 23 2016 Michael Cronenworth <mike@cchtml.com> 1.9.23-2
+- drop sysvinit on Fedora, again
+
 * Wed Nov 16 2016 Michael Cronenworth <mike@cchtml.com> 1.9.23-1
 - version update
 - remove old cruft in spec
