@@ -3,7 +3,7 @@
 
 %global no64bit   0
 %global winegecko 2.47
-%global winemono  4.6.3
+%global winemono  4.6.4
 #global _default_patch_fuzz 2
 
 # build with compholio-patches, see:  http://www.compholio.com/wine-compholio/
@@ -21,15 +21,15 @@
 %endif
 
 Name:           wine
-Version:        1.9.23
-Release:        2%{?dist}
+Version:        2.0
+Release:        0.1.rc1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
 License:        LGPLv2+
 URL:            http://www.winehq.org/
-Source0:        http://downloads.sourceforge.net/wine/wine-%{version}.tar.bz2
-Source10:       http://downloads.sourceforge.net/wine/wine-%{version}.tar.bz2.sign
+Source0:        http://downloads.sourceforge.net/wine/wine-%{version}-rc1.tar.bz2
+Source10:       http://downloads.sourceforge.net/wine/wine-%{version}-rc1.tar.bz2.sign
 
 Source1:        wine.init
 Source2:        wine.systemd
@@ -71,7 +71,7 @@ Patch511:       wine-cjk.patch
 
 # wine compholio patches for wine-staging
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/compholio/wine-compholio/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
+Source900: https://github.com/compholio/wine-compholio/archive/v%{version}.tar.gz#/wine-staging-%{version}-rc1.tar.gz
 
 %if !%{?no64bit}
 ExclusiveArch:  %{ix86} x86_64 %{arm} aarch64
@@ -660,7 +660,7 @@ This package adds the opencl driver for wine.
 %endif
 
 %prep
-%setup -q -n wine-%{version}
+%setup -q -n wine-%{version}-rc1
 %patch511 -p1 -b.cjk
 
 # setup and apply wine-staging patches
@@ -1153,11 +1153,13 @@ fi
 %{_libdir}/wine/advapi32.dll.so
 %{_libdir}/wine/advpack.dll.so
 %{_libdir}/wine/amstream.dll.so
+%{_libdir}/wine/api-ms-win-appmodel-identity-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-appcompat-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-appinit-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-atoms-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-bem-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-com-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-com-private-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-console-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-console-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-datetime-l1-1-0.dll.so
@@ -1265,6 +1267,8 @@ fi
 %{_libdir}/wine/api-ms-win-crt-string-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-crt-time-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-crt-utility-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-devices-config-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-devices-query-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-downlevel-advapi32-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-downlevel-advapi32-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-downlevel-normaliz-l1-1-0.dll.so
@@ -1280,6 +1284,8 @@ fi
 %{_libdir}/wine/api-ms-win-eventing-provider-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-eventlog-legacy-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-ntuser-dc-access-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-power-base-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-power-setting-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-rtcore-ntuser-private-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-audit-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-security-base-l1-1-0.dll.so
@@ -1287,6 +1293,8 @@ fi
 %{_libdir}/wine/api-ms-win-security-base-private-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-security-lsalookup-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-lsalookup-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-security-lsalookup-l2-1-1.dll.so
+%{_libdir}/wine/api-ms-win-security-lsapolicy-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-sddl-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-service-core-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-service-core-l1-1-1.dll.so
@@ -1409,6 +1417,7 @@ fi
 %{_libdir}/wine/esent.dll.so
 %{_libdir}/wine/evr.dll.so
 %{_libdir}/wine/explorerframe.dll.so
+%{_libdir}/wine/ext-ms-win-domainjoin-netjoin-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-gdi-dc-l1-2-0.dll.so
 %{_libdir}/wine/ext-ms-win-gdi-dc-create-l1-1-1.dll.so
 %{_libdir}/wine/ext-ms-win-gdi-devcaps-l1-1-0.dll.so
@@ -2099,6 +2108,9 @@ fi
 %endif
 
 %changelog
+* Thu Dec 15 2016 Michael Cronenworth <mike@cchtml.com> 2.0-0.1.rc1
+- version update
+
 * Wed Nov 23 2016 Michael Cronenworth <mike@cchtml.com> 1.9.23-2
 - drop sysvinit on Fedora, again
 
