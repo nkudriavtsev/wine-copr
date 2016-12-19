@@ -21,8 +21,8 @@
 %endif
 
 Name:           wine
-Version:        1.8.5
-Release:        2%{?dist}
+Version:        1.8.6
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -1947,6 +1947,9 @@ fi
 %endif
 
 %changelog
+* Mon Dec 19 2016 Michael Cronenworth <mike@cchtml.com> 1.8.6-1
+- version upgrade
+
 * Mon Nov 07 2016 Michael Cronenworth <mike@cchtml.com> 1.8.5-2
 - remove old cruft and fix scriptlets (rhbz#1314762)
 - add hard dependency on cups-libs (rhbz#1367537)
