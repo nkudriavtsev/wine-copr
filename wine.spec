@@ -22,14 +22,14 @@
 
 Name:           wine
 Version:        2.0
-Release:        0.1.rc1%{?dist}
+Release:        0.1.rc2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
 License:        LGPLv2+
 URL:            http://www.winehq.org/
-Source0:        http://downloads.sourceforge.net/wine/wine-%{version}-rc1.tar.bz2
-Source10:       http://downloads.sourceforge.net/wine/wine-%{version}-rc1.tar.bz2.sign
+Source0:        http://downloads.sourceforge.net/wine/wine-%{version}-rc2.tar.bz2
+Source10:       http://downloads.sourceforge.net/wine/wine-%{version}-rc2.tar.bz2.sign
 
 Source1:        wine.init
 Source2:        wine.systemd
@@ -71,7 +71,7 @@ Patch511:       wine-cjk.patch
 
 # wine compholio patches for wine-staging
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/compholio/wine-compholio/archive/v%{version}.tar.gz#/wine-staging-%{version}-rc1.tar.gz
+Source900: https://github.com/compholio/wine-compholio/archive/v%{version}.tar.gz#/wine-staging-%{version}-rc2.tar.gz
 
 %if !%{?no64bit}
 ExclusiveArch:  %{ix86} x86_64 %{arm} aarch64
@@ -660,7 +660,7 @@ This package adds the opencl driver for wine.
 %endif
 
 %prep
-%setup -q -n wine-%{version}-rc1
+%setup -q -n wine-%{version}-rc2
 %patch511 -p1 -b.cjk
 
 # setup and apply wine-staging patches
@@ -683,7 +683,13 @@ rm -rf patches/
 # disable fortify as it breaks wine
 # http://bugs.winehq.org/show_bug.cgi?id=24606
 # http://bugs.winehq.org/show_bug.cgi?id=25073
+%if 0%{?fedora} < 26
 export CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno-error"
+%else
+# https://bugzilla.redhat.com/show_bug.cgi?id=1406093
+export TEMP_CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-O2/-O1/'`"
+export CFLAGS="`echo $TEMP_CFLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno-error"
+%endif
 
 %configure \
  --sysconfdir=%{_sysconfdir}/wine \
@@ -2108,6 +2114,9 @@ fi
 %endif
 
 %changelog
+* Wed Dec 21 2016 Michael Cronenworth <mike@cchtml.com> 2.0-0.1.rc2
+- version update
+
 * Thu Dec 15 2016 Michael Cronenworth <mike@cchtml.com> 2.0-0.1.rc1
 - version update
 
