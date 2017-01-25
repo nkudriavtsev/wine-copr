@@ -22,14 +22,14 @@
 
 Name:           wine
 Version:        2.0
-Release:        0.1.rc6%{?dist}
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
 License:        LGPLv2+
 URL:            http://www.winehq.org/
-Source0:        http://downloads.sourceforge.net/wine/wine-%{version}-rc6.tar.bz2
-Source10:       http://downloads.sourceforge.net/wine/wine-%{version}-rc6.tar.bz2.sign
+Source0:        http://downloads.sourceforge.net/wine/wine-%{version}.tar.bz2
+Source10:       http://downloads.sourceforge.net/wine/wine-%{version}.tar.bz2.sign
 
 Source1:        wine.init
 Source2:        wine.systemd
@@ -71,7 +71,7 @@ Patch511:       wine-cjk.patch
 
 # wine compholio patches for wine-staging
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/compholio/wine-compholio/archive/v%{version}.tar.gz#/wine-staging-%{version}-rc6.tar.gz
+Source900: https://github.com/compholio/wine-compholio/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
 
 %if !%{?no64bit}
 ExclusiveArch:  %{ix86} x86_64 %{arm} aarch64
@@ -660,7 +660,7 @@ This package adds the opencl driver for wine.
 %endif
 
 %prep
-%setup -q -n wine-%{version}-rc6
+%setup -q -n wine-%{version}
 %patch511 -p1 -b.cjk
 
 # setup and apply wine-staging patches
@@ -2114,6 +2114,9 @@ fi
 %endif
 
 %changelog
+* Wed Jan 25 2017 Michael Cronenworth <mike@cchtml.com> 2.0-1
+- version update
+
 * Mon Jan 23 2017 Michael Cronenworth <mike@cchtml.com> 2.0-0.1.rc6
 - version update
 
