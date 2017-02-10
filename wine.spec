@@ -21,15 +21,15 @@
 %endif
 
 Name:           wine
-Version:        2.0
+Version:        2.1
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
 License:        LGPLv2+
 URL:            http://www.winehq.org/
-Source0:        http://downloads.sourceforge.net/wine/wine-%{version}.tar.bz2
-Source10:       http://downloads.sourceforge.net/wine/wine-%{version}.tar.bz2.sign
+Source0:        http://downloads.sourceforge.net/wine/wine-%{version}.tar.xz
+Source10:       http://downloads.sourceforge.net/wine/wine-%{version}.tar.xz.sign
 
 Source1:        wine.init
 Source2:        wine.systemd
@@ -1516,6 +1516,7 @@ fi
 %{_libdir}/wine/mciseq.dll.so
 %{_libdir}/wine/mciwave.dll.so
 %{_libdir}/wine/mf.dll.so
+%{_libdir}/wine/mf3216.dll.so
 %{_libdir}/wine/mfplat.dll.so
 %{_libdir}/wine/mfreadwrite.dll.so
 %{_libdir}/wine/mgmtapi.dll.so
@@ -1658,6 +1659,7 @@ fi
 %{_libdir}/wine/scarddlg.dll.so
 %{_libdir}/wine/sccbase.dll.so
 %{_libdir}/wine/schannel.dll.so
+%{_libdir}/wine/scrobj.dll.so
 %{_libdir}/wine/scrrun.dll.so
 %{_libdir}/wine/scsiport.sys.so
 %{_libdir}/wine/secur32.dll.so
@@ -1769,6 +1771,7 @@ fi
 %{_libdir}/wine/winscard.dll.so
 %{_libdir}/wine/wintab32.dll.so
 %{_libdir}/wine/wintrust.dll.so
+%{_libdir}/wine/winusb.dll.so
 %{_libdir}/wine/wlanapi.dll.so
 %{_libdir}/wine/wnaspi32.dll.so
 %{_libdir}/wine/wpc.dll.so
@@ -2114,6 +2117,9 @@ fi
 %endif
 
 %changelog
+* Thu Feb 09 2017 Michael Cronenworth <mike@cchtml.com> 2.1-1
+- version update
+
 * Wed Jan 25 2017 Michael Cronenworth <mike@cchtml.com> 2.0-1
 - version update
 
