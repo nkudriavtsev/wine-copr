@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        2.1
+Version:        2.2
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1728,6 +1728,7 @@ fi
 %{_libdir}/wine/vcruntime140.dll.so
 %{_libdir}/wine/vdmdbg.dll.so
 %{_libdir}/wine/version.dll.so
+%{_libdir}/wine/virtdisk.dll.so
 %{_libdir}/wine/vssapi.dll.so
 %if 0%{?compholio}
 %{_libdir}/wine/vulkan-1.dll.so
@@ -2117,6 +2118,9 @@ fi
 %endif
 
 %changelog
+* Mon Feb 20 2017 Michael Cronenworth <mike@cchtml.com> 2.2-1
+- version update
+
 * Thu Feb 09 2017 Michael Cronenworth <mike@cchtml.com> 2.1-1
 - version update
 
