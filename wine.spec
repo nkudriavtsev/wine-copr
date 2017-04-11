@@ -21,8 +21,8 @@
 %endif
 
 Name:           wine
-Version:        2.4
-Release:        2%{?dist}
+Version:        2.5
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -1226,6 +1226,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-psapi-obsolete-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-realtime-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-registry-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-registry-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-registryuserspecific-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-rtlsupport-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-rtlsupport-l1-2-0.dll.so
@@ -1243,6 +1244,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-sysinfo-l1-2-1.dll.so
 %{_libdir}/wine/api-ms-win-core-threadpool-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-threadpool-legacy-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-threadpool-private-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-timezone-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-toolhelp-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-url-l1-1-0.dll.so
@@ -1255,6 +1257,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-winrt-error-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-winrt-errorprivate-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-winrt-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-winrt-roparameterizediid-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-winrt-string-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-xstate-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-xstate-l2-1-0.dll.so
@@ -1289,6 +1292,8 @@ fi
 %{_libdir}/wine/api-ms-win-eventing-controller-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-eventing-provider-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-eventlog-legacy-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-mm-misc-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-mm-mme-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-ntuser-dc-access-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-power-base-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-power-setting-l1-1-0.dll.so
@@ -1297,11 +1302,13 @@ fi
 %{_libdir}/wine/api-ms-win-security-base-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-base-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-security-base-private-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-security-grouppolicy-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-lsalookup-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-lsalookup-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-security-lsalookup-l2-1-1.dll.so
 %{_libdir}/wine/api-ms-win-security-lsapolicy-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-sddl-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-security-systemfunctions-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-service-core-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-service-core-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-service-management-l1-1-0.dll.so
@@ -2118,6 +2125,9 @@ fi
 %endif
 
 %changelog
+* Mon Apr 10 2017 Michael Cronenworth <mike@cchtml.com> 2.5-1
+- version update
+
 * Thu Mar 23 2017 Michael Cronenworth <mike@cchtml.com> 2.4-2
 - update wine-mono requirement
 
