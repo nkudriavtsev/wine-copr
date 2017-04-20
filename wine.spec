@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        2.5
+Version:        2.6
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1602,6 +1602,7 @@ fi
 %{_libdir}/wine/msxml3.dll.so
 %{_libdir}/wine/msxml4.dll.so
 %{_libdir}/wine/msxml6.dll.so
+%{_libdir}/wine/mtxdm.dll.so
 %{_libdir}/wine/nddeapi.dll.so
 %{_libdir}/wine/ncrypt.dll.so
 %{_libdir}/wine/ndis.sys.so
@@ -1785,6 +1786,7 @@ fi
 %{_libdir}/wine/wpc.dll.so
 %{_libdir}/wine/wpcap.dll.so
 %{_libdir}/wine/ws2_32.dll.so
+%{_libdir}/wine/wsdapi.dll.so
 %{_libdir}/wine/wshom.ocx.so
 %{_libdir}/wine/wsnmp32.dll.so
 %{_libdir}/wine/wsock32.dll.so
@@ -2125,6 +2127,9 @@ fi
 %endif
 
 %changelog
+* Wed Apr 19 2017 Michael Cronenworth <mike@cchtml.com> 2.6-1
+- version update
+
 * Mon Apr 10 2017 Michael Cronenworth <mike@cchtml.com> 2.5-1
 - version update
 
