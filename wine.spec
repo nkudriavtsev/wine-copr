@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        2.7
+Version:        2.8
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1430,6 +1430,7 @@ fi
 %{_libdir}/wine/esent.dll.so
 %{_libdir}/wine/evr.dll.so
 %{_libdir}/wine/explorerframe.dll.so
+%{_libdir}/wine/ext-ms-win-authz-context-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-domainjoin-netjoin-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-gdi-dc-l1-2-0.dll.so
 %{_libdir}/wine/ext-ms-win-gdi-dc-create-l1-1-1.dll.so
@@ -2127,6 +2128,9 @@ fi
 %endif
 
 %changelog
+* Tue May 16 2017 Michael Cronenworth <mike@cchtml.com> 2.8-1
+- version update
+
 * Tue May 02 2017 Michael Cronenworth <mike@cchtml.com> 2.7-1
 - version update
 
