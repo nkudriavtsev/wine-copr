@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        2.9
+Version:        2.10
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1156,6 +1156,7 @@ fi
 %{_libdir}/wine/aclui.dll.so
 %{_libdir}/wine/activeds.dll.so
 %{_libdir}/wine/actxprxy.dll.so
+%{_libdir}/wine/adsldpc.dll.so
 %{_libdir}/wine/advapi32.dll.so
 %{_libdir}/wine/advpack.dll.so
 %{_libdir}/wine/amstream.dll.so
@@ -1298,6 +1299,7 @@ fi
 %{_libdir}/wine/api-ms-win-power-base-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-power-setting-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-rtcore-ntuser-private-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-security-activedirectoryclient-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-audit-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-security-base-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-base-l1-2-0.dll.so
@@ -1426,6 +1428,10 @@ fi
 %{_libdir}/wine/dwrite.dll.so
 %{_libdir}/wine/dxdiagn.dll.so
 %{_libdir}/wine/dxgi.dll.so
+%if 0%{?compholio}
+%{_libdir}/wine/dxgkrnl.sys.so
+%{_libdir}/wine/dxgmms1.sys.so
+%endif
 %{_libdir}/wine/dxva2.dll.so
 %{_libdir}/wine/esent.dll.so
 %{_libdir}/wine/evr.dll.so
@@ -1706,6 +1712,7 @@ fi
 %{_libdir}/wine/tapi32.dll.so
 %{_libdir}/wine/taskkill.exe.so
 %{_libdir}/wine/taskschd.dll.so
+%{_libdir}/wine/tdh.dll.so
 %if 0%{?compholio}
 %{_libdir}/wine/tdi.sys.so
 %endif
@@ -1750,6 +1757,9 @@ fi
 %{_libdir}/wine/wevtapi.dll.so
 %{_libdir}/wine/wiaservc.dll.so
 %{_libdir}/wine/wimgapi.dll.so
+%if 0%{?compholio}
+%{_libdir}/wine/win32k.sys.so
+%endif
 %{_libdir}/wine/windowscodecs.dll.so
 %{_libdir}/wine/windowscodecsext.dll.so
 %{_libdir}/wine/winebus.sys.so
@@ -2128,6 +2138,9 @@ fi
 %endif
 
 %changelog
+* Tue Jun 13 2017 Michael Cronenworth <mike@cchtml.com> 2.10-1
+- version update
+
 * Mon May 29 2017 Michael Cronenworth <mike@cchtml.com> 2.9-1
 - version update
 
