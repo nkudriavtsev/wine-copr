@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        2.10
+Version:        2.11
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1169,6 +1169,8 @@ fi
 %{_libdir}/wine/api-ms-win-core-com-private-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-console-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-console-l2-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-crt-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-crt-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-datetime-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-datetime-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-debug-l1-1-0.dll.so
@@ -1304,6 +1306,7 @@ fi
 %{_libdir}/wine/api-ms-win-security-base-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-base-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-security-base-private-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-security-credentials-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-grouppolicy-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-lsalookup-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-lsalookup-l1-1-1.dll.so
@@ -2138,6 +2141,9 @@ fi
 %endif
 
 %changelog
+* Tue Jun 27 2017 Michael Cronenworth <mike@cchtml.com> 2.11-1
+- version update
+
 * Tue Jun 13 2017 Michael Cronenworth <mike@cchtml.com> 2.10-1
 - version update
 
