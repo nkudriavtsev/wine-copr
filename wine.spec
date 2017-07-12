@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        2.11
+Version:        2.12
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1446,15 +1446,20 @@ fi
 %{_libdir}/wine/ext-ms-win-gdi-devcaps-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-gdi-draw-l1-1-1.dll.so
 %{_libdir}/wine/ext-ms-win-gdi-render-l1-1-0.dll.so
+%{_libdir}/wine/ext-ms-win-kernel32-package-l1-1-1.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-message-l1-1-1.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-private-l1-1-1.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-rectangle-ext-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-uicontext-ext-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-window-l1-1-1.dll.so
+%{_libdir}/wine/ext-ms-win-ntuser-windowclass-l1-1-1.dll.so
+%{_libdir}/wine/ext-ms-win-ras-rasapi32-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-rtcore-gdi-object-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-rtcore-gdi-rgn-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-rtcore-ntuser-dc-access-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-rtcore-ntuser-dpi-l1-1-0.dll.so
+%{_libdir}/wine/ext-ms-win-security-credui-l1-1-0.dll.so
+%{_libdir}/wine/ext-ms-win-security-cryptui-l1-1-0.dll.so
 %if 0%{?compholio}
 %{_libdir}/wine/ext-ms-win-appmodel-usercontext-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-kernel32-package-current-l1-1-0.dll.so
@@ -2141,6 +2146,9 @@ fi
 %endif
 
 %changelog
+* Wed Jul 12 2017 Michael Cronenworth <mike@cchtml.com> 2.12-1
+- version update
+
 * Tue Jun 27 2017 Michael Cronenworth <mike@cchtml.com> 2.11-1
 - version update
 
