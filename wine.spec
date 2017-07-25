@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        2.12
+Version:        2.13
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1123,6 +1123,7 @@ fi
 %{_libdir}/wine/ntoskrnl.exe.so
 %{_libdir}/wine/oleview.exe.so
 %{_libdir}/wine/ping.exe.so
+%{_libdir}/wine/powershell.exe.so
 %{_libdir}/wine/reg.exe.so
 %{_libdir}/wine/regasm.exe.so
 %{_libdir}/wine/regedit.exe.so
@@ -1226,6 +1227,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-processthreads-l1-1-2.dll.so
 %{_libdir}/wine/api-ms-win-core-profile-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-psapi-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-psapi-ansi-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-psapi-obsolete-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-realtime-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-registry-l1-1-0.dll.so
@@ -1297,6 +1299,7 @@ fi
 %{_libdir}/wine/api-ms-win-eventlog-legacy-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-mm-misc-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-mm-mme-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-mm-time-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-ntuser-dc-access-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-power-base-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-power-setting-l1-1-0.dll.so
@@ -1312,6 +1315,7 @@ fi
 %{_libdir}/wine/api-ms-win-security-lsalookup-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-security-lsalookup-l2-1-1.dll.so
 %{_libdir}/wine/api-ms-win-security-lsapolicy-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-security-provider-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-sddl-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-systemfunctions-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-service-core-l1-1-0.dll.so
@@ -2146,6 +2150,9 @@ fi
 %endif
 
 %changelog
+* Tue Jul 25 2017 Michael Cronenworth <mike@cchtml.com> 2.13-1
+- version update
+
 * Wed Jul 12 2017 Michael Cronenworth <mike@cchtml.com> 2.12-1
 - version update
 
