@@ -22,7 +22,7 @@
 
 Name:           wine
 Version:        2.13
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -2150,6 +2150,9 @@ fi
 %endif
 
 %changelog
+* Thu Aug 03 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.13-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
+
 * Tue Jul 25 2017 Michael Cronenworth <mike@cchtml.com> 2.13-1
 - version update
 
