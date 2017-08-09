@@ -3,7 +3,7 @@
 
 %global no64bit   0
 %global winegecko 2.47
-%global winemono  4.7.0
+%global winemono  4.7.1
 #global _default_patch_fuzz 2
 
 # build with compholio-patches, see:  http://www.compholio.com/wine-compholio/
@@ -21,8 +21,8 @@
 %endif
 
 Name:           wine
-Version:        2.13
-Release:        2%{?dist}
+Version:        2.14
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -1055,6 +1055,7 @@ fi
 %{_libdir}/wine/notepad.exe.so
 %{_libdir}/wine/plugplay.exe.so
 %{_libdir}/wine/progman.exe.so
+%{_libdir}/wine/runas.exe.so
 %{_libdir}/wine/taskmgr.exe.so
 %{_libdir}/wine/winedbg.exe.so
 %{_libdir}/wine/winefile.exe.so
@@ -1429,6 +1430,7 @@ fi
 %{_libdir}/wine/dpwsockx.dll.so
 %{_libdir}/wine/drmclien.dll.so
 %{_libdir}/wine/dsound.dll.so
+%{_libdir}/wine/dsquery.dll.so
 %{_libdir}/wine/dssenh.dll.so
 %{_libdir}/wine/dswave.dll.so
 %{_libdir}/wine/dwmapi.dll.so
@@ -1733,6 +1735,7 @@ fi
 %if 0%{?compholio}
 %{_libdir}/wine/uiautomationcore.dll.so
 %endif
+%{_libdir}/wine/uiribbon.dll.so
 %{_libdir}/wine/unicows.dll.so
 %{_libdir}/wine/unlodctr.exe.so
 %{_libdir}/wine/updspapi.dll.so
@@ -2150,6 +2153,9 @@ fi
 %endif
 
 %changelog
+* Tue Aug 08 2017 Michael Cronenworth <mike@cchtml.com> 2.14-1
+- version update
+
 * Thu Aug 03 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.13-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
 
