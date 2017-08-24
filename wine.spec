@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        2.14
+Version:        2.15
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1046,6 +1046,7 @@ fi
 %doc documentation/README.*
 %if 0%{?compholio}
 %{_bindir}/msidb
+%{_libdir}/wine/runas.exe.so
 %endif
 %{_bindir}/winedump
 %{_libdir}/wine/explorer.exe.so
@@ -1055,7 +1056,6 @@ fi
 %{_libdir}/wine/notepad.exe.so
 %{_libdir}/wine/plugplay.exe.so
 %{_libdir}/wine/progman.exe.so
-%{_libdir}/wine/runas.exe.so
 %{_libdir}/wine/taskmgr.exe.so
 %{_libdir}/wine/winedbg.exe.so
 %{_libdir}/wine/winefile.exe.so
@@ -1507,6 +1507,7 @@ fi
 %if 0%{?compholio}
 %{_libdir}/wine/iertutil.dll.so
 %endif
+%{_libdir}/wine/ieproxy.dll.so
 %{_libdir}/wine/imaadp32.acm.so
 %{_libdir}/wine/imagehlp.dll.so
 %{_libdir}/wine/imm32.dll.so
@@ -2153,6 +2154,9 @@ fi
 %endif
 
 %changelog
+* Wed Aug 23 2017 Michael Cronenworth <mike@cchtml.com> 2.15-1
+- version update
+
 * Tue Aug 08 2017 Michael Cronenworth <mike@cchtml.com> 2.14-1
 - version update
 
