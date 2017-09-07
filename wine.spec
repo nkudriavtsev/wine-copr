@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        2.15
+Version:        2.16
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -131,7 +131,6 @@ BuildRequires:  pulseaudio-libs-devel
 BuildRequires:  gsm-devel
 BuildRequires:  libv4l-devel
 BuildRequires:  fontpackages-devel
-BuildRequires:  ImageMagick-devel
 BuildRequires:  libtiff-devel
 BuildRequires:  gettext-devel
 BuildRequires:  chrpath
@@ -1296,6 +1295,7 @@ fi
 %{_libdir}/wine/api-ms-win-dx-d3dkmt-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-eventing-consumer-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-eventing-controller-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-eventing-legacy-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-eventing-provider-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-eventlog-legacy-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-mm-misc-l1-1-1.dll.so
@@ -1809,6 +1809,7 @@ fi
 %{_libdir}/wine/wintrust.dll.so
 %{_libdir}/wine/winusb.dll.so
 %{_libdir}/wine/wlanapi.dll.so
+%{_libdir}/wine/wmphoto.dll.so
 %{_libdir}/wine/wnaspi32.dll.so
 %{_libdir}/wine/wpc.dll.so
 %{_libdir}/wine/wpcap.dll.so
@@ -2154,6 +2155,10 @@ fi
 %endif
 
 %changelog
+* Thu Sep 07 2017 Michael Cronenworth <mike@cchtml.com> 2.16-1
+- version update
+- drop BR on ImageMagick
+
 * Wed Aug 23 2017 Michael Cronenworth <mike@cchtml.com> 2.15-1
 - version update
 
