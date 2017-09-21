@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        2.16
+Version:        2.17
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1190,6 +1190,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-handle-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-heap-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-heap-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-core-heap-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-heap-obsolete-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-interlocked-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-interlocked-l1-2-0.dll.so
@@ -1208,6 +1209,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-localization-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-localization-obsolete-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-localization-obsolete-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-core-localization-obsolete-l1-3-0.dll.so
 %{_libdir}/wine/api-ms-win-core-localization-private-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-localregistry-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-memory-l1-1-0.dll.so
@@ -1237,6 +1239,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-rtlsupport-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-shlwapi-legacy-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-shlwapi-obsolete-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-shlwapi-obsolete-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-sidebyside-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-string-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-string-l2-1-0.dll.so
@@ -1244,6 +1247,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-stringansi-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-synch-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-synch-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-core-synch-l1-2-1.dll.so
 %{_libdir}/wine/api-ms-win-core-sysinfo-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-sysinfo-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-sysinfo-l1-2-1.dll.so
@@ -2155,6 +2159,9 @@ fi
 %endif
 
 %changelog
+* Thu Sep 21 2017 Michael Cronenworth <mike@cchtml.com> 2.17-1
+- version update
+
 * Thu Sep 07 2017 Michael Cronenworth <mike@cchtml.com> 2.16-1
 - version update
 - drop BR on ImageMagick
