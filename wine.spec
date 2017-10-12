@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        2.17
+Version:        2.18
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1180,6 +1180,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-errorhandling-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-errorhandling-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-errorhandling-l1-1-2.dll.so
+%{_libdir}/wine/api-ms-win-core-errorhandling-l1-1-3.dll.so
 %{_libdir}/wine/api-ms-win-core-fibers-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-fibers-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-file-l1-1-0.dll.so
@@ -1187,6 +1188,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-file-l1-2-1.dll.so
 %{_libdir}/wine/api-ms-win-core-file-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-file-l2-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-file-l2-1-2.dll.so
 %{_libdir}/wine/api-ms-win-core-handle-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-heap-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-heap-l1-2-0.dll.so
@@ -1227,6 +1229,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-processthreads-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-processthreads-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-processthreads-l1-1-2.dll.so
+%{_libdir}/wine/api-ms-win-core-processtopology-obsolete-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-profile-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-psapi-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-psapi-ansi-l1-1-0.dll.so
@@ -1259,6 +1262,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-url-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-util-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-version-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-version-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-version-private-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-versionansi-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-windowserrorreporting-l1-1-0.dll.so
@@ -1268,6 +1272,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-winrt-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-winrt-roparameterizediid-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-winrt-string-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-wow64-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-xstate-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-xstate-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-crt-conio-l1-1-0.dll.so
@@ -1302,10 +1307,12 @@ fi
 %{_libdir}/wine/api-ms-win-eventing-legacy-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-eventing-provider-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-eventlog-legacy-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-mm-joystick-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-mm-misc-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-mm-mme-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-mm-time-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-ntuser-dc-access-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-ntuser-rectangle-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-power-base-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-power-setting-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-rtcore-ntuser-private-l1-1-0.dll.so
@@ -1439,6 +1446,7 @@ fi
 %{_libdir}/wine/dswave.dll.so
 %{_libdir}/wine/dwmapi.dll.so
 %{_libdir}/wine/dwrite.dll.so
+%{_libdir}/wine/dx8vb.dll.so
 %{_libdir}/wine/dxdiagn.dll.so
 %{_libdir}/wine/dxgi.dll.so
 %if 0%{?compholio}
@@ -1689,6 +1697,7 @@ fi
 %{_libdir}/wine/rstrtmgr.dll.so
 %{_libdir}/wine/rtutils.dll.so
 %{_libdir}/wine/samlib.dll.so
+%{_libdir}/wine/sapi.dll.so
 %{_libdir}/wine/sc.exe.so
 %{_libdir}/wine/scarddlg.dll.so
 %{_libdir}/wine/sccbase.dll.so
@@ -2159,6 +2168,9 @@ fi
 %endif
 
 %changelog
+* Wed Oct 11 2017 Michael Cronenworth <mike@cchtml.com> 2.18-1
+- version update
+
 * Thu Sep 21 2017 Michael Cronenworth <mike@cchtml.com> 2.17-1
 - version update
 
