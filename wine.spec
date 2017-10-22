@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        2.18
+Version:        2.19
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1162,6 +1162,7 @@ fi
 %{_libdir}/wine/advpack.dll.so
 %{_libdir}/wine/amstream.dll.so
 %{_libdir}/wine/api-ms-win-appmodel-identity-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-appmodel-runtime-l1-1-2.dll.so
 %{_libdir}/wine/api-ms-win-core-appcompat-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-appinit-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-atoms-l1-1-0.dll.so
@@ -1344,11 +1345,9 @@ fi
 %{_libdir}/wine/api-ms-win-core-apiquery-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-com-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-delayload-l1-1-1.dll.so
-%{_libdir}/wine/api-ms-win-core-heap-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-kernel32-legacy-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-libraryloader-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-quirks-l1-1-0.dll.so
-%{_libdir}/wine/api-ms-win-core-shlwapi-obsolete-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-threadpool-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-winrt-registration-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-wow64-l1-1-0.dll.so
@@ -1544,6 +1543,9 @@ fi
 %endif
 %{_libdir}/wine/ksuser.dll.so
 %{_libdir}/wine/ktmw32.dll.so
+%if 0%{?fedora} > 24
+%{_libdir}/wine/l3codeca.acm.so
+%endif
 %{_libdir}/wine/loadperf.dll.so
 %{_libdir}/wine/localspl.dll.so
 %{_libdir}/wine/localui.dll.so
@@ -1799,9 +1801,6 @@ fi
 %{_libdir}/wine/winehid.sys.so
 %{_libdir}/wine/winejoystick.drv.so
 %{_libdir}/wine/winemapi.dll.so
-%if 0%{?fedora} > 24
-%{_libdir}/wine/winemp3.acm.so
-%endif
 %{_libdir}/wine/winex11.drv.so
 %{_libdir}/wine/wing32.dll.so
 %{_libdir}/wine/winhttp.dll.so
@@ -2168,6 +2167,9 @@ fi
 %endif
 
 %changelog
+* Sun Oct 22 2017 Michael Cronenworth <mike@cchtml.com> 2.19-1
+- version update
+
 * Wed Oct 11 2017 Michael Cronenworth <mike@cchtml.com> 2.18-1
 - version update
 
