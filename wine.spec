@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        2.19
+Version:        2.20
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1187,6 +1187,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-file-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-file-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-file-l1-2-1.dll.so
+%{_libdir}/wine/api-ms-win-core-file-l1-2-2.dll.so
 %{_libdir}/wine/api-ms-win-core-file-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-file-l2-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-file-l2-1-2.dll.so
@@ -1205,6 +1206,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-kernel32-private-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-libraryloader-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-libraryloader-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-libraryloader-l1-2-1.dll.so
 %{_libdir}/wine/api-ms-win-core-libraryloader-l1-2-2.dll.so
 %{_libdir}/wine/api-ms-win-core-localization-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-localization-l1-2-0.dll.so
@@ -1252,6 +1254,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-synch-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-synch-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-synch-l1-2-1.dll.so
+%{_libdir}/wine/api-ms-win-core-synch-ansi-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-sysinfo-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-sysinfo-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-sysinfo-l1-2-1.dll.so
@@ -1338,6 +1341,7 @@ fi
 %{_libdir}/wine/api-ms-win-service-private-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-service-winsvc-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-service-winsvc-l1-2-0.dll.so
+%{_libdir}/wine/api-ms-win-shcore-scaling-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-shell-shellcom-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-shell-shellfolders-l1-1-0.dll.so
 %if 0%{?compholio}
@@ -1537,6 +1541,7 @@ fi
 %{_libdir}/wine/joy.cpl.so
 %{_libdir}/wine/jscript.dll.so
 %{_libdir}/wine/jsproxy.dll.so
+%{_libdir}/wine/kerberos.dll.so
 %{_libdir}/wine/kernel32.dll.so
 %if 0%{?compholio}
 %{_libdir}/wine/kernelbase.dll.so
@@ -2167,6 +2172,9 @@ fi
 %endif
 
 %changelog
+* Mon Nov 06 2017 Michael Cronenworth <mike@cchtml.com> 2.20-1
+- version update
+
 * Sun Oct 22 2017 Michael Cronenworth <mike@cchtml.com> 2.19-1
 - version update
 
