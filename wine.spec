@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        2.20
+Version:        2.21
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -2172,6 +2172,9 @@ fi
 %endif
 
 %changelog
+* Sat Nov 25 2017 Michael Cronenworth <mike@cchtml.com> 2.21-1
+- version update
+
 * Mon Nov 06 2017 Michael Cronenworth <mike@cchtml.com> 2.20-1
 - version update
 
