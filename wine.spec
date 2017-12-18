@@ -192,7 +192,7 @@ Requires:       wine-twain(x86-64) = %{version}-%{release}
 Requires:       wine-pulseaudio(x86-64) = %{version}-%{release}
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6
 Requires:       wine-openal(x86-64) = %{version}-%{release}
-%endif 
+%endif
 %if 0%{?fedora}
 Requires:       wine-opencl(x86-64) = %{version}-%{release}
 %endif
@@ -1100,9 +1100,7 @@ fi
 %{_libdir}/wine/expand.exe.so
 %{_libdir}/wine/extrac32.exe.so
 %{_libdir}/wine/findstr.exe.so
-%if 0%{?compholio}
 %{_libdir}/wine/fsutil.exe.so
-%endif
 %{_libdir}/wine/hostname.exe.so
 %{_libdir}/wine/ipconfig.exe.so
 %{_libdir}/wine/winhlp32.exe.so
@@ -1154,11 +1152,14 @@ fi
 %{_libdir}/wine/advpack.dll.so
 %{_libdir}/wine/amstream.dll.so
 %{_libdir}/wine/api-ms-win-appmodel-identity-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-appmodel-runtime-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-appcompat-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-appinit-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-apiquery-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-atoms-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-bem-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-com-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-com-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-com-private-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-console-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-console-l2-1-0.dll.so
@@ -1167,6 +1168,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-debug-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-debug-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-delayload-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-delayload-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-errorhandling-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-errorhandling-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-errorhandling-l1-1-2.dll.so
@@ -1188,9 +1190,11 @@ fi
 %{_libdir}/wine/api-ms-win-core-job-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-job-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-kernel32-legacy-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-kernel32-legacy-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-kernel32-private-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-libraryloader-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-libraryloader-l1-1-1.dll.so
+%{_libdir}/wine/api-ms-win-core-libraryloader-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-libraryloader-l1-2-2.dll.so
 %{_libdir}/wine/api-ms-win-core-localization-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-localization-l1-2-0.dll.so
@@ -1236,6 +1240,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-sysinfo-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-sysinfo-l1-2-1.dll.so
 %{_libdir}/wine/api-ms-win-core-threadpool-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-threadpool-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-threadpool-legacy-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-timezone-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-toolhelp-l1-1-0.dll.so
@@ -1249,7 +1254,9 @@ fi
 %{_libdir}/wine/api-ms-win-core-winrt-error-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-winrt-errorprivate-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-winrt-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-winrt-registration-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-winrt-string-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-wow64-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-xstate-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-xstate-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-crt-conio-l1-1-0.dll.so
@@ -1279,6 +1286,7 @@ fi
 %{_libdir}/wine/api-ms-win-downlevel-user32-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-downlevel-version-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-dx-d3dkmt-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-eventing-classicprovider-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-eventing-consumer-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-eventing-controller-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-eventing-provider-l1-1-0.dll.so
@@ -1306,19 +1314,9 @@ fi
 %{_libdir}/wine/api-ms-win-shell-shellcom-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-shell-shellfolders-l1-1-0.dll.so
 %if 0%{?compholio}
-%{_libdir}/wine/api-ms-win-appmodel-runtime-l1-1-1.dll.so
-%{_libdir}/wine/api-ms-win-core-apiquery-l1-1-0.dll.so
-%{_libdir}/wine/api-ms-win-core-com-l1-1-1.dll.so
-%{_libdir}/wine/api-ms-win-core-delayload-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-heap-l2-1-0.dll.so
-%{_libdir}/wine/api-ms-win-core-kernel32-legacy-l1-1-1.dll.so
-%{_libdir}/wine/api-ms-win-core-libraryloader-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-quirks-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-shlwapi-obsolete-l1-2-0.dll.so
-%{_libdir}/wine/api-ms-win-core-threadpool-l1-2-0.dll.so
-%{_libdir}/wine/api-ms-win-core-winrt-registration-l1-1-0.dll.so
-%{_libdir}/wine/api-ms-win-core-wow64-l1-1-0.dll.so
-%{_libdir}/wine/api-ms-win-eventing-classicprovider-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-rtcore-ntuser-draw-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-rtcore-ntuser-window-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-shcore-obsolete-l1-1-0.dll.so
@@ -1423,6 +1421,7 @@ fi
 %{_libdir}/wine/ext-ms-win-gdi-devcaps-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-gdi-draw-l1-1-1.dll.so
 %{_libdir}/wine/ext-ms-win-gdi-render-l1-1-0.dll.so
+%{_libdir}/wine/ext-ms-win-kernel32-package-current-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-message-l1-1-1.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-private-l1-1-1.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-rectangle-ext-l1-1-0.dll.so
@@ -1432,11 +1431,10 @@ fi
 %{_libdir}/wine/ext-ms-win-rtcore-gdi-rgn-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-rtcore-ntuser-dc-access-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-rtcore-ntuser-dpi-l1-1-0.dll.so
+%{_libdir}/wine/ext-ms-win-rtcore-ntuser-syscolors-l1-1-0.dll.so
 %if 0%{?compholio}
 %{_libdir}/wine/ext-ms-win-appmodel-usercontext-l1-1-0.dll.so
-%{_libdir}/wine/ext-ms-win-kernel32-package-current-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-mouse-l1-1-0.dll.so
-%{_libdir}/wine/ext-ms-win-rtcore-ntuser-syscolors-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-rtcore-ntuser-sysparams-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-uxtheme-themes-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-xaml-pal-l1-1-0.dll.so
@@ -1492,9 +1490,7 @@ fi
 %{_libdir}/wine/jscript.dll.so
 %{_libdir}/wine/jsproxy.dll.so
 %{_libdir}/wine/kernel32.dll.so
-%if 0%{?compholio}
 %{_libdir}/wine/kernelbase.dll.so
-%endif
 %{_libdir}/wine/ksuser.dll.so
 %{_libdir}/wine/ktmw32.dll.so
 %{_libdir}/wine/loadperf.dll.so
@@ -1668,9 +1664,7 @@ fi
 %{_libdir}/wine/shell32.dll.so
 %{_libdir}/wine/shfolder.dll.so
 %{_libdir}/wine/shlwapi.dll.so
-%if 0%{?compholio}
 %{_libdir}/wine/shutdown.exe.so
-%endif
 %{_libdir}/wine/slbcsp.dll.so
 %{_libdir}/wine/slc.dll.so
 %{_libdir}/wine/snmpapi.dll.so
@@ -1689,9 +1683,7 @@ fi
 %{_libdir}/wine/tapi32.dll.so
 %{_libdir}/wine/taskkill.exe.so
 %{_libdir}/wine/taskschd.dll.so
-%if 0%{?compholio}
 %{_libdir}/wine/tdi.sys.so
-%endif
 %{_libdir}/wine/traffic.dll.so
 %{_libdir}/wine/ucrtbase.dll.so
 %if 0%{?compholio}
