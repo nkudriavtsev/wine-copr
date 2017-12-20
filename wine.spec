@@ -22,7 +22,7 @@
 
 Name:           wine
 Version:        2.0.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -762,7 +762,6 @@ mkdir -p %{buildroot}%{_datadir}/wine/gecko
 mkdir -p %{buildroot}%{_datadir}/wine/mono
 
 # extract and install icons
-%if 0%{?fedora} > 10
 mkdir -p %{buildroot}%{_datadir}/icons/hicolor/scalable/apps
 
 # This replacement masks a composite program icon .SVG down
@@ -811,8 +810,6 @@ sed -i -e "$PROGRAM_ICONFIX" %{buildroot}%{_datadir}/icons/hicolor/scalable/apps
 install -p -m 644 programs/wordpad/wordpad.svg \
  %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/wordpad.svg
 sed -i -e "$PROGRAM_ICONFIX" %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/wordpad.svg
-
-%endif
 
 # install desktop files
 desktop-file-install \
@@ -2100,6 +2097,9 @@ fi
 %endif
 
 %changelog
+* Wed Dec 20 2017 Michael Cronenworth <mike@cchtml.com> 2.0.3-2
+- Install desktop icons (rhbz#1527942)
+
 * Mon Dec 18 2017 Michael Cronenworth <mike@cchtml.com> 2.0.3-1
 - version update
 
