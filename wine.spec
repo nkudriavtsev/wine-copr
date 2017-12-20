@@ -2020,9 +2020,7 @@ fi
 %{_datadir}/applications/wine-oleview.desktop
 %{_datadir}/desktop-directories/Wine.directory
 %config %{_sysconfdir}/xdg/menus/applications-merged/wine.menu
-%if 0%{?fedora} >= 10
 %{_datadir}/icons/hicolor/scalable/apps/*svg
-%endif
 
 %if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 %files systemd
