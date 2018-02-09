@@ -694,6 +694,9 @@ export CFLAGS="`echo $TEMP_CFLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno-e
  --x-includes=%{_includedir} --x-libraries=%{_libdir} \
  --without-hal --with-dbus \
  --with-x \
+%ifarch %{arm}
+ --with-float-abi=hard \
+%endif
 %ifarch x86_64 aarch64
  --enable-win64 \
 %endif
