@@ -22,7 +22,7 @@
 
 Name:           wine
 Version:        3.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -406,8 +406,11 @@ Requires:      wine-system-fonts = %{version}-%{release}
 Requires:      wine-marlett-fonts = %{version}-%{release}
 Requires:      wine-ms-sans-serif-fonts = %{version}-%{release}
 Requires:      wine-tahoma-fonts = %{version}-%{release}
+# times-new-roman-fonts are available with compholio-patchset, only.
 %if 0%{?compholio}
 Requires:      wine-times-new-roman-fonts = %{version}-%{release}
+%else
+Obsoletes:     wine-times-new-roman-fonts <= %{version}-%{release}
 %endif
 Requires:      wine-symbol-fonts = %{version}-%{release}
 Requires:      wine-wingdings-fonts = %{version}-%{release}
@@ -2167,6 +2170,9 @@ fi
 %endif
 
 %changelog
+* Sun Feb 11 2018 Björn Esser <besser82@fedoraproject.org> - 3.1-2
+- Obsolete wine-times-new-roman-fonts, if built without wine-staging
+
 * Fri Feb 09 2018 Michael Cronenworth <mike@cchtml.com> 3.1-1
 - version update
 - disable wine-staging
