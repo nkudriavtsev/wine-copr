@@ -21,8 +21,8 @@
 %endif
 
 Name:           wine
-Version:        3.1
-Release:        2%{?dist}
+Version:        3.2
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -83,6 +83,7 @@ ExclusiveArch:  %{ix86} %{arm}
 
 BuildRequires:  bison
 BuildRequires:  flex
+BuildRequires:  gcc
 BuildRequires:  autoconf
 BuildRequires:  desktop-file-utils
 BuildRequires:  alsa-lib-devel
@@ -1160,6 +1161,7 @@ fi
 %{_libdir}/wine/aclui.dll.so
 %{_libdir}/wine/activeds.dll.so
 %{_libdir}/wine/actxprxy.dll.so
+%{_libdir}/wine/adsldp.dll.so
 %{_libdir}/wine/adsldpc.dll.so
 %{_libdir}/wine/advapi32.dll.so
 %{_libdir}/wine/advpack.dll.so
@@ -1332,6 +1334,7 @@ fi
 %{_libdir}/wine/api-ms-win-mm-time-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-ntuser-dc-access-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-ntuser-rectangle-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-perf-legacy-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-power-base-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-power-setting-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-rtcore-ntuser-private-l1-1-0.dll.so
@@ -1385,6 +1388,7 @@ fi
 %{_libdir}/wine/bthprops.cpl.so
 %{_libdir}/wine/cabinet.dll.so
 %{_libdir}/wine/cards.dll.so
+%{_libdir}/wine/cdosys.dll.so
 %{_libdir}/wine/cfgmgr32.dll.so
 %{_libdir}/wine/clock.exe.so
 %{_libdir}/wine/clusapi.dll.so
@@ -1411,6 +1415,7 @@ fi
 %{_libdir}/wine/d3d10_1.dll.so
 %{_libdir}/wine/d3d10core.dll.so
 %{_libdir}/wine/d3d11.dll.so
+%{_libdir}/wine/d3d12.dll.so
 %{_libdir}/wine/d3dcompiler_*.dll.so
 %{_libdir}/wine/d3dim.dll.so
 %{_libdir}/wine/d3drm.dll.so
@@ -2170,6 +2175,9 @@ fi
 %endif
 
 %changelog
+* Mon Feb 19 2018 Michael Cronenworth <mike@cchtml.com> 3.2-1
+- version update
+
 * Wed Feb 14 2018 Michael Cronenworth <mike@cchtml.com> 3.1-2
 - fix upgrade path from wine-staging
 
