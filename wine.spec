@@ -22,7 +22,7 @@
 
 Name:           wine
 Version:        3.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -412,6 +412,7 @@ Requires:      wine-tahoma-fonts = %{version}-%{release}
 Requires:      wine-times-new-roman-fonts = %{version}-%{release}
 %else # 0%{?compholio}
 Obsoletes:     wine-times-new-roman-fonts <= %{version}-%{release}
+Obsoletes:     wine-times-new-roman-fonts-system <= %{version}-%{release}
 %endif # 0%{?compholio}
 Requires:      wine-symbol-fonts = %{version}-%{release}
 Requires:      wine-wingdings-fonts = %{version}-%{release}
@@ -2175,6 +2176,9 @@ fi
 %endif
 
 %changelog
+* Tue Feb 20 2018 Michael Cronenworth <mike@cchtml.com> 3.2-2
+- fix another upgrade path from wine-staging (RHBZ#1547137)
+
 * Mon Feb 19 2018 Michael Cronenworth <mike@cchtml.com> 3.2-1
 - version update
 
