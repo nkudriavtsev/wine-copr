@@ -21,15 +21,15 @@
 %endif
 
 Name:           wine
-Version:        3.2
-Release:        2%{?dist}
+Version:        3.3
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
 License:        LGPLv2+
-URL:            http://www.winehq.org/
-Source0:        http://downloads.sourceforge.net/wine/wine-%{version}.tar.xz
-Source10:       http://downloads.sourceforge.net/wine/wine-%{version}.tar.xz.sign
+URL:            https://www.winehq.org/
+Source0:        https://dl.winehq.org/wine/source/3.x/wine-%{version}.tar.xz
+Source10:       https://dl.winehq.org/wine/source/3.x/wine-%{version}.tar.xz.sign
 
 Source1:        wine.init
 Source2:        wine.systemd
@@ -1810,6 +1810,7 @@ fi
 %{_libdir}/wine/winehid.sys.so
 %{_libdir}/wine/winejoystick.drv.so
 %{_libdir}/wine/winemapi.dll.so
+%{_libdir}/wine/winevulkan.dll.so
 %{_libdir}/wine/winex11.drv.so
 %{_libdir}/wine/wing32.dll.so
 %{_libdir}/wine/winhttp.dll.so
@@ -2176,6 +2177,9 @@ fi
 %endif
 
 %changelog
+* Fri Mar 02 2018 Michael Cronenworth <mike@cchtml.com> 3.3-1
+- version update
+
 * Tue Feb 20 2018 Michael Cronenworth <mike@cchtml.com> 3.2-2
 - fix another upgrade path from wine-staging (RHBZ#1547137)
 
