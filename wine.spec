@@ -22,7 +22,7 @@
 
 Name:           wine
 Version:        3.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -142,6 +142,8 @@ BuildRequires:  gstreamer1-plugins-base-devel
 %if 0%{?fedora} > 24
 BuildRequires:  mpg123-devel
 %endif
+BuildRequires:  SDL2-devel
+BuildRequires:  vulkan-devel
 
 # Silverlight DRM-stuff needs XATTR enabled.
 %if 0%{?compholio}
@@ -273,6 +275,8 @@ Requires:       libpcap(x86-32)
 Requires:       mesa-libOSMesa(x86-32)
 Requires:       libv4l(x86-32)
 Requires:       unixODBC(x86-32)
+Requires:       SDL2(x86-32)
+Requires:       vulkan(x86-32)
 %if 0%{?compholio}
 Requires:       libva(x86-32)
 %endif
@@ -295,6 +299,8 @@ Requires:       libpcap(x86-64)
 Requires:       mesa-libOSMesa(x86-64)
 Requires:       libv4l(x86-64)
 Requires:       unixODBC(x86-64)
+Requires:       SDL2(x86-64)
+Requires:       vulkan(x86-64)
 %if 0%{?compholio}
 Requires:       libva(x86-64)
 %endif
@@ -314,6 +320,8 @@ Requires:       libpcap
 Requires:       mesa-libOSMesa
 Requires:       libv4l
 Requires:       unixODBC
+Requires:       SDL2
+Requires:       vulkan
 %if 0%{?compholio}
 Requires:       libva
 %endif
@@ -2177,6 +2185,9 @@ fi
 %endif
 
 %changelog
+* Fri Mar 02 2018 Michael Cronenworth <mike@cchtml.com> 3.3-2
+- enable SDL2 and vulkan support
+
 * Fri Mar 02 2018 Michael Cronenworth <mike@cchtml.com> 3.3-1
 - version update
 
