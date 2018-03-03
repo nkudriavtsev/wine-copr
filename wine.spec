@@ -28,8 +28,8 @@ Summary:        A compatibility layer for windows applications
 Group:          Applications/Emulators
 License:        LGPLv2+
 URL:            https://www.winehq.org/
-Source0:        https://dl.winehq.org/wine/source/3.x/wine-%{version}.tar.xz
-Source10:       https://dl.winehq.org/wine/source/3.x/wine-%{version}.tar.xz.sign
+Source0:        https://dl.winehq.org/wine/source/3.0/wine-%{version}.tar.xz
+Source10:       https://dl.winehq.org/wine/source/3.0/wine-%{version}.tar.xz.sign
 
 Source1:        wine.init
 Source2:        wine.systemd
@@ -767,7 +767,6 @@ mkdir -p %{buildroot}%{_datadir}/wine/gecko
 mkdir -p %{buildroot}%{_datadir}/wine/mono
 
 # extract and install icons
-%if 0%{?fedora} > 10
 mkdir -p %{buildroot}%{_datadir}/icons/hicolor/scalable/apps
 
 # This replacement masks a composite program icon .SVG down
@@ -817,7 +816,6 @@ install -p -m 644 programs/wordpad/wordpad.svg \
  %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/wordpad.svg
 sed -i -e "$PROGRAM_ICONFIX" %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/wordpad.svg
 
-%endif
 
 # install desktop files
 desktop-file-install \
@@ -2091,9 +2089,7 @@ fi
 %{_datadir}/applications/wine-oleview.desktop
 %{_datadir}/desktop-directories/Wine.directory
 %config %{_sysconfdir}/xdg/menus/applications-merged/wine.menu
-%if 0%{?fedora} >= 10
 %{_datadir}/icons/hicolor/scalable/apps/*svg
-%endif
 
 %if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 %files systemd
@@ -2168,6 +2164,9 @@ fi
 %endif
 
 %changelog
+* Sat Mar 03 2018 Michael Cronenworth <mike@cchtml.com> 3.0-1
+- version update
+
 * Wed Dec 20 2017 Michael Cronenworth <mike@cchtml.com> 2.0.3-2
 - Install desktop icons (rhbz#1527942)
 
