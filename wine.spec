@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        3.4
+Version:        3.5
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1743,6 +1743,7 @@ fi
 %{_libdir}/wine/rtutils.dll.so
 %{_libdir}/wine/samlib.dll.so
 %{_libdir}/wine/sapi.dll.so
+%{_libdir}/wine/sas.dll.so
 %{_libdir}/wine/sc.exe.so
 %{_libdir}/wine/scarddlg.dll.so
 %{_libdir}/wine/sccbase.dll.so
@@ -1772,6 +1773,7 @@ fi
 %{_libdir}/wine/stdole2.tlb.so
 %{_libdir}/wine/stdole32.tlb.so
 %{_libdir}/wine/sti.dll.so
+%{_libdir}/wine/strmdll.dll.so
 %{_libdir}/wine/subst.exe.so
 %{_libdir}/wine/svchost.exe.so
 %{_libdir}/wine/svrapi.dll.so
@@ -1812,10 +1814,7 @@ fi
 %{_libdir}/wine/version.dll.so
 %{_libdir}/wine/virtdisk.dll.so
 %{_libdir}/wine/vssapi.dll.so
-%if 0%{?compholio}
 %{_libdir}/wine/vulkan-1.dll.so
-%{_libdir}/wine/vulkan.dll.so
-%endif
 %{_libdir}/wine/wbemdisp.dll.so
 %{_libdir}/wine/wbemprox.dll.so
 %{_libdir}/wine/wdscore.dll.so
@@ -2204,6 +2203,9 @@ fi
 %endif
 
 %changelog
+* Tue Apr 03 2018 Michael Cronenworth <mike@cchtml.com> 3.5-1
+- version update
+
 * Fri Mar 16 2018 Michael Cronenworth <mike@cchtml.com> 3.4-1
 - version update
 
