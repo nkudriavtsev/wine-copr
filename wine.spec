@@ -9,7 +9,7 @@
 # build with compholio-patches, see:  http://www.compholio.com/wine-compholio/
 # wine-staging appears to be dead
 %if 0%{?fedora}
-%global compholio 0
+%global compholio 1
 %endif # 0%{?fedora}
 
 # binfmt macros for RHEL
@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        3.5
+Version:        3.6
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -72,7 +72,7 @@ Patch511:       wine-cjk.patch
 %if 0%{?compholio}
 # wine compholio patches for wine-staging
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/compholio/wine-compholio/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
+Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
 %endif
 
 %if !%{?no64bit}
@@ -694,13 +694,7 @@ sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
 # disable fortify as it breaks wine
 # http://bugs.winehq.org/show_bug.cgi?id=24606
 # http://bugs.winehq.org/show_bug.cgi?id=25073
-%if 0%{?fedora} < 26
 export CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno-error"
-%else
-# https://bugzilla.redhat.com/show_bug.cgi?id=1406093
-export TEMP_CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-O2/-O1/'`"
-export CFLAGS="`echo $TEMP_CFLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno-error"
-%endif
 
 %configure \
  --sysconfdir=%{_sysconfdir}/wine \
@@ -1383,9 +1377,6 @@ fi
 %{_libdir}/wine/api-ms-win-shcore-thread-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-shell-shellcom-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-shell-shellfolders-l1-1-0.dll.so
-%if 0%{?compholio}
-%{_libdir}/wine/api-ms-win-appmodel-runtime-l1-1-1.dll.so
-%endif
 %{_libdir}/wine/apphelp.dll.so
 %{_libdir}/wine/appwiz.cpl.so
 %{_libdir}/wine/atl.dll.so
@@ -1769,6 +1760,7 @@ fi
 %{_libdir}/wine/snmpapi.dll.so
 %{_libdir}/wine/softpub.dll.so
 %{_libdir}/wine/spoolsv.exe.so
+%{_libdir}/wine/srclient.dll.so
 %{_libdir}/wine/sspicli.dll.so
 %{_libdir}/wine/stdole2.tlb.so
 %{_libdir}/wine/stdole32.tlb.so
@@ -1829,9 +1821,6 @@ fi
 %{_libdir}/wine/windowscodecs.dll.so
 %{_libdir}/wine/windowscodecsext.dll.so
 %{_libdir}/wine/winebus.sys.so
-%if 0%{?compholio}
-%{_libdir}/wine/wined3d-csmt.dll.so
-%endif
 %{_libdir}/wine/winegstreamer.dll.so
 %{_libdir}/wine/winehid.sys.so
 %{_libdir}/wine/winejoystick.drv.so
@@ -2203,6 +2192,10 @@ fi
 %endif
 
 %changelog
+* Sat Apr 14 2018 Michael Cronenworth <mike@cchtml.com> 3.6-1
+- version update
+- enable wine-staging
+
 * Tue Apr 03 2018 Michael Cronenworth <mike@cchtml.com> 3.5-1
 - version update
 
