@@ -1058,7 +1058,7 @@ fi
 %doc documentation/README.*
 %if 0%{?compholio}
 %{_bindir}/msidb
-%{_libdir}/wine/runas.exe.so
+#{_libdir}/wine/runas.exe.so
 %endif
 %{_bindir}/winedump
 %{_libdir}/wine/explorer.exe.so
