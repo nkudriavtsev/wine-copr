@@ -681,8 +681,9 @@ This package adds the opencl driver for wine.
 # setup and apply wine-staging patches
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
 
-# disable shell32-ACE_Viewer patch for now, breaks ARMv7
-patches/patchinstall.sh DESTDIR="`pwd`" --all -W shell32-ACE_Viewer
+# disable some patches for now, breaks ARMv7
+# https://bugs.winehq.org/show_bug.cgi?id=44099
+patches/patchinstall.sh DESTDIR="`pwd`" --all -W shell32-ACE_Viewer -W fsutil-Stub_Program
 
 # fix parallelized build
 sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
