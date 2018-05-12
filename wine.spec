@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        3.6
+Version:        3.8
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -681,12 +681,7 @@ This package adds the opencl driver for wine.
 # setup and apply wine-staging patches
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
 
-# disable some patches for now, breaks ARMv7
-# https://bugs.winehq.org/show_bug.cgi?id=44099
-patches/patchinstall.sh DESTDIR="`pwd`" --all \
-  -W shell32-ACE_Viewer \
-  -W fsutil-Stub_Program \
-  -W advapi32-Token_Integrity_Level
+patches/patchinstall.sh DESTDIR="`pwd`" --all
 
 # fix parallelized build
 sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
@@ -1058,13 +1053,14 @@ fi
 %doc documentation/README.*
 %if 0%{?compholio}
 %{_bindir}/msidb
-#{_libdir}/wine/runas.exe.so
+%{_libdir}/wine/runas.exe.so
 %endif
 %{_bindir}/winedump
 %{_libdir}/wine/explorer.exe.so
 %{_libdir}/wine/cabarc.exe.so
 %{_libdir}/wine/control.exe.so
 %{_libdir}/wine/cmd.exe.so
+%{_libdir}/wine/dxdiag.exe.so
 %{_libdir}/wine/notepad.exe.so
 %{_libdir}/wine/plugplay.exe.so
 %{_libdir}/wine/progman.exe.so
@@ -1074,11 +1070,11 @@ fi
 %{_libdir}/wine/winemine.exe.so
 %{_libdir}/wine/winemsibuilder.exe.so
 %{_libdir}/wine/winepath.exe.so
+%{_libdir}/wine/winmgmt.exe.so
 %{_libdir}/wine/winver.exe.so
 %{_libdir}/wine/wordpad.exe.so
 %{_libdir}/wine/write.exe.so
 %{_libdir}/wine/wusa.exe.so
-%{_libdir}/wine/dxdiag.exe.so
 
 %ifarch %{ix86} %{arm}
 %{_bindir}/wine32
@@ -1388,6 +1384,7 @@ fi
 %{_libdir}/wine/atl90.dll.so
 %{_libdir}/wine/atl100.dll.so
 %{_libdir}/wine/atl110.dll.so
+%{_libdir}/wine/atmlib.dll.so
 %{_libdir}/wine/authz.dll.so
 %{_libdir}/wine/avicap32.dll.so
 %{_libdir}/wine/avifil32.dll.so
@@ -1606,6 +1603,7 @@ fi
 %{_libdir}/wine/mmdevapi.dll.so
 %{_libdir}/wine/mofcomp.exe.so
 %{_libdir}/wine/mountmgr.sys.so
+%{_libdir}/wine/mp3dmod.dll.so
 %{_libdir}/wine/mpr.dll.so
 %{_libdir}/wine/mprapi.dll.so
 %{_libdir}/wine/msacm32.dll.so
@@ -2196,6 +2194,9 @@ fi
 %endif
 
 %changelog
+* Sat May 12 2018 Michael Cronenworth <mike@cchtml.com> 3.8-1
+- version update
+
 * Sat Apr 14 2018 Michael Cronenworth <mike@cchtml.com> 3.6-1
 - version update
 - enable wine-staging
