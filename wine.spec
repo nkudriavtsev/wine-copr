@@ -84,6 +84,9 @@ ExclusiveArch:  %{ix86} %{arm}
 BuildRequires:  bison
 BuildRequires:  flex
 BuildRequires:  gcc
+%ifarch aarch64
+BuildRequires:  clang >= 5.0
+%endif
 BuildRequires:  autoconf
 BuildRequires:  desktop-file-utils
 BuildRequires:  alsa-lib-devel
