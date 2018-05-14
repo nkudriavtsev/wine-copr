@@ -21,8 +21,8 @@
 %endif
 
 Name:           wine
-Version:        3.0
-Release:        2%{?dist}
+Version:        3.0.1
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -2160,6 +2160,9 @@ fi
 %endif
 
 %changelog
+* Mon May 14 2018 Michael Cronenworth <mike@cchtml.com> 3.0.1-1
+- version update
+
 * Thu May 10 2018 Michael Cronenworth <mike@cchtml.com> 3.0-2
 - Rebuild for libgphoto2 (rhbz#1568368)
 
