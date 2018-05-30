@@ -21,7 +21,7 @@
 %endif
 
 Name:           wine
-Version:        3.8
+Version:        3.9
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -147,6 +147,7 @@ BuildRequires:  gstreamer1-plugins-base-devel
 BuildRequires:  mpg123-devel
 %endif
 BuildRequires:  SDL2-devel
+BuildRequires:  libvkd3d-devel
 BuildRequires:  vulkan-devel
 
 # Silverlight DRM-stuff needs XATTR enabled.
@@ -2204,6 +2205,9 @@ fi
 %endif
 
 %changelog
+* Wed May 30 2018 Michael Cronenworth <mike@cchtml.com> 3.9-1
+- version update
+
 * Sat May 12 2018 Michael Cronenworth <mike@cchtml.com> 3.8-1
 - version update
 
