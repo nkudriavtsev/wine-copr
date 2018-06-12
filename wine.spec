@@ -6,10 +6,9 @@
 %global winemono  4.7.1
 #global _default_patch_fuzz 2
 
-# build with compholio-patches, see:  http://www.compholio.com/wine-compholio/
-# wine-staging appears to be dead
+# build with wine-staging patches, see:  https://github.com/wine-staging/wine-staging
 %if 0%{?fedora}
-%global compholio 1
+%global wine_staging 1
 %endif # 0%{?fedora}
 
 # binfmt macros for RHEL
@@ -21,7 +20,7 @@
 %endif
 
 Name:           wine
-Version:        3.9
+Version:        3.10
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -69,8 +68,8 @@ Source502:      wine-README-tahoma
 
 Patch511:       wine-cjk.patch
 
-%if 0%{?compholio}
-# wine compholio patches for wine-staging
+%if 0%{?wine_staging}
+# wine-staging patches
 # pulseaudio-patch is covered by that patch-set, too.
 Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
 %endif
@@ -151,11 +150,11 @@ BuildRequires:  libvkd3d-devel
 BuildRequires:  vulkan-devel
 
 # Silverlight DRM-stuff needs XATTR enabled.
-%if 0%{?compholio}
+%if 0%{?wine_staging}
 BuildRequires:  gtk3-devel
 BuildRequires:  libattr-devel
 BuildRequires:  libva-devel
-%endif # 0%{?compholio}
+%endif # 0%{?wine_staging}
 
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6
 BuildRequires:  openal-soft-devel
@@ -282,7 +281,7 @@ Requires:       libv4l(x86-32)
 Requires:       unixODBC(x86-32)
 Requires:       SDL2(x86-32)
 Requires:       vulkan(x86-32)
-%if 0%{?compholio}
+%if 0%{?wine_staging}
 Requires:       libva(x86-32)
 %endif
 %endif
@@ -306,7 +305,7 @@ Requires:       libv4l(x86-64)
 Requires:       unixODBC(x86-64)
 Requires:       SDL2(x86-64)
 Requires:       vulkan(x86-64)
-%if 0%{?compholio}
+%if 0%{?wine_staging}
 Requires:       libva(x86-64)
 %endif
 %endif
@@ -327,7 +326,7 @@ Requires:       libv4l
 Requires:       unixODBC
 Requires:       SDL2
 Requires:       vulkan
-%if 0%{?compholio}
+%if 0%{?wine_staging}
 Requires:       libva
 %endif
 %endif
@@ -407,12 +406,12 @@ handler service.
 Summary:       Wine font files
 Group:         Applications/Emulators
 BuildArch:     noarch
-# arial-fonts are available with compholio-patchset, only.
-%if 0%{?compholio}
+# arial-fonts are available with wine-staging patchset, only.
+%if 0%{?wine_staging}
 Requires:      wine-arial-fonts = %{version}-%{release}
-%else # 0%{?compholio}
+%else # 0%{?wine_staging}
 Obsoletes:     wine-arial-fonts <= %{version}-%{release}
-%endif # 0%{?compholio}
+%endif # 0%{?wine_staging}
 Requires:      wine-courier-fonts = %{version}-%{release}
 Requires:      wine-fixedsys-fonts = %{version}-%{release}
 Requires:      wine-small-fonts = %{version}-%{release}
@@ -420,13 +419,13 @@ Requires:      wine-system-fonts = %{version}-%{release}
 Requires:      wine-marlett-fonts = %{version}-%{release}
 Requires:      wine-ms-sans-serif-fonts = %{version}-%{release}
 Requires:      wine-tahoma-fonts = %{version}-%{release}
-# times-new-roman-fonts are available with compholio-patchset, only.
-%if 0%{?compholio}
+# times-new-roman-fonts are available with wine_staging-patchset, only.
+%if 0%{?wine_staging}
 Requires:      wine-times-new-roman-fonts = %{version}-%{release}
-%else # 0%{?compholio}
+%else # 0%{?wine_staging}
 Obsoletes:     wine-times-new-roman-fonts <= %{version}-%{release}
 Obsoletes:     wine-times-new-roman-fonts-system <= %{version}-%{release}
-%endif # 0%{?compholio}
+%endif # 0%{?wine_staging}
 Requires:      wine-symbol-fonts = %{version}-%{release}
 Requires:      wine-wingdings-fonts = %{version}-%{release}
 # intermediate fix for #593140
@@ -438,7 +437,7 @@ Requires:      liberation-narrow-fonts
 %description fonts
 %{summary}
 
-%if 0%{?compholio}
+%if 0%{?wine_staging}
 %package arial-fonts
 Summary:       Wine Arial font family
 Group:         User Interface/X
@@ -447,7 +446,7 @@ Requires:      fontpackages-filesystem
 
 %description arial-fonts
 %{summary}
-%endif # 0%{?compholio}
+%endif # 0%{?wine_staging}
 
 %package courier-fonts
 Summary:       Wine Courier font family
@@ -528,7 +527,7 @@ Requires:      wine-tahoma-fonts = %{version}-%{release}
 %description tahoma-fonts-system
 %{summary}
 
-%if 0%{?compholio}
+%if 0%{?wine_staging}
 %package times-new-roman-fonts
 Summary:       Wine Times New Roman font family
 Group:         User Interface/X
@@ -682,7 +681,7 @@ This package adds the opencl driver for wine.
 %setup -q -n wine-%{version}
 %patch511 -p1 -b.cjk
 
-%if 0%{?compholio}
+%if 0%{?wine_staging}
 # setup and apply wine-staging patches
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
 
@@ -691,7 +690,7 @@ patches/patchinstall.sh DESTDIR="`pwd`" --all
 # fix parallelized build
 sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
 
-%endif # 0%{?compholio}
+%endif # 0%{?wine_staging}
 
 %build
 
@@ -717,7 +716,7 @@ export CC="/usr/bin/clang"
 %ifarch x86_64 aarch64
  --enable-win64 \
 %endif
-%{?compholio: --with-xattr} \
+%{?wine_staging: --with-xattr} \
  --disable-tests
 
 make %{?_smp_mflags} TARGETFLAGS=""
@@ -919,7 +918,7 @@ install -p -m 0644 %{SOURCE501} %{buildroot}%{_fontconfig_templatedir}/20-wine-t
 ln -s %{_fontconfig_templatedir}/20-wine-tahoma-nobitmaps.conf \
       %{buildroot}%{_fontconfig_confdir}/20-wine-tahoma-nobitmaps.conf
 
-%if 0%{?compholio}
+%if 0%{?wine_staging}
 # install Times New Roman font for system package
 install -p -m 0755 -d %{buildroot}/%{_datadir}/fonts/wine-times-new-roman-fonts
 pushd %{buildroot}/%{_datadir}/fonts/wine-times-new-roman-fonts
@@ -1062,7 +1061,7 @@ fi
 %doc VERSION
 # do not include huge changelogs .OLD .ALPHA .BETA (#204302)
 %doc documentation/README.*
-%if 0%{?compholio}
+%if 0%{?wine_staging}
 %{_bindir}/msidb
 %{_libdir}/wine/runas.exe.so
 %endif
@@ -1121,17 +1120,20 @@ fi
 %{_libdir}/wine/cacls.exe.so
 %{_libdir}/wine/conhost.exe.so
 %{_libdir}/wine/cscript.exe.so
+%{_libdir}/wine/dism.exe.so
 %{_libdir}/wine/dpnsvr.exe.so
 %{_libdir}/wine/eject.exe.so
 %{_libdir}/wine/expand.exe.so
 %{_libdir}/wine/extrac32.exe.so
+%{_libdir}/wine/fc.exe.so
+%{_libdir}/wine/find.exe.so
 %{_libdir}/wine/findstr.exe.so
 %{_libdir}/wine/fsutil.exe.so
 %{_libdir}/wine/hostname.exe.so
 %{_libdir}/wine/ipconfig.exe.so
 %{_libdir}/wine/winhlp32.exe.so
 %{_libdir}/wine/mshta.exe.so
-%if 0%{?compholio}
+%if 0%{?wine_staging}
 %{_libdir}/wine/msidb.exe.so
 %endif
 %{_libdir}/wine/msiexec.exe.so
@@ -1482,7 +1484,7 @@ fi
 %{_libdir}/wine/dx8vb.dll.so
 %{_libdir}/wine/dxdiagn.dll.so
 %{_libdir}/wine/dxgi.dll.so
-%if 0%{?compholio}
+%if 0%{?wine_staging}
 %{_libdir}/wine/dxgkrnl.sys.so
 %{_libdir}/wine/dxgmms1.sys.so
 %endif
@@ -1527,13 +1529,13 @@ fi
 %{_libdir}/wine/ext-ms-win-rtcore-ntuser-sysparams-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-security-credui-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-security-cryptui-l1-1-0.dll.so
-%if 0%{?compholio}
+%if 0%{?wine_staging}
 %{_libdir}/wine/ext-ms-win-appmodel-usercontext-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-uxtheme-themes-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-xaml-pal-l1-1-0.dll.so
 %endif
 %{_libdir}/wine/faultrep.dll.so
-%if 0%{?compholio}
+%if 0%{?wine_staging}
 %{_libdir}/wine/feclient.dll.so
 %endif
 %{_libdir}/wine/fltlib.dll.so
@@ -1561,7 +1563,7 @@ fi
 %{_libdir}/wine/icinfo.exe.so
 %{_libdir}/wine/icmp.dll.so
 %{_libdir}/wine/ieframe.dll.so
-%if 0%{?compholio}
+%if 0%{?wine_staging}
 %{_libdir}/wine/iertutil.dll.so
 %endif
 %{_libdir}/wine/ieproxy.dll.so
@@ -1700,7 +1702,7 @@ fi
 %{_libdir}/wine/ntdll.dll.so
 %{_libdir}/wine/ntdsapi.dll.so
 %{_libdir}/wine/ntprint.dll.so
-%if 0%{?compholio}
+%if 0%{?wine_staging}
 %{_libdir}/wine/nvcuda.dll.so
 %{_libdir}/wine/nvcuvid.dll.so
 %endif
@@ -1792,6 +1794,9 @@ fi
 %{_libdir}/wine/tdi.sys.so
 %{_libdir}/wine/traffic.dll.so
 %{_libdir}/wine/ucrtbase.dll.so
+%if 0%{?wine_staging}
+%{_libdir}/wine/uianimation.dll.so
+%endif
 %{_libdir}/wine/uiautomationcore.dll.so
 %{_libdir}/wine/uiribbon.dll.so
 %{_libdir}/wine/unicows.dll.so
@@ -1803,7 +1808,7 @@ fi
 %{_libdir}/wine/user32.dll.so
 %{_libdir}/wine/usp10.dll.so
 %{_libdir}/wine/uxtheme.dll.so
-%if 0%{?compholio}
+%if 0%{?wine_staging}
 %{_libdir}/wine/uxtheme-gtk.dll.so
 %endif
 %{_libdir}/wine/userenv.dll.so
@@ -1828,7 +1833,7 @@ fi
 %{_libdir}/wine/wevtapi.dll.so
 %{_libdir}/wine/wiaservc.dll.so
 %{_libdir}/wine/wimgapi.dll.so
-%if 0%{?compholio}
+%if 0%{?wine_staging}
 %{_libdir}/wine/win32k.sys.so
 %endif
 %{_libdir}/wine/windowscodecs.dll.so
@@ -1871,7 +1876,7 @@ fi
 %{_libdir}/wine/wtsapi32.dll.so
 %{_libdir}/wine/wuapi.dll.so
 %{_libdir}/wine/wuaueng.dll.so
-%if 0%{?compholio}
+%if 0%{?wine_staging}
 %{_libdir}/wine/wuauserv.exe.so
 %endif
 %{_libdir}/wine/security.dll.so
@@ -1917,7 +1922,7 @@ fi
 %{_libdir}/wine/xpsprint.dll.so
 %{_libdir}/wine/xpssvcs.dll.so
 
-%if 0%{?compholio}
+%if 0%{?wine_staging}
 %ifarch x86_64 aarch64
 %{_libdir}/wine/nvapi64.dll.so
 %{_libdir}/wine/nvencodeapi64.dll.so
@@ -2037,11 +2042,11 @@ fi
 %files fonts
 # meta package
 
-%if 0%{?compholio}
+%if 0%{?wine_staging}
 %files arial-fonts
 %doc COPYING.LIB
 %{_datadir}/wine/fonts/arial*
-%endif #0%{?compholio}
+%endif #0%{?wine_staging}
 
 %files courier-fonts
 %doc COPYING.LIB
@@ -2079,7 +2084,7 @@ fi
 %files ms-sans-serif-fonts
 %doc COPYING.LIB
 %{_datadir}/wine/fonts/sse*
-%if 0%{?compholio}
+%if 0%{?wine_staging}
 %{_datadir}/wine/fonts/msyh.ttf
 %endif
 
@@ -2093,7 +2098,7 @@ fi
 %{_fontconfig_confdir}/20-wine-tahoma*conf
 %{_fontconfig_templatedir}/20-wine-tahoma*conf
 
-%if 0%{?compholio}
+%if 0%{?wine_staging}
 %files times-new-roman-fonts
 %doc COPYING.LIB
 %{_datadir}/wine/fonts/times.ttf
@@ -2205,6 +2210,9 @@ fi
 %endif
 
 %changelog
+* Tue Jun 12 2018 Michael Cronenworth <mike@cchtml.com> 3.10-1
+- version update
+
 * Wed May 30 2018 Michael Cronenworth <mike@cchtml.com> 3.9-1
 - version update
 
