@@ -20,7 +20,7 @@
 %endif
 
 Name:           wine
-Version:        3.11
+Version:        3.12
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -280,7 +280,7 @@ Requires:       mesa-libOSMesa(x86-32)
 Requires:       libv4l(x86-32)
 Requires:       unixODBC(x86-32)
 Requires:       SDL2(x86-32)
-Requires:       vulkan(x86-32)
+Requires:       vulkan-loader(x86-32)
 %if 0%{?wine_staging}
 Requires:       libva(x86-32)
 %endif
@@ -304,7 +304,7 @@ Requires:       mesa-libOSMesa(x86-64)
 Requires:       libv4l(x86-64)
 Requires:       unixODBC(x86-64)
 Requires:       SDL2(x86-64)
-Requires:       vulkan(x86-64)
+Requires:       vulkan-loader(x86-64)
 %if 0%{?wine_staging}
 Requires:       libva(x86-64)
 %endif
@@ -325,7 +325,7 @@ Requires:       mesa-libOSMesa
 Requires:       libv4l
 Requires:       unixODBC
 Requires:       SDL2
-Requires:       vulkan
+Requires:       vulkan-loader
 %if 0%{?wine_staging}
 Requires:       libva
 %endif
@@ -2210,6 +2210,9 @@ fi
 %endif
 
 %changelog
+* Tue Jul 10 2018 Michael Cronenworth <mike@cchtml.com> 3.12-1
+- version update
+
 * Sun Jun 24 2018 Michael Cronenworth <mike@cchtml.com> 3.11-1
 - version update
 
