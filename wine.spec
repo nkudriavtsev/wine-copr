@@ -21,7 +21,7 @@
 
 Name:           wine
 Version:        3.12
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -2210,6 +2210,9 @@ fi
 %endif
 
 %changelog
+* Sat Jul 14 2018 Fedora Release Engineering <releng@fedoraproject.org> - 3.12-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
+
 * Tue Jul 10 2018 Michael Cronenworth <mike@cchtml.com> 3.12-1
 - version update
 
