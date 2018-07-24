@@ -21,7 +21,7 @@
 
 Name:           wine
 Version:        3.13
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -51,6 +51,9 @@ Source109:      wine-oleview.desktop
 # build fixes
 
 # wine bugs
+#https://bugs.winehq.org/show_bug.cgi?id=45502
+#https://github.com/wine-staging/wine-staging/commit/f0d3ae8cf201128497ddb5c3d89e1c8778726ac2
+Patch0:         wine-3.13-pulseaudio.patch
 
 # desktop dir
 Source200:      wine.menu
@@ -679,6 +682,7 @@ This package adds the opencl driver for wine.
 
 %prep
 %setup -q -n wine-%{version}
+%patch0 -p1 -b.pulseaudio
 %patch511 -p1 -b.cjk
 
 %if 0%{?wine_staging}
@@ -2210,6 +2214,9 @@ fi
 %endif
 
 %changelog
+* Tue Jul 24 2018 Michael Cronenworth <mike@cchtml.com> 3.13-2
+- Add patch to fix audio with staging
+
 * Sat Jul 21 2018 Michael Cronenworth <mike@cchtml.com> 3.13-1
 - version update
 
