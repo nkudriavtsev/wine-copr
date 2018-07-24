@@ -682,7 +682,6 @@ This package adds the opencl driver for wine.
 
 %prep
 %setup -q -n wine-%{version}
-%patch0 -p1 -b.pulseaudio
 %patch511 -p1 -b.cjk
 
 %if 0%{?wine_staging}
@@ -690,6 +689,7 @@ This package adds the opencl driver for wine.
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
 
 patches/patchinstall.sh DESTDIR="`pwd`" --all
+%patch0 -p1 -b.pulseaudio
 
 # fix parallelized build
 sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
