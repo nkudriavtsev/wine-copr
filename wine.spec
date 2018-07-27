@@ -21,7 +21,7 @@
 
 Name:           wine
 Version:        3.13
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -2214,6 +2214,9 @@ fi
 %endif
 
 %changelog
+* Fri Jul 27 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 3.13-4
+- Rebuild for new binutils
+
 * Thu Jul 26 2018 Michael Cronenworth <mike@cchtml.com> 3.13-3
 - Fix application of patch
 
