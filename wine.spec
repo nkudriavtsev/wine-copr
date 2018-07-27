@@ -21,7 +21,7 @@
 
 Name:           wine
 Version:        3.13
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -688,8 +688,8 @@ This package adds the opencl driver for wine.
 # setup and apply wine-staging patches
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
 
-patches/patchinstall.sh DESTDIR="`pwd`" --all
 %patch0 -p1 -b.pulseaudio
+patches/patchinstall.sh DESTDIR="`pwd`" --all
 
 # fix parallelized build
 sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
@@ -2214,6 +2214,9 @@ fi
 %endif
 
 %changelog
+* Thu Jul 26 2018 Michael Cronenworth <mike@cchtml.com> 3.13-3
+- Fix application of patch
+
 * Tue Jul 24 2018 Michael Cronenworth <mike@cchtml.com> 3.13-2
 - Add patch to fix audio with staging
 
