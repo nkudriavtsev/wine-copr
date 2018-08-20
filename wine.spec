@@ -20,8 +20,8 @@
 %endif
 
 Name:           wine
-Version:        3.13
-Release:        5%{?dist}
+Version:        3.14
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -51,9 +51,6 @@ Source109:      wine-oleview.desktop
 # build fixes
 
 # wine bugs
-#https://bugs.winehq.org/show_bug.cgi?id=45502
-#https://github.com/wine-staging/wine-staging/commit/f0d3ae8cf201128497ddb5c3d89e1c8778726ac2
-Patch0:         wine-3.13-pulseaudio.patch
 
 # desktop dir
 Source200:      wine.menu
@@ -688,7 +685,6 @@ This package adds the opencl driver for wine.
 # setup and apply wine-staging patches
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
 
-%patch0 -p1 -b.pulseaudio
 patches/patchinstall.sh DESTDIR="`pwd`" --all
 
 # fix parallelized build
@@ -1331,6 +1327,7 @@ fi
 %{_libdir}/wine/api-ms-win-crt-string-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-crt-time-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-crt-utility-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-devices-config-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-devices-config-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-devices-query-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-downlevel-advapi32-l1-1-0.dll.so
@@ -1870,6 +1867,9 @@ fi
 %{_libdir}/wine/wlanapi.dll.so
 %{_libdir}/wine/wmphoto.dll.so
 %{_libdir}/wine/wnaspi32.dll.so
+%if 0%{?wine_staging}
+%{_libdir}/wine/wow64cpu.dll.so
+%endif
 %{_libdir}/wine/wpc.dll.so
 %{_libdir}/wine/wpcap.dll.so
 %{_libdir}/wine/ws2_32.dll.so
@@ -2214,6 +2214,9 @@ fi
 %endif
 
 %changelog
+* Mon Aug 20 2018 Michael Cronenworth <mike@cchtml.com> 3.14-1
+- version update
+
 * Tue Jul 31 2018 Florian Weimer <fweimer@redhat.com> - 3.13-5
 - Rebuild with fixed binutils
 
