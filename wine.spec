@@ -53,6 +53,7 @@ Source109:      wine-oleview.desktop
 # wine bugs
 # https://github.com/wine-staging/wine-staging/commit/720db34b6e2d5d4363a3fa14d8e0bcd1e0706d11
 Patch1:         wine-staging-3.14-arm.patch
+Patch2:         wine-staging-3.14-arm-2.patch
 
 # desktop dir
 Source200:      wine.menu
@@ -688,6 +689,7 @@ This package adds the opencl driver for wine.
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
 
 %patch1 -p1 -b.arm
+%patch2 -p1 -b.arm2
 patches/patchinstall.sh DESTDIR="`pwd`" --all
 
 # fix parallelized build
