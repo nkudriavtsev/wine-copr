@@ -20,7 +20,7 @@
 %endif
 
 Name:           wine
-Version:        3.14
+Version:        3.15
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -51,9 +51,6 @@ Source109:      wine-oleview.desktop
 # build fixes
 
 # wine bugs
-# https://github.com/wine-staging/wine-staging/commit/720db34b6e2d5d4363a3fa14d8e0bcd1e0706d11
-Patch1:         wine-staging-3.14-arm.patch
-Patch2:         wine-staging-3.14-arm-2.patch
 
 # desktop dir
 Source200:      wine.menu
@@ -688,8 +685,6 @@ This package adds the opencl driver for wine.
 # setup and apply wine-staging patches
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
 
-%patch1 -p1 -b.arm
-%patch2 -p1 -b.arm2
 patches/patchinstall.sh DESTDIR="`pwd`" --all
 
 # fix parallelized build
@@ -1725,6 +1720,7 @@ fi
 %{_libdir}/wine/olepro32.dll.so
 %{_libdir}/wine/olesvr32.dll.so
 %{_libdir}/wine/olethk32.dll.so
+%{_libdir}/wine/opcservices.dll.so
 %{_libdir}/wine/packager.dll.so
 %{_libdir}/wine/pdh.dll.so
 %{_libdir}/wine/photometadatahandler.dll.so
@@ -2219,6 +2215,9 @@ fi
 %endif
 
 %changelog
+* Mon Sep 03 2018 Michael Cronenworth <mike@cchtml.com> 3.15-1
+- version update
+
 * Mon Aug 20 2018 Michael Cronenworth <mike@cchtml.com> 3.14-1
 - version update
 
