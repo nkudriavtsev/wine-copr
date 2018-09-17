@@ -1193,6 +1193,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-com-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-com-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-com-private-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-comm-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-console-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-console-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-crt-l1-1-0.dll.so
@@ -1281,6 +1282,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-string-l2-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-string-obsolete-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-stringansi-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-stringloader-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-synch-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-synch-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-core-synch-l1-2-1.dll.so
@@ -1369,6 +1371,7 @@ fi
 %{_libdir}/wine/api-ms-win-security-base-l1-2-0.dll.so
 %{_libdir}/wine/api-ms-win-security-base-private-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-security-credentials-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-security-cryptoapi-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-grouppolicy-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-lsalookup-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-security-lsalookup-l1-1-1.dll.so
