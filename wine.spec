@@ -76,7 +76,13 @@ Source900: https://github.com/compholio/wine-compholio/archive/v%{version}.tar.g
 %endif
 
 %if !%{?no64bit}
+# aarch64 now requires clang >= 5
+# https://bugzilla.redhat.com/show_bug.cgi?id=1629910
+%if 0%{?rhel} == 7
+ExclusiveArch:  %{ix86} x86_64 %{arm}
+%else
 ExclusiveArch:  %{ix86} x86_64 %{arm} aarch64
+%endif
 %else
 ExclusiveArch:  %{ix86} %{arm}
 %endif
@@ -2162,6 +2168,7 @@ fi
 %changelog
 * Thu Sep 13 2018 Michael Cronenworth <mike@cchtml.com> 3.0.3-1
 - version update
+- drop aarch64 for epel
 
 * Tue Jun 26 2018 Michael Cronenworth <mike@cchtml.com> 3.0.2-1
 - version update
