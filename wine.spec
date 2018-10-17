@@ -20,7 +20,7 @@
 %endif
 
 Name:           wine
-Version:        3.17
+Version:        3.18
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -2218,6 +2218,9 @@ fi
 %endif
 
 %changelog
+* Wed Oct 17 2018 Michael Cronenworth <mike@cchtml.com> 3.18-1
+- version update
+
 * Sun Sep 30 2018 Michael Cronenworth <mike@cchtml.com> 3.17-1
 - version update
 
