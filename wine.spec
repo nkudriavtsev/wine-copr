@@ -20,7 +20,7 @@
 %endif
 
 Name:           wine
-Version:        3.19
+Version:        3.20
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1261,6 +1261,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-processthreads-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-processthreads-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-processthreads-l1-1-2.dll.so
+%{_libdir}/wine/api-ms-win-core-processthreads-l1-1-3.dll.so
 %{_libdir}/wine/api-ms-win-core-processtopology-obsolete-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-profile-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-psapi-l1-1-0.dll.so
@@ -1310,6 +1311,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-winrt-registration-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-winrt-roparameterizediid-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-winrt-string-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-core-winrt-string-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-wow64-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-core-wow64-l1-1-1.dll.so
 %{_libdir}/wine/api-ms-win-core-xstate-l1-1-0.dll.so
@@ -1355,6 +1357,7 @@ fi
 %{_libdir}/wine/api-ms-win-mm-time-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-ntuser-dc-access-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-ntuser-rectangle-l1-1-0.dll.so
+%{_libdir}/wine/api-ms-win-ntuser-sysparams-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-perf-legacy-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-power-base-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-power-setting-l1-1-0.dll.so
@@ -1741,6 +1744,7 @@ fi
 %{_libdir}/wine/qmgrprxy.dll.so
 %{_libdir}/wine/quartz.dll.so
 %{_libdir}/wine/query.dll.so
+%{_libdir}/wine/qwave.dll.so
 %{_libdir}/wine/rasapi32.dll.so
 %{_libdir}/wine/rasdlg.dll.so
 %{_libdir}/wine/regapi.dll.so
@@ -2218,6 +2222,9 @@ fi
 %endif
 
 %changelog
+* Mon Nov 12 2018 Michael Cronenworth <mike@cchtml.com> 3.20-1
+- version update
+
 * Mon Oct 29 2018 Michael Cronenworth <mike@cchtml.com> 3.19-1
 - version update
 
