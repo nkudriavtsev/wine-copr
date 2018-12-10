@@ -20,15 +20,15 @@
 %endif
 
 Name:           wine
-Version:        3.21
-Release:        1%{?dist}
+Version:        4.0
+Release:        0.1.rc1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
 License:        LGPLv2+
 URL:            https://www.winehq.org/
-Source0:        https://dl.winehq.org/wine/source/3.x/wine-%{version}.tar.xz
-Source10:       https://dl.winehq.org/wine/source/3.x/wine-%{version}.tar.xz.sign
+Source0:        https://dl.winehq.org/wine/source/4.0/wine-%{version}-rc1.tar.xz
+Source10:       https://dl.winehq.org/wine/source/4.0/wine-%{version}-rc1.tar.xz.sign
 
 Source1:        wine.init
 Source2:        wine.systemd
@@ -71,7 +71,7 @@ Patch511:       wine-cjk.patch
 %if 0%{?wine_staging}
 # wine-staging patches
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
+Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}-rc1.tar.gz#/wine-staging-%{version}-rc1.tar.gz
 %endif
 
 %if !%{?no64bit}
@@ -678,7 +678,7 @@ This package adds the opencl driver for wine.
 %endif
 
 %prep
-%setup -q -n wine-%{version}
+%setup -q -n wine-%{version}-rc1
 %patch511 -p1 -b.cjk
 
 %if 0%{?wine_staging}
@@ -1512,6 +1512,7 @@ fi
 %{_libdir}/wine/ext-ms-win-ntuser-draw-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-gui-l1-3-0.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-keyboard-l1-3-0.dll.so
+%{_libdir}/wine/ext-ms-win-ntuser-misc-l1-2-0.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-misc-l1-5-1.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-message-l1-1-1.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-mouse-l1-1-0.dll.so
@@ -1802,6 +1803,7 @@ fi
 %{_libdir}/wine/tdh.dll.so
 %{_libdir}/wine/tdi.sys.so
 %{_libdir}/wine/traffic.dll.so
+%{_libdir}/wine/tzres.dll.so
 %{_libdir}/wine/ucrtbase.dll.so
 %if 0%{?wine_staging}
 %{_libdir}/wine/uianimation.dll.so
@@ -2222,6 +2224,9 @@ fi
 %endif
 
 %changelog
+* Mon Dec 10 2018 Michael Cronenworth <mike@cchtml.com> 4.0-0.1.rc1
+- version update
+
 * Wed Nov 28 2018 Michael Cronenworth <mike@cchtml.com> 3.21-1
 - version update
 
