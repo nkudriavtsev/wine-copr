@@ -21,7 +21,7 @@
 
 Name:           wine
 Version:        4.0
-Release:        0.1.rc1%{?dist}
+Release:        0.2.rc1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -2224,6 +2224,9 @@ fi
 %endif
 
 %changelog
+* Sat Dec 15 2018 Björn Esser <besser82@fedoraproject.org> - 4.0-0.2.rc1
+- fix typos and wording in readme-files
+
 * Mon Dec 10 2018 Michael Cronenworth <mike@cchtml.com> 4.0-0.1.rc1
 - version update
 
