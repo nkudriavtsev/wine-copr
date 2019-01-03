@@ -21,7 +21,7 @@
 
 Name:           wine
 Version:        4.0
-Release:        0.3.rc2%{?dist}
+Release:        0.4.rc4%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -2224,6 +2224,9 @@ fi
 %endif
 
 %changelog
+* Thu Jan 03 2019 Michael Cronenworth <mike@cchtml.com> 4.0-0.4.rc4
+- version update
+
 * Sun Dec 16 2018 Michael Cronenworth <mike@cchtml.com> 4.0-0.3.rc2
 - version update
 
