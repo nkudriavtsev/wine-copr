@@ -21,14 +21,14 @@
 
 Name:           wine
 Version:        4.0
-Release:        0.3.rc2%{?dist}
+Release:        0.4.rc4%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
 License:        LGPLv2+
 URL:            https://www.winehq.org/
-Source0:        https://dl.winehq.org/wine/source/4.0/wine-%{version}-rc2.tar.xz
-Source10:       https://dl.winehq.org/wine/source/4.0/wine-%{version}-rc2.tar.xz.sign
+Source0:        https://dl.winehq.org/wine/source/4.0/wine-%{version}-rc4.tar.xz
+Source10:       https://dl.winehq.org/wine/source/4.0/wine-%{version}-rc4.tar.xz.sign
 
 Source1:        wine.init
 Source2:        wine.systemd
@@ -71,7 +71,7 @@ Patch511:       wine-cjk.patch
 %if 0%{?wine_staging}
 # wine-staging patches
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}-rc2.tar.gz#/wine-staging-%{version}-rc2.tar.gz
+Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}-rc4.tar.gz#/wine-staging-%{version}-rc4.tar.gz
 %endif
 
 %if !%{?no64bit}
@@ -678,7 +678,7 @@ This package adds the opencl driver for wine.
 %endif
 
 %prep
-%setup -q -n wine-%{version}-rc2
+%setup -q -n wine-%{version}-rc4
 %patch511 -p1 -b.cjk
 
 %if 0%{?wine_staging}
@@ -2224,6 +2224,9 @@ fi
 %endif
 
 %changelog
+* Thu Jan 03 2019 Michael Cronenworth <mike@cchtml.com> 4.0-0.4.rc4
+- version update
+
 * Sun Dec 16 2018 Michael Cronenworth <mike@cchtml.com> 4.0-0.3.rc2
 - version update
 
