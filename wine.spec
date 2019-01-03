@@ -703,6 +703,9 @@ export CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno
 # ARM64 now requires clang
 # https://source.winehq.org/git/wine.git/commit/8fb8cc03c3edb599dd98f369e14a08f899cbff95
 export CC="/usr/bin/clang"
+# Fedora's default compiler flags now conflict with what clang supports
+# https://bugzilla.redhat.com/show_bug.cgi?id=1658311
+export CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-fstack-clash-protection//'`"
 %endif
 
 %configure \
