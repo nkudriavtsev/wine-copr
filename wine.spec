@@ -254,7 +254,6 @@ wine-* sub packages.
 %package core
 Summary:        Wine core package
 Group:          Applications/Emulators
-Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 Requires(posttrans):   %{_sbindir}/alternatives
 Requires(preun):       %{_sbindir}/alternatives
@@ -994,7 +993,7 @@ fi
 %posttrans desktop
 gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
-%post core -p /sbin/ldconfig
+%ldconfig_post core
 
 %posttrans core
 %ifarch x86_64 aarch64
@@ -1019,7 +1018,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %endif
 
 %postun core
-/sbin/ldconfig
+%{?ldconfig}
 if [ $1 -eq 0 ] ; then
 %ifarch x86_64 aarch64 aarch64
   %{_sbindir}/alternatives --remove wine %{_bindir}/wine64
@@ -1030,24 +1029,18 @@ if [ $1 -eq 0 ] ; then
 %endif
 fi
 
-%post ldap -p /sbin/ldconfig
-%postun ldap -p /sbin/ldconfig
+%ldconfig_scriptlets ldap
 
-%post cms -p /sbin/ldconfig
-%postun cms -p /sbin/ldconfig
+%ldconfig_scriptlets cms
 
-%post twain -p /sbin/ldconfig
-%postun twain -p /sbin/ldconfig
+%ldconfig_scriptlets twain
 
-%post capi -p /sbin/ldconfig
-%postun capi -p /sbin/ldconfig
+%ldconfig_scriptlets capi
 
-%post alsa -p /sbin/ldconfig
-%postun alsa -p /sbin/ldconfig
+%ldconfig_scriptlets alsa
 
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6
-%post openal -p /sbin/ldconfig
-%postun openal -p /sbin/ldconfig
+%ldconfig_scriptlets openal
 %endif
 
 %files
