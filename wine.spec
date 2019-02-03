@@ -21,7 +21,7 @@
 
 Name:           wine
 Version:        4.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -2176,6 +2176,9 @@ fi
 %endif
 
 %changelog
+* Sun Feb 03 2019 Fedora Release Engineering <releng@fedoraproject.org> - 4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+
 * Wed Jan 23 2019 Michael Cronenworth <mike@cchtml.com> 4.0-1
 - version update
 
