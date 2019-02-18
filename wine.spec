@@ -20,14 +20,14 @@
 %endif
 
 Name:           wine
-Version:        4.0
-Release:        2%{?dist}
+Version:        4.2
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
 URL:            https://www.winehq.org/
-Source0:        https://dl.winehq.org/wine/source/4.0/wine-%{version}.tar.xz
-Source10:       https://dl.winehq.org/wine/source/4.0/wine-%{version}.tar.xz.sign
+Source0:        https://dl.winehq.org/wine/source/4.x/wine-%{version}.tar.xz
+Source10:       https://dl.winehq.org/wine/source/4.x/wine-%{version}.tar.xz.sign
 
 Source1:        wine.init
 Source2:        wine.systemd
@@ -1771,9 +1771,6 @@ fi
 %{_libdir}/wine/user32.dll.so
 %{_libdir}/wine/usp10.dll.so
 %{_libdir}/wine/uxtheme.dll.so
-%if 0%{?wine_staging}
-%{_libdir}/wine/uxtheme-gtk.dll.so
-%endif
 %{_libdir}/wine/userenv.dll.so
 %{_libdir}/wine/vbscript.dll.so
 %{_libdir}/wine/vcomp.dll.so
@@ -2176,6 +2173,9 @@ fi
 %endif
 
 %changelog
+* Sun Feb 17 2019 Michael Cronenworth <mike@cchtml.com> 4.2-1
+- version update
+
 * Sun Feb 03 2019 Fedora Release Engineering <releng@fedoraproject.org> - 4.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
