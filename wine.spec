@@ -21,7 +21,7 @@
 
 Name:           wine
 Version:        4.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -2173,6 +2173,9 @@ fi
 %endif
 
 %changelog
+* Tue Feb 19 2019 Kalev Lember <klember@redhat.com> - 4.2-3
+- Rebuilt against fixed atk (#1626575)
+
 * Tue Feb 19 2019 Björn Esser <besser82@fedoraproject.org> - 4.2-2
 - Fix version requirement on wine-mono
 
