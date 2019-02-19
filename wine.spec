@@ -3,7 +3,7 @@
 
 %global no64bit   0
 %global winegecko 2.47
-%global winemono  4.7.3
+%global winemono  4.7.5
 #global _default_patch_fuzz 2
 
 # build with wine-staging patches, see:  https://github.com/wine-staging/wine-staging
@@ -21,7 +21,7 @@
 
 Name:           wine
 Version:        4.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -2173,6 +2173,9 @@ fi
 %endif
 
 %changelog
+* Tue Feb 19 2019 Björn Esser <besser82@fedoraproject.org> - 4.2-2
+- Fix version requirement on wine-mono
+
 * Sun Feb 17 2019 Michael Cronenworth <mike@cchtml.com> 4.2-1
 - version update
 
