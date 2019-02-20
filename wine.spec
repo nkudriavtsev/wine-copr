@@ -1489,15 +1489,13 @@ fi
 %{_libdir}/wine/ext-ms-win-rtcore-ntuser-sysparams-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-security-credui-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-security-cryptui-l1-1-0.dll.so
+%{_libdir}/wine/ext-ms-win-uxtheme-themes-l1-1-0.dll.so
 %if 0%{?wine_staging}
 %{_libdir}/wine/ext-ms-win-appmodel-usercontext-l1-1-0.dll.so
-%{_libdir}/wine/ext-ms-win-uxtheme-themes-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-xaml-pal-l1-1-0.dll.so
 %endif
 %{_libdir}/wine/faultrep.dll.so
-%if 0%{?wine_staging}
 %{_libdir}/wine/feclient.dll.so
-%endif
 %{_libdir}/wine/fltlib.dll.so
 %{_libdir}/wine/fltmgr.sys.so
 %{_libdir}/wine/fntcache.dll.so
