@@ -21,7 +21,7 @@
 
 Name:           wine
 Version:        4.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -280,7 +280,7 @@ Requires:       mesa-libOSMesa(x86-32)
 Requires:       libv4l(x86-32)
 Requires:       unixODBC(x86-32)
 Requires:       SDL2(x86-32)
-Requires:       vulkan-loader(x86-32)
+Requires:       vulkan(x86-32)
 %if 0%{?wine_staging}
 Requires:       libva(x86-32)
 %endif
@@ -304,7 +304,7 @@ Requires:       mesa-libOSMesa(x86-64)
 Requires:       libv4l(x86-64)
 Requires:       unixODBC(x86-64)
 Requires:       SDL2(x86-64)
-Requires:       vulkan-loader(x86-64)
+Requires:       vulkan(x86-64)
 %if 0%{?wine_staging}
 Requires:       libva(x86-64)
 %endif
@@ -325,7 +325,7 @@ Requires:       mesa-libOSMesa
 Requires:       libv4l
 Requires:       unixODBC
 Requires:       SDL2
-Requires:       vulkan-loader
+Requires:       vulkan
 %if 0%{?wine_staging}
 Requires:       libva
 %endif
@@ -2210,6 +2210,9 @@ fi
 %endif
 
 %changelog
+* Fri Feb 22 2019 Michael Cronenworth <mike@cchtml.com> 4.0-2
+- fix vulkan requirement
+
 * Tue Feb 19 2019 Michael Cronenworth <mike@cchtml.com> 4.0-1
 - version update
 
