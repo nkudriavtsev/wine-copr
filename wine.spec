@@ -3,7 +3,7 @@
 
 %global no64bit   0
 %global winegecko 2.47
-%global winemono  4.7.5
+%global winemono  4.8.0
 #global _default_patch_fuzz 2
 
 # build with wine-staging patches, see:  https://github.com/wine-staging/wine-staging
@@ -20,8 +20,8 @@
 %endif
 
 Name:           wine
-Version:        4.2
-Release:        3%{?dist}
+Version:        4.3
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -147,6 +147,7 @@ BuildRequires:  mpg123-devel
 BuildRequires:  SDL2-devel
 BuildRequires:  libvkd3d-devel
 BuildRequires:  vulkan-devel
+BuildRequires:  libFAudio-devel
 
 # Silverlight DRM-stuff needs XATTR enabled.
 %if 0%{?wine_staging}
@@ -199,7 +200,7 @@ Requires:       wine-twain(x86-64) = %{version}-%{release}
 Requires:       wine-pulseaudio(x86-64) = %{version}-%{release}
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6
 Requires:       wine-openal(x86-64) = %{version}-%{release}
-%endif 
+%endif
 %if 0%{?fedora}
 Requires:       wine-opencl(x86-64) = %{version}-%{release}
 %endif
@@ -1356,6 +1357,7 @@ fi
 %{_libdir}/wine/atl90.dll.so
 %{_libdir}/wine/atl100.dll.so
 %{_libdir}/wine/atl110.dll.so
+%{_libdir}/wine/atlthunk.dll.so
 %{_libdir}/wine/atmlib.dll.so
 %{_libdir}/wine/authz.dll.so
 %{_libdir}/wine/avicap32.dll.so
@@ -1455,25 +1457,35 @@ fi
 %{_libdir}/wine/ext-ms-win-domainjoin-netjoin-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-dwmapi-ext-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-gdi-dc-l1-2-0.dll.so
+%{_libdir}/wine/ext-ms-win-gdi-dc-create-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-gdi-dc-create-l1-1-1.dll.so
 %{_libdir}/wine/ext-ms-win-gdi-devcaps-l1-1-0.dll.so
+%{_libdir}/wine/ext-ms-win-gdi-draw-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-gdi-draw-l1-1-1.dll.so
+%{_libdir}/wine/ext-ms-win-gdi-font-l1-1-0.dll.so
+%{_libdir}/wine/ext-ms-win-gdi-font-l1-1-1.dll.so
 %{_libdir}/wine/ext-ms-win-gdi-render-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-kernel32-package-l1-1-1.dll.so
 %{_libdir}/wine/ext-ms-win-kernel32-package-current-l1-1-0.dll.so
+%{_libdir}/wine/ext-ms-win-ntuser-dialogbox-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-draw-l1-1-0.dll.so
+%{_libdir}/wine/ext-ms-win-ntuser-gui-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-gui-l1-3-0.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-keyboard-l1-3-0.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-misc-l1-2-0.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-misc-l1-5-1.dll.so
+%{_libdir}/wine/ext-ms-win-ntuser-message-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-message-l1-1-1.dll.so
+%{_libdir}/wine/ext-ms-win-ntuser-misc-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-mouse-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-private-l1-1-1.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-private-l1-3-1.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-rectangle-ext-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-uicontext-ext-l1-1-0.dll.so
+%{_libdir}/wine/ext-ms-win-ntuser-window-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-window-l1-1-1.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-window-l1-1-4.dll.so
+%{_libdir}/wine/ext-ms-win-ntuser-windowclass-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-ntuser-windowclass-l1-1-1.dll.so
 %{_libdir}/wine/ext-ms-win-oleacc-l1-1-0.dll.so
 %{_libdir}/wine/ext-ms-win-ras-rasapi32-l1-1-0.dll.so
@@ -1566,6 +1578,7 @@ fi
 %{_libdir}/wine/mf.dll.so
 %{_libdir}/wine/mf3216.dll.so
 %{_libdir}/wine/mfplat.dll.so
+%{_libdir}/wine/mfplay.dll.so
 %{_libdir}/wine/mfreadwrite.dll.so
 %{_libdir}/wine/mgmtapi.dll.so
 %{_libdir}/wine/midimap.dll.so
@@ -2171,6 +2184,9 @@ fi
 %endif
 
 %changelog
+* Sun Mar 03 2019 Michael Cronenworth <mike@cchtml.com> 4.3-1
+- version update
+
 * Tue Feb 19 2019 Kalev Lember <klember@redhat.com> - 4.2-3
 - Rebuilt against fixed atk (#1626575)
 
