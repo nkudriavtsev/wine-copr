@@ -655,7 +655,12 @@ This package adds the opencl driver for wine.
 # setup and apply wine-staging patches
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
 
-patches/patchinstall.sh DESTDIR="`pwd`" --all
+# Disable XAudio patchsets in favor of FAudio
+patches/patchinstall.sh DESTDIR="`pwd`" --all \
+  -W xaudio2-revert \
+  -W xaudio2_CommitChanges \
+  -W xaudio2_7-CreateFX-FXEcho \
+  -W xaudio2_7-WMA_support
 
 # fix parallelized build
 sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
