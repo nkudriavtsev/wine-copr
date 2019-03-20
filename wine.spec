@@ -20,7 +20,7 @@
 %endif
 
 Name:           wine
-Version:        4.3
+Version:        4.4
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1139,6 +1139,7 @@ fi
 %{_libdir}/wine/adsldpc.dll.so
 %{_libdir}/wine/advapi32.dll.so
 %{_libdir}/wine/advpack.dll.so
+%{_libdir}/wine/amsi.dll.so
 %{_libdir}/wine/amstream.dll.so
 %{_libdir}/wine/api-ms-win-appmodel-identity-l1-1-0.dll.so
 %{_libdir}/wine/api-ms-win-appmodel-runtime-l1-1-1.dll.so
@@ -2189,6 +2190,9 @@ fi
 %endif
 
 %changelog
+* Tue Mar 19 2019 Michael Cronenworth <mike@cchtml.com> 4.4-1
+- version update
+
 * Sun Mar 03 2019 Michael Cronenworth <mike@cchtml.com> 4.3-1
 - version update
 
