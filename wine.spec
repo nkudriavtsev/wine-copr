@@ -20,7 +20,7 @@
 %endif
 
 Name:           wine
-Version:        4.4
+Version:        4.5
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1583,6 +1583,7 @@ fi
 %{_libdir}/wine/mciwave.dll.so
 %{_libdir}/wine/mf.dll.so
 %{_libdir}/wine/mf3216.dll.so
+%{_libdir}/wine/mferror.dll.so
 %{_libdir}/wine/mfplat.dll.so
 %{_libdir}/wine/mfplay.dll.so
 %{_libdir}/wine/mfreadwrite.dll.so
@@ -2190,6 +2191,9 @@ fi
 %endif
 
 %changelog
+* Tue Apr 02 2019 Michael Cronenworth <mike@cchtml.com> 4.5-1
+- version update
+
 * Tue Mar 19 2019 Michael Cronenworth <mike@cchtml.com> 4.4-1
 - version update
 
