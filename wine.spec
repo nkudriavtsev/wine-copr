@@ -3,7 +3,7 @@
 
 %global no64bit   0
 %global winegecko 2.47
-%global winemono  4.8.0
+%global winemono  4.8.1
 #global _default_patch_fuzz 2
 
 # build with wine-staging patches, see:  https://github.com/wine-staging/wine-staging
@@ -20,7 +20,7 @@
 %endif
 
 Name:           wine
-Version:        4.5
+Version:        4.6
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1564,6 +1564,7 @@ fi
 %{_libdir}/wine/kerberos.dll.so
 %{_libdir}/wine/kernel32.dll.so
 %{_libdir}/wine/kernelbase.dll.so
+%{_libdir}/wine/ksecdd.sys.so
 %{_libdir}/wine/ksuser.dll.so
 %{_libdir}/wine/ktmw32.dll.so
 %if 0%{?fedora} > 24
@@ -2191,6 +2192,9 @@ fi
 %endif
 
 %changelog
+* Sun Apr 14 2019 Michael Cronenworth <mike@cchtml.com> 4.6-1
+- version update
+
 * Tue Apr 02 2019 Michael Cronenworth <mike@cchtml.com> 4.5-1
 - version update
 
