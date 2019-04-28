@@ -3,7 +3,7 @@
 
 %global no64bit   0
 %global winegecko 2.47
-%global winemono  4.8.1
+%global winemono  4.8.3
 #global _default_patch_fuzz 2
 
 # build with wine-staging patches, see:  https://github.com/wine-staging/wine-staging
@@ -20,7 +20,7 @@
 %endif
 
 Name:           wine
-Version:        4.6
+Version:        4.7
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -2192,6 +2192,9 @@ fi
 %endif
 
 %changelog
+* Sun Apr 28 2019 Michael Cronenworth <mike@cchtml.com> 4.7-1
+- version update
+
 * Sun Apr 14 2019 Michael Cronenworth <mike@cchtml.com> 4.6-1
 - version update
 
