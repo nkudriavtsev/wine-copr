@@ -21,7 +21,7 @@
 
 Name:           wine
 Version:        4.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -773,11 +773,16 @@ PROGRAM_ICONFIX='s/height="272"/height="256"/;'\
 '   x="368"\n'\
 '   y="8"\n'\
 '   viewBox="368, 8, 256, 256"/;'
+MAIN_ICONFIX='s/height="272"/height="256"/;'\
+'s/width="632"/width="256"\n'\
+'   x="8"\n'\
+'   y="8"\n'\
+'   viewBox="8, 8, 256, 256"/;'
 
 # This icon file is still in the legacy format
 install -p -m 644 dlls/user32/resources/oic_winlogo.svg \
  %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/wine.svg
-sed -i -e '3s/368/64/' %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/wine.svg
+sed -i -e "$MAIN_ICONFIX" %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/wine.svg
 
 # The rest come from programs/, and contain larger scalable icons
 # with a new layout that requires the PROGRAM_ICONFIX sed adjustment
@@ -2192,6 +2197,9 @@ fi
 %endif
 
 %changelog
+* Wed May 15 2019 Michael Cronenworth <mike@cchtml.com> 4.8-2
+- Fix default wine svg (RHBZ#1598994)
+
 * Tue May 14 2019 Michael Cronenworth <mike@cchtml.com> 4.8-1
 - version update
 
