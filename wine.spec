@@ -20,8 +20,8 @@
 %endif
 
 Name:           wine
-Version:        4.8
-Release:        2%{?dist}
+Version:        4.9
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -2197,6 +2197,9 @@ fi
 %endif
 
 %changelog
+* Sun May 26 2019 Michael Cronenworth <mike@cchtml.com> 4.9-1
+- version update
+
 * Wed May 15 2019 Michael Cronenworth <mike@cchtml.com> 4.8-2
 - Fix default wine svg (RHBZ#1598994)
 
