@@ -20,7 +20,7 @@
 %global wineexe exe.so
 %global wineocx ocx.so
 %global winesys sys.so
-%global winesys tlb.so
+%global winetlb tlb.so
 %endif
 
 # build with wine-staging patches, see:  https://github.com/wine-staging/wine-staging
@@ -1641,12 +1641,12 @@ fi
 %{_libdir}/wine/msg711.acm.so
 %{_libdir}/wine/msgsm32.acm.so
 %{_libdir}/wine/mshtml.dll.so
-%{_libdir}/wine/mshtml.tlb
+%{_libdir}/wine/mshtml.%{winetlb}
 %{_libdir}/wine/msi.dll.so
 %{_libdir}/wine/msident.dll.so
 %{_libdir}/wine/msimtf.dll.so
 %{_libdir}/wine/msimg32.dll.so
-%{_libdir}/wine/msimsg.dll
+%{_libdir}/wine/msimsg.%{winedll}
 %{_libdir}/wine/msinfo32.%{wineexe}
 %{_libdir}/wine/msisip.dll.so
 %{_libdir}/wine/msisys.ocx.so
@@ -1715,7 +1715,7 @@ fi
 %{_libdir}/wine/objsel.dll.so
 %{_libdir}/wine/odbc32.dll.so
 %{_libdir}/wine/odbccp32.dll.so
-%{_libdir}/wine/odbccu32.dll
+%{_libdir}/wine/odbccu32.%{winedll}
 %{_libdir}/wine/ole32.dll.so
 %{_libdir}/wine/oleacc.dll.so
 %{_libdir}/wine/oleaut32.dll.so
@@ -1947,7 +1947,7 @@ fi
 %{_libdir}/wine/ifsmgr.vxd
 %{_libdir}/wine/mmdevldr.vxd.so
 %{_libdir}/wine/monodebg.vxd.so
-%{_libdir}/wine/rundll.exe1
+%{_libdir}/wine/rundll.exe16
 %{_libdir}/wine/vdhcp.vxd.so
 %{_libdir}/wine/user.exe16.so
 %{_libdir}/wine/vmm.vxd.so
