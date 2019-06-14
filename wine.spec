@@ -1829,7 +1829,6 @@ fi
 %{_libdir}/wine/windowscodecsext.dll.so
 %{_libdir}/wine/winebus.sys.so
 %{_libdir}/wine/winegstreamer.dll.so
-%{_libdir}/wine/winehid.inf
 %{_libdir}/wine/winehid.sys.so
 %{_libdir}/wine/winejoystick.drv.so
 %{_libdir}/wine/winemapi.dll.so
@@ -1999,6 +1998,7 @@ fi
 %dir %{_datadir}/wine/mono
 %dir %{_datadir}/wine/fonts
 %{_datadir}/wine/wine.inf
+%{_datadir}/wine/winehid.inf
 %{_datadir}/wine/l_intl.nls
 
 %files common
