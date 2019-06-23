@@ -3,12 +3,13 @@
 
 %global no64bit   0
 %global winegecko 2.47
-%global winemono  4.8.3
+%global winemono  4.9.0
 #global _default_patch_fuzz 2
 %ifarch %{ix86} x86_64
 %global wineacm acm
 %global winecpl cpl
 %global winedll dll
+%global winedrv drv
 %global wineexe exe
 %global wineocx ocx
 %global winesys sys
@@ -17,6 +18,7 @@
 %global wineacm acm.so
 %global winecpl cpl.so
 %global winedll dll.so
+%global winedrv drv.so
 %global wineexe exe.so
 %global wineocx ocx.so
 %global winesys sys.so
@@ -37,7 +39,7 @@
 %endif
 
 Name:           wine
-Version:        4.10
+Version:        4.11
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1122,7 +1124,7 @@ fi
 %{_libdir}/wine/net.%{wineexe}
 %{_libdir}/wine/netstat.%{wineexe}
 %{_libdir}/wine/ngen.%{wineexe}
-%{_libdir}/wine/ntoskrnl.exe.so
+%{_libdir}/wine/ntoskrnl.%{wineexe}
 %{_libdir}/wine/oleview.%{wineexe}
 %{_libdir}/wine/ping.%{wineexe}
 %{_libdir}/wine/powershell.%{wineexe}
@@ -1590,7 +1592,7 @@ fi
 %{_libdir}/wine/jsproxy.%{winedll}
 %{_libdir}/wine/kerberos.dll.so
 %{_libdir}/wine/kernel32.dll.so
-%{_libdir}/wine/kernelbase.dll.so
+%{_libdir}/wine/kernelbase.%{winedll}
 %{_libdir}/wine/ksecdd.%{winesys}
 %{_libdir}/wine/ksuser.%{winedll}
 %{_libdir}/wine/ktmw32.%{winedll}
@@ -1609,59 +1611,59 @@ fi
 %{_libdir}/wine/mciqtz32.%{winedll}
 %{_libdir}/wine/mciseq.%{winedll}
 %{_libdir}/wine/mciwave.%{winedll}
-%{_libdir}/wine/mf.dll.so
+%{_libdir}/wine/mf.%{winedll}
 %{_libdir}/wine/mf3216.%{winedll}
 %{_libdir}/wine/mferror.%{winedll}
-%{_libdir}/wine/mfplat.dll.so
-%{_libdir}/wine/mfplay.dll.so
-%{_libdir}/wine/mfreadwrite.dll.so
-%{_libdir}/wine/mgmtapi.dll.so
-%{_libdir}/wine/midimap.dll.so
-%{_libdir}/wine/mlang.dll.so
-%{_libdir}/wine/mmcndmgr.dll.so
-%{_libdir}/wine/mmdevapi.dll.so
+%{_libdir}/wine/mfplat.%{winedll}
+%{_libdir}/wine/mfplay.%{winedll}
+%{_libdir}/wine/mfreadwrite.%{winedll}
+%{_libdir}/wine/mgmtapi.%{winedll}
+%{_libdir}/wine/midimap.%{winedll}
+%{_libdir}/wine/mlang.%{winedll}
+%{_libdir}/wine/mmcndmgr.%{winedll}
+%{_libdir}/wine/mmdevapi.%{winedll}
 %{_libdir}/wine/mofcomp.%{wineexe}
 %{_libdir}/wine/mountmgr.sys.so
 %{_libdir}/wine/mp3dmod.dll.so
-%{_libdir}/wine/mpr.dll.so
-%{_libdir}/wine/mprapi.dll.so
-%{_libdir}/wine/msacm32.dll.so
-%{_libdir}/wine/msacm32.drv.so
-%{_libdir}/wine/msadp32.acm.so
-%{_libdir}/wine/msasn1.dll.so
-%{_libdir}/wine/mscat32.dll.so
+%{_libdir}/wine/mpr.%{winedll}
+%{_libdir}/wine/mprapi.%{winedll}
+%{_libdir}/wine/msacm32.%{winedll}
+%{_libdir}/wine/msacm32.%{winedrv}
+%{_libdir}/wine/msadp32.%{wineacm}
+%{_libdir}/wine/msasn1.%{winedll}
+%{_libdir}/wine/mscat32.%{winedll}
 %{_libdir}/wine/mscoree.dll.so
-%{_libdir}/wine/msctf.dll.so
-%{_libdir}/wine/msctfp.dll.so
-%{_libdir}/wine/msdaps.dll.so
-%{_libdir}/wine/msdelta.dll.so
-%{_libdir}/wine/msdmo.dll.so
-%{_libdir}/wine/msdrm.dll.so
-%{_libdir}/wine/msftedit.dll.so
-%{_libdir}/wine/msg711.acm.so
+%{_libdir}/wine/msctf.%{winedll}
+%{_libdir}/wine/msctfp.%{winedll}
+%{_libdir}/wine/msdaps.%{winedll}
+%{_libdir}/wine/msdelta.%{winedll}
+%{_libdir}/wine/msdmo.%{winedll}
+%{_libdir}/wine/msdrm.%{winedll}
+%{_libdir}/wine/msftedit.%{winedll}
+%{_libdir}/wine/msg711.%{wineacm}
 %{_libdir}/wine/msgsm32.acm.so
-%{_libdir}/wine/mshtml.dll.so
+%{_libdir}/wine/mshtml.%{winedll}
 %{_libdir}/wine/mshtml.%{winetlb}
-%{_libdir}/wine/msi.dll.so
-%{_libdir}/wine/msident.dll.so
-%{_libdir}/wine/msimtf.dll.so
-%{_libdir}/wine/msimg32.dll.so
+%{_libdir}/wine/msi.%{winedll}
+%{_libdir}/wine/msident.%{winedll}
+%{_libdir}/wine/msimtf.%{winedll}
+%{_libdir}/wine/msimg32.%{winedll}
 %{_libdir}/wine/msimsg.%{winedll}
 %{_libdir}/wine/msinfo32.%{wineexe}
-%{_libdir}/wine/msisip.dll.so
-%{_libdir}/wine/msisys.ocx.so
-%{_libdir}/wine/msls31.dll.so
-%{_libdir}/wine/msnet32.dll.so
-%{_libdir}/wine/mspatcha.dll.so
-%{_libdir}/wine/msports.dll.so
-%{_libdir}/wine/msscript.ocx.so
-%{_libdir}/wine/mssign32.dll.so
-%{_libdir}/wine/mssip32.dll.so
-%{_libdir}/wine/msrle32.dll.so
-%{_libdir}/wine/mstask.dll.so
+%{_libdir}/wine/msisip.%{winedll}
+%{_libdir}/wine/msisys.%{wineocx}
+%{_libdir}/wine/msls31.%{winedll}
+%{_libdir}/wine/msnet32.%{winedll}
+%{_libdir}/wine/mspatcha.%{winedll}
+%{_libdir}/wine/msports.%{winedll}
+%{_libdir}/wine/msscript.%{wineocx}
+%{_libdir}/wine/mssign32.%{winedll}
+%{_libdir}/wine/mssip32.%{winedll}
+%{_libdir}/wine/msrle32.%{winedll}
+%{_libdir}/wine/mstask.%{winedll}
 %{_libdir}/wine/msvcirt.%{winedll}
-%{_libdir}/wine/msvcm80.dll.so
-%{_libdir}/wine/msvcm90.dll.so
+%{_libdir}/wine/msvcm80.%{winedll}
+%{_libdir}/wine/msvcm90.%{winedll}
 %{_libdir}/wine/msvcp60.%{winedll}
 %{_libdir}/wine/msvcp70.%{winedll}
 %{_libdir}/wine/msvcp71.%{winedll}
@@ -1684,115 +1686,115 @@ fi
 %{_libdir}/wine/msvcrt20.%{winedll}
 %{_libdir}/wine/msvcrt40.%{winedll}
 %{_libdir}/wine/msvcrtd.dll.so
-%{_libdir}/wine/msvfw32.dll.so
-%{_libdir}/wine/msvidc32.dll.so
-%{_libdir}/wine/mswsock.dll.so
-%{_libdir}/wine/msxml.dll.so
-%{_libdir}/wine/msxml2.dll.so
+%{_libdir}/wine/msvfw32.%{winedll}
+%{_libdir}/wine/msvidc32.%{winedll}
+%{_libdir}/wine/mswsock.%{winedll}
+%{_libdir}/wine/msxml.%{winedll}
+%{_libdir}/wine/msxml2.%{winedll}
 %{_libdir}/wine/msxml3.dll.so
-%{_libdir}/wine/msxml4.dll.so
-%{_libdir}/wine/msxml6.dll.so
-%{_libdir}/wine/mtxdm.dll.so
-%{_libdir}/wine/nddeapi.dll.so
-%{_libdir}/wine/ncrypt.dll.so
-%{_libdir}/wine/ndis.sys.so
+%{_libdir}/wine/msxml4.%{winedll}
+%{_libdir}/wine/msxml6.%{winedll}
+%{_libdir}/wine/mtxdm.%{winedll}
+%{_libdir}/wine/nddeapi.%{winedll}
+%{_libdir}/wine/ncrypt.%{winedll}
+%{_libdir}/wine/ndis.%{winesys}
 %{_libdir}/wine/netapi32.dll.so
-%{_libdir}/wine/netcfgx.dll.so
-%{_libdir}/wine/netprofm.dll.so
+%{_libdir}/wine/netcfgx.%{winedll}
+%{_libdir}/wine/netprofm.%{winedll}
 %{_libdir}/wine/netsh.%{wineexe}
-%{_libdir}/wine/newdev.dll.so
-%{_libdir}/wine/ninput.dll.so
-%{_libdir}/wine/normaliz.dll.so
-%{_libdir}/wine/npmshtml.dll.so
-%{_libdir}/wine/npptools.dll.so
+%{_libdir}/wine/newdev.%{winedll}
+%{_libdir}/wine/ninput.%{winedll}
+%{_libdir}/wine/normaliz.%{winedll}
+%{_libdir}/wine/npmshtml.%{winedll}
+%{_libdir}/wine/npptools.%{winedll}
 %{_libdir}/wine/ntdll.dll.so
-%{_libdir}/wine/ntdsapi.dll.so
-%{_libdir}/wine/ntprint.dll.so
+%{_libdir}/wine/ntdsapi.%{winedll}
+%{_libdir}/wine/ntprint.%{winedll}
 %if 0%{?wine_staging}
 %{_libdir}/wine/nvcuda.dll.so
 %{_libdir}/wine/nvcuvid.dll.so
 %endif
-%{_libdir}/wine/objsel.dll.so
+%{_libdir}/wine/objsel.%{winedll}
 %{_libdir}/wine/odbc32.dll.so
-%{_libdir}/wine/odbccp32.dll.so
+%{_libdir}/wine/odbccp32.%{winedll}
 %{_libdir}/wine/odbccu32.%{winedll}
-%{_libdir}/wine/ole32.dll.so
-%{_libdir}/wine/oleacc.dll.so
-%{_libdir}/wine/oleaut32.dll.so
-%{_libdir}/wine/olecli32.dll.so
-%{_libdir}/wine/oledb32.dll.so
-%{_libdir}/wine/oledlg.dll.so
-%{_libdir}/wine/olepro32.dll.so
-%{_libdir}/wine/olesvr32.dll.so
-%{_libdir}/wine/olethk32.dll.so
+%{_libdir}/wine/ole32.%{winedll}
+%{_libdir}/wine/oleacc.%{winedll}
+%{_libdir}/wine/oleaut32.%{winedll}
+%{_libdir}/wine/olecli32.%{winedll}
+%{_libdir}/wine/oledb32.%{winedll}
+%{_libdir}/wine/oledlg.%{winedll}
+%{_libdir}/wine/olepro32.%{winedll}
+%{_libdir}/wine/olesvr32.%{winedll}
+%{_libdir}/wine/olethk32.%{winedll}
 %{_libdir}/wine/opcservices.dll.so
-%{_libdir}/wine/packager.dll.so
-%{_libdir}/wine/pdh.dll.so
-%{_libdir}/wine/photometadatahandler.dll.so
-%{_libdir}/wine/pidgen.dll.so
-%{_libdir}/wine/powrprof.dll.so
+%{_libdir}/wine/packager.%{winedll}
+%{_libdir}/wine/pdh.%{winedll}
+%{_libdir}/wine/photometadatahandler.%{winedll}
+%{_libdir}/wine/pidgen.%{winedll}
+%{_libdir}/wine/powrprof.%{winedll}
 %{_libdir}/wine/presentationfontcache.%{wineexe}
-%{_libdir}/wine/printui.dll.so
-%{_libdir}/wine/prntvpt.dll.so
-%{_libdir}/wine/propsys.dll.so
+%{_libdir}/wine/printui.%{winedll}
+%{_libdir}/wine/prntvpt.%{winedll}
+%{_libdir}/wine/propsys.%{winedll}
 %{_libdir}/wine/psapi.%{winedll}
-%{_libdir}/wine/pstorec.dll.so
+%{_libdir}/wine/pstorec.%{winedll}
 %{_libdir}/wine/qcap.dll.so
 %{_libdir}/wine/qedit.dll.so
-%{_libdir}/wine/qmgr.dll.so
-%{_libdir}/wine/qmgrprxy.dll.so
+%{_libdir}/wine/qmgr.%{winedll}
+%{_libdir}/wine/qmgrprxy.%{winedll}
 %{_libdir}/wine/quartz.dll.so
-%{_libdir}/wine/query.dll.so
-%{_libdir}/wine/qwave.dll.so
-%{_libdir}/wine/rasapi32.dll.so
-%{_libdir}/wine/rasdlg.dll.so
-%{_libdir}/wine/regapi.dll.so
-%{_libdir}/wine/resutils.dll.so
-%{_libdir}/wine/riched20.dll.so
-%{_libdir}/wine/riched32.dll.so
-%{_libdir}/wine/rpcrt4.dll.so
+%{_libdir}/wine/query.%{winedll}
+%{_libdir}/wine/qwave.%{winedll}
+%{_libdir}/wine/rasapi32.%{winedll}
+%{_libdir}/wine/rasdlg.%{winedll}
+%{_libdir}/wine/regapi.%{winedll}
+%{_libdir}/wine/resutils.%{winedll}
+%{_libdir}/wine/riched20.%{winedll}
+%{_libdir}/wine/riched32.%{winedll}
+%{_libdir}/wine/rpcrt4.%{winedll}
 %{_libdir}/wine/rsabase.%{winedll}
-%{_libdir}/wine/rsaenh.dll.so
-%{_libdir}/wine/rstrtmgr.dll.so
-%{_libdir}/wine/rtutils.dll.so
-%{_libdir}/wine/samlib.dll.so
-%{_libdir}/wine/sapi.dll.so
-%{_libdir}/wine/sas.dll.so
+%{_libdir}/wine/rsaenh.%{winedll}
+%{_libdir}/wine/rstrtmgr.%{winedll}
+%{_libdir}/wine/rtutils.%{winedll}
+%{_libdir}/wine/samlib.%{winedll}
+%{_libdir}/wine/sapi.%{winedll}
+%{_libdir}/wine/sas.%{winedll}
 %{_libdir}/wine/sc.%{wineexe}
-%{_libdir}/wine/scarddlg.dll.so
-%{_libdir}/wine/sccbase.dll.so
-%{_libdir}/wine/schannel.dll.so
-%{_libdir}/wine/scrobj.dll.so
-%{_libdir}/wine/scrrun.dll.so
-%{_libdir}/wine/scsiport.sys.so
+%{_libdir}/wine/scarddlg.%{winedll}
+%{_libdir}/wine/sccbase.%{winedll}
+%{_libdir}/wine/schannel.%{winedll}
+%{_libdir}/wine/scrobj.%{winedll}
+%{_libdir}/wine/scrrun.%{winedll}
+%{_libdir}/wine/scsiport.%{winesys}
 %{_libdir}/wine/secur32.dll.so
-%{_libdir}/wine/sensapi.dll.so
-%{_libdir}/wine/serialui.dll.so
+%{_libdir}/wine/sensapi.%{winedll}
+%{_libdir}/wine/serialui.%{winedll}
 %{_libdir}/wine/setupapi.dll.so
-%{_libdir}/wine/sfc_os.dll.so
-%{_libdir}/wine/shcore.dll.so
+%{_libdir}/wine/sfc_os.%{winedll}
+%{_libdir}/wine/shcore.%{winedll}
 %{_libdir}/wine/shdoclc.%{winedll}
-%{_libdir}/wine/shdocvw.dll.so
-%{_libdir}/wine/schedsvc.dll.so
+%{_libdir}/wine/shdocvw.%{winedll}
+%{_libdir}/wine/schedsvc.%{winedll}
 %{_libdir}/wine/shell32.dll.so
 %{_libdir}/wine/shfolder.%{winedll}
-%{_libdir}/wine/shlwapi.dll.so
+%{_libdir}/wine/shlwapi.%{winedll}
 %{_libdir}/wine/shutdown.%{wineexe}
-%{_libdir}/wine/slbcsp.dll.so
-%{_libdir}/wine/slc.dll.so
-%{_libdir}/wine/snmpapi.dll.so
+%{_libdir}/wine/slbcsp.%{winedll}
+%{_libdir}/wine/slc.%{winedll}
+%{_libdir}/wine/snmpapi.%{winedll}
 %{_libdir}/wine/softpub.%{winedll}
 %{_libdir}/wine/spoolsv.%{wineexe}
-%{_libdir}/wine/srclient.dll.so
-%{_libdir}/wine/sspicli.dll.so
+%{_libdir}/wine/srclient.%{winedll}
+%{_libdir}/wine/sspicli.%{winedll}
 %{_libdir}/wine/stdole2.%{winetlb}
 %{_libdir}/wine/stdole32.%{winetlb}
-%{_libdir}/wine/sti.dll.so
-%{_libdir}/wine/strmdll.dll.so
+%{_libdir}/wine/sti.%{winedll}
+%{_libdir}/wine/strmdll.%{winedll}
 %{_libdir}/wine/subst.%{wineexe}
 %{_libdir}/wine/svchost.%{wineexe}
-%{_libdir}/wine/svrapi.dll.so
-%{_libdir}/wine/sxs.dll.so
+%{_libdir}/wine/svrapi.%{winedll}
+%{_libdir}/wine/sxs.%{winedll}
 %{_libdir}/wine/systeminfo.%{wineexe}
 %{_libdir}/wine/t2embed.dll.so
 %{_libdir}/wine/tapi32.dll.so
@@ -1864,7 +1866,7 @@ fi
 %{_libdir}/wine/wmiutils.dll.so
 %{_libdir}/wine/wmp.dll.so
 %{_libdir}/wine/wmvcore.dll.so
-%{_libdir}/wine/spoolss.dll.so
+%{_libdir}/wine/spoolss.%{winedll}
 %{_libdir}/wine/winscard.dll.so
 %{_libdir}/wine/wintab32.dll.so
 %{_libdir}/wine/wintrust.dll.so
@@ -1889,7 +1891,7 @@ fi
 %{_libdir}/wine/wuauserv.exe.so
 %endif
 %{_libdir}/wine/security.%{winedll}
-%{_libdir}/wine/sfc.dll.so
+%{_libdir}/wine/sfc.%{winedll}
 %{_libdir}/wine/wineps.drv.so
 %{_libdir}/wine/d3d8.dll.so
 %{_libdir}/wine/d3d9.dll.so
@@ -2220,6 +2222,9 @@ fi
 %endif
 
 %changelog
+* Sun Jun 23 2019 Michael Cronenworth <mike@cchtml.com> 4.11-1
+- version update
+
 * Thu Jun 13 2019 Michael Cronenworth <mike@cchtml.com> 4.10-1
 - version update
 - compile with MinGW support
