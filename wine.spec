@@ -39,7 +39,7 @@
 %endif
 
 Name:           wine
-Version:        4.11
+Version:        4.12
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1145,7 +1145,7 @@ fi
 %{_libdir}/wine/termsv.%{wineexe}
 %{_libdir}/wine/view.%{wineexe}
 %{_libdir}/wine/wevtutil.%{wineexe}
-%{_libdir}/wine/wineboot.exe.so
+%{_libdir}/wine/wineboot.%{wineexe}
 %{_libdir}/wine/winebrowser.exe.so
 %{_libdir}/wine/wineconsole.exe.so
 %{_libdir}/wine/winemenubuilder.exe.so
@@ -1383,7 +1383,7 @@ fi
 %{_libdir}/wine/api-ms-win-shell-shellcom-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-shell-shellfolders-l1-1-0.%{winedll}
 %{_libdir}/wine/apphelp.%{winedll}
-%{_libdir}/wine/appwiz.cpl.so
+%{_libdir}/wine/appwiz.%{winecpl}
 %{_libdir}/wine/atl.%{winedll}
 %{_libdir}/wine/atl80.%{winedll}
 %{_libdir}/wine/atl90.%{winedll}
@@ -1427,9 +1427,9 @@ fi
 %{_libdir}/wine/d3d10.%{winedll}
 %{_libdir}/wine/d3d10_1.%{winedll}
 %{_libdir}/wine/d3d10core.%{winedll}
-%{_libdir}/wine/d3d11.dll.so
+%{_libdir}/wine/d3d11.%{winedll}
 %{_libdir}/wine/d3d12.dll.so
-%{_libdir}/wine/d3dcompiler_*.dll.so
+%{_libdir}/wine/d3dcompiler_*.%{winedll}
 %{_libdir}/wine/d3dim.%{winedll}
 %{_libdir}/wine/d3drm.%{winedll}
 %{_libdir}/wine/d3dx9_*.%{winedll}
@@ -1441,7 +1441,7 @@ fi
 %{_libdir}/wine/dbgeng.%{winedll}
 %{_libdir}/wine/dbghelp.dll.so
 %{_libdir}/wine/dciman32.%{winedll}
-%{_libdir}/wine/ddraw.dll.so
+%{_libdir}/wine/ddraw.%{winedll}
 %{_libdir}/wine/ddrawex.%{winedll}
 %{_libdir}/wine/devenum.%{winedll}
 %{_libdir}/wine/dhcpcsvc.%{winedll}
@@ -1632,7 +1632,7 @@ fi
 %{_libdir}/wine/msadp32.%{wineacm}
 %{_libdir}/wine/msasn1.%{winedll}
 %{_libdir}/wine/mscat32.%{winedll}
-%{_libdir}/wine/mscoree.dll.so
+%{_libdir}/wine/mscoree.%{winedll}
 %{_libdir}/wine/msctf.%{winedll}
 %{_libdir}/wine/msctfp.%{winedll}
 %{_libdir}/wine/msdaps.%{winedll}
@@ -1770,7 +1770,7 @@ fi
 %{_libdir}/wine/secur32.dll.so
 %{_libdir}/wine/sensapi.%{winedll}
 %{_libdir}/wine/serialui.%{winedll}
-%{_libdir}/wine/setupapi.dll.so
+%{_libdir}/wine/setupapi.%{winedll}
 %{_libdir}/wine/sfc_os.%{winedll}
 %{_libdir}/wine/shcore.%{winedll}
 %{_libdir}/wine/shdoclc.%{winedll}
@@ -1796,105 +1796,105 @@ fi
 %{_libdir}/wine/svrapi.%{winedll}
 %{_libdir}/wine/sxs.%{winedll}
 %{_libdir}/wine/systeminfo.%{wineexe}
-%{_libdir}/wine/t2embed.dll.so
-%{_libdir}/wine/tapi32.dll.so
+%{_libdir}/wine/t2embed.%{winedll}
+%{_libdir}/wine/tapi32.%{winedll}
 %{_libdir}/wine/taskkill.%{wineexe}
-%{_libdir}/wine/taskschd.dll.so
-%{_libdir}/wine/tdh.dll.so
-%{_libdir}/wine/tdi.sys.so
-%{_libdir}/wine/traffic.dll.so
+%{_libdir}/wine/taskschd.%{winedll}
+%{_libdir}/wine/tdh.%{winedll}
+%{_libdir}/wine/tdi.%{winesys}
+%{_libdir}/wine/traffic.%{winedll}
 %{_libdir}/wine/tzres.%{winedll}
 %{_libdir}/wine/ucrtbase.dll.so
 %if 0%{?wine_staging}
-%{_libdir}/wine/uianimation.dll.so
+%{_libdir}/wine/uianimation.%{winedll}
 %endif
-%{_libdir}/wine/uiautomationcore.dll.so
-%{_libdir}/wine/uiribbon.dll.so
+%{_libdir}/wine/uiautomationcore.%{winedll}
+%{_libdir}/wine/uiribbon.%{winedll}
 %{_libdir}/wine/unicows.%{winedll}
 %{_libdir}/wine/unlodctr.%{wineexe}
-%{_libdir}/wine/updspapi.dll.so
-%{_libdir}/wine/url.dll.so
-%{_libdir}/wine/urlmon.dll.so
-%{_libdir}/wine/usbd.sys.so
+%{_libdir}/wine/updspapi.%{winedll}
+%{_libdir}/wine/url.%{winedll}
+%{_libdir}/wine/urlmon.%{winedll}
+%{_libdir}/wine/usbd.%{winesys}
 %{_libdir}/wine/user32.dll.so
-%{_libdir}/wine/usp10.dll.so
+%{_libdir}/wine/usp10.%{winedll}
 %{_libdir}/wine/uxtheme.dll.so
-%{_libdir}/wine/userenv.dll.so
-%{_libdir}/wine/vbscript.dll.so
-%{_libdir}/wine/vcomp.dll.so
+%{_libdir}/wine/userenv.%{winedll}
+%{_libdir}/wine/vbscript.%{winedll}
+%{_libdir}/wine/vcomp.%{winedll}
 %{_libdir}/wine/vcomp90.%{winedll}
 %{_libdir}/wine/vcomp100.%{winedll}
 %{_libdir}/wine/vcomp110.%{winedll}
 %{_libdir}/wine/vcomp120.%{winedll}
 %{_libdir}/wine/vcomp140.%{winedll}
 %{_libdir}/wine/vcruntime140.%{winedll}
-%{_libdir}/wine/vdmdbg.dll.so
-%{_libdir}/wine/version.dll.so
-%{_libdir}/wine/virtdisk.dll.so
-%{_libdir}/wine/vssapi.dll.so
-%{_libdir}/wine/vulkan-1.dll.so
-%{_libdir}/wine/wbemdisp.dll.so
-%{_libdir}/wine/wbemprox.dll.so
-%{_libdir}/wine/wdscore.dll.so
-%{_libdir}/wine/webservices.dll.so
-%{_libdir}/wine/wer.dll.so
-%{_libdir}/wine/wevtapi.dll.so
-%{_libdir}/wine/wiaservc.dll.so
-%{_libdir}/wine/wimgapi.dll.so
+%{_libdir}/wine/vdmdbg.%{winedll}
+%{_libdir}/wine/version.%{winedll}
+%{_libdir}/wine/virtdisk.%{winedll}
+%{_libdir}/wine/vssapi.%{winedll}
+%{_libdir}/wine/vulkan-1.%{winedll}
+%{_libdir}/wine/wbemdisp.%{winedll}
+%{_libdir}/wine/wbemprox.%{winedll}
+%{_libdir}/wine/wdscore.%{winedll}
+%{_libdir}/wine/webservices.%{winedll}
+%{_libdir}/wine/wer.%{winedll}
+%{_libdir}/wine/wevtapi.%{winedll}
+%{_libdir}/wine/wiaservc.%{winedll}
+%{_libdir}/wine/wimgapi.%{winedll}
 %if 0%{?wine_staging}
 %{_libdir}/wine/win32k.sys.so
 %endif
 %{_libdir}/wine/windowscodecs.dll.so
-%{_libdir}/wine/windowscodecsext.dll.so
+%{_libdir}/wine/windowscodecsext.%{winedll}
 %{_libdir}/wine/winebus.sys.so
 %{_libdir}/wine/winegstreamer.dll.so
-%{_libdir}/wine/winehid.sys.so
+%{_libdir}/wine/winehid.%{winesys}
 %{_libdir}/wine/winejoystick.drv.so
-%{_libdir}/wine/winemapi.dll.so
+%{_libdir}/wine/winemapi.%{winedll}
 %{_libdir}/wine/winevulkan.dll.so
 %{_libdir}/wine/winex11.drv.so
-%{_libdir}/wine/wing32.dll.so
+%{_libdir}/wine/wing32.%{winedll}
 %{_libdir}/wine/winhttp.dll.so
 %{_libdir}/wine/wininet.dll.so
-%{_libdir}/wine/winmm.dll.so
-%{_libdir}/wine/winnls32.dll.so
+%{_libdir}/wine/winmm.%{winedll}
+%{_libdir}/wine/winnls32.%{winedll}
 %{_libdir}/wine/winspool.drv.so
-%{_libdir}/wine/winsta.dll.so
-%{_libdir}/wine/wmasf.dll.so
+%{_libdir}/wine/winsta.%{winedll}
+%{_libdir}/wine/wmasf.%{winedll}
 %{_libdir}/wine/wmi.%{winedll}
 %{_libdir}/wine/wmic.%{wineexe}
-%{_libdir}/wine/wmiutils.dll.so
-%{_libdir}/wine/wmp.dll.so
-%{_libdir}/wine/wmvcore.dll.so
+%{_libdir}/wine/wmiutils.%{winedll}
+%{_libdir}/wine/wmp.%{winedll}
+%{_libdir}/wine/wmvcore.%{winedll}
 %{_libdir}/wine/spoolss.%{winedll}
-%{_libdir}/wine/winscard.dll.so
-%{_libdir}/wine/wintab32.dll.so
-%{_libdir}/wine/wintrust.dll.so
+%{_libdir}/wine/winscard.%{winedll}
+%{_libdir}/wine/wintab32.%{winedll}
+%{_libdir}/wine/wintrust.%{winedll}
 %{_libdir}/wine/winusb.%{winedll}
-%{_libdir}/wine/wlanapi.dll.so
-%{_libdir}/wine/wmphoto.dll.so
+%{_libdir}/wine/wlanapi.%{winedll}
+%{_libdir}/wine/wmphoto.%{winedll}
 %{_libdir}/wine/wnaspi32.dll.so
 %if 0%{?wine_staging}
 %{_libdir}/wine/wow64cpu.dll.so
 %endif
-%{_libdir}/wine/wpc.dll.so
+%{_libdir}/wine/wpc.%{winedll}
 %{_libdir}/wine/wpcap.dll.so
 %{_libdir}/wine/ws2_32.dll.so
-%{_libdir}/wine/wsdapi.dll.so
-%{_libdir}/wine/wshom.ocx.so
-%{_libdir}/wine/wsnmp32.dll.so
-%{_libdir}/wine/wsock32.dll.so
-%{_libdir}/wine/wtsapi32.dll.so
-%{_libdir}/wine/wuapi.dll.so
-%{_libdir}/wine/wuaueng.dll.so
+%{_libdir}/wine/wsdapi.%{winedll}
+%{_libdir}/wine/wshom.%{wineocx}
+%{_libdir}/wine/wsnmp32.%{winedll}
+%{_libdir}/wine/wsock32.%{winedll}
+%{_libdir}/wine/wtsapi32.%{winedll}
+%{_libdir}/wine/wuapi.%{winedll}
+%{_libdir}/wine/wuaueng.%{winedll}
 %if 0%{?wine_staging}
 %{_libdir}/wine/wuauserv.exe.so
 %endif
 %{_libdir}/wine/security.%{winedll}
 %{_libdir}/wine/sfc.%{winedll}
-%{_libdir}/wine/wineps.drv.so
-%{_libdir}/wine/d3d8.dll.so
-%{_libdir}/wine/d3d9.dll.so
+%{_libdir}/wine/wineps.%{winedrv}
+%{_libdir}/wine/d3d8.%{winedll}
+%{_libdir}/wine/d3d9.%{winedll}
 %{_libdir}/wine/opengl32.dll.so
 %{_libdir}/wine/wined3d.dll.so
 %{_libdir}/wine/dnsapi.dll.so
@@ -1923,15 +1923,15 @@ fi
 %{_libdir}/wine/xaudio2_8.dll.so
 %{_libdir}/wine/xaudio2_9.dll.so
 %{_libdir}/wine/xcopy.%{wineexe}
-%{_libdir}/wine/xinput1_1.dll.so
-%{_libdir}/wine/xinput1_2.dll.so
-%{_libdir}/wine/xinput1_3.dll.so
-%{_libdir}/wine/xinput1_4.dll.so
-%{_libdir}/wine/xinput9_1_0.dll.so
-%{_libdir}/wine/xmllite.dll.so
-%{_libdir}/wine/xolehlp.dll.so
-%{_libdir}/wine/xpsprint.dll.so
-%{_libdir}/wine/xpssvcs.dll.so
+%{_libdir}/wine/xinput1_1.%{winedll}
+%{_libdir}/wine/xinput1_2.%{winedll}
+%{_libdir}/wine/xinput1_3.%{winedll}
+%{_libdir}/wine/xinput1_4.%{winedll}
+%{_libdir}/wine/xinput9_1_0.%{winedll}
+%{_libdir}/wine/xmllite.%{winedll}
+%{_libdir}/wine/xolehlp.%{winedll}
+%{_libdir}/wine/xpsprint.%{winedll}
+%{_libdir}/wine/xpssvcs.%{winedll}
 
 %if 0%{?wine_staging}
 %ifarch x86_64 aarch64
@@ -1950,14 +1950,14 @@ fi
 %{_libdir}/wine/mmdevldr.vxd
 %{_libdir}/wine/monodebg.vxd
 %{_libdir}/wine/rundll.exe16
-%{_libdir}/wine/vdhcp.vxd.so
-%{_libdir}/wine/user.exe16.so
-%{_libdir}/wine/vmm.vxd.so
-%{_libdir}/wine/vnbt.vxd.so
-%{_libdir}/wine/vnetbios.vxd.so
-%{_libdir}/wine/vtdapi.vxd.so
-%{_libdir}/wine/vwin32.vxd.so
-%{_libdir}/wine/w32skrnl.dll.so
+%{_libdir}/wine/vdhcp.vxd
+%{_libdir}/wine/user.exe16
+%{_libdir}/wine/vmm.vxd
+%{_libdir}/wine/vnbt.vxd
+%{_libdir}/wine/vnetbios.vxd
+%{_libdir}/wine/vtdapi.vxd
+%{_libdir}/wine/vwin32.vxd
+%{_libdir}/wine/w32skrnl.dll
 %{_libdir}/wine/avifile.dll16
 %{_libdir}/wine/comm.drv16
 %{_libdir}/wine/commdlg.dll16
@@ -1991,23 +1991,23 @@ fi
 %{_libdir}/wine/storage.dll16
 %{_libdir}/wine/stress.dll16
 %{_libdir}/wine/system.drv16
-%{_libdir}/wine/toolhelp.dll16.so
-%{_libdir}/wine/twain.dll16.so
-%{_libdir}/wine/typelib.dll16.so
-%{_libdir}/wine/ver.dll16.so
-%{_libdir}/wine/w32sys.dll16.so
-%{_libdir}/wine/win32s16.dll16.so
-%{_libdir}/wine/win87em.dll16.so
+%{_libdir}/wine/toolhelp.dll16
+%{_libdir}/wine/twain.dll16
+%{_libdir}/wine/typelib.dll16
+%{_libdir}/wine/ver.dll16
+%{_libdir}/wine/w32sys.dll16
+%{_libdir}/wine/win32s16.dll16
+%{_libdir}/wine/win87em.dll16
 %{_libdir}/wine/winaspi.dll16.so
-%{_libdir}/wine/windebug.dll16.so
-%{_libdir}/wine/wineps16.drv16.so
-%{_libdir}/wine/wing.dll16.so
+%{_libdir}/wine/windebug.dll16
+%{_libdir}/wine/wineps16.drv16
+%{_libdir}/wine/wing.dll16
 %{_libdir}/wine/winhelp.exe16
-%{_libdir}/wine/winnls.dll16.so
+%{_libdir}/wine/winnls.dll16
 %{_libdir}/wine/winoldap.mod16
-%{_libdir}/wine/winsock.dll16.so
-%{_libdir}/wine/wintab.dll16.so
-%{_libdir}/wine/wow32.dll.so
+%{_libdir}/wine/winsock.dll16
+%{_libdir}/wine/wintab.dll16
+%{_libdir}/wine/wow32.dll
 %endif
 
 %files filesystem
@@ -2169,7 +2169,7 @@ fi
 
 # twain subpackage
 %files twain
-%{_libdir}/wine/twain_32.dll.so
+%{_libdir}/wine/twain_32.%{winedll}
 %{_libdir}/wine/sane.ds.so
 
 # capi subpackage
@@ -2222,6 +2222,9 @@ fi
 %endif
 
 %changelog
+* Sat Jul 06 2019 Michael Cronenworth <mike@cchtml.com> 4.12-1
+- version update
+
 * Sun Jun 23 2019 Michael Cronenworth <mike@cchtml.com> 4.11-1
 - version update
 
