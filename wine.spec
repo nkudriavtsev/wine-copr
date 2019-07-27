@@ -40,7 +40,7 @@
 
 Name:           wine
 Version:        4.12.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -2222,6 +2222,9 @@ fi
 %endif
 
 %changelog
+* Sat Jul 27 2019 Fedora Release Engineering <releng@fedoraproject.org> - 4.12.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
 * Wed Jul 10 2019 Michael Cronenworth <mike@cchtml.com> 4.12.1-1
 - version update
 
