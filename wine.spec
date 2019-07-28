@@ -40,7 +40,7 @@
 
 Name:           wine
 Version:        4.12.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -188,6 +188,16 @@ Requires:       wine-fonts = %{version}-%{release}
 
 # x86-32 parts
 %ifarch %{ix86} x86_64
+# wined3d subpackaging
+Requires:       wine-d3d9(x86-32) = %{version}-%{release}
+Requires:       wine-d3d10(x86-32) = %{version}-%{release}
+Requires:       wine-d3d11(x86-32) = %{version}-%{release}
+Requires:       wine-dxgi(x86-32) = %{version}-%{release}
+
+Recommends:     wine-wined3d-d3d9(x86-32) = %{version}-%{release}
+Recommends:     wine-wined3d-d3d10(x86-32) = %{version}-%{release}
+Recommends:     wine-wined3d-d3d11(x86-32) = %{version}-%{release}
+Recommends:     wine-wined3d-dxgi(x86-32) = %{version}-%{release}
 %if 0%{?fedora} || 0%{?rhel} <= 6
 Requires:       wine-core(x86-32) = %{version}-%{release}
 Requires:       wine-capi(x86-32) = %{version}-%{release}
@@ -213,6 +223,16 @@ Requires:       mesa-dri-drivers(x86-32)
 
 # x86-64 parts
 %ifarch x86_64
+# wined3d subpackaging
+Requires:       wine-d3d9(x86-64) = %{version}-%{release}
+Requires:       wine-d3d10(x86-64) = %{version}-%{release}
+Requires:       wine-d3d11(x86-64) = %{version}-%{release}
+Requires:       wine-dxgi(x86-64) = %{version}-%{release}
+
+Recommends:     wine-wined3d-d3d9(x86-64) = %{version}-%{release}
+Recommends:     wine-wined3d-d3d10(x86-64) = %{version}-%{release}
+Recommends:     wine-wined3d-d3d11(x86-64) = %{version}-%{release}
+Recommends:     wine-wined3d-dxgi(x86-64) = %{version}-%{release}
 Requires:       wine-core(x86-64) = %{version}-%{release}
 Requires:       wine-capi(x86-64) = %{version}-%{release}
 Requires:       wine-cms(x86-64) = %{version}-%{release}
@@ -667,6 +687,46 @@ Requires: wine-core = %{version}-%{release}
 %Description opencl
 This package adds the opencl driver for wine.
 %endif
+
+%package wined3d-dxgi
+Summary:        DXGI implementation
+Requires:       wine-core = %{version}-%{release}
+
+Conflicts:      wine-dxvk-dxgi
+Provides:       wine-dxgi%{?_isa} = %{version}-%{release}
+
+%description wined3d-dxgi
+DXGI implementation provided by wine.
+
+%package wined3d-d3d9
+Summary:        d3d9 implementation
+Requires:       wine-dxgi%{?_isa} = %{version}-%{release}
+
+Conflicts:      wine-d9vk
+Provides:       wine-d3d9%{?_isa} = %{version}-%{release}
+
+%description wined3d-d3d9
+d3d9 implementation provided by wine.
+
+%package wined3d-d3d10
+Summary:        d3d10 implementation
+Requires:       wine-dxgi%{?_isa} = %{version}-%{release}
+
+Conflicts:      wine-dxvk
+Provides:       wine-d3d10%{?_isa} = %{version}-%{release}
+
+%description wined3d-d3d10
+d3d10 implementation provided by wine.
+
+%package wined3d-d3d11
+Summary:        d3d11 implementation
+Requires:       wine-dxgi%{?_isa} = %{version}-%{release}
+
+Conflicts:      wine-dxvk
+Provides:       wine-d3d11%{?_isa} = %{version}-%{release}
+
+%description wined3d-d3d11
+d3d11 implementation provided by wine.
 
 %prep
 %setup -q -n wine-%{version}
@@ -1424,10 +1484,6 @@ fi
 %{_libdir}/wine/ctapi32.dll.so
 %{_libdir}/wine/ctl3d32.%{winedll}
 %{_libdir}/wine/d2d1.%{winedll}
-%{_libdir}/wine/d3d10.%{winedll}
-%{_libdir}/wine/d3d10_1.%{winedll}
-%{_libdir}/wine/d3d10core.%{winedll}
-%{_libdir}/wine/d3d11.%{winedll}
 %{_libdir}/wine/d3d12.dll.so
 %{_libdir}/wine/d3dcompiler_*.%{winedll}
 %{_libdir}/wine/d3dim.%{winedll}
@@ -1476,7 +1532,6 @@ fi
 %{_libdir}/wine/dwrite.dll.so
 %{_libdir}/wine/dx8vb.%{winedll}
 %{_libdir}/wine/dxdiagn.%{winedll}
-%{_libdir}/wine/dxgi.dll.so
 %if 0%{?wine_staging}
 %{_libdir}/wine/dxgkrnl.sys.so
 %{_libdir}/wine/dxgmms1.sys.so
@@ -1894,7 +1949,6 @@ fi
 %{_libdir}/wine/sfc.%{winedll}
 %{_libdir}/wine/wineps.%{winedrv}
 %{_libdir}/wine/d3d8.%{winedll}
-%{_libdir}/wine/d3d9.%{winedll}
 %{_libdir}/wine/opengl32.dll.so
 %{_libdir}/wine/wined3d.dll.so
 %{_libdir}/wine/dnsapi.dll.so
@@ -2176,6 +2230,21 @@ fi
 %files capi
 %{_libdir}/wine/capi2032.dll.so
 
+# wined3d
+%files wined3d-dxgi
+%{_libdir}/wine/dxgi.dll.so
+
+%files wined3d-d3d9
+%{_libdir}/wine/d3d9.%{winedll}
+
+%files wined3d-d3d10
+%{_libdir}/wine/d3d10.%{winedll}
+%{_libdir}/wine/d3d10_1.%{winedll}
+%{_libdir}/wine/d3d10core.%{winedll}
+
+%files wined3d-d3d11
+%{_libdir}/wine/d3d11.%{winedll}
+
 %files devel
 %{_bindir}/function_grep.pl
 %{_bindir}/widl
@@ -2222,6 +2291,9 @@ fi
 %endif
 
 %changelog
+* Sun Jul 28 2019 Frantisek Zatloukal <fzatlouk@redhat.com> - 4.12.1-3
+- Prepare for dxvk package installation - split out wined3d to subpackages
+
 * Sat Jul 27 2019 Fedora Release Engineering <releng@fedoraproject.org> - 4.12.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
