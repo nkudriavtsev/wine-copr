@@ -39,8 +39,8 @@
 %endif
 
 Name:           wine
-Version:        4.12.1
-Release:        2%{?dist}
+Version:        4.13
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -677,11 +677,7 @@ This package adds the opencl driver for wine.
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
 
 # Disable XAudio patchsets in favor of FAudio
-patches/patchinstall.sh DESTDIR="`pwd`" --all \
-  -W xaudio2-revert \
-  -W xaudio2_CommitChanges \
-  -W xaudio2_7-CreateFX-FXEcho \
-  -W xaudio2_7-WMA_support
+patches/patchinstall.sh DESTDIR="`pwd`" --all
 
 # fix parallelized build
 sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
@@ -745,6 +741,18 @@ touch %{buildroot}%{_bindir}/wine
 touch %{buildroot}%{_bindir}/wine-preloader
 %endif
 touch %{buildroot}%{_bindir}/wineserver
+mv %{buildroot}%{_libdir}/wine/dxgi.dll.so %{buildroot}%{_libdir}/wine/wine-dxgi.dll.so
+mv %{buildroot}%{_libdir}/wine/d3d9.%{winedll} %{buildroot}%{_libdir}/wine/wine-d3d9.%{winedll}
+mv %{buildroot}%{_libdir}/wine/d3d10.%{winedll} %{buildroot}%{_libdir}/wine/wine-d3d10.%{winedll}
+mv %{buildroot}%{_libdir}/wine/d3d10_1.%{winedll} %{buildroot}%{_libdir}/wine/wine-d3d10_1.%{winedll}
+mv %{buildroot}%{_libdir}/wine/d3d10core.%{winedll} %{buildroot}%{_libdir}/wine/wine-d3d10core.%{winedll}
+mv %{buildroot}%{_libdir}/wine/d3d11.%{winedll} %{buildroot}%{_libdir}/wine/wine-d3d11.%{winedll}
+touch %{buildroot}%{_libdir}/wine/dxgi.dll.so
+touch %{buildroot}%{_libdir}/wine/d3d9.%{winedll}
+touch %{buildroot}%{_libdir}/wine/d3d10.%{winedll}
+touch %{buildroot}%{_libdir}/wine/d3d10_1.%{winedll}
+touch %{buildroot}%{_libdir}/wine/d3d10core.%{winedll}
+touch %{buildroot}%{_libdir}/wine/d3d11.%{winedll}
 
 # remove rpath
 chrpath --delete %{buildroot}%{_bindir}/wmc
@@ -1004,6 +1012,16 @@ fi
   wineserver %{_bindir}/wineserver32 10
 %endif
 %endif
+%{_sbindir}/alternatives --install %{_libdir}/wine/dxgi.dll.so \
+  wine-dxgi %{_libdir}/wine/wine-dxgi.dll.so 10
+%{_sbindir}/alternatives --install %{_libdir}/wine/d3d9.%{winedll} \
+  wine-d3d9 %{_libdir}/wine/wine-d3d9.%{winedll} 10
+%{_sbindir}/alternatives --install %{_libdir}/wine/d3d10.%{winedll} \
+  wine-d3d10 %{_libdir}/wine/wine-d3d10.%{winedll} 10 \
+  --slave  %{_libdir}/wine/d3d10_1.%{winedll} wine-d3d10_1 %{_libdir}/wine/wine-d3d10_1.%{winedll} \
+  --slave  %{_libdir}/wine/d3d10core.%{winedll} wine-d3d10core %{_libdir}/wine/wine-d3d10core.%{winedll}
+%{_sbindir}/alternatives --install %{_libdir}/wine/d3d11.%{winedll} \
+  wine-d3d11 %{_libdir}/wine/wine-d3d11.%{winedll} 10
 
 %postun core
 %{?ldconfig}
@@ -1015,6 +1033,10 @@ if [ $1 -eq 0 ] ; then
   %{_sbindir}/alternatives --remove wine %{_bindir}/wine32
   %{_sbindir}/alternatives --remove wineserver %{_bindir}/wineserver32
 %endif
+  %{_sbindir}/alternatives --remove wine-dxgi %{_libdir}/wine/wine-dxgi.dll.so
+  %{_sbindir}/alternatives --remove wine-d3d9 %{_libdir}/wine/wine-d3d9.%{winedll}
+  %{_sbindir}/alternatives --remove wine-d3d10 %{_libdir}/wine/wine-d3d10.%{winedll}
+  %{_sbindir}/alternatives --remove wine-d3d11 %{_libdir}/wine/wine-d3d11.%{winedll}
 fi
 
 %ldconfig_scriptlets ldap
@@ -1427,7 +1449,11 @@ fi
 %{_libdir}/wine/d3d10.%{winedll}
 %{_libdir}/wine/d3d10_1.%{winedll}
 %{_libdir}/wine/d3d10core.%{winedll}
+%{_libdir}/wine/wine-d3d10.%{winedll}
+%{_libdir}/wine/wine-d3d10_1.%{winedll}
+%{_libdir}/wine/wine-d3d10core.%{winedll}
 %{_libdir}/wine/d3d11.%{winedll}
+%{_libdir}/wine/wine-d3d11.%{winedll}
 %{_libdir}/wine/d3d12.dll.so
 %{_libdir}/wine/d3dcompiler_*.%{winedll}
 %{_libdir}/wine/d3dim.%{winedll}
@@ -1449,6 +1475,7 @@ fi
 %{_libdir}/wine/difxapi.%{winedll}
 %{_libdir}/wine/dinput.dll.so
 %{_libdir}/wine/dinput8.dll.so
+%{_libdir}/wine/directmanipulation.%{winedll}
 %{_libdir}/wine/dispex.%{winedll}
 %{_libdir}/wine/dmband.%{winedll}
 %{_libdir}/wine/dmcompos.%{winedll}
@@ -1477,13 +1504,14 @@ fi
 %{_libdir}/wine/dx8vb.%{winedll}
 %{_libdir}/wine/dxdiagn.%{winedll}
 %{_libdir}/wine/dxgi.dll.so
+%{_libdir}/wine/wine-dxgi.dll.so
 %if 0%{?wine_staging}
-%{_libdir}/wine/dxgkrnl.sys.so
-%{_libdir}/wine/dxgmms1.sys.so
+%{_libdir}/wine/dxgkrnl.%{winesys}
+%{_libdir}/wine/dxgmms1.%{winesys}
 %endif
 %{_libdir}/wine/dxva2.dll.so
 %{_libdir}/wine/esent.%{winedll}
-%{_libdir}/wine/evr.dll.so
+%{_libdir}/wine/evr.%{winedll}
 %{_libdir}/wine/explorerframe.%{winedll}
 %{_libdir}/wine/ext-ms-win-authz-context-l1-1-0.%{winedll}
 %{_libdir}/wine/ext-ms-win-domainjoin-netjoin-l1-1-0.%{winedll}
@@ -1633,6 +1661,7 @@ fi
 %{_libdir}/wine/msasn1.%{winedll}
 %{_libdir}/wine/mscat32.%{winedll}
 %{_libdir}/wine/mscoree.%{winedll}
+%{_libdir}/wine/mscorwks.%{winedll}
 %{_libdir}/wine/msctf.%{winedll}
 %{_libdir}/wine/msctfp.%{winedll}
 %{_libdir}/wine/msdaps.%{winedll}
@@ -1740,7 +1769,7 @@ fi
 %{_libdir}/wine/psapi.%{winedll}
 %{_libdir}/wine/pstorec.%{winedll}
 %{_libdir}/wine/qcap.dll.so
-%{_libdir}/wine/qedit.dll.so
+%{_libdir}/wine/qedit.%{winedll}
 %{_libdir}/wine/qmgr.%{winedll}
 %{_libdir}/wine/qmgrprxy.%{winedll}
 %{_libdir}/wine/quartz.dll.so
@@ -1842,7 +1871,7 @@ fi
 %{_libdir}/wine/wiaservc.%{winedll}
 %{_libdir}/wine/wimgapi.%{winedll}
 %if 0%{?wine_staging}
-%{_libdir}/wine/win32k.sys.so
+%{_libdir}/wine/win32k.%{winesys}
 %endif
 %{_libdir}/wine/windowscodecs.dll.so
 %{_libdir}/wine/windowscodecsext.%{winedll}
@@ -1888,13 +1917,14 @@ fi
 %{_libdir}/wine/wuapi.%{winedll}
 %{_libdir}/wine/wuaueng.%{winedll}
 %if 0%{?wine_staging}
-%{_libdir}/wine/wuauserv.exe.so
+%{_libdir}/wine/wuauserv.%{wineexe}
 %endif
 %{_libdir}/wine/security.%{winedll}
 %{_libdir}/wine/sfc.%{winedll}
 %{_libdir}/wine/wineps.%{winedrv}
 %{_libdir}/wine/d3d8.%{winedll}
 %{_libdir}/wine/d3d9.%{winedll}
+%{_libdir}/wine/wine-d3d9.%{winedll}
 %{_libdir}/wine/opengl32.dll.so
 %{_libdir}/wine/wined3d.dll.so
 %{_libdir}/wine/dnsapi.dll.so
@@ -2017,6 +2047,7 @@ fi
 %dir %{_datadir}/wine/mono
 %dir %{_datadir}/wine/fonts
 %{_datadir}/wine/wine.inf
+%{_datadir}/wine/winebus.inf
 %{_datadir}/wine/winehid.inf
 %{_datadir}/wine/l_intl.nls
 
@@ -2222,6 +2253,10 @@ fi
 %endif
 
 %changelog
+* Sun Aug 04 2019 Michael Cronenworth <mike@cchtml.com> 4.13-1
+- version update
+- add alternatives for d3d dlls to play with dxvk
+
 * Sat Jul 27 2019 Fedora Release Engineering <releng@fedoraproject.org> - 4.12.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
