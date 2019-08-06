@@ -40,7 +40,7 @@
 
 Name:           wine
 Version:        4.13
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -1446,13 +1446,13 @@ fi
 %{_libdir}/wine/ctapi32.dll.so
 %{_libdir}/wine/ctl3d32.%{winedll}
 %{_libdir}/wine/d2d1.%{winedll}
-%{_libdir}/wine/d3d10.%{winedll}
-%{_libdir}/wine/d3d10_1.%{winedll}
-%{_libdir}/wine/d3d10core.%{winedll}
+%ghost %{_libdir}/wine/d3d10.%{winedll}
+%ghost %{_libdir}/wine/d3d10_1.%{winedll}
+%ghost %{_libdir}/wine/d3d10core.%{winedll}
 %{_libdir}/wine/wine-d3d10.%{winedll}
 %{_libdir}/wine/wine-d3d10_1.%{winedll}
 %{_libdir}/wine/wine-d3d10core.%{winedll}
-%{_libdir}/wine/d3d11.%{winedll}
+%ghost %{_libdir}/wine/d3d11.%{winedll}
 %{_libdir}/wine/wine-d3d11.%{winedll}
 %{_libdir}/wine/d3d12.dll.so
 %{_libdir}/wine/d3dcompiler_*.%{winedll}
@@ -1503,7 +1503,7 @@ fi
 %{_libdir}/wine/dwrite.dll.so
 %{_libdir}/wine/dx8vb.%{winedll}
 %{_libdir}/wine/dxdiagn.%{winedll}
-%{_libdir}/wine/dxgi.dll.so
+%ghost %{_libdir}/wine/dxgi.dll.so
 %{_libdir}/wine/wine-dxgi.dll.so
 %if 0%{?wine_staging}
 %{_libdir}/wine/dxgkrnl.%{winesys}
@@ -1923,7 +1923,7 @@ fi
 %{_libdir}/wine/sfc.%{winedll}
 %{_libdir}/wine/wineps.%{winedrv}
 %{_libdir}/wine/d3d8.%{winedll}
-%{_libdir}/wine/d3d9.%{winedll}
+%ghost %{_libdir}/wine/d3d9.%{winedll}
 %{_libdir}/wine/wine-d3d9.%{winedll}
 %{_libdir}/wine/opengl32.dll.so
 %{_libdir}/wine/wined3d.dll.so
@@ -2253,6 +2253,9 @@ fi
 %endif
 
 %changelog
+* Mon Aug 05 2019 Michael Cronenworth <mike@cchtml.com> 4.13-2
+- fix alternatives for d3d dlls
+
 * Sun Aug 04 2019 Michael Cronenworth <mike@cchtml.com> 4.13-1
 - version update
 - add alternatives for d3d dlls to play with dxvk
