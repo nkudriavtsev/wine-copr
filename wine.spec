@@ -1013,15 +1013,15 @@ fi
 %endif
 %endif
 %{_sbindir}/alternatives --install %{_libdir}/wine/dxgi.dll.so \
-  wine-dxgi%{?_isa} %{_libdir}/wine/wine-dxgi.dll.so 10
+  'wine-dxgi%{?_isa}' %{_libdir}/wine/wine-dxgi.dll.so 10
 %{_sbindir}/alternatives --install %{_libdir}/wine/d3d9.%{winedll} \
-  wine-d3d9%{?_isa} %{_libdir}/wine/wine-d3d9.%{winedll} 10
+  'wine-d3d9%{?_isa}' %{_libdir}/wine/wine-d3d9.%{winedll} 10
 %{_sbindir}/alternatives --install %{_libdir}/wine/d3d10.%{winedll} \
-  wine-d3d10%{?_isa} %{_libdir}/wine/wine-d3d10.%{winedll} 10 \
+  'wine-d3d10%{?_isa}' %{_libdir}/wine/wine-d3d10.%{winedll} 10 \
   --slave  %{_libdir}/wine/d3d10_1.%{winedll} wine-d3d10_1 %{_libdir}/wine/wine-d3d10_1.%{winedll} \
   --slave  %{_libdir}/wine/d3d10core.%{winedll} wine-d3d10core %{_libdir}/wine/wine-d3d10core.%{winedll}
 %{_sbindir}/alternatives --install %{_libdir}/wine/d3d11.%{winedll} \
-  wine-d3d11%{?_isa} %{_libdir}/wine/wine-d3d11.%{winedll} 10
+  'wine-d3d11%{?_isa}' %{_libdir}/wine/wine-d3d11.%{winedll} 10
 
 %postun core
 %{?ldconfig}
@@ -1033,10 +1033,10 @@ if [ $1 -eq 0 ] ; then
   %{_sbindir}/alternatives --remove wine %{_bindir}/wine32
   %{_sbindir}/alternatives --remove wineserver %{_bindir}/wineserver32
 %endif
-  %{_sbindir}/alternatives --remove wine-dxgi%{?_isa} %{_libdir}/wine/wine-dxgi.dll.so
-  %{_sbindir}/alternatives --remove wine-d3d9%{?_isa} %{_libdir}/wine/wine-d3d9.%{winedll}
-  %{_sbindir}/alternatives --remove wine-d3d10%{?_isa} %{_libdir}/wine/wine-d3d10.%{winedll}
-  %{_sbindir}/alternatives --remove wine-d3d11%{?_isa} %{_libdir}/wine/wine-d3d11.%{winedll}
+  %{_sbindir}/alternatives --remove 'wine-dxgi%{?_isa}' %{_libdir}/wine/wine-dxgi.dll.so
+  %{_sbindir}/alternatives --remove 'wine-d3d9%{?_isa}' %{_libdir}/wine/wine-d3d9.%{winedll}
+  %{_sbindir}/alternatives --remove 'wine-d3d10%{?_isa}' %{_libdir}/wine/wine-d3d10.%{winedll}
+  %{_sbindir}/alternatives --remove 'wine-d3d11%{?_isa}' %{_libdir}/wine/wine-d3d11.%{winedll}
 fi
 
 %ldconfig_scriptlets ldap
