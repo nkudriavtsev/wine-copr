@@ -40,7 +40,7 @@
 
 Name:           wine
 Version:        4.13
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -1018,8 +1018,8 @@ fi
   'wine-d3d9%{?_isa}' %{_libdir}/wine/wine-d3d9.%{winedll} 10
 %{_sbindir}/alternatives --install %{_libdir}/wine/d3d10.%{winedll} \
   'wine-d3d10%{?_isa}' %{_libdir}/wine/wine-d3d10.%{winedll} 10 \
-  --slave  %{_libdir}/wine/d3d10_1.%{winedll} wine-d3d10_1 %{_libdir}/wine/wine-d3d10_1.%{winedll} \
-  --slave  %{_libdir}/wine/d3d10core.%{winedll} wine-d3d10core %{_libdir}/wine/wine-d3d10core.%{winedll}
+  --slave  %{_libdir}/wine/d3d10_1.%{winedll} 'wine-d3d10_1%{?_isa}' %{_libdir}/wine/wine-d3d10_1.%{winedll} \
+  --slave  %{_libdir}/wine/d3d10core.%{winedll} 'wine-d3d10core%{?_isa}' %{_libdir}/wine/wine-d3d10core.%{winedll}
 %{_sbindir}/alternatives --install %{_libdir}/wine/d3d11.%{winedll} \
   'wine-d3d11%{?_isa}' %{_libdir}/wine/wine-d3d11.%{winedll} 10
 
@@ -2253,6 +2253,9 @@ fi
 %endif
 
 %changelog
+* Wed Aug 07 2019 Michael Cronenworth <mike@cchtml.com> 4.13-3
+- fix slave alternatives for d3d dlls
+
 * Mon Aug 05 2019 Michael Cronenworth <mike@cchtml.com> 4.13-2
 - fix alternatives for d3d dlls
 
