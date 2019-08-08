@@ -40,7 +40,7 @@
 
 Name:           wine
 Version:        4.13
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -992,6 +992,13 @@ fi
 %ldconfig_post core
 
 %posttrans core
+# handle upgrades for a few package updates
+rm -f %{_libdir}/wine/wine-dxgi.dll.so
+rm -f %{_libdir}/wine/wine-d3d9.%{winedll}
+rm -f %{_libdir}/wine/wine-d3d10.%{winedll}
+rm -f %{_libdir}/wine/wine-d3d10_1.%{winedll}
+rm -f %{_libdir}/wine/wine-d3d10core.%{winedll}
+rm -f %{_libdir}/wine/wine-d3d11.%{winedll}
 %ifarch x86_64 aarch64
 %{_sbindir}/alternatives --install %{_bindir}/wine \
   wine %{_bindir}/wine64 10 \
@@ -2253,6 +2260,9 @@ fi
 %endif
 
 %changelog
+* Thu Aug 08 2019 Michael Cronenworth <mike@cchtml.com> 4.13-4
+- support upgrades in new alternatives
+
 * Wed Aug 07 2019 Michael Cronenworth <mike@cchtml.com> 4.13-3
 - fix slave alternatives for d3d dlls
 
