@@ -39,8 +39,8 @@
 %endif
 
 Name:           wine
-Version:        4.13
-Release:        5%{?dist}
+Version:        4.14
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -1076,7 +1076,7 @@ fi
 %doc documentation/README.*
 %if 0%{?wine_staging}
 %{_bindir}/msidb
-%{_libdir}/wine/runas.exe.so
+%{_libdir}/wine/runas.%{wineexe}
 %endif
 %{_bindir}/winedump
 %{_libdir}/wine/explorer.%{wineexe}
@@ -1097,7 +1097,7 @@ fi
 %{_libdir}/wine/winver.exe.so
 %{_libdir}/wine/wordpad.%{wineexe}
 %{_libdir}/wine/write.%{wineexe}
-%{_libdir}/wine/wusa.exe.so
+%{_libdir}/wine/wusa.%{wineexe}
 
 %ifarch %{ix86} %{arm}
 %{_bindir}/wine32
@@ -1141,7 +1141,7 @@ fi
 %{_libdir}/wine/fc.%{wineexe}
 %{_libdir}/wine/find.%{wineexe}
 %{_libdir}/wine/findstr.%{wineexe}
-%{_libdir}/wine/fsutil.exe.so
+%{_libdir}/wine/fsutil.%{wineexe}
 %{_libdir}/wine/hostname.%{wineexe}
 %{_libdir}/wine/ipconfig.%{wineexe}
 %{_libdir}/wine/winhlp32.%{wineexe}
@@ -1195,7 +1195,7 @@ fi
 %{_libdir}/wine/advapi32.dll.so
 %{_libdir}/wine/advpack.%{winedll}
 %{_libdir}/wine/amsi.%{winedll}
-%{_libdir}/wine/amstream.dll.so
+%{_libdir}/wine/amstream.%{winedll}
 %{_libdir}/wine/api-ms-win-appmodel-identity-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-appmodel-runtime-l1-1-1.%{winedll}
 %{_libdir}/wine/api-ms-win-appmodel-runtime-l1-1-2.%{winedll}
@@ -1779,7 +1779,7 @@ fi
 %{_libdir}/wine/qedit.%{winedll}
 %{_libdir}/wine/qmgr.%{winedll}
 %{_libdir}/wine/qmgrprxy.%{winedll}
-%{_libdir}/wine/quartz.dll.so
+%{_libdir}/wine/quartz.%{winedll}
 %{_libdir}/wine/query.%{winedll}
 %{_libdir}/wine/qwave.%{winedll}
 %{_libdir}/wine/rasapi32.%{winedll}
@@ -1854,6 +1854,7 @@ fi
 %{_libdir}/wine/usbd.%{winesys}
 %{_libdir}/wine/user32.dll.so
 %{_libdir}/wine/usp10.%{winedll}
+%{_libdir}/wine/utildll.%{winedll}
 %{_libdir}/wine/uxtheme.dll.so
 %{_libdir}/wine/userenv.%{winedll}
 %{_libdir}/wine/vbscript.%{winedll}
@@ -1908,6 +1909,7 @@ fi
 %{_libdir}/wine/wintrust.%{winedll}
 %{_libdir}/wine/winusb.%{winedll}
 %{_libdir}/wine/wlanapi.%{winedll}
+%{_libdir}/wine/wlanui.%{winedll}
 %{_libdir}/wine/wmphoto.%{winedll}
 %{_libdir}/wine/wnaspi32.dll.so
 %if 0%{?wine_staging}
@@ -2260,6 +2262,9 @@ fi
 %endif
 
 %changelog
+* Mon Aug 19 2019 Michael Cronenworth <mike@cchtml.com> 4.14-1
+- version update
+
 * Sun Aug 11 2019 Michael Cronenworth <mike@cchtml.com> 4.13-5
 - remove correct dlls on upgrade
 
