@@ -39,8 +39,8 @@
 %endif
 
 Name:           wine
-Version:        4.14
-Release:        2%{?dist}
+Version:        4.15
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -1597,6 +1597,7 @@ fi
 %{_libdir}/wine/hidclass.%{winesys}
 %{_libdir}/wine/hlink.%{winedll}
 %{_libdir}/wine/hnetcfg.%{winedll}
+%{_libdir}/wine/http.%{winesys}
 %{_libdir}/wine/httpapi.%{winedll}
 %{_libdir}/wine/icacls.%{wineexe}
 %{_libdir}/wine/iccvid.%{winedll}
@@ -1649,6 +1650,7 @@ fi
 %{_libdir}/wine/mf.%{winedll}
 %{_libdir}/wine/mf3216.%{winedll}
 %{_libdir}/wine/mferror.%{winedll}
+%{_libdir}/wine/mfmediaengine.%{winedll}
 %{_libdir}/wine/mfplat.%{winedll}
 %{_libdir}/wine/mfplay.%{winedll}
 %{_libdir}/wine/mfreadwrite.%{winedll}
@@ -1785,6 +1787,7 @@ fi
 %{_libdir}/wine/rasapi32.%{winedll}
 %{_libdir}/wine/rasdlg.%{winedll}
 %{_libdir}/wine/regapi.%{winedll}
+%{_libdir}/wine/regini.%{wineexe}
 %{_libdir}/wine/resutils.%{winedll}
 %{_libdir}/wine/riched20.%{winedll}
 %{_libdir}/wine/riched32.%{winedll}
@@ -2262,6 +2265,9 @@ fi
 %endif
 
 %changelog
+* Sun Sep 01 2019 Michael Cronenworth <mike@cchtml.com> 4.15-1
+- version update
+
 * Mon Aug 19 2019 Michael Cronenworth <mike@cchtml.com> 4.14-2
 - sync wine-mono version
 
