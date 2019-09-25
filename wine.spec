@@ -1,14 +1,37 @@
-%define no64bit 0
-Name:		wine
-Version:	1.3.1
-Release:	1%{?dist}
-Summary:	A Windows 16/32/64 bit emulator
+# Compiling the preloader fails with hardening enabled
+%undefine _hardened_build
 
-Group:		Applications/Emulators
-License:	LGPLv2+
-URL:		http://www.winehq.org/
-Source0:        http://ibiblio.org/pub/linux/system/emulators/wine/wine-1.3.1.tar.bz2
-Source1:	wine.init
+%global no64bit   0
+%global winegecko 2.47
+%global winemono  4.7.5
+#global _default_patch_fuzz 2
+
+# build with wine-staging patches, see:  https://github.com/wine-staging/wine-staging
+%if 0%{?fedora}
+%global wine_staging 0
+%endif # 0%{?fedora}
+
+# binfmt macros for RHEL
+%if 0%{?rhel} == 7
+%global _binfmtdir /usr/lib/binfmt.d
+%global binfmt_apply() \
+/usr/lib/systemd/systemd-binfmt  %{?*} >/dev/null 2>&1 || : \
+%{nil}
+%endif
+
+Name:           wine
+Version:        4.0.2
+Release:        1%{?dist}
+Summary:        A compatibility layer for windows applications
+
+Group:          Applications/Emulators
+License:        LGPLv2+
+URL:            https://www.winehq.org/
+Source0:        https://dl.winehq.org/wine/source/4.0/wine-%{version}.tar.xz
+Source10:       https://dl.winehq.org/wine/source/4.0/wine-%{version}.tar.xz.sign
+
+Source1:        wine.init
+Source2:        wine.systemd
 Source3:        wine-README-Fedora
 Source4:        wine-32.conf
 Source5:        wine-64.conf
@@ -57,7 +80,11 @@ Patch1000:      wine-gecko.patch
 Buildroot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if !%{?no64bit}
-ExclusiveArch:  %{ix86} x86_64
+# aarch64 now requires clang >= 5
+# https://bugzilla.redhat.com/show_bug.cgi?id=1629910
+# Vulkan support is missing in RHEL7+ for aarch64
+%if 0%{?rhel} >= 7
+ExclusiveArch:  %{ix86} x86_64 %{arm}
 %else
 ExclusiveArch:  %{ix86}
 %endif
@@ -67,8 +94,6 @@ BuildRequires:  flex
 BuildRequires:  autoconf
 BuildRequires:  desktop-file-utils
 BuildRequires:  alsa-lib-devel
-BuildRequires:  audiofile-devel
-BuildRequires:  esound-devel
 BuildRequires:  freeglut-devel
 BuildRequires:  lcms-devel
 BuildRequires:  libieee1284-devel
@@ -88,9 +113,10 @@ BuildRequires:  sane-backends-devel
 BuildRequires:  zlib-devel
 BuildRequires:  fontforge freetype-devel
 BuildRequires:  libgphoto2-devel
-BuildRequires:  jack-audio-connection-kit-devel
-# #217338
+%if 0%{?rhel} < 7
 BuildRequires:  isdn4k-utils-devel
+%endif
+BuildRequires:  libpcap-devel
 # modular x
 BuildRequires:  libX11-devel
 BuildRequires:  mesa-libGL-devel mesa-libGLU-devel
@@ -1298,6 +1324,824 @@ update-desktop-database &>/dev/null || :
 %endif
 
 %changelog
+* Wed Sep 25 2019 Michael Cronenworth <mike@cchtml.com> 4.0.2-1
+- version update
+
+* Fri Feb 22 2019 Michael Cronenworth <mike@cchtml.com> 4.0-2
+- fix vulkan requirement
+
+* Tue Feb 19 2019 Michael Cronenworth <mike@cchtml.com> 4.0-1
+- version update
+
+* Thu Sep 13 2018 Michael Cronenworth <mike@cchtml.com> 3.0.3-1
+- version update
+- drop aarch64 for epel
+
+* Tue Jun 26 2018 Michael Cronenworth <mike@cchtml.com> 3.0.2-1
+- version update
+
+* Mon May 14 2018 Michael Cronenworth <mike@cchtml.com> 3.0.1-1
+- version update
+
+* Thu May 10 2018 Michael Cronenworth <mike@cchtml.com> 3.0-2
+- Rebuild for libgphoto2 (rhbz#1568368)
+
+* Sat Mar 03 2018 Michael Cronenworth <mike@cchtml.com> 3.0-1
+- version update
+
+* Wed Dec 20 2017 Michael Cronenworth <mike@cchtml.com> 2.0.3-2
+- Install desktop icons (rhbz#1527942)
+
+* Mon Dec 18 2017 Michael Cronenworth <mike@cchtml.com> 2.0.3-1
+- version update
+
+* Mon Dec 19 2016 Michael Cronenworth <mike@cchtml.com> 1.8.6-1
+- version upgrade
+
+* Mon Nov 07 2016 Michael Cronenworth <mike@cchtml.com> 1.8.5-2
+- remove old cruft and fix scriptlets (rhbz#1314762)
+- add hard dependency on cups-libs (rhbz#1367537)
+
+* Fri Oct 07 2016 Michael Cronenworth <mike@cchtml.com> 1.8.5-1
+- version upgrade
+
+* Fri Sep 09 2016 Michael Cronenworth <mike@cchtml.com> 1.8.4-1
+- version upgrade
+
+* Fri Jun 17 2016 Michael Cronenworth <mike@cchtml.com> 1.8.3-1
+- version upgrade
+
+* Tue Apr 19 2016 Michael Cronenworth <mike@cchtml.com> 1.8.2-1
+- version upgrade
+
+* Wed Feb 03 2016 Michael Cronenworth <mike@cchtml.com> 1.8.1-1
+- version upgrade
+
+* Wed Dec 23 2015 Michael Cronenworth <mike@cchtml.com> 1.8-1
+- version upgrade
+
+* Tue Dec 15 2015 Michael Cronenworth <mike@cchtml.com> 1.8-0.2
+- version upgrade, 1.8-rc4
+- enabling compiler optimizations again (-O2), thanks to gcc 5.3
+
+* Sun Dec 06 2015 Michael Cronenworth <mike@cchtml.com> 1.8-0.1
+- version upgrade, 1.8-rc3
+
+* Sun Nov 15 2015 Michael Cronenworth <mike@cchtml.com> 1.7.55-1
+- version upgrade
+
+* Wed Nov 04 2015 Michael Cronenworth <mike@cchtml.com> 1.7.54-1
+- version upgrade
+
+* Wed Oct 21 2015 Michael Cronenworth <mike@cchtml.com> 1.7.53-1
+- version upgrade
+
+* Sat Oct 03 2015 Michael Cronenworth <mike@cchtml.com> 1.7.52-1
+- version upgrade
+
+* Tue Sep 08 2015 Michael Cronenworth <mike@cchtml.com> 1.7.51-1
+- version upgrade
+
+* Mon Aug 24 2015 Michael Cronenworth <mike@cchtml.com> 1.7.50-1
+- version upgrade
+
+* Fri Aug 14 2015 Michael Cronenworth <mike@cchtml.com> 1.7.49-2
+- backport gecko 2.40 patch
+
+* Fri Aug 14 2015 Michael Cronenworth <mike@cchtml.com> 1.7.49-1
+- version upgrade
+
+* Mon Aug 10 2015 Björn Esser <bjoern.esser@gmail.com> - 1.7.48-2
+- rebuilt for mingw-wine-gecko-2.40
+
+* Fri Jul 31 2015 Michael Cronenworth <mike@cchtml.com> 1.7.48-1
+- version upgrade
+
+* Sun Jul 12 2015 Michael Cronenworth <mike@cchtml.com> 1.7.47-1
+- version upgrade
+
+* Mon Jun 29 2015 Michael Cronenworth <mike@cchtml.com> 1.7.46-1
+- version upgrade
+
+* Fri Jun 19 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.7.45-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
+* Sun Jun 14 2015 Michael Cronenworth <mike@cchtml.com> 1.7.45-1
+- version upgrade
+
+* Sun May 31 2015 Michael Cronenworth <mike@cchtml.com> 1.7.44-1
+- version upgrade
+
+* Mon May 18 2015 Michael Cronenworth <mike@cchtml.com> 1.7.43-1
+- version upgrade
+
+* Mon May 04 2015 Michael Cronenworth <mike@cchtml.com> 1.7.42-1
+- version upgrade
+
+* Sat Apr 18 2015 Michael Cronenworth <mike@cchtml.com> 1.7.41-1
+- version upgrade
+- Disable gstreamer support (rhbz#1204185)
+
+* Mon Apr 06 2015 Michael Cronenworth <mike@cchtml.com> 1.7.40-1
+- version upgrade
+
+* Sun Mar 22 2015 Michael Cronenworth <mike@cchtml.com> 1.7.39-1
+- version upgrade
+- Enable some optimizations and workarounds for GCC5 regressions
+
+* Tue Mar 10 2015 Adam Jackson <ajax@redhat.com> 1.7.38-3
+- Drop sysvinit subpackage on F23+
+
+* Sat Mar 07 2015 Michael Cronenworth <mike@cchtml.com> - 1.7.38-2
+- Fix wine-gecko and wine-mono versions
+
+* Sat Mar 07 2015 Michael Cronenworth <mike@cchtml.com> - 1.7.38-1
+- version upgrade
+
+* Sun Feb 22 2015 Andreas Bierfert <andreas.bierfert@lowlatency.de>
+- 1.7.37-1
+- version upgrade
+
+* Mon Feb 16 2015 Michael Cronenworth <mike@cchtml.com> - 1.7.36-2
+- Patch for RtlUnwindEx fix (staging bz #68)
+- Use new systemd macros for binfmt handling
+
+* Sun Feb 08 2015 Michael Cronenworth <mike@cchtml.com> - 1.7.36-1
+- version upgrade
+
+* Wed Feb 04 2015 Orion Poplawski <orion@cora.nwra.com> - 1.7.35-3
+- Add patch to fix stack smashing (bug #1110419)
+
+* Mon Jan 26 2015 Michael Cronenworth <mike@cchtml.com> - 1.7.35-2
+- Rebuild (libgphoto2)
+
+* Sun Jan 25 2015 Michael Cronenworth <mike@cchtml.com> - 1.7.35-1
+- version upgrade
+- use alternatives system, remove wow sub-package
+
+* Tue Jan 20 2015 Peter Robinson <pbrobinson@fedoraproject.org> 1.7.34-2
+- Rebuild (libgphoto2)
+
+* Sat Jan 10 2015 Michael Cronenworth <mike@cchtml.com>
+- 1.7.34-1
+- version upgrade
+- enable OpenCL support (rhbz#1176605)
+
+* Sun Dec 14 2014 Michael Cronenworth <mike@cchtml.com>
+- 1.7.33-1
+- version upgrade
+
+* Sun Nov 30 2014 Michael Cronenworth <mike@cchtml.com>
+- 1.7.32-1
+- version upgrade
+- wine-mono upgrade
+
+* Fri Nov 14 2014 Andreas Bierfert <andreas.bierfert@lowlatency.de>
+- 1.7.31-1
+- version upgrade
+- wine-gecko upgrade
+- add some missing arch requires
+
+* Sun Nov 02 2014 Andreas Bierfert <andreas.bierfert@lowlatency.de>
+- 1.7.30-1
+- version upgrade (rhbz#1159548)
+- use winepulse patch from compholio patchset when build w/o
+  compholio (rhbz#1151862)
+
+* Fri Oct 24 2014 Michael Cronenworth <mike@cchtml.com>
+- 1.7.29-1
+- version upgrade
+
+* Sun Oct 05 2014 Michael Cronenworth <mike@cchtml.com>
+- 1.7.28-1
+- version upgrade
+- New sub-package for wingdings font system integration
+
+* Wed Sep 24 2014 Michael Cronenworth <mike@cchtml.com>
+- 1.7.27-1
+- version upgrade
+
+* Mon Sep 08 2014 Michael Cronenworth <mike@cchtml.com>
+- 1.7.26-1
+- version upgrade
+
+* Sun Aug 24 2014 Michael Cronenworth <mike@cchtml.com>
+- 1.7.25-1
+- version upgrade
+
+* Mon Aug 18 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.7.24-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+
+* Fri Aug 15 2014 Michael Cronenworth <mike@cchtml.com>
+- 1.7.24-1
+- version upgrade
+- No longer install Wine fonts into system directory (rhbz#1039763)
+
+* Thu Jul 17 2014 Björn Esser <bjoern.esser@gmail.com> - 1.7.22-4
+- prevent accidential build with compholio-patchset on EPEL
+- rebuild for pulseaudio (bug #1117683)
+
+* Mon Jul 14 2014 Björn Esser <bjoern.esser@gmail.com> - 1.7.22-3
+- dropped virtual Provides: %%{name}(compholio)
+
+* Sat Jul 12 2014 Björn Esser <bjoern.esser@gmail.com> - 1.7.22-2
+- added conditionalized option to build with compholio-patchset for pipelight
+  Source900 -- compholio-patchset, wine-arial-fonts sub-package,
+  BR: libattr-devel and configure --with-xattr for Silverlight DRM-stuff
+
+* Fri Jul 11 2014 Michael Cronenworth <mike@cchtml.com>
+- 1.7.22-1
+- version upgrade
+
+* Wed Jul 09 2014 Michael Cronenworth <mike@cchtml.com>
+- 1.7.21-2
+- Fixes for EPEL7 (rhbz#1117422)
+
+* Tue Jul 01 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.21-1
+- version upgrade
+
+* Thu Jun 19 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.20-1
+- version upgrade
+
+* Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.7.19-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
+* Sun May 18 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.19-1
+- version upgrade
+
+* Sat May 10 2014 Michael Cronenworth <mike@cchtml.com>
+- 1.7.18-1
+- version upgrade
+
+* Fri Apr 25 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.17-2
+- fix systemd binfmt location (rhbz#1090170)
+
+* Tue Apr 22 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.17-1
+- version upgrade
+
+* Mon Apr 07 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.16-2
+- explicitly require libpng (fixes rhbz#1085075)
+
+* Mon Apr 07 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.16-1
+- version upgrade
+
+* Mon Mar 24 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.15-1
+- version upgrade
+
+* Sat Mar 08 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.14-1
+- version upgrade
+
+* Sun Feb 23 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.13-1
+- version upgrade
+- upgraded winepulse
+
+* Sat Feb 08 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.12-1
+- version upgrade
+
+* Sun Jan 26 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.11-1
+- version upgrade
+
+* Thu Jan 09 2014 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.10-1
+- version upgrade
+- upgraded winepulse
+
+* Sun Dec 08 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.8-1
+- version upgrade
+- wine mono 4.5.2
+- upgraded winepulse
+
+* Sat Nov 23 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.7-1
+- version upgrade
+
+* Mon Oct 28 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.5-1
+- version upgrade (rhbz#1023716)
+- upgraded winepulse
+
+* Sat Oct 12 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.4-1
+- version upgrade (rhbz#1018601)
+
+* Sat Sep 28 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.3-1
+- version upgrade (rhbz#1008441)
+- upgraded winepulse
+- wine gecko 2.24
+- fix systemd subpackage scriplet (rhbz#1010742)
+
+* Sun Sep 15 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.2-1
+- version upgrade
+- workaround for rhbz#968860
+- upgraded winepulse
+
+* Sat Aug 31 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.1-2
+- fix icons with patch provided by Frank Dana (rhbz#997543)
+- pull in mesa-dri-drivers in meta package to make direct rendering work out
+  of the box (rhbz#827776)
+- restart systemd binfmt handler on post/postun (rhbz#912354)
+- add arabic translation to fedora desktop files provided by Mosaab Alzoubi
+  (rhbz#979770)
+
+* Sat Aug 31 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.1-1
+- version upgrade
+- build with lcms2
+
+* Sat Aug 17 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.7.0-1
+- version upgrade
+- wine pulse update
+
+* Sun Aug 04 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
+* Tue Jul 23 2013 Dennis Gilmore <dennis@ausil.us> - 1.6-2
+- wine-desktop has architecture specific Requires so can not be noarch
+
+* Sat Jul 20 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.6-1
+- 1.6 release
+
+* Thu Jul 18 2013 Petr Pisar <ppisar@redhat.com> - 1.6-0.5.rc5
+- Perl 5.18 rebuild
+
+* Fri Jul 12 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.6-0.4.rc5
+- 1.6 rc5
+
+* Sat Jun 29 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.6-0.3.rc4
+- 1.6 rc4
+
+* Thu Jun 27 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.6-0.2.rc3
+- 1.6 rc3
+
+* Sun Jun 16 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.6-0.1.rc2
+- 1.6 rc2
+
+* Thu May 30 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.31-1
+- version upgrade
+- upgraded winepulse
+- wine gecko 2.21
+- wine meta: require samba-winbind-clients for ntlm
+
+* Tue May 14 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.30-1
+- version upgrade
+
+* Thu May 09 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.29-1
+- version upgrade
+
+* Sat Mar 30 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.27-1
+- version upgrade
+
+* Sun Mar 17 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.26-1
+- version upgrade
+
+* Tue Mar 05 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.25-1
+- version upgrade
+- now font package for wingdings family
+
+* Mon Feb 18 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.24-1
+- version upgrade
+
+* Sun Feb 10 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.23-1
+- version upgrade
+
+* Sun Feb 10 2013 Parag Nemade <paragn AT fedoraproject DOT org> - 1.5.22-2
+- Remove vendor tag from desktop file as per https://fedorahosted.org/fesco/ticket/1077
+- Cleanup spec as per recently changed packaging guidelines
+- fix bogus date changelog
+
+* Sat Jan 19 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.22-1
+- version upgrade
+- upgraded winepulse
+- wine gecko 1.9
+
+* Sun Jan 06 2013 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.21-1
+- version upgrade
+
+* Fri Dec 28 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.20-1
+- version upgrade
+- upgraded winepulse
+
+* Sun Dec 09 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.19-1
+- version upgrade
+- upgraded winepulse
+
+* Fri Nov 23 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.18-1
+- version upgrade
+
+* Mon Nov 12 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.17-1
+- version upgrade
+- upgraded winepulse
+
+* Sun Oct 28 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.16-1
+- version upgrade (rhbz#870611)
+- wine mono 0.8
+- update pulse patch
+- fix midi in winepulse (rhbz#863129)
+- fix dependencies for openssl (rhbz#868576)
+- move wineboot.exe.so to -core instead of -wow (rhbz#842820)
+
+* Mon Oct 15 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.15-1
+- version upgrade
+- wine gecko 1.8
+
+* Sat Sep 29 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.14-1
+- version upgrade
+
+* Sat Sep 15 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.13-1
+- version upgrade
+
+* Fri Aug 31 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.12-1
+- version upgrade
+
+* Thu Aug 30 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.11-2
+- rebuild on rawhide for fixed libOSMesa
+
+* Sat Aug 18 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.11-1
+- version upgrade
+- use changed libOSMesa check from gentoo (>f18 still fails see rhbz#849405)
+
+* Tue Jul 31 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.10-1
+- version upgrade
+- wine gecko 1.7
+
+* Sat Jul 21 2012 Peter Robinson <pbrobinson@fedoraproject.org> - 1.5.9-2
+- isdn4linux now builds on ARM
+
+* Wed Jul 18 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.9-1
+- version upgrade
+- clean up cjk patch to comply with default fonts where possible
+- update fedora readme to point out required font packages per cjk locale
+
+* Thu Jul 12 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.8-2
+- bump for libgphoto2 2.5.0
+
+* Wed Jul 04 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.8-1
+- version upgrade (rhbz#834762)
+- change {mingw-,}wine-mono require
+
+* Sun Jun 24 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.7-1
+- version upgrade (rhbz#834762)
+- require new wine-gecko version
+
+* Sat Jun 09 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.6-1
+- version upgrade (rhbz#830424)
+- split tahoma font package and add -system subpackage (rhbz#693180)
+
+* Thu May 31 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.5-2
+- fix description
+
+* Mon May 28 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.5-1
+- version upgrade (rhbz#817257)
+- split out -filesystem and clean up -common/-core requires
+- re-add winepulse driver (rhbz#821207, rhbz#783699)
+- add font replacements for CJK to wine.inf and add information for cjk users
+  to fedora readme (rhbz#815125, rhbz#820096)
+- add support for and require wine-mono
+
+* Mon May 14 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.4-1
+- version upgrade
+
+* Mon Apr 30 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.3-1
+- version upgrade
+
+* Sat Apr 21 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.2-2
+- reenable xinput2 (rhbz#801436)
+
+* Sat Apr 14 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.2-1
+- version upgrade
+
+* Sat Mar 31 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.1-1
+- version upgrade
+
+* Tue Mar 20 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.0-2
+- require wine gecko from fedora mingw
+
+* Mon Mar 19 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.5.0-1
+- version upgrade
+
+* Wed Mar 07 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.4-1
+- version upgrade
+
+* Tue Mar 06 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.4-0.8.rc6
+- version upgrade
+
+* Sat Feb 25 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.4-0.7.rc5
+- version upgrade
+
+* Tue Feb 21 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.4-0.6.rc4
+- fix dependency issue (#795295)
+
+* Sun Feb 19 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.4-0.5.rc4
+- version upgrade
+
+* Fri Feb 17 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.4-0.4.rc3
+- version upgrade
+- cleanup arm dependency fixes
+
+* Fri Feb 17 2012 Peter Robinson <pbrobinson@fedoraproject.org> - 1.4-0.3.rc2
+- Fix architecture dependencies on ARM so it installs
+
+* Thu Feb 02 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.4-0.2.rc2
+- version upgrade
+
+* Sat Jan 28 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.4-0.1.rc1
+- version upgrade
+
+* Wed Jan 25 2012 Peter Robinson <pbrobinson@fedoraproject.org> - 1.3.37-2
+- Add initial support for wine on ARM
+
+* Fri Jan 13 2012 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.37-1
+- version upgrade
+- drop obsoleted patches
+
+* Sat Dec 31 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.36-1
+- version upgrade
+
+* Mon Dec 19 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.35-1
+- version upgrade
+
+* Thu Dec 08 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.34-1
+- version upgrade
+
+* Sun Nov 20 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.33-1
+- version upgrade(rhbz#755192)
+
+* Sat Nov 05 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.32-1
+- version upgrade (rhbz#745434)
+
+* Fri Nov 04 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.31-2
+- pull in correct wine-alsa arch in the pa meta package (rhbz#737431)
+
+* Sun Oct 23 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.31-1
+- version upgrade
+
+* Mon Oct 10 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.30-1
+- version upgrade
+
+* Sat Sep 24 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.29-1
+- version upgrade
+
+* Sun Sep 11 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.28-1
+- version upgrade
+- require -alsa from -pulseaudio package for new sound api
+
+* Mon Aug 29 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.27-1
+- version upgrade
+- fix epel build (rhbz#733802)
+
+* Tue Aug 23 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.26-3
+- drop pulse configure option
+- fix f16 build (dbus/hal configure options)
+
+* Mon Aug 22 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.26-2
+- drop pulse patches
+- make pulseaudio package meta and require alsa pa plugin
+- update udisks patch
+
+* Sun Aug 07 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.26-1
+- version upgrade
+
+* Fri Jul 22 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.25-1
+- version upgrade
+- remove -jack and -esd (retired upstream)
+- rebase to Maarten Lankhorst's winepulse
+- drop obsolete winepulse readme
+- add udisks support from pending patches (winehq#21713, rhbz#712755)
+- disable xinput2 (broken)
+
+* Sun Jul 10 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.24-1
+- version upgrade
+- add sign as source10
+- drop mshtml patch (upstream)
+
+* Sun Jun 26 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.23-1
+- version upgrade
+- winepulse upgrade (0.40)
+- fix gcc optimization problem (rhbz#710352, winehq#27375)
+
+* Tue Jun 21 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.22-2
+- workaround gcc optimization problem (rhbz#710352)
+
+* Sun Jun 12 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.22-1
+- version upgrade
+
+* Sat May 28 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.21-1
+- version upgrade
+
+* Sun May 15 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.20-1
+- version upgrade
+
+* Sat Apr 30 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.19-1
+- version upgrade (#701003)
+- remove wine-oss
+- disable hal (>=f16)
+
+* Sat Apr 16 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.18-1
+- version upgrade
+
+* Thu Apr 07 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.17-3
+- add fix for office installation (upstream #26650)
+
+* Tue Apr 05 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.17-2
+- cleanup spec file
+- remove rpath via chrpath
+- convert README files to utf8
+- move SysV init script so sysvinit subpackage (>=f15)
+- add some missing lsb keywords to init file
+- create systemd subpackage and require it in the wine-desktop package (>=f15)
+- disable embedded bitmaps in tahoma (#693180)
+- provide readme how to disable wine-tahoma in fontconfig (#693180)
+
+* Sat Apr 02 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.17-1
+- version upgrade
+
+* Fri Mar 18 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.16-1
+- version upgrade
+- cleanup unneeded patches
+- drop some patches
+- reenable smp build
+
+* Thu Mar 17 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.15-3
+- reenable fonts
+
+* Sun Mar 13 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.15-2
+- use svg files for icons (#684277)
+
+* Tue Mar 08 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.15-1
+- version upgrade
+
+* Tue Mar 01 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.14-2
+- prepare for wine-gecko
+
+* Sat Feb 19 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.14-1
+- version upgrade
+
+* Mon Feb 07 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3.13-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
+* Sun Feb 06 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.13-1
+- version upgrade
+- update desktop files
+
+* Mon Jan 24 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.12-1
+- version upgrade
+
+* Sun Jan 09 2011 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.11-1
+- version upgrade
+
+* Tue Dec 28 2010 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.10-1
+- version upgrade
+
+* Sat Dec 11 2010 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.9-1
+- version upgrade
+
+* Sat Nov 27 2010 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.8-1
+- version upgrade
+- require libXcursor (#655255)
+- require wine-openal in wine meta package (#657144)
+
+* Tue Nov 16 2010 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.7-2
+- cleanup cflags a bit
+
+* Sat Nov 13 2010 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.7-1
+- version upgrade
+- fix package description (#652718)
+- compile with D_FORTIFY_SOURCE=0 for now to avoid breaking wine (#650875)
+
+* Fri Oct 29 2010 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.6-1
+- version upgrade
+- rebase winepulse configure patch
+- add gstreamer BR for new gstreamer support
+- add libtiff BR for new tiff support
+
+* Mon Oct 18 2010 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.5-1
+- version upgrade
+
+* Sun Oct 03 2010 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.4-1
+- version upgrade
+
+* Wed Sep 29 2010 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.3-2
+- winepulse upgrade (0.39)
+
+* Mon Sep 20 2010 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.3-1
+- version upgrade
+
+* Wed Sep 08 2010 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
+- 1.3.2-1
+- version upgrade
+
 * Sat Aug 21 2010 Andreas Bierfert <andreas.bierfert[AT]lowlatency.de>
 - 1.3.1-1
 - version ugprade
