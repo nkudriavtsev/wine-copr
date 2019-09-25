@@ -20,8 +20,8 @@
 %endif
 
 Name:           wine
-Version:        4.0
-Release:        2%{?dist}
+Version:        4.0.2
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -77,7 +77,8 @@ Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.
 %if !%{?no64bit}
 # aarch64 now requires clang >= 5
 # https://bugzilla.redhat.com/show_bug.cgi?id=1629910
-%if 0%{?rhel} == 7
+# Vulkan support is missing in RHEL7+ for aarch64
+%if 0%{?rhel} >= 7
 ExclusiveArch:  %{ix86} x86_64 %{arm}
 %else
 ExclusiveArch:  %{ix86} x86_64 %{arm} aarch64
@@ -92,7 +93,6 @@ BuildRequires:  gcc
 BuildRequires:  autoconf
 BuildRequires:  desktop-file-utils
 BuildRequires:  alsa-lib-devel
-BuildRequires:  audiofile-devel
 BuildRequires:  freeglut-devel
 BuildRequires:  lcms2-devel
 BuildRequires:  libieee1284-devel
@@ -117,7 +117,9 @@ BuildRequires:  systemd-devel
 BuildRequires:  zlib-devel
 BuildRequires:  fontforge freetype-devel
 BuildRequires:  libgphoto2-devel
+%if 0%{?rhel} < 7
 BuildRequires:  isdn4k-utils-devel
+%endif
 BuildRequires:  libpcap-devel
 # modular x
 BuildRequires:  libX11-devel
@@ -2210,6 +2212,9 @@ fi
 %endif
 
 %changelog
+* Wed Sep 25 2019 Michael Cronenworth <mike@cchtml.com> 4.0.2-1
+- version update
+
 * Fri Feb 22 2019 Michael Cronenworth <mike@cchtml.com> 4.0-2
 - fix vulkan requirement
 
