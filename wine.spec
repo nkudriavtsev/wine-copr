@@ -192,9 +192,7 @@ Requires:       wine-fonts = %{version}-%{release}
 %ifarch %{ix86} x86_64
 %if 0%{?fedora} || 0%{?rhel} <= 6
 Requires:       wine-core(x86-32) = %{version}-%{release}
-%if 0%{?fedora} <= 30
 Requires:       wine-capi(x86-32) = %{version}-%{release}
-%endif
 Requires:       wine-cms(x86-32) = %{version}-%{release}
 Requires:       wine-ldap(x86-32) = %{version}-%{release}
 Requires:       wine-twain(x86-32) = %{version}-%{release}
@@ -218,9 +216,7 @@ Requires:       mesa-dri-drivers(x86-32)
 # x86-64 parts
 %ifarch x86_64
 Requires:       wine-core(x86-64) = %{version}-%{release}
-%if 0%{?fedora} <= 30
 Requires:       wine-capi(x86-64) = %{version}-%{release}
-%endif
 Requires:       wine-cms(x86-64) = %{version}-%{release}
 Requires:       wine-ldap(x86-64) = %{version}-%{release}
 Requires:       wine-twain(x86-64) = %{version}-%{release}
@@ -241,9 +237,7 @@ Requires:       mesa-dri-drivers(x86-64)
 # ARM parts
 %ifarch %{arm} aarch64
 Requires:       wine-core = %{version}-%{release}
-%if 0%{?fedora} <= 30
 Requires:       wine-capi = %{version}-%{release}
-%endif
 Requires:       wine-cms = %{version}-%{release}
 Requires:       wine-ldap = %{version}-%{release}
 Requires:       wine-twain = %{version}-%{release}
@@ -259,9 +253,7 @@ Requires:       samba-winbind-clients
 # aarch64 parts
 %ifarch aarch64
 Requires:       wine-core(aarch-64) = %{version}-%{release}
-%if 0%{?fedora} <= 30
 Requires:       wine-capi(aarch-64) = %{version}-%{release}
-%endif
 Requires:       wine-cms(aarch-64) = %{version}-%{release}
 Requires:       wine-ldap(aarch-64) = %{version}-%{release}
 Requires:       wine-twain(aarch-64) = %{version}-%{release}
@@ -363,12 +355,6 @@ Requires:       libva
 # removed as of 1.7.35
 Obsoletes:      wine-wow < 1.7.35
 Provides:       wine-wow = %{version}-%{release}
-
-%if 0%{?fedora} >= 31
-# isdn4k-utils has been retired in F31+
-Obsoletes:      wine-capi
-Provides:       wine-capi = %{version}-%{release}
-%endif
 
 %description core
 Wine core package includes the basic wine stuff needed by all other packages.
@@ -626,10 +612,10 @@ Requires: sane-backends-libs
 %description twain
 Twain support for wine
 
-%if 0%{?fedora} <= 30
 %package capi
 Summary: ISDN support for wine
 Requires: wine-core = %{version}-%{release}
+%if 0%{?fedora} <= 30
 %ifarch x86_64
 Requires:       isdn4k-utils(x86-64)
 %endif
@@ -639,10 +625,10 @@ Requires:       isdn4k-utils(x86-32)
 %ifarch %{arm} aarch64
 Requires:       isdn4k-utils
 %endif
+%endif
 
 %description capi
 ISDN support for wine
-%endif
 
 %package devel
 Summary: Wine development environment
@@ -1070,9 +1056,7 @@ fi
 
 %ldconfig_scriptlets twain
 
-%if 0%{?fedora} <= 30
 %ldconfig_scriptlets capi
-%endif
 
 %ldconfig_scriptlets alsa
 
@@ -2235,11 +2219,9 @@ fi
 %{_libdir}/wine/twain_32.%{winedll}
 %{_libdir}/wine/sane.ds.so
 
-%if 0%{?fedora} <= 30
 # capi subpackage
 %files capi
 %{_libdir}/wine/capi2032.dll.so
-%endif
 
 %files devel
 %{_bindir}/function_grep.pl
@@ -2288,7 +2270,7 @@ fi
 
 %changelog
 * Thu Sep 26 2019 Michael Cronenworth <mike@cchtml.com> 4.16-2
-- Retire capi package as isdn4k-utils has been retired (RHBZ#1756118)
+- Drop isdn4k-utils BR (RHBZ#1756118)
 
 * Sat Sep 14 2019 Michael Cronenworth <mike@cchtml.com> 4.16-1
 - version update
