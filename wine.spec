@@ -39,8 +39,8 @@
 %endif
 
 Name:           wine
-Version:        4.16
-Release:        2%{?dist}
+Version:        4.17
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -1507,6 +1507,7 @@ fi
 %{_libdir}/wine/dpwsockx.%{winedll}
 %{_libdir}/wine/drmclien.%{winedll}
 %{_libdir}/wine/dsound.%{winedll}
+%{_libdir}/wine/dsdmo.%{winedll}
 %{_libdir}/wine/dsquery.%{winedll}
 %{_libdir}/wine/dssenh.%{winedll}
 %{_libdir}/wine/dswave.%{winedll}
@@ -2269,6 +2270,9 @@ fi
 %endif
 
 %changelog
+* Sat Sep 28 2019 Michael Cronenworth <mike@cchtml.com> 4.17-1
+- version update
+
 * Thu Sep 26 2019 Michael Cronenworth <mike@cchtml.com> 4.16-2
 - Drop isdn4k-utils BR (RHBZ#1756118)
 
