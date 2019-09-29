@@ -3,7 +3,7 @@
 
 %global no64bit   0
 %global winegecko 2.47
-%global winemono  4.9.2
+%global winemono  4.9.3
 #global _default_patch_fuzz 2
 %ifarch %{ix86} x86_64
 %global wineacm acm
@@ -40,7 +40,7 @@
 
 Name:           wine
 Version:        4.17
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -2270,6 +2270,9 @@ fi
 %endif
 
 %changelog
+* Sun Sep 29 2019 Michael Cronenworth <mike@cchtml.com> 4.17-2
+- sync wine-mono version
+
 * Sat Sep 28 2019 Michael Cronenworth <mike@cchtml.com> 4.17-1
 - version update
 
