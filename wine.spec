@@ -39,8 +39,8 @@
 %endif
 
 Name:           wine
-Version:        4.17
-Release:        2%{?dist}
+Version:        4.18
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -2270,6 +2270,9 @@ fi
 %endif
 
 %changelog
+* Mon Oct 21 2019 Michael Cronenworth <mike@cchtml.com> 4.18-1
+- version update
+
 * Sun Sep 29 2019 Michael Cronenworth <mike@cchtml.com> 4.17-2
 - sync wine-mono version
 
