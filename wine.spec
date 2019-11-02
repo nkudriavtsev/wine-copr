@@ -39,7 +39,7 @@
 %endif
 
 Name:           wine
-Version:        4.18
+Version:        4.19
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -65,6 +65,9 @@ Source106:      wine-winhelp.desktop
 Source107:      wine-wineboot.desktop
 Source108:      wine-wordpad.desktop
 Source109:      wine-oleview.desktop
+
+# AppData files
+Source150:      wine.appdata.xml
 
 # build fixes
 
@@ -171,6 +174,7 @@ BuildRequires:  SDL2-devel
 BuildRequires:  libvkd3d-devel
 BuildRequires:  vulkan-devel
 BuildRequires:  libFAudio-devel
+BuildRequires:  libappstream-glib
 
 # Silverlight DRM-stuff needs XATTR enabled.
 %if 0%{?wine_staging}
@@ -966,6 +970,11 @@ install -p -m 0644 loader/wine.de.UTF-8.man %{buildroot}%{_mandir}/de.UTF-8/man1
 install -p -m 0644 loader/wine.fr.UTF-8.man %{buildroot}%{_mandir}/fr.UTF-8/man1/wine.1
 mkdir -p %{buildroot}%{_mandir}/pl.UTF-8/man1
 install -p -m 0644 loader/wine.pl.UTF-8.man %{buildroot}%{_mandir}/pl.UTF-8/man1/wine.1
+
+# install and validate AppData file
+mkdir -p %{buildroot}/%{_metainfodir}/
+install -p -m 0644 %{SOURCE150} %{buildroot}/%{_metainfodir}/%{name}.appdata.xml
+appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/%{name}.appdata.xml
 
 
 %if 0%{?rhel} == 6
@@ -2193,6 +2202,7 @@ fi
 %{_datadir}/applications/wine-oleview.desktop
 %{_datadir}/desktop-directories/Wine.directory
 %config %{_sysconfdir}/xdg/menus/applications-merged/wine.menu
+%{_metainfodir}/%{name}.appdata.xml
 %if 0%{?fedora} >= 10
 %{_datadir}/icons/hicolor/scalable/apps/*svg
 %endif
@@ -2270,6 +2280,9 @@ fi
 %endif
 
 %changelog
+* Sat Nov 02 2019 Michael Cronenworth <mike@cchtml.com> 4.19-1
+- version update
+
 * Mon Oct 21 2019 Michael Cronenworth <mike@cchtml.com> 4.18-1
 - version update
 
