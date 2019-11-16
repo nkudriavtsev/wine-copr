@@ -3,7 +3,7 @@
 
 %global no64bit   0
 %global winegecko 2.47
-%global winemono  4.9.3
+%global winemono  4.9.4
 #global _default_patch_fuzz 2
 %ifarch %{ix86} x86_64
 %global wineacm acm
@@ -39,7 +39,7 @@
 %endif
 
 Name:           wine
-Version:        4.19
+Version:        4.20
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -2280,6 +2280,9 @@ fi
 %endif
 
 %changelog
+* Sat Nov 16 2019 Michael Cronenworth <mike@cchtml.com> 4.20-1
+- version and wine-mono update
+
 * Sat Nov 02 2019 Michael Cronenworth <mike@cchtml.com> 4.19-1
 - version update
 
