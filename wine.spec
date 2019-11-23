@@ -171,7 +171,6 @@ Requires:       wine-fonts = %{version}-%{release}
 %ifarch %{ix86} x86_64
 %if 0%{?fedora} || 0%{?rhel} <= 6
 Requires:       wine-core(x86-32) = %{version}-%{release}
-Requires:       wine-capi(x86-32) = %{version}-%{release}
 Requires:       wine-cms(x86-32) = %{version}-%{release}
 Requires:       wine-ldap(x86-32) = %{version}-%{release}
 Requires:       wine-twain(x86-32) = %{version}-%{release}
@@ -195,7 +194,6 @@ Requires:       mesa-dri-drivers(x86-32)
 # x86-64 parts
 %ifarch x86_64
 Requires:       wine-core(x86-64) = %{version}-%{release}
-Requires:       wine-capi(x86-64) = %{version}-%{release}
 Requires:       wine-cms(x86-64) = %{version}-%{release}
 Requires:       wine-ldap(x86-64) = %{version}-%{release}
 Requires:       wine-twain(x86-64) = %{version}-%{release}
@@ -216,7 +214,6 @@ Requires:       mesa-dri-drivers(x86-64)
 # ARM parts
 %ifarch %{arm} aarch64
 Requires:       wine-core = %{version}-%{release}
-Requires:       wine-capi = %{version}-%{release}
 Requires:       wine-cms = %{version}-%{release}
 Requires:       wine-ldap = %{version}-%{release}
 Requires:       wine-twain = %{version}-%{release}
@@ -232,7 +229,6 @@ Requires:       samba-winbind-clients
 # aarch64 parts
 %ifarch aarch64
 Requires:       wine-core(aarch-64) = %{version}-%{release}
-Requires:       wine-capi(aarch-64) = %{version}-%{release}
 Requires:       wine-cms(aarch-64) = %{version}-%{release}
 Requires:       wine-ldap(aarch-64) = %{version}-%{release}
 Requires:       wine-twain(aarch-64) = %{version}-%{release}
@@ -616,23 +612,6 @@ Requires: sane-backends-libs
 %description twain
 Twain support for wine
 
-%package capi
-Summary: ISDN support for wine
-Group: System Environment/Libraries
-Requires: wine-core = %{version}-%{release}
-%ifarch x86_64
-Requires:       isdn4k-utils(x86-64)
-%endif
-%ifarch %{ix86}
-Requires:       isdn4k-utils(x86-32)
-%endif
-%ifarch %{arm} aarch64
-Requires:       isdn4k-utils
-%endif
-
-%description capi
-ISDN support for wine
-
 %package devel
 Summary: Wine development environment
 Group: System Environment/Libraries
@@ -945,6 +924,9 @@ install -p -m 0644 loader/wine.fr.UTF-8.man %{buildroot}%{_mandir}/fr.UTF-8/man1
 mkdir -p %{buildroot}%{_mandir}/pl.UTF-8/man1
 install -p -m 0644 loader/wine.pl.UTF-8.man %{buildroot}%{_mandir}/pl.UTF-8/man1/wine.1
 
+# remove capi support
+rm -f %{buildroot}/%{_libdir}/wine/capi2032.dll.so
+
 
 %if 0%{?rhel} == 6
 %post sysvinit
@@ -1029,9 +1011,6 @@ fi
 
 %post twain -p /sbin/ldconfig
 %postun twain -p /sbin/ldconfig
-
-%post capi -p /sbin/ldconfig
-%postun capi -p /sbin/ldconfig
 
 %post alsa -p /sbin/ldconfig
 %postun alsa -p /sbin/ldconfig
@@ -2162,10 +2141,6 @@ fi
 %{_libdir}/wine/twain_32.dll.so
 %{_libdir}/wine/sane.ds.so
 
-# capi subpackage
-%files capi
-%{_libdir}/wine/capi2032.dll.so
-
 %files devel
 %{_bindir}/function_grep.pl
 %{_bindir}/widl
@@ -2212,6 +2187,9 @@ fi
 %endif
 
 %changelog
+* Sat Nov 23 2019 Michael Cronenworth <mike@cchtml.com> 4.0.2-2
+- drop capi package (rhbz#1775582)
+
 * Wed Sep 25 2019 Michael Cronenworth <mike@cchtml.com> 4.0.2-1
 - version update
 
