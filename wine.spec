@@ -20,8 +20,8 @@
 %endif
 
 Name:           wine
-Version:        4.0.2
-Release:        2%{?dist}
+Version:        4.0.3
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
@@ -2187,6 +2187,9 @@ fi
 %endif
 
 %changelog
+* Wed Nov 27 2019 Michael Cronenworth <mike@cchtml.com> 4.0.3-1
+- version update
+
 * Sat Nov 23 2019 Michael Cronenworth <mike@cchtml.com> 4.0.2-2
 - drop capi package (rhbz#1775582)
 
