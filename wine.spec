@@ -1441,7 +1441,7 @@ fi
 %{_libdir}/wine/bluetoothapis.%{winedll}
 %{_libdir}/wine/browseui.%{winedll}
 %{_libdir}/wine/bthprops.%{winecpl}
-%{_libdir}/wine/cabinet.dll.%{winedll}
+%{_libdir}/wine/cabinet.%{winedll}
 %{_libdir}/wine/cards.%{winedll}
 %{_libdir}/wine/cdosys.%{winedll}
 %{_libdir}/wine/cfgmgr32.%{winedll}
