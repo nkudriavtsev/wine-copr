@@ -39,7 +39,7 @@
 %endif
 
 Name:           wine
-Version:        4.20
+Version:        4.21
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1441,7 +1441,7 @@ fi
 %{_libdir}/wine/bluetoothapis.%{winedll}
 %{_libdir}/wine/browseui.%{winedll}
 %{_libdir}/wine/bthprops.%{winecpl}
-%{_libdir}/wine/cabinet.dll.so
+%{_libdir}/wine/cabinet.dll.%{winedll}
 %{_libdir}/wine/cards.%{winedll}
 %{_libdir}/wine/cdosys.%{winedll}
 %{_libdir}/wine/cfgmgr32.%{winedll}
@@ -1779,7 +1779,7 @@ fi
 %{_libdir}/wine/olepro32.%{winedll}
 %{_libdir}/wine/olesvr32.%{winedll}
 %{_libdir}/wine/olethk32.%{winedll}
-%{_libdir}/wine/opcservices.dll.so
+%{_libdir}/wine/opcservices.%{winedll}
 %{_libdir}/wine/packager.%{winedll}
 %{_libdir}/wine/pdh.%{winedll}
 %{_libdir}/wine/photometadatahandler.%{winedll}
@@ -1908,8 +1908,8 @@ fi
 %{_libdir}/wine/winevulkan.dll.so
 %{_libdir}/wine/winex11.drv.so
 %{_libdir}/wine/wing32.%{winedll}
-%{_libdir}/wine/winhttp.dll.so
-%{_libdir}/wine/wininet.dll.so
+%{_libdir}/wine/winhttp.%{winedll}
+%{_libdir}/wine/wininet.%{winedll}
 %{_libdir}/wine/winmm.%{winedll}
 %{_libdir}/wine/winnls32.%{winedll}
 %{_libdir}/wine/winspool.drv.so
@@ -2280,6 +2280,9 @@ fi
 %endif
 
 %changelog
+* Sat Nov 30 2019 Michael Cronenworth <mike@cchtml.com> 4.21-1
+- version update
+
 * Sat Nov 16 2019 Michael Cronenworth <mike@cchtml.com> 4.20-1
 - version and wine-mono update
 
