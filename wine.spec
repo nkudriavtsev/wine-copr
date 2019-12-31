@@ -7,6 +7,7 @@
 #global _default_patch_fuzz 2
 %ifarch %{ix86} x86_64
 %global wineacm acm
+%global winecom com
 %global winecpl cpl
 %global winedll dll
 %global winedrv drv
@@ -16,6 +17,7 @@
 %global winetlb tlb
 %else
 %global wineacm acm.so
+%global winecom com.so
 %global winecpl cpl.so
 %global winedll dll.so
 %global winedrv drv.so
@@ -1445,7 +1447,7 @@ fi
 %{_libdir}/wine/cards.%{winedll}
 %{_libdir}/wine/cdosys.%{winedll}
 %{_libdir}/wine/cfgmgr32.%{winedll}
-%{_libdir}/wine/chcp.com
+%{_libdir}/wine/chcp.%{winecom}
 %{_libdir}/wine/clock.%{wineexe}
 %{_libdir}/wine/clusapi.%{winedll}
 %{_libdir}/wine/combase.%{winedll}
