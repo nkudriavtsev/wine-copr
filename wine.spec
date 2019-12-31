@@ -2,7 +2,7 @@
 %undefine _hardened_build
 
 %global no64bit   0
-%global winegecko 2.47
+%global winegecko 2.47.1
 %global winemono  4.9.4
 #global _default_patch_fuzz 2
 %ifarch %{ix86} x86_64
@@ -39,14 +39,14 @@
 %endif
 
 Name:           wine
-Version:        4.21
-Release:        1%{?dist}
+Version:        5.0
+Release:        0.rc3.0%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
 URL:            https://www.winehq.org/
-Source0:        https://dl.winehq.org/wine/source/4.x/wine-%{version}.tar.xz
-Source10:       https://dl.winehq.org/wine/source/4.x/wine-%{version}.tar.xz.sign
+Source0:        https://dl.winehq.org/wine/source/5.0/wine-%{version}-rc3.tar.xz
+Source10:       https://dl.winehq.org/wine/source/5.0/wine-%{version}-rc3.tar.xz.sign
 
 Source1:        wine.init
 Source2:        wine.systemd
@@ -92,7 +92,7 @@ Patch511:       wine-cjk.patch
 %if 0%{?wine_staging}
 # wine-staging patches
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
+Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}-rc3.tar.gz#/wine-staging-%{version}-rc3.tar.gz
 %endif
 
 %if !%{?no64bit}
@@ -677,7 +677,7 @@ This package adds the opencl driver for wine.
 %endif
 
 %prep
-%setup -q -n wine-%{version}
+%setup -q -n wine-%{version}-rc3
 %patch511 -p1 -b.cjk
 
 %if 0%{?wine_staging}
@@ -1445,6 +1445,7 @@ fi
 %{_libdir}/wine/cards.%{winedll}
 %{_libdir}/wine/cdosys.%{winedll}
 %{_libdir}/wine/cfgmgr32.%{winedll}
+%{_libdir}/wine/chcp.com
 %{_libdir}/wine/clock.%{wineexe}
 %{_libdir}/wine/clusapi.%{winedll}
 %{_libdir}/wine/combase.%{winedll}
@@ -1680,6 +1681,7 @@ fi
 %{_libdir}/wine/mprapi.%{winedll}
 %{_libdir}/wine/msacm32.%{winedll}
 %{_libdir}/wine/msacm32.%{winedrv}
+%{_libdir}/wine/msado15.%{winedll}
 %{_libdir}/wine/msadp32.%{wineacm}
 %{_libdir}/wine/msasn1.%{winedll}
 %{_libdir}/wine/mscat32.%{winedll}
@@ -1768,6 +1770,7 @@ fi
 %endif
 %{_libdir}/wine/objsel.%{winedll}
 %{_libdir}/wine/odbc32.dll.so
+%{_libdir}/wine/odbcbcp.%{winedll}
 %{_libdir}/wine/odbccp32.%{winedll}
 %{_libdir}/wine/odbccu32.%{winedll}
 %{_libdir}/wine/ole32.%{winedll}
@@ -2280,6 +2283,9 @@ fi
 %endif
 
 %changelog
+* Mon Dec 30 2019 Michael Cronenworth <mike@cchtml.com> 5.0-0.rc3.0
+- version update
+
 * Sat Nov 30 2019 Michael Cronenworth <mike@cchtml.com> 4.21-1
 - version update
 
