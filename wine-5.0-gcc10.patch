@@ -217,3 +217,27 @@
  
  BOOL WINAPI DllMain (HINSTANCE hinstance, DWORD reason, LPVOID reserved)
  {
+--- a/dlls/wbemprox/wbemprox_private.h	2020-01-21 11:03:21.000000000 -0600
++++ b/dlls/wbemprox/wbemprox_private.h	2020-01-22 17:19:26.786296263 -0600
+@@ -20,8 +20,8 @@
+ #include "wine/heap.h"
+ #include "wine/list.h"
+ 
+-IClientSecurity client_security DECLSPEC_HIDDEN;
+-struct list *table_list DECLSPEC_HIDDEN;
++extern IClientSecurity client_security DECLSPEC_HIDDEN;
++extern struct list *table_list DECLSPEC_HIDDEN;
+ 
+ enum param_direction
+ {
+--- a/dlls/wbemprox/main.c	2020-01-21 11:03:21.000000000 -0600
++++ b/dlls/wbemprox/main.c	2020-01-22 17:21:03.556806147 -0600
+@@ -35,6 +35,8 @@
+ 
+ static HINSTANCE instance;
+ 
++struct list *table_list;
++
+ typedef HRESULT (*fnCreateInstance)( LPVOID *ppObj );
+ 
+ typedef struct
