@@ -92,3 +92,13 @@
  
  static void *libsane_handle;
  
+--- a/dlls/winebus.sys/bus.h	2020-01-21 11:03:21.000000000 -0600
++++ b/dlls/winebus.sys/bus.h	2020-01-22 13:35:57.841283330 -0600
+@@ -54,5 +54,5 @@
+ DWORD check_bus_option(const UNICODE_STRING *option, DWORD default_value) DECLSPEC_HIDDEN;
+ BOOL is_xbox_gamepad(WORD vid, WORD pid) DECLSPEC_HIDDEN;
+ 
+-HANDLE driver_key DECLSPEC_HIDDEN;
+-DEVICE_OBJECT *bus_pdo DECLSPEC_HIDDEN;
++extern HANDLE driver_key DECLSPEC_HIDDEN;
++extern DEVICE_OBJECT *bus_pdo DECLSPEC_HIDDEN;
