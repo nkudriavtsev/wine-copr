@@ -44,3 +44,33 @@
  
  /* schannel internal interface */
  typedef struct schan_imp_session_opaque *schan_imp_session;
+--- a/dlls/sane.ds/sane_i.h	2020-01-21 11:03:21.000000000 -0600
++++ b/dlls/sane.ds/sane_i.h	2020-01-22 10:44:01.675004730 -0600
+@@ -36,7 +36,7 @@
+ #include "twain.h"
+ 
+ #ifdef SONAME_LIBSANE
+-#define MAKE_FUNCPTR(f) typeof(f) * p##f DECLSPEC_HIDDEN;
++#define MAKE_FUNCPTR(f) typeof(f) extern * p##f DECLSPEC_HIDDEN;
+ MAKE_FUNCPTR(sane_init)
+ MAKE_FUNCPTR(sane_exit)
+ MAKE_FUNCPTR(sane_get_devices)
+@@ -84,7 +84,7 @@
+     TW_FIX32            defaultXResolution;
+     BOOL                YResolutionSet;
+     TW_FIX32            defaultYResolution;
+-} activeDS DECLSPEC_HIDDEN;
++} extern activeDS DECLSPEC_HIDDEN;
+ 
+ /* Helper functions */
+ extern TW_UINT16 SANE_SaneCapability (pTW_CAPABILITY pCapability, TW_UINT16 action) DECLSPEC_HIDDEN;
+--- a/dlls/sane.ds/sane_main.c	2020-01-22 10:45:52.264351469 -0600
++++ b/dlls/sane.ds/sane_main.c	2020-01-22 10:46:12.131414210 -0600
+@@ -35,6 +35,7 @@
+ #ifdef SONAME_LIBSANE
+ 
+ HINSTANCE SANE_instance;
++struct tagActiveDS activeDS;
+ 
+ static void *libsane_handle;
+ 
