@@ -241,3 +241,25 @@
  typedef HRESULT (*fnCreateInstance)( LPVOID *ppObj );
  
  typedef struct
+--- a/dlls/webservices/webservices_private.h	2020-01-21 11:03:21.000000000 -0600
++++ b/dlls/webservices/webservices_private.h	2020-01-22 17:49:07.121885897 -0600
+@@ -18,7 +18,7 @@
+ 
+ #include "winhttp.h"
+ 
+-_locale_t c_locale DECLSPEC_HIDDEN;
++extern _locale_t c_locale DECLSPEC_HIDDEN;
+ 
+ #define STREAM_BUFSIZE 4096
+ 
+@@ -50,8 +50,8 @@
+     ULONG              current_sequence;
+     ULONG             *sequence;
+ };
+-struct dictionary dict_builtin DECLSPEC_HIDDEN;
+-const struct dictionary dict_builtin_static DECLSPEC_HIDDEN;
++extern struct dictionary dict_builtin DECLSPEC_HIDDEN;
++extern const struct dictionary dict_builtin_static DECLSPEC_HIDDEN;
+ 
+ int find_string( const struct dictionary *, const unsigned char *, ULONG, ULONG * ) DECLSPEC_HIDDEN;
+ HRESULT insert_string( struct dictionary *, unsigned char *, ULONG, int, ULONG * ) DECLSPEC_HIDDEN;
