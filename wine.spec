@@ -695,7 +695,7 @@ sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
 
 # GCC 10 fix
 sed -i 's/BOOL config_vaapi_drm DECLSPEC_HIDDEN;/extern BOOL config_vaapi_drm DECLSPEC_HIDDEN;/' dlls/dxva2/dxva2_private.h
-sed -i 's/char config_vaapi_drm_path[MAX_PATH] DECLSPEC_HIDDEN;/extern char config_vaapi_drm_path[MAX_PATH] DECLSPEC_HIDDEN;/' dlls/dxva2/dxva2_private.h
+sed -i 's/char config_vaapi_drm_path\[MAX_PATH\] DECLSPEC_HIDDEN;/extern char config_vaapi_drm_path\[MAX_PATH\] DECLSPEC_HIDDEN;/' dlls/dxva2/dxva2_private.h
 
 %endif # 0%{?wine_staging}
 
