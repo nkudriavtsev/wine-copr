@@ -66,8 +66,26 @@
  extern TW_UINT16 SANE_SaneCapability (pTW_CAPABILITY pCapability, TW_UINT16 action) DECLSPEC_HIDDEN;
 --- a/dlls/sane.ds/sane_main.c	2020-01-22 10:45:52.264351469 -0600
 +++ b/dlls/sane.ds/sane_main.c	2020-01-22 10:46:12.131414210 -0600
-@@ -35,6 +35,7 @@
+@@ -33,8 +33,25 @@
+ DSMENTRYPROC SANE_dsmentry;
+ 
  #ifdef SONAME_LIBSANE
++#define MAKE_FUNCPTR(f) typeof(f) * p##f;
++MAKE_FUNCPTR(sane_init)
++MAKE_FUNCPTR(sane_exit)
++MAKE_FUNCPTR(sane_get_devices)
++MAKE_FUNCPTR(sane_open)
++MAKE_FUNCPTR(sane_close)
++MAKE_FUNCPTR(sane_get_option_descriptor)
++MAKE_FUNCPTR(sane_control_option)
++MAKE_FUNCPTR(sane_get_parameters)
++MAKE_FUNCPTR(sane_start)
++MAKE_FUNCPTR(sane_read)
++MAKE_FUNCPTR(sane_cancel)
++MAKE_FUNCPTR(sane_set_io_mode)
++MAKE_FUNCPTR(sane_get_select_fd)
++MAKE_FUNCPTR(sane_strstatus)
++#undef MAKE_FUNCPTR
  
  HINSTANCE SANE_instance;
 +struct tagActiveDS activeDS;
