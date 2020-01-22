@@ -102,3 +102,18 @@
 -DEVICE_OBJECT *bus_pdo DECLSPEC_HIDDEN;
 +extern HANDLE driver_key DECLSPEC_HIDDEN;
 +extern DEVICE_OBJECT *bus_pdo DECLSPEC_HIDDEN;
+--- a/dlls/dsound/dsound_private.h	2020-01-21 11:03:21.000000000 -0600
++++ b/dlls/dsound/dsound_private.h	2020-01-22 13:56:10.367702536 -0600
+@@ -188,9 +188,9 @@
+     IDirectSoundBufferImpl **ppdsb,
+     IDirectSoundBufferImpl *pdsb) DECLSPEC_HIDDEN;
+ void secondarybuffer_destroy(IDirectSoundBufferImpl *This) DECLSPEC_HIDDEN;
+-const IDirectSound3DListenerVtbl ds3dlvt DECLSPEC_HIDDEN;
+-const IDirectSound3DBufferVtbl ds3dbvt DECLSPEC_HIDDEN;
+-const IKsPropertySetVtbl iksbvt DECLSPEC_HIDDEN;
++extern const IDirectSound3DListenerVtbl ds3dlvt DECLSPEC_HIDDEN;
++extern const IDirectSound3DBufferVtbl ds3dbvt DECLSPEC_HIDDEN;
++extern const IKsPropertySetVtbl iksbvt DECLSPEC_HIDDEN;
+ 
+ HRESULT IKsPrivatePropertySetImpl_Create(REFIID riid, void **ppv) DECLSPEC_HIDDEN;
+ 
