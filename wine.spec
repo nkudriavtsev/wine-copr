@@ -733,7 +733,7 @@ make %{?_smp_mflags} TARGETFLAGS=""
 
 %install
 
-%make_install \
+%makeinstall \
         includedir=%{buildroot}%{_includedir} \
         sysconfdir=%{buildroot}%{_sysconfdir}/wine \
         dlldir=%{buildroot}%{_libdir}/wine \
