@@ -72,6 +72,7 @@ Source109:      wine-oleview.desktop
 Source150:      wine.appdata.xml
 
 # build fixes
+Patch100:       wine-5.0-gcc10.patch
 
 # wine bugs
 
@@ -680,6 +681,7 @@ This package adds the opencl driver for wine.
 
 %prep
 %setup -q -n wine-%{version}
+%patch100 -p1 -b.gcc10
 %patch511 -p1 -b.cjk
 
 %if 0%{?wine_staging}
