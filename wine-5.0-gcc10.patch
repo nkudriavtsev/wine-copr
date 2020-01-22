@@ -31,3 +31,16 @@
  DSMENTRYPROC GPHOTO2_dsmentry;
  
  #ifdef HAVE_GPHOTO2
+--- a/dlls/secur32/secur32_priv.h	2020-01-21 11:03:21.000000000 -0600
++++ b/dlls/secur32/secur32_priv.h	2020-01-22 10:31:24.606451345 -0600
+@@ -190,8 +190,8 @@
+ #define NTLMSSP_NEGOTIATE_56                        0x80000000
+ 
+ 
+-SecPkgInfoW *ntlm_package_infoW DECLSPEC_HIDDEN;
+-SecPkgInfoA *ntlm_package_infoA DECLSPEC_HIDDEN;
++extern SecPkgInfoW *ntlm_package_infoW DECLSPEC_HIDDEN;
++extern SecPkgInfoA *ntlm_package_infoA DECLSPEC_HIDDEN;
+ 
+ /* schannel internal interface */
+ typedef struct schan_imp_session_opaque *schan_imp_session;
