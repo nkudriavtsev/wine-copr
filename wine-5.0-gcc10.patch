@@ -165,3 +165,14 @@
  static HINSTANCE shdoclc = NULL;
  static WCHAR *status_strings[IDS_STATUS_LAST-IDS_STATUS_FIRST+1];
  static IMultiLanguage2 *mlang;
+--- a/dlls/msi/msi.c	2020-01-21 11:03:21.000000000 -0600
++++ b/dlls/msi/msi.c	2020-01-22 15:42:12.934090382 -0600
+@@ -51,6 +51,8 @@
+ 
+ WINE_DEFAULT_DEBUG_CHANNEL(msi);
+ 
++BOOL is_wow64;
++
+ static const WCHAR installerW[] = {'\\','I','n','s','t','a','l','l','e','r',0};
+ 
+ UINT msi_locate_product(LPCWSTR szProduct, MSIINSTALLCONTEXT *context)
