@@ -9,3 +9,14 @@
  
  void crypt_oid_init(void) DECLSPEC_HIDDEN;
  void crypt_oid_free(void) DECLSPEC_HIDDEN;
+--- a/dlls/gphoto2.ds/gphoto2_i.h	2020-01-21 11:03:21.000000000 -0600
++++ b/dlls/gphoto2.ds/gphoto2_i.h	2020-01-22 10:07:59.403974843 -0600
+@@ -100,7 +100,7 @@
+     struct jpeg_decompress_struct	jd;
+     struct jpeg_error_mgr		jerr;
+ #endif
+-} activeDS DECLSPEC_HIDDEN;
++} extern activeDS DECLSPEC_HIDDEN;
+ 
+ /* Helper functions */
+ extern TW_UINT16 GPHOTO2_SaneCapability (pTW_CAPABILITY pCapability, TW_UINT16 action) DECLSPEC_HIDDEN;
