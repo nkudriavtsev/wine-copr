@@ -688,11 +688,14 @@ This package adds the opencl driver for wine.
 # setup and apply wine-staging patches
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
 
-# Disable XAudio patchsets in favor of FAudio
 patches/patchinstall.sh DESTDIR="`pwd`" --all
 
 # fix parallelized build
 sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
+
+# GCC 10 fix
+sed -i 's/BOOL config_vaapi_drm DECLSPEC_HIDDEN;/extern BOOL config_vaapi_drm DECLSPEC_HIDDEN;/' dlls/dxva2/dxva2_private.h
+sed -i 's/char config_vaapi_drm_path[MAX_PATH] DECLSPEC_HIDDEN;/extern char config_vaapi_drm_path[MAX_PATH] DECLSPEC_HIDDEN;/' dlls/dxva2/dxva2_private.h
 
 %endif # 0%{?wine_staging}
 
