@@ -206,14 +206,14 @@
  extern TW_UINT16 TWAIN_CloseDS
 --- a/dlls/twain_32/twain32_main.c	2020-01-22 16:31:43.494607403 -0600
 +++ b/dlls/twain_32/twain32_main.c	2020-01-22 16:31:02.012503703 -0600
-@@ -29,6 +29,10 @@
+@@ -29,7 +29,9 @@
  
  WINE_DEFAULT_DEBUG_CHANNEL(twain);
  
+-extern HINSTANCE DSM_hinstance;
 +TW_UINT16 DSM_twCC;
 +activeDS *activeSources;
 +HINSTANCE DSM_hinstance;
-+
+ 
  BOOL WINAPI DllMain (HINSTANCE hinstance, DWORD reason, LPVOID reserved)
  {
-     TRACE("%p,%x,%p\n", hinstance, reason, reserved);
