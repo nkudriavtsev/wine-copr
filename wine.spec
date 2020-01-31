@@ -42,7 +42,7 @@
 
 Name:           wine
 Version:        5.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -2290,6 +2290,9 @@ fi
 %endif
 
 %changelog
+* Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+
 * Wed Jan 22 2020 Michael Cronenworth <mike@cchtml.com> 5.0-1
 - version update
 
