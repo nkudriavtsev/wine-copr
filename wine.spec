@@ -41,14 +41,14 @@
 %endif
 
 Name:           wine
-Version:        5.0
-Release:        2%{?dist}
+Version:        5.1
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
 URL:            https://www.winehq.org/
-Source0:        https://dl.winehq.org/wine/source/5.0/wine-%{version}.tar.xz
-Source10:       https://dl.winehq.org/wine/source/5.0/wine-%{version}.tar.xz.sign
+Source0:        https://dl.winehq.org/wine/source/5.x/wine-%{version}.tar.xz
+Source10:       https://dl.winehq.org/wine/source/5.x/wine-%{version}.tar.xz.sign
 
 Source1:        wine.init
 Source2:        wine.systemd
@@ -70,9 +70,6 @@ Source109:      wine-oleview.desktop
 
 # AppData files
 Source150:      wine.appdata.xml
-
-# build fixes
-Patch100:       wine-5.0-gcc10.patch
 
 # wine bugs
 
@@ -681,7 +678,6 @@ This package adds the opencl driver for wine.
 
 %prep
 %setup -q -n wine-%{version}
-%patch100 -p1 -b.gcc10
 %patch511 -p1 -b.cjk
 
 %if 0%{?wine_staging}
@@ -692,10 +688,6 @@ patches/patchinstall.sh DESTDIR="`pwd`" --all
 
 # fix parallelized build
 sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
-
-# GCC 10 fix
-sed -i 's/BOOL config_vaapi_drm DECLSPEC_HIDDEN;/extern BOOL config_vaapi_drm DECLSPEC_HIDDEN;/' dlls/dxva2/dxva2_private.h
-sed -i 's/char config_vaapi_drm_path\[MAX_PATH\] DECLSPEC_HIDDEN;/extern char config_vaapi_drm_path\[MAX_PATH\] DECLSPEC_HIDDEN;/' dlls/dxva2/dxva2_private.h
 
 %endif # 0%{?wine_staging}
 
@@ -1892,6 +1884,7 @@ fi
 %{_libdir}/wine/vcomp120.%{winedll}
 %{_libdir}/wine/vcomp140.%{winedll}
 %{_libdir}/wine/vcruntime140.%{winedll}
+%{_libdir}/wine/vcruntime140_1.%{winedll}
 %{_libdir}/wine/vdmdbg.%{winedll}
 %{_libdir}/wine/version.%{winedll}
 %{_libdir}/wine/virtdisk.%{winedll}
@@ -2290,6 +2283,9 @@ fi
 %endif
 
 %changelog
+* Mon Feb 03 2020 Michael Cronenworth <mike@cchtml.com> 5.1-1
+- version update
+
 * Fri Jan 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
