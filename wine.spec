@@ -41,7 +41,7 @@
 %endif
 
 Name:           wine
-Version:        5.1
+Version:        5.2
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1812,6 +1812,7 @@ fi
 %{_libdir}/wine/rsaenh.%{winedll}
 %{_libdir}/wine/rstrtmgr.%{winedll}
 %{_libdir}/wine/rtutils.%{winedll}
+%{_libdir}/wine/rtworkq.%{winedll}
 %{_libdir}/wine/samlib.%{winedll}
 %{_libdir}/wine/sapi.%{winedll}
 %{_libdir}/wine/sas.%{winedll}
@@ -1887,6 +1888,7 @@ fi
 %{_libdir}/wine/vcruntime140_1.%{winedll}
 %{_libdir}/wine/vdmdbg.%{winedll}
 %{_libdir}/wine/version.%{winedll}
+%{_libdir}/wine/vga.%{winedll}
 %{_libdir}/wine/virtdisk.%{winedll}
 %{_libdir}/wine/vssapi.%{winedll}
 %{_libdir}/wine/vulkan-1.%{winedll}
@@ -2078,7 +2080,7 @@ fi
 %{_datadir}/wine/wine.inf
 %{_datadir}/wine/winebus.inf
 %{_datadir}/wine/winehid.inf
-%{_datadir}/wine/l_intl.nls
+%{_datadir}/wine/nls/
 
 %files common
 %{_bindir}/notepad
@@ -2283,6 +2285,9 @@ fi
 %endif
 
 %changelog
+* Tue Feb 18 2020 Michael Cronenworth <mike@cchtml.com> 5.2-1
+- version update
+
 * Mon Feb 03 2020 Michael Cronenworth <mike@cchtml.com> 5.1-1
 - version update
 
