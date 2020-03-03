@@ -1204,6 +1204,7 @@ fi
 %{_libdir}/wine/acledit.%{winedll}
 %{_libdir}/wine/aclui.%{winedll}
 %{_libdir}/wine/activeds.%{winedll}
+%{_libdir}/wine/activeds.%{winetlb}
 %{_libdir}/wine/actxprxy.%{winedll}
 %{_libdir}/wine/adsldp.%{winedll}
 %{_libdir}/wine/adsldpc.%{winedll}
@@ -2006,10 +2007,6 @@ fi
 %{_libdir}/wine/nvapi.dll.so
 %{_libdir}/wine/nvencodeapi.dll.so
 %endif
-%endif
-
-%ifnarch %{arm} aarch64
-%{_libdir}/wine/activeds.tlb
 %endif
 
 # 16 bit and other non 64bit stuff
