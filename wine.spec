@@ -41,7 +41,7 @@
 %endif
 
 Name:           wine
-Version:        5.2
+Version:        5.3
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1201,6 +1201,7 @@ fi
 %{_libdir}/wine/acledit.%{winedll}
 %{_libdir}/wine/aclui.%{winedll}
 %{_libdir}/wine/activeds.%{winedll}
+%{_libdir}/wine/activeds.tlb
 %{_libdir}/wine/actxprxy.%{winedll}
 %{_libdir}/wine/adsldp.%{winedll}
 %{_libdir}/wine/adsldpc.%{winedll}
@@ -1793,6 +1794,7 @@ fi
 %{_libdir}/wine/propsys.%{winedll}
 %{_libdir}/wine/psapi.%{winedll}
 %{_libdir}/wine/pstorec.%{winedll}
+%{_libdir}/wine/qasf.%{winedll}
 %{_libdir}/wine/qcap.dll.so
 %{_libdir}/wine/qedit.%{winedll}
 %{_libdir}/wine/qmgr.%{winedll}
@@ -2285,6 +2287,9 @@ fi
 %endif
 
 %changelog
+* Mon Mar 02 2020 Michael Cronenworth <mike@cchtml.com> 5.3-1
+- version update
+
 * Tue Feb 18 2020 Michael Cronenworth <mike@cchtml.com> 5.2-1
 - version update
 
