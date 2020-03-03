@@ -72,6 +72,8 @@ Source109:      wine-oleview.desktop
 Source150:      wine.appdata.xml
 
 # wine bugs
+# https://bugs.winehq.org/show_bug.cgi?id=48697
+Patch100:       wine-5.3-msvcrt-arm.patch
 
 # desktop dir
 Source200:      wine.menu
@@ -678,6 +680,7 @@ This package adds the opencl driver for wine.
 
 %prep
 %setup -q -n wine-%{version}
+%patch100 -p1 -b.mscvrt
 %patch511 -p1 -b.cjk
 
 %if 0%{?wine_staging}

@@ -1,0 +1,41 @@
+From: Jacek Caban <jacek@codeweavers.com>
+Subject: [PATCH] stdio.h: Fix calling convention of variadic inline functions.
+Message-Id: <bc92fe4e-2b7c-e139-fcf3-736d723db401@codeweavers.com>
+Date: Tue, 3 Mar 2020 14:37:00 +0100
+
+
+Wine-Bug: https://bugs.winehq.org/show_bug.cgi?id=48697
+Signed-off-by: Jacek Caban <jacek@codeweavers.com>
+---
+  include/msvcrt/corecrt_wstdio.h | 2 +-
+  include/msvcrt/stdio.h          | 2 +-
+  2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/msvcrt/corecrt_wstdio.h b/include/msvcrt/corecrt_wstdio.h
+index 3951a1c829..c1779fb81a 100644
+--- a/include/msvcrt/corecrt_wstdio.h
++++ b/include/msvcrt/corecrt_wstdio.h
+@@ -115,7 +115,7 @@ static inline int __cdecl _vsnwprintf_s(wchar_t *buffer, size_t size, size_t cou
+     return ret < 0 ? -1 : ret;
+ }
+ 
+-static inline int __cdecl _snwprintf_s(wchar_t *buffer, size_t size, size_t count, const wchar_t *format, ...)
++static inline int WINAPIV _snwprintf_s(wchar_t *buffer, size_t size, size_t count, const wchar_t *format, ...)
+ {
+     int ret;
+     __ms_va_list args;
+diff --git a/include/msvcrt/stdio.h b/include/msvcrt/stdio.h
+index e184704eb9..f2aef46e6f 100644
+--- a/include/msvcrt/stdio.h
++++ b/include/msvcrt/stdio.h
+@@ -174,7 +174,7 @@ static inline int __cdecl _vsnprintf_s(char *buffer, size_t size, size_t count,
+     return ret < 0 ? -1 : ret;
+ }
+ 
+-static inline int __cdecl _snprintf_s(char *buffer, size_t size, size_t count, const char *format, ...)
++static inline int WINAPIV _snprintf_s(char *buffer, size_t size, size_t count, const char *format, ...)
+ {
+     int ret;
+     __ms_va_list args;
+
+
