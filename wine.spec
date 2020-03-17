@@ -41,7 +41,7 @@
 %endif
 
 Name:           wine
-Version:        5.3
+Version:        5.4
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -72,8 +72,6 @@ Source109:      wine-oleview.desktop
 Source150:      wine.appdata.xml
 
 # wine bugs
-# https://bugs.winehq.org/show_bug.cgi?id=48697
-Patch100:       wine-5.3-msvcrt-arm.patch
 
 # desktop dir
 Source200:      wine.menu
@@ -680,7 +678,6 @@ This package adds the opencl driver for wine.
 
 %prep
 %setup -q -n wine-%{version}
-%patch100 -p1 -b.mscvrt
 %patch511 -p1 -b.cjk
 
 %if 0%{?wine_staging}
@@ -1189,6 +1186,7 @@ fi
 %{_libdir}/wine/termsv.%{wineexe}
 %{_libdir}/wine/view.%{wineexe}
 %{_libdir}/wine/wevtutil.%{wineexe}
+%{_libdir}/wine/whoami.%{wineexe}
 %{_libdir}/wine/wineboot.%{wineexe}
 %{_libdir}/wine/winebrowser.exe.so
 %{_libdir}/wine/wineconsole.exe.so
@@ -1973,6 +1971,14 @@ fi
 %{_libdir}/wine/x3daudio1_5.dll.so
 %{_libdir}/wine/x3daudio1_6.dll.so
 %{_libdir}/wine/x3daudio1_7.dll.so
+%{_libdir}/wine/xactengine3_0.dll.so
+%{_libdir}/wine/xactengine3_1.dll.so
+%{_libdir}/wine/xactengine3_2.dll.so
+%{_libdir}/wine/xactengine3_3.dll.so
+%{_libdir}/wine/xactengine3_4.dll.so
+%{_libdir}/wine/xactengine3_5.dll.so
+%{_libdir}/wine/xactengine3_6.dll.so
+%{_libdir}/wine/xactengine3_7.dll.so
 %{_libdir}/wine/xapofx1_1.dll.so
 %{_libdir}/wine/xapofx1_2.dll.so
 %{_libdir}/wine/xapofx1_3.dll.so
@@ -2290,6 +2296,9 @@ fi
 %endif
 
 %changelog
+* Mon Mar 16 2020 Michael Cronenworth <mike@cchtml.com> 5.4-1
+- version update
+
 * Mon Mar 02 2020 Michael Cronenworth <mike@cchtml.com> 5.3-1
 - version update
 
