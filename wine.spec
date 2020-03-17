@@ -2039,7 +2039,6 @@ fi
 %{_libdir}/wine/ddeml.dll16
 %{_libdir}/wine/dispdib.dll16
 %{_libdir}/wine/display.drv16
-%{_libdir}/wine/gdi.exe16.so
 %{_libdir}/wine/imm.dll16
 %{_libdir}/wine/krnl386.exe16.so
 %{_libdir}/wine/keyboard.drv16
@@ -2070,7 +2069,6 @@ fi
 %{_libdir}/wine/w32sys.dll16
 %{_libdir}/wine/win32s16.dll16
 %{_libdir}/wine/win87em.dll16
-%{_libdir}/wine/winaspi.dll16.so
 %{_libdir}/wine/windebug.dll16
 %{_libdir}/wine/wineps16.drv16
 %{_libdir}/wine/wing.dll16
