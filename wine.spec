@@ -41,7 +41,7 @@
 %endif
 
 Name:           wine
-Version:        5.4
+Version:        5.5
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1299,6 +1299,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-realtime-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-registry-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-registry-l2-1-0.%{winedll}
+%{_libdir}/wine/api-ms-win-core-registry-l2-2-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-registryuserspecific-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-rtlsupport-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-rtlsupport-l1-2-0.%{winedll}
@@ -2296,6 +2297,9 @@ fi
 %endif
 
 %changelog
+* Sun Mar 29 2020 Michael Cronenworth <mike@cchtml.com> 5.5-1
+- version update
+
 * Mon Mar 16 2020 Michael Cronenworth <mike@cchtml.com> 5.4-1
 - version update
 
