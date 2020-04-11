@@ -1522,6 +1522,7 @@ fi
 %{_libdir}/wine/dsdmo.%{winedll}
 %{_libdir}/wine/dsquery.%{winedll}
 %{_libdir}/wine/dssenh.%{winedll}
+%{_libdir}/wine/dsuiext.%{winedll}
 %{_libdir}/wine/dswave.%{winedll}
 %{_libdir}/wine/dwmapi.%{winedll}
 %{_libdir}/wine/dwrite.dll.so
@@ -2042,7 +2043,7 @@ fi
 %{_libdir}/wine/display.drv16
 %{_libdir}/wine/gdi.exe16
 %{_libdir}/wine/imm.dll16
-%{_libdir}/wine/krnl386.exe16.so
+%{_libdir}/wine/krnl386.exe16
 %{_libdir}/wine/keyboard.drv16
 %{_libdir}/wine/lzexpand.dll16
 %{_libdir}/wine/mmsystem.dll16
