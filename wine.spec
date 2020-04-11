@@ -41,7 +41,7 @@
 %endif
 
 Name:           wine
-Version:        5.5
+Version:        5.6
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1104,9 +1104,9 @@ fi
 %{_libdir}/wine/winefile.%{wineexe}
 %{_libdir}/wine/winemine.%{wineexe}
 %{_libdir}/wine/winemsibuilder.%{wineexe}
-%{_libdir}/wine/winepath.exe.so
+%{_libdir}/wine/winepath.%{wineexe}
 %{_libdir}/wine/winmgmt.%{wineexe}
-%{_libdir}/wine/winver.exe.so
+%{_libdir}/wine/winver.%{wineexe}
 %{_libdir}/wine/wordpad.%{wineexe}
 %{_libdir}/wine/write.%{wineexe}
 %{_libdir}/wine/wusa.%{wineexe}
@@ -1488,7 +1488,7 @@ fi
 %{_libdir}/wine/d3dxof.%{winedll}
 %{_libdir}/wine/davclnt.%{winedll}
 %{_libdir}/wine/dbgeng.%{winedll}
-%{_libdir}/wine/dbghelp.dll.so
+%{_libdir}/wine/dbghelp.%{winedll}
 %{_libdir}/wine/dciman32.%{winedll}
 %{_libdir}/wine/ddraw.%{winedll}
 %{_libdir}/wine/ddrawex.%{winedll}
@@ -2297,6 +2297,9 @@ fi
 %endif
 
 %changelog
+* Sat Apr 11 2020 Michael Cronenworth <mike@cchtml.com> 5.6-1
+- version update
+
 * Sun Mar 29 2020 Michael Cronenworth <mike@cchtml.com> 5.5-1
 - version update
 
