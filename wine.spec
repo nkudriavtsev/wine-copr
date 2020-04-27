@@ -3,7 +3,7 @@
 
 %global no64bit   0
 %global winegecko 2.47.1
-%global winemono  4.9.4
+%global winemono  5.0.0
 #global _default_patch_fuzz 2
 %ifarch %{ix86} x86_64
 %global wineacm acm
@@ -41,7 +41,7 @@
 %endif
 
 Name:           wine
-Version:        5.6
+Version:        5.7
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1799,6 +1799,7 @@ fi
 %{_libdir}/wine/pstorec.%{winedll}
 %{_libdir}/wine/qasf.%{winedll}
 %{_libdir}/wine/qcap.dll.so
+%{_libdir}/wine/qdvd.%{winedll}
 %{_libdir}/wine/qedit.%{winedll}
 %{_libdir}/wine/qmgr.%{winedll}
 %{_libdir}/wine/qmgrprxy.%{winedll}
@@ -1915,6 +1916,7 @@ fi
 %{_libdir}/wine/winehid.%{winesys}
 %{_libdir}/wine/winejoystick.drv.so
 %{_libdir}/wine/winemapi.%{winedll}
+%{_libdir}/wine/wineusb.sys.so
 %{_libdir}/wine/winevulkan.dll.so
 %{_libdir}/wine/winex11.drv.so
 %{_libdir}/wine/wing32.%{winedll}
@@ -2093,6 +2095,7 @@ fi
 %{_datadir}/wine/wine.inf
 %{_datadir}/wine/winebus.inf
 %{_datadir}/wine/winehid.inf
+%{_datadir}/wine/wineusb.inf
 %{_datadir}/wine/nls/
 
 %files common
@@ -2298,6 +2301,9 @@ fi
 %endif
 
 %changelog
+* Sun Apr 26 2020 Michael Cronenworth <mike@cchtml.com> 5.7-1
+- version update
+
 * Sat Apr 11 2020 Michael Cronenworth <mike@cchtml.com> 5.6-1
 - version update
 
