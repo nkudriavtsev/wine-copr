@@ -42,7 +42,7 @@
 
 Name:           wine
 Version:        5.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -72,6 +72,8 @@ Source109:      wine-oleview.desktop
 Source150:      wine.appdata.xml
 
 # wine bugs
+# https://bugs.winehq.org/show_bug.cgi?id=49011
+Patch100:       wine-5.7-thread-context.patch
 
 # desktop dir
 Source200:      wine.menu
@@ -690,6 +692,7 @@ patches/patchinstall.sh DESTDIR="`pwd`" --all
 sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
 
 %endif # 0%{?wine_staging}
+%patch100 -p1 -b.thread-context
 
 %build
 
@@ -2301,6 +2304,9 @@ fi
 %endif
 
 %changelog
+* Sat May 02 2020 Michael Cronenworth <mike@cchtml.com> 5.7-2
+- fix crash in wineserver affecting many apps and games (RHBZ#1829956)
+
 * Sun Apr 26 2020 Michael Cronenworth <mike@cchtml.com> 5.7-1
 - version update
 
