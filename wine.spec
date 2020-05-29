@@ -7,6 +7,7 @@
 #global _default_patch_fuzz 2
 %ifarch %{ix86} x86_64
 %global wineacm acm
+%global wineax  ax
 %global winecom com
 %global winecpl cpl
 %global winedll dll
@@ -17,6 +18,7 @@
 %global winetlb tlb
 %else
 %global wineacm acm.so
+%global wineax  ax.so
 %global winecom com.so
 %global winecpl cpl.so
 %global winedll dll.so
@@ -41,8 +43,8 @@
 %endif
 
 Name:           wine
-Version:        5.7
-Release:        2%{?dist}
+Version:        5.9
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -72,8 +74,6 @@ Source109:      wine-oleview.desktop
 Source150:      wine.appdata.xml
 
 # wine bugs
-# https://bugs.winehq.org/show_bug.cgi?id=49011
-Patch100:       wine-5.7-thread-context.patch
 
 # desktop dir
 Source200:      wine.menu
@@ -692,7 +692,6 @@ patches/patchinstall.sh DESTDIR="`pwd`" --all
 sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
 
 %endif # 0%{?wine_staging}
-%patch100 -p1 -b.thread-context
 
 %build
 
@@ -1651,6 +1650,7 @@ fi
 %{_libdir}/wine/kernel32.dll.so
 %{_libdir}/wine/kernelbase.%{winedll}
 %{_libdir}/wine/ksecdd.%{winesys}
+%{_libdir}/wine/ksproxy.%{wineax}
 %{_libdir}/wine/ksuser.%{winedll}
 %{_libdir}/wine/ktmw32.%{winedll}
 %if 0%{?fedora} > 24
@@ -1767,6 +1767,7 @@ fi
 %{_libdir}/wine/normaliz.%{winedll}
 %{_libdir}/wine/npmshtml.%{winedll}
 %{_libdir}/wine/npptools.%{winedll}
+%{_libdir}/wine/ntdll.so
 %{_libdir}/wine/ntdll.dll.so
 %{_libdir}/wine/ntdsapi.%{winedll}
 %{_libdir}/wine/ntprint.%{winedll}
@@ -1832,6 +1833,7 @@ fi
 %{_libdir}/wine/scrobj.%{winedll}
 %{_libdir}/wine/scrrun.%{winedll}
 %{_libdir}/wine/scsiport.%{winesys}
+%{_libdir}/wine/sechost.%{winedll}
 %{_libdir}/wine/secur32.dll.so
 %{_libdir}/wine/sensapi.%{winedll}
 %{_libdir}/wine/serialui.%{winedll}
@@ -2304,6 +2306,9 @@ fi
 %endif
 
 %changelog
+* Fri May 29 2020 Michael Cronenworth <mike@cchtml.com> 5.9-1
+- version update
+
 * Sat May 02 2020 Michael Cronenworth <mike@cchtml.com> 5.7-2
 - fix crash in wineserver affecting many apps and games (RHBZ#1829956)
 
