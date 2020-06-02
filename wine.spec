@@ -74,6 +74,8 @@ Source109:      wine-oleview.desktop
 Source150:      wine.appdata.xml
 
 # wine bugs
+# https://source.winehq.org/git/wine.git/commit/613389059006270fc89abdfb984c43e6fa742a9a
+Patch100:       wine-5.8-kernel32.patch
 
 # desktop dir
 Source200:      wine.menu
@@ -681,6 +683,7 @@ This package adds the opencl driver for wine.
 %prep
 %setup -q -n wine-%{version}
 %patch511 -p1 -b.cjk
+%patch100 -p1 -b.kernel32
 
 %if 0%{?wine_staging}
 # setup and apply wine-staging patches
@@ -2311,6 +2314,7 @@ fi
 %changelog
 * Tue Jun 02 2020 Michael Cronenworth <mike@cchtml.com> 5.9-2
 - drop typelibs from 32-bit devel package
+- add patch for wine bug 49208
 
 * Fri May 29 2020 Michael Cronenworth <mike@cchtml.com> 5.9-1
 - version update
