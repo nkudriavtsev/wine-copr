@@ -2309,7 +2309,7 @@ fi
 %endif
 
 %changelog
-* Fri May 29 2020 Michael Cronenworth <mike@cchtml.com> 5.9-2
+* Tue Jun 02 2020 Michael Cronenworth <mike@cchtml.com> 5.9-2
 - drop typelibs from 32-bit devel package
 
 * Fri May 29 2020 Michael Cronenworth <mike@cchtml.com> 5.9-1
