@@ -44,7 +44,7 @@
 
 Name:           wine
 Version:        5.9
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -741,6 +741,9 @@ mv %{buildroot}%{_bindir}/wineserver %{buildroot}%{_bindir}/wineserver64
 %ifarch %{ix86} %{arm}
 mv %{buildroot}%{_bindir}/wine %{buildroot}%{_bindir}/wine32
 mv %{buildroot}%{_bindir}/wineserver %{buildroot}%{_bindir}/wineserver32
+# do not ship typelibs in 32-bit packages
+# https://www.winehq.org/pipermail/wine-devel/2020-June/167283.html
+rm %{buildroot}%{_includedir}/wine/windows/*.tlb
 %endif
 %ifnarch %{arm} aarch64 x86_64
 mv %{buildroot}%{_bindir}/wine-preloader %{buildroot}%{_bindir}/wine32-preloader
@@ -2306,6 +2309,9 @@ fi
 %endif
 
 %changelog
+* Fri May 29 2020 Michael Cronenworth <mike@cchtml.com> 5.9-2
+- drop typelibs from 32-bit devel package
+
 * Fri May 29 2020 Michael Cronenworth <mike@cchtml.com> 5.9-1
 - version update
 
