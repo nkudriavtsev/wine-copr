@@ -32,7 +32,8 @@
 # build with wine-staging patches, see:  https://github.com/wine-staging/wine-staging
 %if 0%{?fedora}
 %global wine_staging 1
-%endif # 0%{?fedora}
+%endif
+# 0%%{?fedora}
 
 # binfmt macros for RHEL
 %if 0%{?rhel} == 7
@@ -43,8 +44,8 @@
 %endif
 
 Name:           wine
-Version:        5.9
-Release:        2%{?dist}
+Version:        5.10
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -74,8 +75,6 @@ Source109:      wine-oleview.desktop
 Source150:      wine.appdata.xml
 
 # wine bugs
-# https://source.winehq.org/git/wine.git/commit/613389059006270fc89abdfb984c43e6fa742a9a
-Patch100:       wine-5.8-kernel32.patch
 
 # desktop dir
 Source200:      wine.menu
@@ -185,7 +184,8 @@ BuildRequires:  libappstream-glib
 BuildRequires:  gtk3-devel
 BuildRequires:  libattr-devel
 BuildRequires:  libva-devel
-%endif # 0%{?wine_staging}
+%endif
+# 0%%{?wine_staging}
 
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6
 BuildRequires:  openal-soft-devel
@@ -432,9 +432,11 @@ BuildArch:     noarch
 # arial-fonts are available with wine-staging patchset, only.
 %if 0%{?wine_staging}
 Requires:      wine-arial-fonts = %{version}-%{release}
-%else # 0%{?wine_staging}
+%else
+# 0%%{?wine_staging}
 Obsoletes:     wine-arial-fonts <= %{version}-%{release}
-%endif # 0%{?wine_staging}
+%endif
+# 0%%{?wine_staging}
 Requires:      wine-courier-fonts = %{version}-%{release}
 Requires:      wine-fixedsys-fonts = %{version}-%{release}
 Requires:      wine-small-fonts = %{version}-%{release}
@@ -445,10 +447,12 @@ Requires:      wine-tahoma-fonts = %{version}-%{release}
 # times-new-roman-fonts are available with wine_staging-patchset, only.
 %if 0%{?wine_staging}
 Requires:      wine-times-new-roman-fonts = %{version}-%{release}
-%else # 0%{?wine_staging}
+%else
+# 0%%{?wine_staging}
 Obsoletes:     wine-times-new-roman-fonts <= %{version}-%{release}
 Obsoletes:     wine-times-new-roman-fonts-system <= %{version}-%{release}
-%endif # 0%{?wine_staging}
+%endif
+# 0%%{?wine_staging}
 Requires:      wine-symbol-fonts = %{version}-%{release}
 Requires:      wine-wingdings-fonts = %{version}-%{release}
 # intermediate fix for #593140
@@ -468,7 +472,8 @@ Requires:      fontpackages-filesystem
 
 %description arial-fonts
 %{summary}
-%endif # 0%{?wine_staging}
+%endif
+# 0%%{?wine_staging}
 
 %package courier-fonts
 Summary:       Wine Courier font family
@@ -683,7 +688,6 @@ This package adds the opencl driver for wine.
 %prep
 %setup -q -n wine-%{version}
 %patch511 -p1 -b.cjk
-%patch100 -p1 -b.kernel32
 
 %if 0%{?wine_staging}
 # setup and apply wine-staging patches
@@ -694,7 +698,8 @@ patches/patchinstall.sh DESTDIR="`pwd`" --all
 # fix parallelized build
 sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
 
-%endif # 0%{?wine_staging}
+%endif
+# 0%%{?wine_staging}
 
 %build
 
@@ -1273,9 +1278,11 @@ fi
 %{_libdir}/wine/api-ms-win-core-libraryloader-l1-2-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-libraryloader-l1-2-1.%{winedll}
 %{_libdir}/wine/api-ms-win-core-libraryloader-l1-2-2.%{winedll}
+%{_libdir}/wine/api-ms-win-core-libraryloader-l2-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-localization-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-localization-l1-2-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-localization-l1-2-1.%{winedll}
+%{_libdir}/wine/api-ms-win-core-localization-l1-2-2.%{winedll}
 %{_libdir}/wine/api-ms-win-core-localization-l2-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-localization-obsolete-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-localization-obsolete-l1-2-0.%{winedll}
@@ -1285,6 +1292,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-memory-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-memory-l1-1-1.%{winedll}
 %{_libdir}/wine/api-ms-win-core-memory-l1-1-2.%{winedll}
+%{_libdir}/wine/api-ms-win-core-memory-l1-1-4.%{winedll}
 %{_libdir}/wine/api-ms-win-core-misc-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-namedpipe-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-namedpipe-l1-2-0.%{winedll}
@@ -1373,6 +1381,7 @@ fi
 %{_libdir}/wine/api-ms-win-devices-query-l1-1-1.%{winedll}
 %{_libdir}/wine/api-ms-win-downlevel-advapi32-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-downlevel-advapi32-l2-1-0.%{winedll}
+%{_libdir}/wine/api-ms-win-downlevel-kernel32-l2-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-downlevel-normaliz-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-downlevel-ole32-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-downlevel-shell32-l1-1-0.%{winedll}
@@ -1766,6 +1775,7 @@ fi
 %{_libdir}/wine/ndis.%{winesys}
 %{_libdir}/wine/netapi32.dll.so
 %{_libdir}/wine/netcfgx.%{winedll}
+%{_libdir}/wine/netio.%{winesys}
 %{_libdir}/wine/netprofm.%{winedll}
 %{_libdir}/wine/netsh.%{wineexe}
 %{_libdir}/wine/newdev.%{winedll}
@@ -2147,7 +2157,8 @@ fi
 %files arial-fonts
 %doc COPYING.LIB
 %{_datadir}/wine/fonts/arial*
-%endif #0%{?wine_staging}
+%endif
+#0%%{?wine_staging}
 
 %files courier-fonts
 %doc COPYING.LIB
@@ -2312,6 +2323,9 @@ fi
 %endif
 
 %changelog
+* Sun Jun 07 2020 Michael Cronenworth <mike@cchtml.com> 5.10-1
+- version update
+
 * Tue Jun 02 2020 Michael Cronenworth <mike@cchtml.com> 5.9-2
 - drop typelibs from 32-bit devel package
 - add patch for wine bug 49208
