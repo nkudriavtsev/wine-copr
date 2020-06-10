@@ -719,6 +719,7 @@ export CC="/usr/bin/clang"
 # https://bugzilla.redhat.com/show_bug.cgi?id=1658311
 export CFLAGS="`echo $CFLAGS | sed -e 's/-fstack-clash-protection//'`"
 %endif
+%endif
 
 %configure \
  --sysconfdir=%{_sysconfdir}/wine \
