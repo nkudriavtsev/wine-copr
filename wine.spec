@@ -702,11 +702,6 @@ sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
 # 0%%{?wine_staging}
 
 %build
-%if 0%{?fedora} >= 33
-%ifarch aarch64
-%global toolchain clang
-%endif
-%endif
 
 # disable fortify as it breaks wine
 # http://bugs.winehq.org/show_bug.cgi?id=24606
@@ -714,6 +709,9 @@ sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
 export CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno-error"
 
 %ifarch aarch64
+%if 0%{?fedora} >= 33
+%global toolchain clang
+%else
 # ARM64 now requires clang
 # https://source.winehq.org/git/wine.git/commit/8fb8cc03c3edb599dd98f369e14a08f899cbff95
 export CC="/usr/bin/clang"
