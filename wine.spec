@@ -702,6 +702,11 @@ sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
 # 0%%{?wine_staging}
 
 %build
+%if 0%{?fedora} >= 33
+%ifarch aarch64
+%global toolchain clang
+%endif
+%endif
 
 # disable fortify as it breaks wine
 # http://bugs.winehq.org/show_bug.cgi?id=24606
