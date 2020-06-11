@@ -76,6 +76,7 @@ Source150:      wine.appdata.xml
 
 # wine bugs
 Patch100:       wine-staging-5.10-ntdll.patch
+Patch101:       wine-staging-5.10-ntdll-arm.patch
 
 # desktop dir
 Source200:      wine.menu
@@ -694,15 +695,9 @@ This package adds the opencl driver for wine.
 # setup and apply wine-staging patches
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
 %patch100 -p1 -b.ntdll
+%patch101 -p1 -b.ntdll-arm
 
-%ifarch %{arm} aarch64
-patches/patchinstall.sh DESTDIR="`pwd`" --all \
- -W ntdll-NtContinue \
- -W ntdll-Syscall_Emulation \
- -W winebuild-Fake_Dlls
-%else
 patches/patchinstall.sh DESTDIR="`pwd`" --all
-%endif
 
 # fix parallelized build
 sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
