@@ -76,7 +76,8 @@ Source150:      wine.appdata.xml
 
 # wine bugs
 Patch100:       wine-staging-5.10-ntdll.patch
-Patch101:       wine-staging-5.10-ntdll-arm.patch
+Patch101:       wine-staging-5.10-ntdll-arm0.patch
+Patch102:       wine-staging-5.10-ntdll-arm1.patch
 
 # desktop dir
 Source200:      wine.menu
@@ -695,7 +696,8 @@ This package adds the opencl driver for wine.
 # setup and apply wine-staging patches
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
 %patch100 -p1 -b.ntdll
-%patch101 -p1 -b.ntdll-arm
+%patch101 -p1 -b.ntdll-arm0
+%patch102 -p1 -b.ntdll-arm1
 
 patches/patchinstall.sh DESTDIR="`pwd`" --all
 
