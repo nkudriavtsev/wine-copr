@@ -45,7 +45,7 @@
 
 Name:           wine
 Version:        5.10
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -711,6 +711,13 @@ sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
 # 0%%{?wine_staging}
 
 %build
+# This package uses top level ASM constructs which are incompatible with LTO.
+# Top level ASMs are often used to implement symbol versioning.  gcc-10
+# introduces a new mechanism for symbol versioning which works with LTO.
+# Converting packages to use that mechanism instead of toplevel ASMs is
+# recommended.
+# Disable LTO
+%define _lto_cflags %{nil}
 
 # disable fortify as it breaks wine
 # http://bugs.winehq.org/show_bug.cgi?id=24606
@@ -2336,6 +2343,9 @@ fi
 %endif
 
 %changelog
+* Wed Jul 01 2020 Jeff Law <law@redhat.com> 5.10-2
+- Disable LTO
+
 * Sun Jun 07 2020 Michael Cronenworth <mike@cchtml.com> 5.10-1
 - version update
 
