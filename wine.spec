@@ -3,7 +3,7 @@
 
 %global no64bit   0
 %global winegecko 2.47.1
-%global winemono  5.0.0
+%global winemono  5.1.0
 #global _default_patch_fuzz 2
 %ifarch %{ix86} x86_64
 %global wineacm acm
@@ -44,8 +44,8 @@
 %endif
 
 Name:           wine
-Version:        5.10
-Release:        2%{?dist}
+Version:        5.12
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -75,7 +75,6 @@ Source109:      wine-oleview.desktop
 Source150:      wine.appdata.xml
 
 # wine bugs
-Patch100:       wine-staging-5.10-ntdll.patch
 
 # desktop dir
 Source200:      wine.menu
@@ -96,7 +95,7 @@ Patch511:       wine-cjk.patch
 %if 0%{?wine_staging}
 # wine-staging patches
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
+Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.1.tar.gz#/wine-staging-%{version}.1.tar.gz
 %endif
 
 %if !%{?no64bit}
@@ -693,16 +692,8 @@ This package adds the opencl driver for wine.
 %if 0%{?wine_staging}
 # setup and apply wine-staging patches
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
-%patch100 -p1 -b.ntdll
 
-%ifarch %{arm} aarch64
-patches/patchinstall.sh DESTDIR="`pwd`" --all \
- -W ntdll-NtContinue \
- -W ntdll-Syscall_Emulation \
- -W winebuild-Fake_Dlls
-%else
 patches/patchinstall.sh DESTDIR="`pwd`" --all
-%endif
 
 # fix parallelized build
 sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
@@ -1571,7 +1562,7 @@ fi
 %{_libdir}/wine/dxgkrnl.%{winesys}
 %{_libdir}/wine/dxgmms1.%{winesys}
 %endif
-%{_libdir}/wine/dxva2.dll.so
+%{_libdir}/wine/dxva2.%{winedll}
 %{_libdir}/wine/esent.%{winedll}
 %{_libdir}/wine/evr.%{winedll}
 %{_libdir}/wine/explorerframe.%{winedll}
@@ -1804,7 +1795,7 @@ fi
 %{_libdir}/wine/npmshtml.%{winedll}
 %{_libdir}/wine/npptools.%{winedll}
 %{_libdir}/wine/ntdll.so
-%{_libdir}/wine/ntdll.dll.so
+%{_libdir}/wine/ntdll.%{winedll}
 %{_libdir}/wine/ntdsapi.%{winedll}
 %{_libdir}/wine/ntprint.%{winedll}
 %if 0%{?wine_staging}
@@ -2343,6 +2334,9 @@ fi
 %endif
 
 %changelog
+* Tue Jul 14 2020 Michael Cronenworth <mike@cchtml.com> 5.12-1
+- version update
+
 * Wed Jul 01 2020 Jeff Law <law@redhat.com> 5.10-2
 - Disable LTO
 
