@@ -1210,6 +1210,7 @@ fi
 %{_libdir}/wine/termsv.%{wineexe}
 %{_libdir}/wine/view.%{wineexe}
 %{_libdir}/wine/wevtutil.%{wineexe}
+%{_libdir}/wine/where.%{wineexe}
 %{_libdir}/wine/whoami.%{wineexe}
 %{_libdir}/wine/wineboot.%{wineexe}
 %{_libdir}/wine/winebrowser.exe.so
@@ -1307,6 +1308,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-misc-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-namedpipe-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-namedpipe-l1-2-0.%{winedll}
+%{_libdir}/wine/api-ms-win-core-namedpipe-ansi-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-namespace-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-normalization-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-path-l1-1-0.%{winedll}
@@ -1828,6 +1830,7 @@ fi
 %{_libdir}/wine/propsys.%{winedll}
 %{_libdir}/wine/psapi.%{winedll}
 %{_libdir}/wine/pstorec.%{winedll}
+%{_libdir}/wine/pwrshplugin.%{winedll}
 %{_libdir}/wine/qasf.%{winedll}
 %{_libdir}/wine/qcap.dll.so
 %{_libdir}/wine/qdvd.%{winedll}
