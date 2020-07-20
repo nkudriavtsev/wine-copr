@@ -141,7 +141,7 @@ BuildRequires:  systemd-devel
 BuildRequires:  zlib-devel
 BuildRequires:  fontforge freetype-devel
 BuildRequires:  libgphoto2-devel
-%if 0%{?fedora} <= 30
+%if 0%{?fedora} && 0%{?fedora} <= 30
 BuildRequires:  isdn4k-utils-devel
 %endif
 BuildRequires:  libpcap-devel
