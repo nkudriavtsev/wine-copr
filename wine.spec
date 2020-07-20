@@ -44,7 +44,7 @@
 %endif
 
 Name:           wine
-Version:        5.12
+Version:        5.13
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -95,7 +95,7 @@ Patch511:       wine-cjk.patch
 %if 0%{?wine_staging}
 # wine-staging patches
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.1.tar.gz#/wine-staging-%{version}.1.tar.gz
+Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
 %endif
 
 %if !%{?no64bit}
@@ -1349,6 +1349,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-sysinfo-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-sysinfo-l1-2-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-sysinfo-l1-2-1.%{winedll}
+%{_libdir}/wine/api-ms-win-core-systemtopology-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-threadpool-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-threadpool-l1-2-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-threadpool-legacy-l1-1-0.%{winedll}
@@ -2337,6 +2338,9 @@ fi
 %endif
 
 %changelog
+* Mon Jul 20 2020 Michael Cronenworth <mike@cchtml.com> 5.13-1
+- version update
+
 * Tue Jul 14 2020 Michael Cronenworth <mike@cchtml.com> 5.12-1
 - version update
 
