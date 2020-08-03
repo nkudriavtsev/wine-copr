@@ -44,7 +44,7 @@
 %endif
 
 Name:           wine
-Version:        5.13
+Version:        5.14
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -454,6 +454,7 @@ Obsoletes:     wine-times-new-roman-fonts-system <= %{version}-%{release}
 %endif
 # 0%%{?wine_staging}
 Requires:      wine-symbol-fonts = %{version}-%{release}
+Requires:      wine-webdings-fonts = %{version}-%{release}
 Requires:      wine-wingdings-fonts = %{version}-%{release}
 # intermediate fix for #593140
 Requires:      liberation-sans-fonts liberation-serif-fonts liberation-mono-fonts
@@ -573,6 +574,14 @@ BuildArch:     noarch
 Requires:      fontpackages-filesystem
 
 %description symbol-fonts
+%{summary}
+
+%package webdings-fonts
+Summary:       Wine Webdings font family
+BuildArch:     noarch
+Requires:      fontpackages-filesystem
+
+%description webdings-fonts
 %{summary}
 
 %package wingdings-fonts
@@ -1763,6 +1772,7 @@ fi
 %{_libdir}/wine/msvcp120.%{winedll}
 %{_libdir}/wine/msvcp120_app.%{winedll}
 %{_libdir}/wine/msvcp140.%{winedll}
+%{_libdir}/wine/msvcp140_1.%{winedll}
 %{_libdir}/wine/msvcr70.dll.so
 %{_libdir}/wine/msvcr71.dll.so
 %{_libdir}/wine/msvcr80.dll.so
@@ -2238,6 +2248,10 @@ fi
 %doc COPYING.LIB
 %{_datadir}/wine/fonts/symbol.ttf
 
+%files webdings-fonts
+%doc COPYING.LIB
+%{_datadir}/wine/fonts/webdings.ttf
+
 %files wingdings-fonts
 %doc COPYING.LIB
 %{_datadir}/wine/fonts/wingding.ttf
@@ -2338,6 +2352,9 @@ fi
 %endif
 
 %changelog
+* Mon Aug 03 2020 Michael Cronenworth <mike@cchtml.com> 5.14-1
+- version update
+
 * Mon Jul 20 2020 Michael Cronenworth <mike@cchtml.com> 5.13-1
 - version update
 
