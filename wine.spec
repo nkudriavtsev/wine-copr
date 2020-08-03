@@ -2355,6 +2355,9 @@ fi
 * Mon Aug 03 2020 Michael Cronenworth <mike@cchtml.com> 5.14-1
 - version update
 
+* Wed Jul 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 5.13-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jul 20 2020 Michael Cronenworth <mike@cchtml.com> 5.13-1
 - version update
 
