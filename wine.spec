@@ -45,7 +45,7 @@
 
 Name:           wine
 Version:        5.14
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -219,6 +219,9 @@ Requires:       wine-mono = %winemono
 Requires:       /usr/bin/ntlm_auth
 Requires:       mesa-dri-drivers(x86-32)
 %endif
+%if 0%{?fedora} >= 33
+Recommends:     wine-dxvk(x86-32)
+%endif
 %endif
 
 # x86-64 parts
@@ -240,6 +243,9 @@ Requires:       mingw64-wine-gecko = %winegecko
 Requires:       wine-mono = %winemono
 %endif
 Requires:       mesa-dri-drivers(x86-64)
+%if 0%{?fedora} >= 33
+Recommends:     wine-dxvk(x86-64)
+%endif
 %endif
 
 # ARM parts
@@ -2352,6 +2358,9 @@ fi
 %endif
 
 %changelog
+* Mon Aug 10 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 5.14-2
+- Recommend wine-dxvk as part of https://fedoraproject.org/wiki/Changes/DXVKwined3d
+
 * Mon Aug 03 2020 Michael Cronenworth <mike@cchtml.com> 5.14-1
 - version update
 
