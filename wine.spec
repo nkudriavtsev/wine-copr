@@ -44,8 +44,8 @@
 %endif
 
 Name:           wine
-Version:        5.14
-Release:        2%{?dist}
+Version:        5.15
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -95,7 +95,7 @@ Patch511:       wine-cjk.patch
 %if 0%{?wine_staging}
 # wine-staging patches
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
+Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.2.tar.gz#/wine-staging-%{version}.2.tar.gz
 %endif
 
 %if !%{?no64bit}
@@ -1285,6 +1285,8 @@ fi
 %{_libdir}/wine/api-ms-win-core-file-l2-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-file-l2-1-1.%{winedll}
 %{_libdir}/wine/api-ms-win-core-file-l2-1-2.%{winedll}
+%{_libdir}/wine/api-ms-win-core-file-ansi-l2-1-0.%{winedll}
+%{_libdir}/wine/api-ms-win-core-file-fromapp-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-handle-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-heap-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-heap-l1-2-0.%{winedll}
@@ -1319,6 +1321,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-memory-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-memory-l1-1-1.%{winedll}
 %{_libdir}/wine/api-ms-win-core-memory-l1-1-2.%{winedll}
+%{_libdir}/wine/api-ms-win-core-memory-l1-1-3.%{winedll}
 %{_libdir}/wine/api-ms-win-core-memory-l1-1-4.%{winedll}
 %{_libdir}/wine/api-ms-win-core-misc-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-namedpipe-l1-1-0.%{winedll}
@@ -2358,6 +2361,9 @@ fi
 %endif
 
 %changelog
+* Sun Aug 16 2020 Michael Cronenworth <mike@cchtml.com> 5.15-1
+- version update
+
 * Mon Aug 10 2020 Frantisek Zatloukal <fzatlouk@redhat.com> - 5.14-2
 - Recommend wine-dxvk as part of https://fedoraproject.org/wiki/Changes/DXVKwined3d
 
