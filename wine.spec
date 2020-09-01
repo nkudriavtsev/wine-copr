@@ -44,7 +44,7 @@
 %endif
 
 Name:           wine
-Version:        5.15
+Version:        5.16
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -95,7 +95,7 @@ Patch511:       wine-cjk.patch
 %if 0%{?wine_staging}
 # wine-staging patches
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.2.tar.gz#/wine-staging-%{version}.2.tar.gz
+Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
 %endif
 
 %if !%{?no64bit}
@@ -1127,7 +1127,6 @@ fi
 %doc documentation/README.*
 %if 0%{?wine_staging}
 %{_bindir}/msidb
-%{_libdir}/wine/runas.%{wineexe}
 %endif
 %{_bindir}/winedump
 %{_libdir}/wine/explorer.%{wineexe}
@@ -1811,6 +1810,9 @@ fi
 %{_libdir}/wine/netio.%{winesys}
 %{_libdir}/wine/netprofm.%{winedll}
 %{_libdir}/wine/netsh.%{wineexe}
+%if 0%{?wine_staging}
+%{_libdir}/wine/netutils.%{winedll}
+%endif
 %{_libdir}/wine/newdev.%{winedll}
 %{_libdir}/wine/ninput.%{winedll}
 %{_libdir}/wine/normaliz.%{winedll}
@@ -1903,6 +1905,9 @@ fi
 %{_libdir}/wine/softpub.%{winedll}
 %{_libdir}/wine/spoolsv.%{wineexe}
 %{_libdir}/wine/srclient.%{winedll}
+%if 0%{?wine_staging}
+%{_libdir}/wine/srvcli.%{winedll}
+%endif
 %{_libdir}/wine/sspicli.%{winedll}
 %{_libdir}/wine/stdole2.%{winetlb}
 %{_libdir}/wine/stdole32.%{winetlb}
@@ -1963,6 +1968,7 @@ fi
 %{_libdir}/wine/wimgapi.%{winedll}
 %if 0%{?wine_staging}
 %{_libdir}/wine/win32k.%{winesys}
+%{_libdir}/wine/windows.gaming.input.%{winedll}
 %endif
 %{_libdir}/wine/windowscodecs.dll.so
 %{_libdir}/wine/windowscodecsext.%{winedll}
@@ -2361,6 +2367,9 @@ fi
 %endif
 
 %changelog
+* Tue Sep 01 2020 Michael Cronenworth <mike@cchtml.com> 5.16-1
+- version update
+
 * Sun Aug 16 2020 Michael Cronenworth <mike@cchtml.com> 5.15-1
 - version update
 
