@@ -44,7 +44,7 @@
 %endif
 
 Name:           wine
-Version:        5.16
+Version:        5.17
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -95,7 +95,7 @@ Patch511:       wine-cjk.patch
 %if 0%{?wine_staging}
 # wine-staging patches
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
+Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.2.tar.gz#/wine-staging-%{version}.2.tar.gz
 %endif
 
 %if !%{?no64bit}
@@ -1245,7 +1245,7 @@ fi
 %{_libdir}/wine/actxprxy.%{winedll}
 %{_libdir}/wine/adsldp.%{winedll}
 %{_libdir}/wine/adsldpc.%{winedll}
-%{_libdir}/wine/advapi32.dll.so
+%{_libdir}/wine/advapi32.%{winedll}
 %{_libdir}/wine/advpack.%{winedll}
 %{_libdir}/wine/amsi.%{winedll}
 %{_libdir}/wine/amstream.%{winedll}
@@ -1969,6 +1969,7 @@ fi
 %if 0%{?wine_staging}
 %{_libdir}/wine/win32k.%{winesys}
 %{_libdir}/wine/windows.gaming.input.%{winedll}
+%{_libdir}/wine/windows.media.speech.%{winedll}
 %endif
 %{_libdir}/wine/windowscodecs.dll.so
 %{_libdir}/wine/windowscodecsext.%{winedll}
@@ -2367,6 +2368,9 @@ fi
 %endif
 
 %changelog
+* Tue Sep 15 2020 Michael Cronenworth <mike@cchtml.com> 5.17-1
+- version update
+
 * Tue Sep 01 2020 Michael Cronenworth <mike@cchtml.com> 5.16-1
 - version update
 
