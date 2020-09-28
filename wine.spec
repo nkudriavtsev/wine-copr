@@ -44,7 +44,7 @@
 %endif
 
 Name:           wine
-Version:        5.17
+Version:        5.18
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -95,7 +95,7 @@ Patch511:       wine-cjk.patch
 %if 0%{?wine_staging}
 # wine-staging patches
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.2.tar.gz#/wine-staging-%{version}.2.tar.gz
+Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
 %endif
 
 %if !%{?no64bit}
@@ -128,7 +128,6 @@ BuildRequires:  libstdc++-devel
 BuildRequires:  libusb-devel
 BuildRequires:  libxml2-devel
 BuildRequires:  libxslt-devel
-BuildRequires:  ncurses-devel
 %if 0%{?fedora}
 BuildRequires:  ocl-icd-devel
 BuildRequires:  opencl-headers
@@ -1938,7 +1937,8 @@ fi
 %{_libdir}/wine/url.%{winedll}
 %{_libdir}/wine/urlmon.%{winedll}
 %{_libdir}/wine/usbd.%{winesys}
-%{_libdir}/wine/user32.dll.so
+%{_libdir}/wine/user32.so
+%{_libdir}/wine/user32.%{winedll}
 %{_libdir}/wine/usp10.%{winedll}
 %{_libdir}/wine/utildll.%{winedll}
 %{_libdir}/wine/uxtheme.dll.so
@@ -1969,6 +1969,7 @@ fi
 %if 0%{?wine_staging}
 %{_libdir}/wine/win32k.%{winesys}
 %{_libdir}/wine/windows.gaming.input.%{winedll}
+%{_libdir}/wine/windows.globalization.%{winedll}
 %{_libdir}/wine/windows.media.speech.%{winedll}
 %endif
 %{_libdir}/wine/windowscodecs.dll.so
@@ -2037,6 +2038,19 @@ fi
 %{_libdir}/wine/x3daudio1_5.dll.so
 %{_libdir}/wine/x3daudio1_6.dll.so
 %{_libdir}/wine/x3daudio1_7.dll.so
+%if 0%{?wine_staging}
+%{_libdir}/wine/xactengine2_0.dll.so
+%{_libdir}/wine/xactengine2_1.dll.so
+%{_libdir}/wine/xactengine2_2.dll.so
+%{_libdir}/wine/xactengine2_3.dll.so
+%{_libdir}/wine/xactengine2_4.dll.so
+%{_libdir}/wine/xactengine2_5.dll.so
+%{_libdir}/wine/xactengine2_6.dll.so
+%{_libdir}/wine/xactengine2_7.dll.so
+%{_libdir}/wine/xactengine2_8.dll.so
+%{_libdir}/wine/xactengine2_9.dll.so
+%{_libdir}/wine/xactengine2_10.dll.so
+%endif
 %{_libdir}/wine/xactengine3_0.dll.so
 %{_libdir}/wine/xactengine3_1.dll.so
 %{_libdir}/wine/xactengine3_2.dll.so
@@ -2312,6 +2326,9 @@ fi
 # cms subpackage
 %files cms
 %{_libdir}/wine/mscms.dll.so
+%if 0%{?wine_staging}
+%{_datadir}/wine/color/
+%endif
 
 # twain subpackage
 %files twain
@@ -2368,6 +2385,9 @@ fi
 %endif
 
 %changelog
+* Mon Sep 28 2020 Michael Cronenworth <mike@cchtml.com> 5.18-1
+- version update
+
 * Tue Sep 15 2020 Michael Cronenworth <mike@cchtml.com> 5.17-1
 - version update
 
