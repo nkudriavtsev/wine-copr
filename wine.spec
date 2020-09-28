@@ -45,7 +45,7 @@
 
 Name:           wine
 Version:        5.18
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -174,6 +174,7 @@ BuildRequires:  mpg123-devel
 %endif
 BuildRequires:  SDL2-devel
 BuildRequires:  libvkd3d-devel
+BuildRequires:  libvkd3d-shader-devel
 BuildRequires:  vulkan-devel
 BuildRequires:  libFAudio-devel
 BuildRequires:  libappstream-glib
@@ -2385,6 +2386,9 @@ fi
 %endif
 
 %changelog
+* Mon Sep 28 2020 Michael Cronenworth <mike@cchtml.com> 5.18-2
+- Enable vkd3d shader support
+
 * Mon Sep 28 2020 Michael Cronenworth <mike@cchtml.com> 5.18-1
 - version update
 
