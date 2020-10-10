@@ -1488,6 +1488,7 @@ fi
 %{_libdir}/wine/avifil32.%{winedll}
 %{_libdir}/wine/avrt.%{winedll}
 %{_libdir}/wine/bcrypt.so
+%{_libdir}/wine/bcrypt.%{winedll}
 %{_libdir}/wine/bluetoothapis.%{winedll}
 %{_libdir}/wine/browseui.%{winedll}
 %{_libdir}/wine/bthprops.%{winecpl}
@@ -1828,6 +1829,7 @@ fi
 %endif
 %{_libdir}/wine/objsel.%{winedll}
 %{_libdir}/wine/odbc32.so
+%{_libdir}/wine/odbc32.%{winedll}
 %{_libdir}/wine/odbcbcp.%{winedll}
 %{_libdir}/wine/odbccp32.%{winedll}
 %{_libdir}/wine/odbccu32.%{winedll}
