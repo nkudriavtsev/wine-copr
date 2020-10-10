@@ -3,7 +3,7 @@
 
 %global no64bit   0
 %global winegecko 2.47.1
-%global winemono  5.1.0
+%global winemono  5.1.1
 #global _default_patch_fuzz 2
 %ifarch %{ix86} x86_64
 %global wineacm acm
@@ -44,8 +44,8 @@
 %endif
 
 Name:           wine
-Version:        5.18
-Release:        2%{?dist}
+Version:        5.19
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -1487,7 +1487,7 @@ fi
 %{_libdir}/wine/avicap32.dll.so
 %{_libdir}/wine/avifil32.%{winedll}
 %{_libdir}/wine/avrt.%{winedll}
-%{_libdir}/wine/bcrypt.dll.so
+%{_libdir}/wine/bcrypt.so
 %{_libdir}/wine/bluetoothapis.%{winedll}
 %{_libdir}/wine/browseui.%{winedll}
 %{_libdir}/wine/bthprops.%{winecpl}
@@ -1693,7 +1693,7 @@ fi
 %{_libdir}/wine/jscript.%{winedll}
 %{_libdir}/wine/jsproxy.%{winedll}
 %{_libdir}/wine/kerberos.dll.so
-%{_libdir}/wine/kernel32.dll.so
+%{_libdir}/wine/kernel32.%{winedll}
 %{_libdir}/wine/kernelbase.%{winedll}
 %{_libdir}/wine/ksecdd.%{winesys}
 %{_libdir}/wine/ksproxy.%{wineax}
@@ -1827,7 +1827,7 @@ fi
 %{_libdir}/wine/nvcuvid.dll.so
 %endif
 %{_libdir}/wine/objsel.%{winedll}
-%{_libdir}/wine/odbc32.dll.so
+%{_libdir}/wine/odbc32.so
 %{_libdir}/wine/odbcbcp.%{winedll}
 %{_libdir}/wine/odbccp32.%{winedll}
 %{_libdir}/wine/odbccu32.%{winedll}
@@ -1965,6 +1965,7 @@ fi
 %{_libdir}/wine/webservices.%{winedll}
 %{_libdir}/wine/wer.%{winedll}
 %{_libdir}/wine/wevtapi.%{winedll}
+%{_libdir}/wine/wevtsvc.%{winedll}
 %{_libdir}/wine/wiaservc.%{winedll}
 %{_libdir}/wine/wimgapi.%{winedll}
 %if 0%{?wine_staging}
@@ -1972,6 +1973,7 @@ fi
 %{_libdir}/wine/windows.gaming.input.%{winedll}
 %{_libdir}/wine/windows.globalization.%{winedll}
 %{_libdir}/wine/windows.media.speech.%{winedll}
+%{_libdir}/wine/windows.networking.connectivity.%{winedll}
 %endif
 %{_libdir}/wine/windowscodecs.dll.so
 %{_libdir}/wine/windowscodecsext.%{winedll}
@@ -2327,9 +2329,6 @@ fi
 # cms subpackage
 %files cms
 %{_libdir}/wine/mscms.dll.so
-%if 0%{?wine_staging}
-%{_datadir}/wine/color/
-%endif
 
 # twain subpackage
 %files twain
@@ -2386,6 +2385,9 @@ fi
 %endif
 
 %changelog
+* Sat Oct 10 2020 Michael Cronenworth <mike@cchtml.com> 5.19-1
+- version update
+
 * Mon Sep 28 2020 Michael Cronenworth <mike@cchtml.com> 5.18-2
 - Enable vkd3d shader support
 
