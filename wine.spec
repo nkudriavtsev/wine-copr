@@ -1184,7 +1184,9 @@ fi
 %{_libdir}/wine/conhost.%{wineexe}
 %{_libdir}/wine/cscript.%{wineexe}
 %{_libdir}/wine/dism.%{wineexe}
+%{_libdir}/wine/dplaysvr.%{wineexe}
 %{_libdir}/wine/dpnsvr.%{wineexe}
+%{_libdir}/wine/dpvsetup.%{wineexe}
 %{_libdir}/wine/eject.%{wineexe}
 %{_libdir}/wine/expand.%{wineexe}
 %{_libdir}/wine/extrac32.%{wineexe}
@@ -1978,6 +1980,7 @@ fi
 %{_libdir}/wine/windows.networking.connectivity.%{winedll}
 %endif
 %{_libdir}/wine/windowscodecs.dll.so
+%{_libdir}/wine/windowscodecs.so
 %{_libdir}/wine/windowscodecsext.%{winedll}
 %{_libdir}/wine/winebus.sys.so
 %{_libdir}/wine/winegstreamer.dll.so
