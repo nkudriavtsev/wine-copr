@@ -44,7 +44,7 @@
 %endif
 
 Name:           wine
-Version:        5.19
+Version:        5.20
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1228,7 +1228,7 @@ fi
 %{_libdir}/wine/whoami.%{wineexe}
 %{_libdir}/wine/wineboot.%{wineexe}
 %{_libdir}/wine/winebrowser.exe.so
-%{_libdir}/wine/wineconsole.exe.so
+%{_libdir}/wine/wineconsole.%{wineexe}
 %{_libdir}/wine/winemenubuilder.exe.so
 %{_libdir}/wine/winecfg.exe.so
 %{_libdir}/wine/winedevice.%{wineexe}
@@ -1944,7 +1944,7 @@ fi
 %{_libdir}/wine/user32.%{winedll}
 %{_libdir}/wine/usp10.%{winedll}
 %{_libdir}/wine/utildll.%{winedll}
-%{_libdir}/wine/uxtheme.dll.so
+%{_libdir}/wine/uxtheme.%{winedll}
 %{_libdir}/wine/userenv.%{winedll}
 %{_libdir}/wine/vbscript.%{winedll}
 %{_libdir}/wine/vcomp.%{winedll}
@@ -2387,6 +2387,9 @@ fi
 %endif
 
 %changelog
+* Sat Oct 24 2020 Michael Cronenworth <mike@cchtml.com> 5.20-1
+- version update
+
 * Sat Oct 10 2020 Michael Cronenworth <mike@cchtml.com> 5.19-1
 - version update
 
