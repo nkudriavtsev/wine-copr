@@ -44,7 +44,7 @@
 %endif
 
 Name:           wine
-Version:        5.20
+Version:        5.21
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1531,6 +1531,7 @@ fi
 %{_libdir}/wine/d3d12.dll.so
 %{_libdir}/wine/d3dcompiler_*.%{winedll}
 %{_libdir}/wine/d3dim.%{winedll}
+%{_libdir}/wine/d3dim700.%{winedll}
 %{_libdir}/wine/d3drm.%{winedll}
 %{_libdir}/wine/d3dx9_*.%{winedll}
 %{_libdir}/wine/d3dx10_*.%{winedll}
@@ -1654,7 +1655,8 @@ fi
 %{_libdir}/wine/fusion.%{winedll}
 %{_libdir}/wine/fwpuclnt.%{winedll}
 %{_libdir}/wine/gameux.%{winedll}
-%{_libdir}/wine/gdi32.dll.so
+%{_libdir}/wine/gdi32.so
+%{_libdir}/wine/gdi32.%{winedll}
 %{_libdir}/wine/gdiplus.%{winedll}
 %{_libdir}/wine/glu32.dll.so
 %{_libdir}/wine/gphoto2.ds.so
@@ -2032,6 +2034,7 @@ fi
 %{_libdir}/wine/sfc.%{winedll}
 %{_libdir}/wine/wineps.%{winedrv}
 %{_libdir}/wine/d3d8.%{winedll}
+%{_libdir}/wine/d3d8thk.%{winedll}
 %ghost %{_libdir}/wine/d3d9.%{winedll}
 %{_libdir}/wine/wine-d3d9.%{winedll}
 %{_libdir}/wine/opengl32.dll.so
@@ -2390,6 +2393,9 @@ fi
 %endif
 
 %changelog
+* Tue Nov 10 2020 Michael Cronenworth <mike@cchtml.com> 5.21-1
+- version update
+
 * Sat Oct 24 2020 Michael Cronenworth <mike@cchtml.com> 5.20-1
 - version update
 
