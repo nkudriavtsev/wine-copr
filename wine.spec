@@ -1510,7 +1510,9 @@ fi
 %{_libdir}/wine/concrt140.%{winedll}
 %{_libdir}/wine/connect.%{winedll}
 %{_libdir}/wine/credui.%{winedll}
+%{_libdir}/wine/crtdll.so
 %{_libdir}/wine/crtdll.%{winedll}
+%{_libdir}/wine/crypt32.so
 %{_libdir}/wine/crypt32.%{winedll}
 %{_libdir}/wine/cryptdlg.%{winedll}
 %{_libdir}/wine/cryptdll.%{winedll}
@@ -1786,17 +1788,26 @@ fi
 %{_libdir}/wine/msvcp120_app.%{winedll}
 %{_libdir}/wine/msvcp140.%{winedll}
 %{_libdir}/wine/msvcp140_1.%{winedll}
+%{_libdir}/wine/msvcr70.so
 %{_libdir}/wine/msvcr70.%{winedll}
+%{_libdir}/wine/msvcr71.so
 %{_libdir}/wine/msvcr71.%{winedll}
+%{_libdir}/wine/msvcr80.so
 %{_libdir}/wine/msvcr80.%{winedll}
+%{_libdir}/wine/msvcr90.so
 %{_libdir}/wine/msvcr90.%{winedll}
+%{_libdir}/wine/msvcr100.so
 %{_libdir}/wine/msvcr100.%{winedll}
+%{_libdir}/wine/msvcr110.so
 %{_libdir}/wine/msvcr110.%{winedll}
+%{_libdir}/wine/msvcr120.so
 %{_libdir}/wine/msvcr120.%{winedll}
 %{_libdir}/wine/msvcr120_app.%{winedll}
+%{_libdir}/wine/msvcrt.so
 %{_libdir}/wine/msvcrt.%{winedll}
 %{_libdir}/wine/msvcrt20.%{winedll}
 %{_libdir}/wine/msvcrt40.%{winedll}
+%{_libdir}/wine/msvcrtd.so
 %{_libdir}/wine/msvcrtd.%{winedll}
 %{_libdir}/wine/msvfw32.%{winedll}
 %{_libdir}/wine/msvidc32.%{winedll}
@@ -1932,6 +1943,7 @@ fi
 %{_libdir}/wine/tdi.%{winesys}
 %{_libdir}/wine/traffic.%{winedll}
 %{_libdir}/wine/tzres.%{winedll}
+%{_libdir}/wine/ucrtbase.so
 %{_libdir}/wine/ucrtbase.%{winedll}
 %if 0%{?wine_staging}
 %{_libdir}/wine/uianimation.%{winedll}
@@ -1974,6 +1986,7 @@ fi
 %{_libdir}/wine/wevtsvc.%{winedll}
 %{_libdir}/wine/wiaservc.%{winedll}
 %{_libdir}/wine/wimgapi.%{winedll}
+%{_libdir}/wine/win32k.sys
 %{_libdir}/wine/windowscodecs.dll.so
 %{_libdir}/wine/windowscodecs.so
 %{_libdir}/wine/windowscodecsext.%{winedll}
@@ -2326,6 +2339,7 @@ fi
 
 # cms subpackage
 %files cms
+%{_libdir}/wine/mscms.so
 %{_libdir}/wine/mscms.%{winedll}
 
 # twain subpackage
