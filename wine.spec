@@ -1986,7 +1986,9 @@ fi
 %{_libdir}/wine/wevtsvc.%{winedll}
 %{_libdir}/wine/wiaservc.%{winedll}
 %{_libdir}/wine/wimgapi.%{winedll}
+%ifarch %{ix86} x86_64
 %{_libdir}/wine/win32k.sys
+%endif
 %{_libdir}/wine/windowscodecs.dll.so
 %{_libdir}/wine/windowscodecs.so
 %{_libdir}/wine/windowscodecsext.%{winedll}
