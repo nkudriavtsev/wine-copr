@@ -44,7 +44,7 @@
 %endif
 
 Name:           wine
-Version:        5.21
+Version:        5.22
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1510,8 +1510,8 @@ fi
 %{_libdir}/wine/concrt140.%{winedll}
 %{_libdir}/wine/connect.%{winedll}
 %{_libdir}/wine/credui.%{winedll}
-%{_libdir}/wine/crtdll.dll.so
-%{_libdir}/wine/crypt32.dll.so
+%{_libdir}/wine/crtdll.%{winedll}
+%{_libdir}/wine/crypt32.%{winedll}
 %{_libdir}/wine/cryptdlg.%{winedll}
 %{_libdir}/wine/cryptdll.%{winedll}
 %{_libdir}/wine/cryptext.%{winedll}
@@ -1658,7 +1658,7 @@ fi
 %{_libdir}/wine/gdi32.so
 %{_libdir}/wine/gdi32.%{winedll}
 %{_libdir}/wine/gdiplus.%{winedll}
-%{_libdir}/wine/glu32.dll.so
+%{_libdir}/wine/glu32.%{winedll}
 %{_libdir}/wine/gphoto2.ds.so
 %{_libdir}/wine/gpkcsp.%{winedll}
 %{_libdir}/wine/hal.%{winedll}
@@ -1786,18 +1786,18 @@ fi
 %{_libdir}/wine/msvcp120_app.%{winedll}
 %{_libdir}/wine/msvcp140.%{winedll}
 %{_libdir}/wine/msvcp140_1.%{winedll}
-%{_libdir}/wine/msvcr70.dll.so
-%{_libdir}/wine/msvcr71.dll.so
-%{_libdir}/wine/msvcr80.dll.so
-%{_libdir}/wine/msvcr90.dll.so
-%{_libdir}/wine/msvcr100.dll.so
-%{_libdir}/wine/msvcr110.dll.so
-%{_libdir}/wine/msvcr120.dll.so
+%{_libdir}/wine/msvcr70.%{winedll}
+%{_libdir}/wine/msvcr71.%{winedll}
+%{_libdir}/wine/msvcr80.%{winedll}
+%{_libdir}/wine/msvcr90.%{winedll}
+%{_libdir}/wine/msvcr100.%{winedll}
+%{_libdir}/wine/msvcr110.%{winedll}
+%{_libdir}/wine/msvcr120.%{winedll}
 %{_libdir}/wine/msvcr120_app.%{winedll}
-%{_libdir}/wine/msvcrt.dll.so
+%{_libdir}/wine/msvcrt.%{winedll}
 %{_libdir}/wine/msvcrt20.%{winedll}
 %{_libdir}/wine/msvcrt40.%{winedll}
-%{_libdir}/wine/msvcrtd.dll.so
+%{_libdir}/wine/msvcrtd.%{winedll}
 %{_libdir}/wine/msvfw32.%{winedll}
 %{_libdir}/wine/msvidc32.%{winedll}
 %{_libdir}/wine/mswsock.%{winedll}
@@ -1932,7 +1932,7 @@ fi
 %{_libdir}/wine/tdi.%{winesys}
 %{_libdir}/wine/traffic.%{winedll}
 %{_libdir}/wine/tzres.%{winedll}
-%{_libdir}/wine/ucrtbase.dll.so
+%{_libdir}/wine/ucrtbase.%{winedll}
 %if 0%{?wine_staging}
 %{_libdir}/wine/uianimation.%{winedll}
 %endif
@@ -1974,13 +1974,6 @@ fi
 %{_libdir}/wine/wevtsvc.%{winedll}
 %{_libdir}/wine/wiaservc.%{winedll}
 %{_libdir}/wine/wimgapi.%{winedll}
-%if 0%{?wine_staging}
-%{_libdir}/wine/win32k.%{winesys}
-%{_libdir}/wine/windows.gaming.input.%{winedll}
-%{_libdir}/wine/windows.globalization.%{winedll}
-%{_libdir}/wine/windows.media.speech.%{winedll}
-%{_libdir}/wine/windows.networking.connectivity.%{winedll}
-%endif
 %{_libdir}/wine/windowscodecs.dll.so
 %{_libdir}/wine/windowscodecs.so
 %{_libdir}/wine/windowscodecsext.%{winedll}
@@ -2180,9 +2173,6 @@ fi
 %dir %{_datadir}/wine/mono
 %dir %{_datadir}/wine/fonts
 %{_datadir}/wine/wine.inf
-%{_datadir}/wine/winebus.inf
-%{_datadir}/wine/winehid.inf
-%{_datadir}/wine/wineusb.inf
 %{_datadir}/wine/nls/
 
 %files common
@@ -2336,7 +2326,7 @@ fi
 
 # cms subpackage
 %files cms
-%{_libdir}/wine/mscms.dll.so
+%{_libdir}/wine/mscms.%{winedll}
 
 # twain subpackage
 %files twain
@@ -2393,6 +2383,9 @@ fi
 %endif
 
 %changelog
+* Sat Nov 21 2020 Michael Cronenworth <mike@cchtml.com> 5.22-1
+- version update
+
 * Tue Nov 10 2020 Michael Cronenworth <mike@cchtml.com> 5.21-1
 - version update
 
