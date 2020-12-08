@@ -2,7 +2,7 @@
 %undefine _hardened_build
 
 %global no64bit   0
-%global winegecko 2.47.1
+%global winegecko 2.47.2
 %global winemono  5.1.1
 #global _default_patch_fuzz 2
 %ifarch %{ix86} x86_64
@@ -44,14 +44,14 @@
 %endif
 
 Name:           wine
-Version:        5.22
-Release:        1%{?dist}
+Version:        6.0
+Release:        0.1rc1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
 URL:            https://www.winehq.org/
-Source0:        https://dl.winehq.org/wine/source/5.x/wine-%{version}.tar.xz
-Source10:       https://dl.winehq.org/wine/source/5.x/wine-%{version}.tar.xz.sign
+Source0:        https://dl.winehq.org/wine/source/6.0/wine-%{version}-rc1.tar.xz
+Source10:       https://dl.winehq.org/wine/source/6.0/wine-%{version}-rc1.tar.xz.sign
 
 Source1:        wine.init
 Source2:        wine.systemd
@@ -95,7 +95,7 @@ Patch511:       wine-cjk.patch
 %if 0%{?wine_staging}
 # wine-staging patches
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
+Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.gz#/wine-staging-%{version}rc1.tar.gz
 %endif
 
 %if !%{?no64bit}
@@ -223,6 +223,7 @@ Requires:       mesa-dri-drivers(x86-32)
 %if 0%{?fedora} >= 33
 Recommends:     wine-dxvk(x86-32)
 %endif
+Recommends:     gstreamer1-plugins-good(x86-32)
 %endif
 
 # x86-64 parts
@@ -247,6 +248,7 @@ Requires:       mesa-dri-drivers(x86-64)
 %if 0%{?fedora} >= 33
 Recommends:     wine-dxvk(x86-64)
 %endif
+Recommends:     gstreamer1-plugins-good(x86-64)
 %endif
 
 # ARM parts
@@ -702,7 +704,7 @@ This package adds the opencl driver for wine.
 %endif
 
 %prep
-%setup -q -n wine-%{version}
+%setup -q -n wine-%{version}-rc1
 %patch511 -p1 -b.cjk
 
 %if 0%{?wine_staging}
@@ -1545,6 +1547,7 @@ fi
 %{_libdir}/wine/dbgeng.%{winedll}
 %{_libdir}/wine/dbghelp.%{winedll}
 %{_libdir}/wine/dciman32.%{winedll}
+%{_libdir}/wine/dcomp.%{winedll}
 %{_libdir}/wine/ddraw.%{winedll}
 %{_libdir}/wine/ddrawex.%{winedll}
 %{_libdir}/wine/devenum.%{winedll}
@@ -1872,7 +1875,8 @@ fi
 %{_libdir}/wine/pstorec.%{winedll}
 %{_libdir}/wine/pwrshplugin.%{winedll}
 %{_libdir}/wine/qasf.%{winedll}
-%{_libdir}/wine/qcap.dll.so
+%{_libdir}/wine/qcap.%{winedll}
+%{_libdir}/wine/qcap.so
 %{_libdir}/wine/qdvd.%{winedll}
 %{_libdir}/wine/qedit.%{winedll}
 %{_libdir}/wine/qmgr.%{winedll}
@@ -1988,7 +1992,11 @@ fi
 %{_libdir}/wine/wiaservc.%{winedll}
 %{_libdir}/wine/wimgapi.%{winedll}
 %{_libdir}/wine/win32k.%{winesys}
-%{_libdir}/wine/windowscodecs.dll.so
+%{_libdir}/wine/windows.gaming.input.%{winedll}
+%{_libdir}/wine/windows.globalization.%{winedll}
+%{_libdir}/wine/windows.media.speech.%{winedll}
+%{_libdir}/wine/windows.networking.connectivity.%{winedll}
+%{_libdir}/wine/windowscodecs.%{winedll}
 %{_libdir}/wine/windowscodecs.so
 %{_libdir}/wine/windowscodecsext.%{winedll}
 %{_libdir}/wine/winebus.sys.so
@@ -2377,7 +2385,6 @@ fi
 %lang(fr) %{_mandir}/fr.UTF-8/man1/winemaker.1*
 %attr(0755, root, root) %dir %{_includedir}/wine
 %{_includedir}/wine/*
-%{_libdir}/*.so
 %{_libdir}/wine/*.a
 %{_libdir}/wine/*.def
 
@@ -2398,6 +2405,9 @@ fi
 %endif
 
 %changelog
+* Tue Dec 08 2020 Michael Cronenworth <mike@cchtml.com> 6.0-0.1
+- version update
+
 * Sat Nov 21 2020 Michael Cronenworth <mike@cchtml.com> 5.22-1
 - version update
 
