@@ -302,7 +302,7 @@ Requires:       wine-filesystem = %{version}-%{release}
 # CUPS support uses dlopen - rhbz#1367537
 Requires:       cups-libs(x86-32)
 Requires:       freetype(x86-32)
-Requires:       nss-mdns(x86-32)
+Requires:       (nss-mdns(x86-32) if nss-mdns)
 Requires:       gnutls(x86-32)
 Requires:       libXcomposite(x86-32)
 Requires:       libXcursor(x86-32)
@@ -326,7 +326,7 @@ Requires:       libva(x86-32)
 # CUPS support uses dlopen - rhbz#1367537
 Requires:       cups-libs(x86-64)
 Requires:       freetype(x86-64)
-Requires:       nss-mdns(x86-64)
+Requires:       (nss-mdns(x86-64) if nss-mdns)
 Requires:       gnutls(x86-64)
 Requires:       libXcomposite(x86-64)
 Requires:       libXcursor(x86-64)
