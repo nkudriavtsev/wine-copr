@@ -45,13 +45,13 @@
 
 Name:           wine
 Version:        6.0
-Release:        0.2rc2%{?dist}
+Release:        0.3rc3%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
 URL:            https://www.winehq.org/
-Source0:        https://dl.winehq.org/wine/source/6.0/wine-%{version}-rc2.tar.xz
-Source10:       https://dl.winehq.org/wine/source/6.0/wine-%{version}-rc2.tar.xz.sign
+Source0:        https://dl.winehq.org/wine/source/6.0/wine-%{version}-rc3.tar.xz
+Source10:       https://dl.winehq.org/wine/source/6.0/wine-%{version}-rc3.tar.xz.sign
 
 Source1:        wine.init
 Source2:        wine.systemd
@@ -95,7 +95,7 @@ Patch511:       wine-cjk.patch
 %if 0%{?wine_staging}
 # wine-staging patches
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.gz#/wine-staging-%{version}-rc2.tar.gz
+Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.gz#/wine-staging-%{version}-rc3.tar.gz
 %endif
 
 %if !%{?no64bit}
@@ -304,7 +304,7 @@ Requires:       wine-filesystem = %{version}-%{release}
 # CUPS support uses dlopen - rhbz#1367537
 Requires:       cups-libs(x86-32)
 Requires:       freetype(x86-32)
-Requires:       nss-mdns(x86-32)
+Requires:       (nss-mdns(x86-32) if nss-mdns(x86-64))
 Requires:       gnutls(x86-32)
 Requires:       libXcomposite(x86-32)
 Requires:       libXcursor(x86-32)
@@ -328,7 +328,7 @@ Requires:       libva(x86-32)
 # CUPS support uses dlopen - rhbz#1367537
 Requires:       cups-libs(x86-64)
 Requires:       freetype(x86-64)
-Requires:       nss-mdns(x86-64)
+Requires:       (nss-mdns(x86-64) if nss-mdns(x86-32))
 Requires:       gnutls(x86-64)
 Requires:       libXcomposite(x86-64)
 Requires:       libXcursor(x86-64)
@@ -704,7 +704,7 @@ This package adds the opencl driver for wine.
 %endif
 
 %prep
-%setup -q -n wine-%{version}-rc2
+%setup -q -n wine-%{version}-rc3
 %patch511 -p1 -b.cjk
 
 %if 0%{?wine_staging}
@@ -2405,6 +2405,9 @@ fi
 %endif
 
 %changelog
+* Sat Dec 19 2020 Michael Cronenworth <mike@cchtml.com> 6.0-0.3rc3
+- version update
+
 * Sat Dec 12 2020 Michael Cronenworth <mike@cchtml.com> 6.0-0.2rc2
 - version update
 
