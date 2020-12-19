@@ -1589,8 +1589,23 @@ fi
 %ghost %{_libdir}/wine/dxgi.dll.so
 %{_libdir}/wine/wine-dxgi.dll.so
 %if 0%{?wine_staging}
+%{_libdir}/wine/d3dpmesh.%{winedll}
+%{_libdir}/wine/diactfrm.%{winedll}
+%{_libdir}/wine/dimap.%{winedll}
+%{_libdir}/wine/dpmodemx.%{winedll}
+%{_libdir}/wine/dpnhupnp.%{winedll}
+%{_libdir}/wine/dpvacm.%{winedll}
+%{_libdir}/wine/dpvvox.%{winedll}
+%{_libdir}/wine/dsdmoprp.%{winedll}
+%{_libdir}/wine/dsound3d.%{winedll}
+%{_libdir}/wine/dx7vb.%{winedll}
+%{_libdir}/wine/dxapi.%{winesys}
 %{_libdir}/wine/dxgkrnl.%{winesys}
 %{_libdir}/wine/dxgmms1.%{winesys}
+%{_libdir}/wine/encapi.%{winedll}
+%{_libdir}/wine/gcdef.%{winedll}
+%{_libdir}/wine/qdv.%{winedll}
+%{_libdir}/wine/qedwipes.%{winedll}
 %endif
 %{_libdir}/wine/dxva2.%{winedll}
 %{_libdir}/wine/esent.%{winedll}
