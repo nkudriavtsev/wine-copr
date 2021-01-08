@@ -45,13 +45,13 @@
 
 Name:           wine
 Version:        6.0
-Release:        0.4rc4%{?dist}
+Release:        0.5rc5%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
 URL:            https://www.winehq.org/
-Source0:        https://dl.winehq.org/wine/source/6.0/wine-%{version}-rc4.tar.xz
-Source10:       https://dl.winehq.org/wine/source/6.0/wine-%{version}-rc4.tar.xz.sign
+Source0:        https://dl.winehq.org/wine/source/6.0/wine-%{version}-rc5.tar.xz
+Source10:       https://dl.winehq.org/wine/source/6.0/wine-%{version}-rc5.tar.xz.sign
 
 Source1:        wine.init
 Source2:        wine.systemd
@@ -75,6 +75,8 @@ Source109:      wine-oleview.desktop
 Source150:      wine.appdata.xml
 
 # wine bugs
+# https://bugs.winehq.org/show_bug.cgi?id=45277
+Patch100:      wine-6.0-vulkan-child-window.patch
 
 # desktop dir
 Source200:      wine.menu
@@ -95,7 +97,7 @@ Patch511:       wine-cjk.patch
 %if 0%{?wine_staging}
 # wine-staging patches
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.gz#/wine-staging-%{version}-rc4.tar.gz
+Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.gz#/wine-staging-%{version}-rc5.tar.gz
 %endif
 
 %if !%{?no64bit}
@@ -704,7 +706,7 @@ This package adds the opencl driver for wine.
 %endif
 
 %prep
-%setup -q -n wine-%{version}-rc4
+%setup -q -n wine-%{version}-rc5
 %patch511 -p1 -b.cjk
 
 %if 0%{?wine_staging}
@@ -715,6 +717,8 @@ patches/patchinstall.sh DESTDIR="`pwd`" --all
 
 # fix parallelized build
 sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
+
+%patch100 -p1 -b.vulkan-child-window
 
 %endif
 # 0%%{?wine_staging}
@@ -2420,7 +2424,10 @@ fi
 %endif
 
 %changelog
-* Sat Dec 26 2020 Michael Cronenworth <mike@cchtml.com> 6.0-0.3rc4
+* Thu Jan 07 2021 Michael Cronenworth <mike@cchtml.com> 6.0-0.5rc5
+- version update
+
+* Sat Dec 26 2020 Michael Cronenworth <mike@cchtml.com> 6.0-0.4rc4
 - version update
 
 * Sat Dec 19 2020 Michael Cronenworth <mike@cchtml.com> 6.0-0.3rc3
