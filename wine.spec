@@ -45,13 +45,13 @@
 
 Name:           wine
 Version:        6.0
-Release:        0.5rc5%{?dist}
+Release:        0.6rc6%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
 URL:            https://www.winehq.org/
-Source0:        https://dl.winehq.org/wine/source/6.0/wine-%{version}-rc5.tar.xz
-Source10:       https://dl.winehq.org/wine/source/6.0/wine-%{version}-rc5.tar.xz.sign
+Source0:        https://dl.winehq.org/wine/source/6.0/wine-%{version}-rc6.tar.xz
+Source10:       https://dl.winehq.org/wine/source/6.0/wine-%{version}-rc6.tar.xz.sign
 
 Source1:        wine.init
 Source2:        wine.systemd
@@ -97,7 +97,7 @@ Patch511:       wine-cjk.patch
 %if 0%{?wine_staging}
 # wine-staging patches
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.gz#/wine-staging-%{version}-rc5.tar.gz
+Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.gz#/wine-staging-%{version}-rc6.tar.gz
 %endif
 
 %if !%{?no64bit}
@@ -706,7 +706,7 @@ This package adds the opencl driver for wine.
 %endif
 
 %prep
-%setup -q -n wine-%{version}-rc5
+%setup -q -n wine-%{version}-rc6
 %patch511 -p1 -b.cjk
 
 %if 0%{?wine_staging}
@@ -2424,6 +2424,9 @@ fi
 %endif
 
 %changelog
+* Sun Jan 10 2021 Michael Cronenworth <mike@cchtml.com> 6.0-0.6rc6
+- version update
+
 * Thu Jan 07 2021 Michael Cronenworth <mike@cchtml.com> 6.0-0.5rc5
 - version update
 

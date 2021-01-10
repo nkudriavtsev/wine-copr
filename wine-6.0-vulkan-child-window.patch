@@ -17,7 +17,7 @@ diff --git a/dlls/winex11.drv/vulkan.c b/dlls/winex11.drv/vulkan.c
 index 28ae1a9e0e8..3b0bf58c107 100644
 --- a/dlls/winex11.drv/vulkan.c
 +++ b/dlls/winex11.drv/vulkan.c
-@@ -32,6 +32,7 @@
+@@ -33,6 +33,7 @@
  #include "wine/debug.h"
  #include "wine/heap.h"
  #include "x11drv.h"
@@ -25,7 +25,7 @@ index 28ae1a9e0e8..3b0bf58c107 100644
  
  #define VK_NO_PROTOTYPES
  #define WINE_VK_HOST
-@@ -56,6 +57,7 @@
+@@ -55,6 +56,7 @@ static CRITICAL_SECTION_DEBUG critsect_debug =
  static CRITICAL_SECTION context_section = { &critsect_debug, -1, 0, 0, 0, 0 };
  
  static XContext vulkan_hwnd_context;
@@ -33,7 +33,7 @@ index 28ae1a9e0e8..3b0bf58c107 100644
  
  #define VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR 1000004000
  
-@@ -63,6 +65,7 @@
+@@ -62,6 +64,7 @@ struct wine_vk_surface
  {
      LONG ref;
      Window window;
@@ -41,22 +41,7 @@ index 28ae1a9e0e8..3b0bf58c107 100644
      VkSurfaceKHR surface; /* native surface */
  };
  
-@@ -95,6 +98,7 @@
- static VkBool32 (*pvkGetPhysicalDeviceXlibPresentationSupportKHR)(VkPhysicalDevice, uint32_t, Display *, VisualID);
- static VkResult (*pvkGetSwapchainImagesKHR)(VkDevice, VkSwapchainKHR, uint32_t *, VkImage *);
- static VkResult (*pvkQueuePresentKHR)(VkQueue, const VkPresentInfoKHR *);
-+static VkResult (*pvkQueueWaitIdle)(VkQueue);
- 
- static void *X11DRV_get_vk_device_proc_addr(const char *name);
- static void *X11DRV_get_vk_instance_proc_addr(VkInstance instance, const char *name);
-@@ -142,12 +146,14 @@
-     LOAD_FUNCPTR(vkGetPhysicalDeviceXlibPresentationSupportKHR);
-     LOAD_FUNCPTR(vkGetSwapchainImagesKHR);
-     LOAD_FUNCPTR(vkQueuePresentKHR);
-+    LOAD_FUNCPTR(vkQueueWaitIdle);
-     LOAD_OPTIONAL_FUNCPTR(vkGetDeviceGroupSurfacePresentModesKHR);
-     LOAD_OPTIONAL_FUNCPTR(vkGetPhysicalDevicePresentRectanglesKHR);
- #undef LOAD_FUNCPTR
+@@ -135,6 +138,7 @@ static BOOL WINAPI wine_vk_init(INIT_ONCE *once, void *param, void **context)
  #undef LOAD_OPTIONAL_FUNCPTR
  
      vulkan_hwnd_context = XUniqueContext();
@@ -64,7 +49,7 @@ index 28ae1a9e0e8..3b0bf58c107 100644
  
      return TRUE;
  
-@@ -265,16 +271,24 @@
+@@ -252,16 +256,24 @@ static VkResult X11DRV_vkCreateSwapchainKHR(VkDevice device,
          const VkSwapchainCreateInfoKHR *create_info,
          const VkAllocationCallbacks *allocator, VkSwapchainKHR *swapchain)
  {
@@ -91,7 +76,7 @@ index 28ae1a9e0e8..3b0bf58c107 100644
  }
  
  static VkResult X11DRV_vkCreateWin32SurfaceKHR(VkInstance instance,
-@@ -290,13 +304,6 @@
+@@ -277,13 +289,6 @@ static VkResult X11DRV_vkCreateWin32SurfaceKHR(VkInstance instance,
      if (allocator)
          FIXME("Support for allocation callbacks not implemented yet\n");
  
@@ -105,7 +90,7 @@ index 28ae1a9e0e8..3b0bf58c107 100644
      x11_surface = heap_alloc_zero(sizeof(*x11_surface));
      if (!x11_surface)
          return VK_ERROR_OUT_OF_HOST_MEMORY;
-@@ -313,6 +320,23 @@
+@@ -300,6 +305,23 @@ static VkResult X11DRV_vkCreateWin32SurfaceKHR(VkInstance instance,
          goto err;
      }
  
@@ -129,7 +114,7 @@ index 28ae1a9e0e8..3b0bf58c107 100644
      create_info_host.sType = VK_STRUCTURE_TYPE_XLIB_SURFACE_CREATE_INFO_KHR;
      create_info_host.pNext = NULL;
      create_info_host.flags = 0; /* reserved */
-@@ -382,6 +406,7 @@
+@@ -369,6 +391,7 @@ static void X11DRV_vkDestroySwapchainKHR(VkDevice device, VkSwapchainKHR swapcha
          FIXME("Support for allocation callbacks not implemented yet\n");
  
      pvkDestroySwapchainKHR(device, swapchain, NULL /* allocator */);
@@ -137,7 +122,7 @@ index 28ae1a9e0e8..3b0bf58c107 100644
  }
  
  static VkResult X11DRV_vkEnumerateInstanceExtensionProperties(const char *layer_name,
-@@ -608,6 +633,22 @@
+@@ -541,6 +564,21 @@ static VkResult X11DRV_vkQueuePresentKHR(VkQueue queue, const VkPresentInfoKHR *
          }
      }
  
@@ -152,7 +137,6 @@ index 28ae1a9e0e8..3b0bf58c107 100644
 +            escape.code = X11DRV_FLUSH_GL_DRAWABLE;
 +            escape.gl_drawable = x11_surface->window;
 +            escape.flush = TRUE;
-+            pvkQueueWaitIdle(queue);
 +            ExtEscape(x11_surface->child_window_dc, X11DRV_ESCAPE, sizeof(escape), (LPSTR)&escape, 0, NULL);
 +        }
 +    }
