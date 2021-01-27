@@ -45,7 +45,7 @@
 
 Name:           wine
 Version:        6.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -2424,6 +2424,9 @@ fi
 %endif
 
 %changelog
+* Wed Jan 27 2021 Fedora Release Engineering <releng@fedoraproject.org> - 6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
+
 * Thu Jan 14 2021 Michael Cronenworth <mike@cchtml.com> 6.0-1
 - version update
 
