@@ -3,7 +3,7 @@
 
 %global no64bit   0
 %global winegecko 2.47.2
-%global winemono  5.1.1
+%global winemono  6.0.0
 #global _default_patch_fuzz 2
 %ifarch %{ix86} x86_64
 %global wineacm acm
@@ -44,14 +44,14 @@
 %endif
 
 Name:           wine
-Version:        6.1
+Version:        6.2
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
 URL:            https://www.winehq.org/
-Source0:        https://dl.winehq.org/wine/source/6.0/wine-%{version}.tar.xz
-Source10:       https://dl.winehq.org/wine/source/6.0/wine-%{version}.tar.xz.sign
+Source0:        https://dl.winehq.org/wine/source/6.x/wine-%{version}.tar.xz
+Source10:       https://dl.winehq.org/wine/source/6.x/wine-%{version}.tar.xz.sign
 
 Source1:        wine.init
 Source2:        wine.systemd
@@ -1525,6 +1525,7 @@ fi
 %{_libdir}/wine/cryptdll.%{winedll}
 %{_libdir}/wine/cryptext.%{winedll}
 %{_libdir}/wine/cryptnet.%{winedll}
+%{_libdir}/wine/cryptsp.%{winedll}
 %{_libdir}/wine/cryptui.%{winedll}
 %{_libdir}/wine/ctapi32.dll.so
 %{_libdir}/wine/ctl3d32.%{winedll}
@@ -2011,15 +2012,11 @@ fi
 %{_libdir}/wine/wiaservc.%{winedll}
 %{_libdir}/wine/wimgapi.%{winedll}
 %{_libdir}/wine/win32k.%{winesys}
-%{_libdir}/wine/windows.gaming.input.%{winedll}
-%{_libdir}/wine/windows.globalization.%{winedll}
-%{_libdir}/wine/windows.media.speech.%{winedll}
-%{_libdir}/wine/windows.networking.connectivity.%{winedll}
 %{_libdir}/wine/windowscodecs.%{winedll}
 %{_libdir}/wine/windowscodecs.so
 %{_libdir}/wine/windowscodecsext.%{winedll}
 %{_libdir}/wine/winebus.sys.so
-%{_libdir}/wine/winegstreamer.dll.so
+%{_libdir}/wine/winegstreamer.%{winedll}
 %{_libdir}/wine/winehid.%{winesys}
 %{_libdir}/wine/winejoystick.drv.so
 %{_libdir}/wine/winemapi.%{winedll}
@@ -2046,6 +2043,7 @@ fi
 %{_libdir}/wine/winusb.%{winedll}
 %{_libdir}/wine/wlanapi.%{winedll}
 %{_libdir}/wine/wlanui.%{winedll}
+%{_libdir}/wine/wmphoto.so
 %{_libdir}/wine/wmphoto.%{winedll}
 %{_libdir}/wine/wnaspi32.dll.so
 %if 0%{?wine_staging}
@@ -2424,6 +2422,9 @@ fi
 %endif
 
 %changelog
+* Sat Feb 13 2021 Michael Cronenworth <mike@cchtml.com> 6.2-1
+- version update
+
 * Mon Feb 01 2021 Michael Cronenworth <mike@cchtml.com> 6.1-1
 - version update
 
