@@ -2016,7 +2016,8 @@ fi
 %{_libdir}/wine/windowscodecs.so
 %{_libdir}/wine/windowscodecsext.%{winedll}
 %{_libdir}/wine/winebus.sys.so
-%{_libdir}/wine/winegstreamer.%{winedll}
+%{_libdir}/wine/winegstreamer.so
+%{_libdir}/wine/winegstreamer.dll.so
 %{_libdir}/wine/winehid.%{winesys}
 %{_libdir}/wine/winejoystick.drv.so
 %{_libdir}/wine/winemapi.%{winedll}
