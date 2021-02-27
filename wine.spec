@@ -44,7 +44,7 @@
 %endif
 
 Name:           wine
-Version:        6.2
+Version:        6.3
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1702,7 +1702,7 @@ fi
 %{_libdir}/wine/icmp.%{winedll}
 %{_libdir}/wine/ieframe.%{winedll}
 %if 0%{?wine_staging}
-%{_libdir}/wine/iertutil.dll.so
+%{_libdir}/wine/iertutil.%{winedll}
 %endif
 %{_libdir}/wine/ieproxy.%{winedll}
 %{_libdir}/wine/imaadp32.%{wineacm}
@@ -2012,12 +2012,17 @@ fi
 %{_libdir}/wine/wiaservc.%{winedll}
 %{_libdir}/wine/wimgapi.%{winedll}
 %{_libdir}/wine/win32k.%{winesys}
+%if 0%{?wine_staging}
+%{_libdir}/wine/windows.gaming.input.%{winedll}
+%{_libdir}/wine/windows.globalization.%{winedll}
+%{_libdir}/wine/windows.media.speech.%{winedll}
+%endif
 %{_libdir}/wine/windowscodecs.%{winedll}
 %{_libdir}/wine/windowscodecs.so
 %{_libdir}/wine/windowscodecsext.%{winedll}
 %{_libdir}/wine/winebus.sys.so
 %{_libdir}/wine/winegstreamer.so
-%{_libdir}/wine/winegstreamer.dll.so
+%{_libdir}/wine/winegstreamer.%{winedll}
 %{_libdir}/wine/winehid.%{winesys}
 %{_libdir}/wine/winejoystick.drv.so
 %{_libdir}/wine/winemapi.%{winedll}
@@ -2131,10 +2136,10 @@ fi
 
 %if 0%{?wine_staging}
 %ifarch x86_64 aarch64
-%{_libdir}/wine/nvapi64.dll.so
+%{_libdir}/wine/nvapi64.%{winedll}
 %{_libdir}/wine/nvencodeapi64.dll.so
 %else
-%{_libdir}/wine/nvapi.dll.so
+%{_libdir}/wine/nvapi.%{winedll}
 %{_libdir}/wine/nvencodeapi.dll.so
 %endif
 %endif
@@ -2423,6 +2428,9 @@ fi
 %endif
 
 %changelog
+* Sat Feb 27 2021 Michael Cronenworth <mike@cchtml.com> 6.3-1
+- version update
+
 * Sat Feb 13 2021 Michael Cronenworth <mike@cchtml.com> 6.2-1
 - version update
 
