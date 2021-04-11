@@ -3,7 +3,7 @@
 
 %global no64bit   0
 %global winegecko 2.47.2
-%global winemono  6.0.0
+%global winemono  6.1.1
 #global _default_patch_fuzz 2
 %ifarch %{ix86} x86_64
 %global wineacm acm
