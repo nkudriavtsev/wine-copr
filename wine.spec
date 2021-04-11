@@ -2060,7 +2060,7 @@ fi
 %{_libdir}/wine/wmphoto.%{winedll}
 %{_libdir}/wine/wnaspi32.dll.so
 %if 0%{?wine_staging}
-%ifarch x86_64 aarch64
+%ifarch x86_64
 %{_libdir}/wine/wow64cpu.%{winedll}
 %endif
 %endif
