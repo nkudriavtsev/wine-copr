@@ -44,7 +44,7 @@
 %endif
 
 Name:           wine
-Version:        6.3
+Version:        6.6
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -224,6 +224,7 @@ Requires:       mesa-dri-drivers(x86-32)
 %endif
 %if 0%{?fedora} >= 33
 Recommends:     wine-dxvk(x86-32)
+Recommends:     dosbox-staging
 %endif
 Recommends:     gstreamer1-plugins-good(x86-32)
 %endif
@@ -249,6 +250,7 @@ Requires:       wine-mono = %winemono
 Requires:       mesa-dri-drivers(x86-64)
 %if 0%{?fedora} >= 33
 Recommends:     wine-dxvk(x86-64)
+Recommends:     dosbox-staging
 %endif
 Recommends:     gstreamer1-plugins-good(x86-64)
 %endif
@@ -1309,6 +1311,7 @@ fi
 %{_libdir}/wine/api-ms-win-core-largeinteger-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-kernel32-legacy-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-kernel32-legacy-l1-1-1.%{winedll}
+%{_libdir}/wine/api-ms-win-core-kernel32-legacy-l1-1-2.%{winedll}
 %{_libdir}/wine/api-ms-win-core-kernel32-private-l1-1-1.%{winedll}
 %{_libdir}/wine/api-ms-win-core-libraryloader-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-core-libraryloader-l1-1-1.%{winedll}
@@ -1478,8 +1481,10 @@ fi
 %{_libdir}/wine/api-ms-win-service-winsvc-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-service-winsvc-l1-2-0.%{winedll}
 %{_libdir}/wine/api-ms-win-shcore-obsolete-l1-1-0.%{winedll}
+%{_libdir}/wine/api-ms-win-shcore-scaling-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-shcore-scaling-l1-1-1.%{winedll}
 %{_libdir}/wine/api-ms-win-shcore-stream-l1-1-0.%{winedll}
+%{_libdir}/wine/api-ms-win-shcore-stream-winrt-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-shcore-thread-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-shell-shellcom-l1-1-0.%{winedll}
 %{_libdir}/wine/api-ms-win-shell-shellfolders-l1-1-0.%{winedll}
@@ -1588,7 +1593,8 @@ fi
 %{_libdir}/wine/dsuiext.%{winedll}
 %{_libdir}/wine/dswave.%{winedll}
 %{_libdir}/wine/dwmapi.%{winedll}
-%{_libdir}/wine/dwrite.dll.so
+%{_libdir}/wine/dwrite.%{winedll}
+%{_libdir}/wine/dwrite.so
 %{_libdir}/wine/dx8vb.%{winedll}
 %{_libdir}/wine/dxdiagn.%{winedll}
 %ghost %{_libdir}/wine/dxgi.dll.so
@@ -2006,6 +2012,7 @@ fi
 %{_libdir}/wine/wbemprox.%{winedll}
 %{_libdir}/wine/wdscore.%{winedll}
 %{_libdir}/wine/webservices.%{winedll}
+%{_libdir}/wine/websocket.%{winedll}
 %{_libdir}/wine/wer.%{winedll}
 %{_libdir}/wine/wevtapi.%{winedll}
 %{_libdir}/wine/wevtsvc.%{winedll}
@@ -2053,7 +2060,7 @@ fi
 %{_libdir}/wine/wmphoto.%{winedll}
 %{_libdir}/wine/wnaspi32.dll.so
 %if 0%{?wine_staging}
-%{_libdir}/wine/wow64cpu.dll.so
+%{_libdir}/wine/wow64cpu.%{winedll}
 %endif
 %{_libdir}/wine/wpc.%{winedll}
 %{_libdir}/wine/wpcap.dll.so
@@ -2077,7 +2084,8 @@ fi
 %{_libdir}/wine/wine-d3d9.%{winedll}
 %{_libdir}/wine/opengl32.dll.so
 %{_libdir}/wine/wined3d.dll.so
-%{_libdir}/wine/dnsapi.dll.so
+%{_libdir}/wine/dnsapi.%{winedll}
+%{_libdir}/wine/dnsapi.so
 %{_libdir}/wine/iexplore.%{wineexe}
 %{_libdir}/wine/x3daudio1_0.dll.so
 %{_libdir}/wine/x3daudio1_1.dll.so
@@ -2424,10 +2432,17 @@ fi
 
 %if 0%{?fedora}
 %files opencl
-%{_libdir}/wine/opencl.dll.so
+%{_libdir}/wine/opencl.%{winedll}
+%{_libdir}/wine/opencl.so
 %endif
 
 %changelog
+* Sun Apr 11 2021 Michael Cronenworth <mike@cchtml.com> 6.6-1
+- version update
+
+* Mon Mar 15 2021 Michael Cronenworth <mike@cchtml.com> 6.4-1
+- version update
+
 * Sat Feb 27 2021 Michael Cronenworth <mike@cchtml.com> 6.3-1
 - version update
 
