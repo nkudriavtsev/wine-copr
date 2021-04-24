@@ -715,6 +715,9 @@ This package adds the opencl driver for wine.
 # setup and apply wine-staging patches
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
 
+# Fix staging patch
+sed -i -e 's!+        return status;!+        return;!' patches/user32-rawinput-hid/0017-hidclass.sys-Assign-rawinput-handles-through-device-.patch
+
 patches/patchinstall.sh DESTDIR="`pwd`" --all
 
 # fix parallelized build
