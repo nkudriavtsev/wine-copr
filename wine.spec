@@ -44,7 +44,7 @@
 %endif
 
 Name:           wine
-Version:        6.6
+Version:        6.7
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1729,7 +1729,7 @@ fi
 %{_libdir}/wine/joy.%{winecpl}
 %{_libdir}/wine/jscript.%{winedll}
 %{_libdir}/wine/jsproxy.%{winedll}
-%{_libdir}/wine/kerberos.dll.so
+%{_libdir}/wine/kerberos.%{winedll}
 %{_libdir}/wine/kernel32.%{winedll}
 %{_libdir}/wine/kernelbase.%{winedll}
 %{_libdir}/wine/ksecdd.%{winesys}
@@ -1851,7 +1851,7 @@ fi
 %{_libdir}/wine/nddeapi.%{winedll}
 %{_libdir}/wine/ncrypt.%{winedll}
 %{_libdir}/wine/ndis.%{winesys}
-%{_libdir}/wine/netapi32.dll.so
+%{_libdir}/wine/netapi32.%{winedll}
 %{_libdir}/wine/netcfgx.%{winedll}
 %{_libdir}/wine/netio.%{winesys}
 %{_libdir}/wine/netprofm.%{winedll}
@@ -2034,7 +2034,7 @@ fi
 %{_libdir}/wine/winejoystick.drv.so
 %{_libdir}/wine/winemapi.%{winedll}
 %{_libdir}/wine/wineusb.sys.so
-%{_libdir}/wine/winevulkan.dll.so
+%{_libdir}/wine/winevulkan.%{winedll}
 %{_libdir}/wine/winex11.drv.so
 %{_libdir}/wine/wing32.%{winedll}
 %{_libdir}/wine/winhttp.%{winedll}
@@ -2099,16 +2099,9 @@ fi
 %{_libdir}/wine/x3daudio1_7.dll.so
 %if 0%{?wine_staging}
 %{_libdir}/wine/xactengine2_0.dll.so
-%{_libdir}/wine/xactengine2_1.dll.so
-%{_libdir}/wine/xactengine2_2.dll.so
-%{_libdir}/wine/xactengine2_3.dll.so
 %{_libdir}/wine/xactengine2_4.dll.so
-%{_libdir}/wine/xactengine2_5.dll.so
-%{_libdir}/wine/xactengine2_6.dll.so
 %{_libdir}/wine/xactengine2_7.dll.so
-%{_libdir}/wine/xactengine2_8.dll.so
 %{_libdir}/wine/xactengine2_9.dll.so
-%{_libdir}/wine/xactengine2_10.dll.so
 %endif
 %{_libdir}/wine/xactengine3_0.dll.so
 %{_libdir}/wine/xactengine3_1.dll.so
@@ -2377,7 +2370,7 @@ fi
 
 # ldap subpackage
 %files ldap
-%{_libdir}/wine/wldap32.dll.so
+%{_libdir}/wine/wldap32.%{winedll}
 
 # cms subpackage
 %files cms
@@ -2439,6 +2432,9 @@ fi
 %endif
 
 %changelog
+* Sat Apr 24 2021 Michael Cronenworth <mike@cchtml.com> 6.7-1
+- version update
+
 * Sun Apr 11 2021 Michael Cronenworth <mike@cchtml.com> 6.6-1
 - version update
 
