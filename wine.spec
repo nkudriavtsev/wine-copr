@@ -1729,6 +1729,7 @@ fi
 %{_libdir}/wine/joy.%{winecpl}
 %{_libdir}/wine/jscript.%{winedll}
 %{_libdir}/wine/jsproxy.%{winedll}
+%{_libdir}/wine/kerberos.so
 %{_libdir}/wine/kerberos.%{winedll}
 %{_libdir}/wine/kernel32.%{winedll}
 %{_libdir}/wine/kernelbase.%{winedll}
@@ -1851,6 +1852,7 @@ fi
 %{_libdir}/wine/nddeapi.%{winedll}
 %{_libdir}/wine/ncrypt.%{winedll}
 %{_libdir}/wine/ndis.%{winesys}
+%{_libdir}/wine/netapi32.so
 %{_libdir}/wine/netapi32.%{winedll}
 %{_libdir}/wine/netcfgx.%{winedll}
 %{_libdir}/wine/netio.%{winesys}
@@ -2024,6 +2026,7 @@ fi
 %{_libdir}/wine/windows.globalization.%{winedll}
 %{_libdir}/wine/windows.media.speech.%{winedll}
 %endif
+%{_libdir}/wine/windows.media.devices.%{winedll}
 %{_libdir}/wine/windowscodecs.%{winedll}
 %{_libdir}/wine/windowscodecs.so
 %{_libdir}/wine/windowscodecsext.%{winedll}
@@ -2034,6 +2037,7 @@ fi
 %{_libdir}/wine/winejoystick.drv.so
 %{_libdir}/wine/winemapi.%{winedll}
 %{_libdir}/wine/wineusb.sys.so
+%{_libdir}/wine/winevulkan.so
 %{_libdir}/wine/winevulkan.%{winedll}
 %{_libdir}/wine/winex11.drv.so
 %{_libdir}/wine/wing32.%{winedll}
@@ -2370,6 +2374,7 @@ fi
 
 # ldap subpackage
 %files ldap
+%{_libdir}/wine/wldap32.so
 %{_libdir}/wine/wldap32.%{winedll}
 
 # cms subpackage
