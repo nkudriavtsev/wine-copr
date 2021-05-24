@@ -37,7 +37,7 @@
 %endif
 
 Name:           wine
-Version:        6.8
+Version:        6.9
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -2076,7 +2076,7 @@ fi
 %endif
 %{_libdir}/wine/%{winepedir}/wpc.dll
 %{_libdir}/wine/%{winepedir}/wpcap.dll
-%{_libdir}/wine/%{winesodir}/wpcap.dll.so
+%{_libdir}/wine/%{winesodir}/wpcap.so
 %{_libdir}/wine/%{winepedir}/ws2_32.dll
 %{_libdir}/wine/%{winesodir}/ws2_32.dll.so
 %{_libdir}/wine/%{winepedir}/wsdapi.dll
@@ -3094,6 +3094,7 @@ fi
 %{_libdir}/wine/%{winesodir}/wlanui.dll.so
 %{_libdir}/wine/%{winesodir}/wmphoto.dll.so
 %{_libdir}/wine/%{winesodir}/wpc.dll.so
+%{_libdir}/wine/%{winesodir}/wpcap.dll.so
 %{_libdir}/wine/%{winesodir}/wsdapi.dll.so
 %{_libdir}/wine/%{winesodir}/wshom.ocx.so
 %{_libdir}/wine/%{winesodir}/wsnmp32.dll.so
@@ -3340,6 +3341,7 @@ fi
 
 %files pulseaudio
 %{_libdir}/wine/%{winepedir}/winepulse.drv
+%{_libdir}/wine/%{winesodir}/winepulse.so
 %{_libdir}/wine/%{winesodir}/winepulse.drv.so
 
 %files alsa
@@ -3362,6 +3364,9 @@ fi
 %endif
 
 %changelog
+* Mon May 24 2021 Michael Cronenworth <mike@cchtml.com> 6.9-1
+- version update
+
 * Sat May 08 2021 Michael Cronenworth <mike@cchtml.com> 6.8-1
 - version update
 
