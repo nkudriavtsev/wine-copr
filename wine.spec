@@ -3070,6 +3070,7 @@ fi
 %{_libdir}/wine/%{winesodir}/windows.media.speech.dll.so
 %endif
 %{_libdir}/wine/%{winesodir}/windows.media.devices.dll.so
+%{_libdir}/wine/%{winesodir}/windows.networking.connectivity.so
 %{_libdir}/wine/%{winesodir}/windowscodecs.dll.so
 %{_libdir}/wine/%{winesodir}/windowscodecsext.dll.so
 %{_libdir}/wine/%{winesodir}/winegstreamer.dll.so
