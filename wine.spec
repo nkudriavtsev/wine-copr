@@ -3,7 +3,7 @@
 
 %global no64bit   0
 %global winegecko 2.47.2
-%global winemono  6.1.1
+%global winemono  6.2.0
 #global _default_patch_fuzz 2
 %ifarch %{ix86}
 %global winepedir i386-windows
@@ -37,7 +37,7 @@
 %endif
 
 Name:           wine
-Version:        6.9
+Version:        6.10
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1954,6 +1954,7 @@ fi
 %{_libdir}/wine/%{winepedir}/snmpapi.dll
 %{_libdir}/wine/%{winepedir}/softpub.dll
 %{_libdir}/wine/%{winepedir}/spoolsv.exe
+%{_libdir}/wine/%{winepedir}/sppc.dll
 %{_libdir}/wine/%{winepedir}/srclient.dll
 %if 0%{?wine_staging}
 %{_libdir}/wine/%{winepedir}/srvcli.dll
@@ -2027,6 +2028,7 @@ fi
 %{_libdir}/wine/%{winepedir}/windows.media.speech.dll
 %endif
 %{_libdir}/wine/%{winepedir}/windows.media.devices.dll
+%{_libdir}/wine/%{winepedir}/windows.networking.connectivity
 %{_libdir}/wine/%{winepedir}/windowscodecs.dll
 %{_libdir}/wine/%{winesodir}/windowscodecs.so
 %{_libdir}/wine/%{winepedir}/windowscodecsext.dll
@@ -2996,6 +2998,7 @@ fi
 %{_libdir}/wine/%{winesodir}/snmpapi.dll.so
 %{_libdir}/wine/%{winesodir}/softpub.dll.so
 %{_libdir}/wine/%{winesodir}/spoolsv.exe.so
+%{_libdir}/wine/%{winesodir}/sppc.dll.so
 %{_libdir}/wine/%{winesodir}/srclient.dll.so
 %if 0%{?wine_staging}
 %{_libdir}/wine/%{winesodir}/srvcli.dll.so
@@ -3342,7 +3345,9 @@ fi
 %files pulseaudio
 %{_libdir}/wine/%{winepedir}/winepulse.drv
 %{_libdir}/wine/%{winesodir}/winepulse.so
+%ifarch %{arm} aarch64
 %{_libdir}/wine/%{winesodir}/winepulse.drv.so
+%endif
 
 %files alsa
 %{_libdir}/wine/%{winepedir}/winealsa.drv
@@ -3364,6 +3369,9 @@ fi
 %endif
 
 %changelog
+* Mon Jun 07 2021 Michael Cronenworth <mike@cchtml.com> 6.10-1
+- version update
+
 * Mon May 24 2021 Michael Cronenworth <mike@cchtml.com> 6.9-1
 - version update
 
