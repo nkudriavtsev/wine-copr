@@ -37,7 +37,7 @@
 %endif
 
 Name:           wine
-Version:        6.10
+Version:        6.11
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1517,7 +1517,6 @@ fi
 %{_libdir}/wine/%{winepedir}/concrt140.dll
 %{_libdir}/wine/%{winepedir}/connect.dll
 %{_libdir}/wine/%{winepedir}/credui.dll
-%{_libdir}/wine/%{winesodir}/crtdll.so
 %{_libdir}/wine/%{winepedir}/crtdll.dll
 %{_libdir}/wine/%{winesodir}/crypt32.so
 %{_libdir}/wine/%{winepedir}/crypt32.dll
@@ -1581,6 +1580,8 @@ fi
 %{_libdir}/wine/%{winepedir}/dpnaddr.dll
 %{_libdir}/wine/%{winepedir}/dpnet.dll
 %{_libdir}/wine/%{winepedir}/dpnhpast.dll
+%{_libdir}/wine/%{winepedir}/dpnhupnp.dll
+%{_libdir}/wine/%{winesodir}/dpnhupnp.dll.so
 %{_libdir}/wine/%{winepedir}/dpnlobby.dll
 %{_libdir}/wine/%{winepedir}/dpvoice.dll
 %{_libdir}/wine/%{winepedir}/dpwsockx.dll
@@ -1814,26 +1815,17 @@ fi
 %{_libdir}/wine/%{winepedir}/msvcp120_app.dll
 %{_libdir}/wine/%{winepedir}/msvcp140.dll
 %{_libdir}/wine/%{winepedir}/msvcp140_1.dll
-%{_libdir}/wine/%{winesodir}/msvcr70.so
 %{_libdir}/wine/%{winepedir}/msvcr70.dll
-%{_libdir}/wine/%{winesodir}/msvcr71.so
 %{_libdir}/wine/%{winepedir}/msvcr71.dll
-%{_libdir}/wine/%{winesodir}/msvcr80.so
 %{_libdir}/wine/%{winepedir}/msvcr80.dll
-%{_libdir}/wine/%{winesodir}/msvcr90.so
 %{_libdir}/wine/%{winepedir}/msvcr90.dll
-%{_libdir}/wine/%{winesodir}/msvcr100.so
 %{_libdir}/wine/%{winepedir}/msvcr100.dll
-%{_libdir}/wine/%{winesodir}/msvcr110.so
 %{_libdir}/wine/%{winepedir}/msvcr110.dll
-%{_libdir}/wine/%{winesodir}/msvcr120.so
 %{_libdir}/wine/%{winepedir}/msvcr120.dll
 %{_libdir}/wine/%{winepedir}/msvcr120_app.dll
-%{_libdir}/wine/%{winesodir}/msvcrt.so
 %{_libdir}/wine/%{winepedir}/msvcrt.dll
 %{_libdir}/wine/%{winepedir}/msvcrt20.dll
 %{_libdir}/wine/%{winepedir}/msvcrt40.dll
-%{_libdir}/wine/%{winesodir}/msvcrtd.so
 %{_libdir}/wine/%{winepedir}/msvcrtd.dll
 %{_libdir}/wine/%{winepedir}/msvfw32.dll
 %{_libdir}/wine/%{winepedir}/msvidc32.dll
@@ -1977,7 +1969,6 @@ fi
 %{_libdir}/wine/%{winepedir}/tdi.sys
 %{_libdir}/wine/%{winepedir}/traffic.dll
 %{_libdir}/wine/%{winepedir}/tzres.dll
-%{_libdir}/wine/%{winesodir}/ucrtbase.so
 %{_libdir}/wine/%{winepedir}/ucrtbase.dll
 %if 0%{?wine_staging}
 %{_libdir}/wine/%{winepedir}/uianimation.dll
@@ -2022,6 +2013,7 @@ fi
 %{_libdir}/wine/%{winepedir}/wiaservc.dll
 %{_libdir}/wine/%{winepedir}/wimgapi.dll
 %{_libdir}/wine/%{winepedir}/win32k.sys
+%{_libdir}/wine/%{winepedir}/win32u.dll
 %if 0%{?wine_staging}
 %{_libdir}/wine/%{winepedir}/windows.gaming.input.dll
 %{_libdir}/wine/%{winepedir}/windows.globalization.dll
@@ -3064,6 +3056,7 @@ fi
 %{_libdir}/wine/%{winesodir}/wiaservc.dll.so
 %{_libdir}/wine/%{winesodir}/wimgapi.dll.so
 %{_libdir}/wine/%{winesodir}/win32k.sys.so
+%{_libdir}/wine/%{winesodir}/win32u.dll.so
 %if 0%{?wine_staging}
 %{_libdir}/wine/%{winesodir}/windows.gaming.input.dll.so
 %{_libdir}/wine/%{winesodir}/windows.globalization.dll.so
@@ -3370,6 +3363,9 @@ fi
 %endif
 
 %changelog
+* Sat Jun 19 2021 Michael Cronenworth <mike@cchtml.com> 6.11-1
+- version update
+
 * Mon Jun 07 2021 Michael Cronenworth <mike@cchtml.com> 6.10-1
 - version update
 
