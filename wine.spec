@@ -37,7 +37,7 @@
 %endif
 
 Name:           wine
-Version:        6.11
+Version:        6.12
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -88,7 +88,7 @@ Patch511:       wine-cjk.patch
 %if 0%{?wine_staging}
 # wine-staging patches
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
+Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.gz#/wine-staging-%{version}.1.tar.gz
 %endif
 
 %if !%{?no64bit}
@@ -1731,6 +1731,7 @@ fi
 %{_libdir}/wine/%{winepedir}/l3codeca.acm
 %{_libdir}/wine/%{winesodir}/l3codeca.acm.so
 %endif
+%{_libdir}/wine/%{winepedir}/light.msstyles
 %{_libdir}/wine/%{winepedir}/loadperf.dll
 %{_libdir}/wine/%{winepedir}/localspl.dll
 %{_libdir}/wine/%{winepedir}/localui.dll
@@ -1854,6 +1855,9 @@ fi
 %{_libdir}/wine/%{winepedir}/normaliz.dll
 %{_libdir}/wine/%{winepedir}/npmshtml.dll
 %{_libdir}/wine/%{winepedir}/npptools.dll
+%{_libdir}/wine/%{winepedir}/nsi.dll
+%{_libdir}/wine/%{winepedir}/nsiproxy.sys
+%{_libdir}/wine/%{winesodir}/nsiproxy.sys.so
 %{_libdir}/wine/%{winesodir}/ntdll.so
 %{_libdir}/wine/%{winepedir}/ntdll.dll
 %{_libdir}/wine/%{winepedir}/ntdsapi.dll
@@ -1965,6 +1969,7 @@ fi
 %{_libdir}/wine/%{winepedir}/tapi32.dll
 %{_libdir}/wine/%{winepedir}/taskkill.exe
 %{_libdir}/wine/%{winepedir}/taskschd.dll
+%{_libdir}/wine/%{winepedir}/tbs.dll
 %{_libdir}/wine/%{winepedir}/tdh.dll
 %{_libdir}/wine/%{winepedir}/tdi.sys
 %{_libdir}/wine/%{winepedir}/traffic.dll
@@ -2910,6 +2915,7 @@ fi
 %{_libdir}/wine/%{winesodir}/normaliz.dll.so
 %{_libdir}/wine/%{winesodir}/npmshtml.dll.so
 %{_libdir}/wine/%{winesodir}/npptools.dll.so
+%{_libdir}/wine/%{winesodir}/nsi.dll.so
 %{_libdir}/wine/%{winesodir}/ntdll.dll.so
 %{_libdir}/wine/%{winesodir}/ntdsapi.dll.so
 %{_libdir}/wine/%{winesodir}/ntprint.dll.so
@@ -3009,6 +3015,7 @@ fi
 %{_libdir}/wine/%{winesodir}/tapi32.dll.so
 %{_libdir}/wine/%{winesodir}/taskkill.exe.so
 %{_libdir}/wine/%{winesodir}/taskschd.dll.so
+%{_libdir}/wine/%{winesodir}/tbs.dll.so
 %{_libdir}/wine/%{winesodir}/tdh.dll.so
 %{_libdir}/wine/%{winesodir}/tdi.sys.so
 %{_libdir}/wine/%{winesodir}/traffic.dll.so
@@ -3363,6 +3370,9 @@ fi
 %endif
 
 %changelog
+* Wed Jul 07 2021 Michael Cronenworth <mike@cchtml.com> 6.12-1
+- version update
+
 * Sat Jun 19 2021 Michael Cronenworth <mike@cchtml.com> 6.11-1
 - version update
 
