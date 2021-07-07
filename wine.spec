@@ -2802,6 +2802,7 @@ fi
 %{_libdir}/wine/%{winesodir}/ksproxy.ax.so
 %{_libdir}/wine/%{winesodir}/ksuser.dll.so
 %{_libdir}/wine/%{winesodir}/ktmw32.dll.so
+%{_libdir}/wine/%{winesodir}/light.msstyles.so
 %{_libdir}/wine/%{winesodir}/loadperf.dll.so
 %{_libdir}/wine/%{winesodir}/localspl.dll.so
 %{_libdir}/wine/%{winesodir}/localui.dll.so
