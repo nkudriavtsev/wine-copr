@@ -2071,7 +2071,7 @@ fi
 %{_libdir}/wine/%{winepedir}/wmphoto.dll
 %{_libdir}/wine/%{winepedir}/wnaspi32.dll
 %{_libdir}/wine/%{winesodir}/wnaspi32.dll.so
-%ifarch x86_64
+%ifarch x86_64 aarch64
 %{_libdir}/wine/%{winepedir}/wow64.dll
 %{_libdir}/wine/%{winepedir}/wow64win.dll
 %endif
@@ -3100,6 +3100,10 @@ fi
 %{_libdir}/wine/%{winesodir}/wmiutils.dll.so
 %{_libdir}/wine/%{winesodir}/wmp.dll.so
 %{_libdir}/wine/%{winesodir}/wmvcore.dll.so
+%ifarch aarch64
+%{_libdir}/wine/%{winesodir}/wow64.dll.so
+%{_libdir}/wine/%{winesodir}/wow64win.dll.so
+%endif
 %{_libdir}/wine/%{winesodir}/spoolss.dll.so
 %{_libdir}/wine/%{winesodir}/winscard.dll.so
 %{_libdir}/wine/%{winesodir}/wintab32.dll.so
