@@ -37,7 +37,7 @@
 %endif
 
 Name:           wine
-Version:        6.12
+Version:        6.13
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -88,7 +88,7 @@ Patch511:       wine-cjk.patch
 %if 0%{?wine_staging}
 # wine-staging patches
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.gz#/wine-staging-%{version}.1.tar.gz
+Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
 %endif
 
 %if !%{?no64bit}
@@ -1267,6 +1267,7 @@ fi
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-console-l1-1-0.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-console-l1-2-0.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-console-l2-1-0.dll
+%{_libdir}/wine/%{winepedir}/api-ms-win-core-console-l3-2-0.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-crt-l1-1-0.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-crt-l2-1-0.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-datetime-l1-1-0.dll
@@ -1279,6 +1280,7 @@ fi
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-errorhandling-l1-1-1.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-errorhandling-l1-1-2.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-errorhandling-l1-1-3.dll
+%{_libdir}/wine/%{winepedir}/api-ms-win-core-featurestaging-l1-1-0.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-fibers-l1-1-0.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-fibers-l1-1-1.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-file-l1-1-0.dll
@@ -1305,6 +1307,7 @@ fi
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-kernel32-legacy-l1-1-0.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-kernel32-legacy-l1-1-1.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-kernel32-legacy-l1-1-2.dll
+%{_libdir}/wine/%{winepedir}/api-ms-win-core-kernel32-legacy-l1-1-5.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-kernel32-private-l1-1-1.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-libraryloader-l1-1-0.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-libraryloader-l1-1-1.dll
@@ -2068,6 +2071,10 @@ fi
 %{_libdir}/wine/%{winepedir}/wmphoto.dll
 %{_libdir}/wine/%{winepedir}/wnaspi32.dll
 %{_libdir}/wine/%{winesodir}/wnaspi32.dll.so
+%ifarch x86_64
+%{_libdir}/wine/%{winepedir}/wow64.dll
+%{_libdir}/wine/%{winepedir}/wow64win.dll
+%endif
 %if 0%{?wine_staging}
 %ifarch x86_64
 %{_libdir}/wine/%{winepedir}/wow64cpu.dll
@@ -2377,6 +2384,7 @@ fi
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-console-l1-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-console-l1-2-0.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-console-l2-1-0.dll.so
+%{_libdir}/wine/%{winesodir}/api-ms-win-core-console-l3-2-0.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-crt-l1-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-crt-l2-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-datetime-l1-1-0.dll.so
@@ -2389,6 +2397,7 @@ fi
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-errorhandling-l1-1-1.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-errorhandling-l1-1-2.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-errorhandling-l1-1-3.dll.so
+%{_libdir}/wine/%{winesodir}/api-ms-win-core-featurestaging-l1-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-fibers-l1-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-fibers-l1-1-1.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-file-l1-1-0.dll.so
@@ -2415,6 +2424,7 @@ fi
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-kernel32-legacy-l1-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-kernel32-legacy-l1-1-1.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-kernel32-legacy-l1-1-2.dll.so
+%{_libdir}/wine/%{winesodir}/api-ms-win-core-kernel32-legacy-l1-1-5.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-kernel32-private-l1-1-1.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-libraryloader-l1-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-libraryloader-l1-1-1.dll.so
