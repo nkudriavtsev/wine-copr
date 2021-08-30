@@ -3,7 +3,7 @@
 
 %global no64bit   0
 %global winegecko 2.47.2
-%global winemono  6.2.0
+%global winemono  6.3.0
 #global _default_patch_fuzz 2
 %ifarch %{ix86}
 %global winepedir i386-windows
@@ -37,7 +37,7 @@
 %endif
 
 Name:           wine
-Version:        6.13
+Version:        6.16
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1349,6 +1349,7 @@ fi
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-psapi-l1-1-0.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-psapi-ansi-l1-1-0.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-psapi-obsolete-l1-1-0.dll
+%{_libdir}/wine/%{winepedir}/api-ms-win-core-psm-appnotify-l1-1-0.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-quirks-l1-1-0.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-realtime-l1-1-0.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-registry-l1-1-0.dll
@@ -1584,7 +1585,6 @@ fi
 %{_libdir}/wine/%{winepedir}/dpnet.dll
 %{_libdir}/wine/%{winepedir}/dpnhpast.dll
 %{_libdir}/wine/%{winepedir}/dpnhupnp.dll
-%{_libdir}/wine/%{winesodir}/dpnhupnp.dll.so
 %{_libdir}/wine/%{winepedir}/dpnlobby.dll
 %{_libdir}/wine/%{winepedir}/dpvoice.dll
 %{_libdir}/wine/%{winepedir}/dpwsockx.dll
@@ -1606,6 +1606,7 @@ fi
 %{_libdir}/wine/%{winesodir}/wine-dxgi.dll.so
 %{_libdir}/wine/%{winepedir}/dxgkrnl.sys
 %{_libdir}/wine/%{winepedir}/dxgmms1.sys
+%{_libdir}/wine/%{winepedir}/dxtrans.dll
 %{_libdir}/wine/%{winepedir}/dxva2.dll
 %{_libdir}/wine/%{winepedir}/esent.dll
 %{_libdir}/wine/%{winepedir}/evr.dll
@@ -1690,6 +1691,7 @@ fi
 %{_libdir}/wine/%{winepedir}/hhctrl.ocx
 %{_libdir}/wine/%{winepedir}/hid.dll
 %{_libdir}/wine/%{winepedir}/hidclass.sys
+%{_libdir}/wine/%{winepedir}/hidparse.sys
 %{_libdir}/wine/%{winepedir}/hlink.dll
 %{_libdir}/wine/%{winepedir}/hnetcfg.dll
 %{_libdir}/wine/%{winepedir}/http.sys
@@ -2084,7 +2086,7 @@ fi
 %{_libdir}/wine/%{winepedir}/wpcap.dll
 %{_libdir}/wine/%{winesodir}/wpcap.so
 %{_libdir}/wine/%{winepedir}/ws2_32.dll
-%{_libdir}/wine/%{winesodir}/ws2_32.dll.so
+%{_libdir}/wine/%{winesodir}/ws2_32.so
 %{_libdir}/wine/%{winepedir}/wsdapi.dll
 %{_libdir}/wine/%{winepedir}/wshom.ocx
 %{_libdir}/wine/%{winepedir}/wsnmp32.dll
@@ -2466,6 +2468,7 @@ fi
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-psapi-l1-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-psapi-ansi-l1-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-psapi-obsolete-l1-1-0.dll.so
+%{_libdir}/wine/%{winesodir}/api-ms-win-core-psm-appnotify-l1-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-quirks-l1-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-realtime-l1-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-registry-l1-1-0.dll.so
@@ -2684,6 +2687,7 @@ fi
 %{_libdir}/wine/%{winesodir}/dpnaddr.dll.so
 %{_libdir}/wine/%{winesodir}/dpnet.dll.so
 %{_libdir}/wine/%{winesodir}/dpnhpast.dll.so
+%{_libdir}/wine/%{winesodir}/dpnhupnp.dll.so
 %{_libdir}/wine/%{winesodir}/dpnlobby.dll.so
 %{_libdir}/wine/%{winesodir}/dpvoice.dll.so
 %{_libdir}/wine/%{winesodir}/dpwsockx.dll.so
@@ -2700,6 +2704,7 @@ fi
 %{_libdir}/wine/%{winesodir}/dxdiagn.dll.so
 %{_libdir}/wine/%{winesodir}/dxgkrnl.sys.so
 %{_libdir}/wine/%{winesodir}/dxgmms1.sys.so
+%{_libdir}/wine/%{winesodir}/dxtrans.dll.so
 %{_libdir}/wine/%{winesodir}/dxva2.dll.so
 %{_libdir}/wine/%{winesodir}/esent.dll.so
 %{_libdir}/wine/%{winesodir}/evr.dll.so
@@ -2775,6 +2780,7 @@ fi
 %{_libdir}/wine/%{winesodir}/hhctrl.ocx.so
 %{_libdir}/wine/%{winesodir}/hid.dll.so
 %{_libdir}/wine/%{winesodir}/hidclass.sys.so
+%{_libdir}/wine/%{winesodir}/hidparse.sys.so
 %{_libdir}/wine/%{winesodir}/hlink.dll.so
 %{_libdir}/wine/%{winesodir}/hnetcfg.dll.so
 %{_libdir}/wine/%{winesodir}/http.sys.so
@@ -3114,6 +3120,7 @@ fi
 %{_libdir}/wine/%{winesodir}/wmphoto.dll.so
 %{_libdir}/wine/%{winesodir}/wpc.dll.so
 %{_libdir}/wine/%{winesodir}/wpcap.dll.so
+%{_libdir}/wine/%{winesodir}/ws2_32.dll.so
 %{_libdir}/wine/%{winesodir}/wsdapi.dll.so
 %{_libdir}/wine/%{winesodir}/wshom.ocx.so
 %{_libdir}/wine/%{winesodir}/wsnmp32.dll.so
@@ -3385,6 +3392,9 @@ fi
 %endif
 
 %changelog
+* Mon Aug 30 2021 Michael Cronenworth <mike@cchtml.com> 6.16-1
+- version update
+
 * Wed Jul 07 2021 Michael Cronenworth <mike@cchtml.com> 6.12-1
 - version update
 
