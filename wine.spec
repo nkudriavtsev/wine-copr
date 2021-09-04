@@ -740,6 +740,9 @@ export CC="/usr/bin/clang"
 export CFLAGS="`echo $CFLAGS | sed -e 's/-fstack-clash-protection//'`"
 %endif
 %endif
+%ifarch armv7hl
+export CFLAGS="`echo $CFLAGS | sed -e 's/-fexceptions//'`"
+%endif
 
 %configure \
  --sysconfdir=%{_sysconfdir}/wine \
@@ -777,13 +780,11 @@ mv %{buildroot}%{_bindir}/wineserver %{buildroot}%{_bindir}/wineserver32
 # https://www.winehq.org/pipermail/wine-devel/2020-June/167283.html
 rm %{buildroot}%{_includedir}/wine/windows/*.tlb
 %endif
-%ifnarch %{arm} aarch64 x86_64
+%ifnarch aarch64 x86_64
 mv %{buildroot}%{_bindir}/wine-preloader %{buildroot}%{_bindir}/wine32-preloader
 %endif
 touch %{buildroot}%{_bindir}/wine
-%ifnarch %{arm}
 touch %{buildroot}%{_bindir}/wine-preloader
-%endif
 touch %{buildroot}%{_bindir}/wineserver
 mv %{buildroot}%{_libdir}/wine/%{winepedir}/dxgi.dll %{buildroot}%{_libdir}/wine/%{winepedir}/wine-dxgi.dll
 mv %{buildroot}%{_libdir}/wine/%{winesodir}/dxgi.dll.so %{buildroot}%{_libdir}/wine/%{winesodir}/wine-dxgi.dll.so
@@ -1055,18 +1056,11 @@ fi
 %{_sbindir}/alternatives --install %{_bindir}/wineserver \
   wineserver %{_bindir}/wineserver64 20
 %else
-%ifnarch %{arm}
 %{_sbindir}/alternatives --install %{_bindir}/wine \
   wine %{_bindir}/wine32 20 \
   --slave %{_bindir}/wine-preloader wine-preloader %{_bindir}/wine32-preloader
 %{_sbindir}/alternatives --install %{_bindir}/wineserver \
   wineserver %{_bindir}/wineserver32 10
-%else
-%{_sbindir}/alternatives --install %{_bindir}/wine \
-  wine %{_bindir}/wine32 20
-%{_sbindir}/alternatives --install %{_bindir}/wineserver \
-  wineserver %{_bindir}/wineserver32 10
-%endif
 %endif
 %{_sbindir}/alternatives --install %{_libdir}/wine/%{winepedir}/dxgi.dll \
   'wine-dxgi%{?_isa}' %{_libdir}/wine/%{winepedir}/wine-dxgi.dll 10 \
@@ -1151,9 +1145,7 @@ fi
 
 %ifarch %{ix86} %{arm}
 %{_bindir}/wine32
-%ifnarch %{arm}
 %{_bindir}/wine32-preloader
-%endif
 %{_bindir}/wineserver32
 %config %{_sysconfdir}/ld.so.conf.d/wine-32.conf
 %endif
@@ -1168,9 +1160,7 @@ fi
 %endif
 
 %ghost %{_bindir}/wine
-%ifnarch %{arm}
 %ghost %{_bindir}/wine-preloader
-%endif
 %ghost %{_bindir}/wineserver
 
 %dir %{_libdir}/wine
