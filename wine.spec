@@ -3,7 +3,7 @@
 
 %global no64bit   0
 %global winegecko 2.47.2
-%global winemono  6.3.0
+%global winemono  6.4.0
 #global _default_patch_fuzz 2
 %ifarch %{ix86}
 %global winepedir i386-windows
@@ -37,7 +37,7 @@
 %endif
 
 Name:           wine
-Version:        6.16
+Version:        6.18
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1223,7 +1223,6 @@ fi
 %{_libdir}/wine/%{winepedir}/winemenubuilder.exe
 %{_libdir}/wine/%{winesodir}/winemenubuilder.exe.so
 %{_libdir}/wine/%{winepedir}/winecfg.exe
-%{_libdir}/wine/%{winesodir}/winecfg.exe.so
 %{_libdir}/wine/%{winepedir}/winedevice.exe
 %{_libdir}/wine/%{winepedir}/wmplayer.exe
 %{_libdir}/wine/%{winepedir}/wscript.exe
@@ -1334,6 +1333,7 @@ fi
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-processthreads-l1-1-1.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-processthreads-l1-1-2.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-processthreads-l1-1-3.dll
+%{_libdir}/wine/%{winepedir}/api-ms-win-core-processtopology-l1-1-0.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-processtopology-obsolete-l1-1-0.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-profile-l1-1-0.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-psapi-l1-1-0.dll
@@ -1487,7 +1487,7 @@ fi
 %{_libdir}/wine/%{winepedir}/atmlib.dll
 %{_libdir}/wine/%{winepedir}/authz.dll
 %{_libdir}/wine/%{winepedir}/avicap32.dll
-%{_libdir}/wine/%{winesodir}/avicap32.dll.so
+%{_libdir}/wine/%{winesodir}/avicap32.so
 %{_libdir}/wine/%{winepedir}/avifil32.dll
 %{_libdir}/wine/%{winepedir}/avrt.dll
 %{_libdir}/wine/%{winesodir}/bcrypt.so
@@ -1655,9 +1655,7 @@ fi
 %{_libdir}/wine/%{winepedir}/ext-ms-win-uxtheme-themes-l1-1-0.dll
 %if 0%{?wine_staging}
 %{_libdir}/wine/%{winepedir}/ext-ms-win-appmodel-usercontext-l1-1-0.dll
-%{_libdir}/wine/%{winesodir}/ext-ms-win-appmodel-usercontext-l1-1-0.dll.so
 %{_libdir}/wine/%{winepedir}/ext-ms-win-xaml-pal-l1-1-0.dll
-%{_libdir}/wine/%{winesodir}/ext-ms-win-xaml-pal-l1-1-0.dll.so
 %endif
 %{_libdir}/wine/%{winepedir}/faultrep.dll
 %{_libdir}/wine/%{winepedir}/feclient.dll
@@ -1936,7 +1934,6 @@ fi
 %{_libdir}/wine/%{winepedir}/shdocvw.dll
 %{_libdir}/wine/%{winepedir}/schedsvc.dll
 %{_libdir}/wine/%{winepedir}/shell32.dll
-%{_libdir}/wine/%{winesodir}/shell32.dll.so
 %{_libdir}/wine/%{winepedir}/shfolder.dll
 %{_libdir}/wine/%{winepedir}/shlwapi.dll
 %{_libdir}/wine/%{winepedir}/shutdown.exe
@@ -2025,7 +2022,6 @@ fi
 %{_libdir}/wine/%{winesodir}/windowscodecs.so
 %{_libdir}/wine/%{winepedir}/windowscodecsext.dll
 %{_libdir}/wine/%{winepedir}/winebus.sys
-%{_libdir}/wine/%{winesodir}/winebus.sys.so
 %{_libdir}/wine/%{winesodir}/winegstreamer.so
 %{_libdir}/wine/%{winepedir}/winegstreamer.dll
 %{_libdir}/wine/%{winepedir}/winehid.sys
@@ -2053,6 +2049,9 @@ fi
 %{_libdir}/wine/%{winepedir}/wmp.dll
 %{_libdir}/wine/%{winepedir}/wmvcore.dll
 %{_libdir}/wine/%{winepedir}/spoolss.dll
+%{_libdir}/wine/%{winesodir}/win32u.so
+%{_libdir}/wine/%{winesodir}/winebus.so
+%{_libdir}/wine/%{winepedir}/winexinput.sys
 %{_libdir}/wine/%{winepedir}/winscard.dll
 %{_libdir}/wine/%{winepedir}/wintab32.dll
 %{_libdir}/wine/%{winepedir}/wintrust.dll
@@ -2284,6 +2283,7 @@ fi
 %{_libdir}/wine/%{winesodir}/plugplay.exe.so
 %{_libdir}/wine/%{winesodir}/progman.exe.so
 %{_libdir}/wine/%{winesodir}/taskmgr.exe.so
+%{_libdir}/wine/%{winesodir}/winecfg.exe.so
 %{_libdir}/wine/%{winesodir}/winefile.exe.so
 %{_libdir}/wine/%{winesodir}/winemine.exe.so
 %{_libdir}/wine/%{winesodir}/winemsibuilder.exe.so
@@ -2453,6 +2453,7 @@ fi
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-processthreads-l1-1-1.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-processthreads-l1-1-2.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-processthreads-l1-1-3.dll.so
+%{_libdir}/wine/%{winesodir}/api-ms-win-core-processtopology-l1-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-processtopology-obsolete-l1-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-profile-l1-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-psapi-l1-1-0.dll.so
@@ -2605,6 +2606,7 @@ fi
 %{_libdir}/wine/%{winesodir}/atlthunk.dll.so
 %{_libdir}/wine/%{winesodir}/atmlib.dll.so
 %{_libdir}/wine/%{winesodir}/authz.dll.so
+%{_libdir}/wine/%{winesodir}/avicap32.dll.so
 %{_libdir}/wine/%{winesodir}/avifil32.dll.so
 %{_libdir}/wine/%{winesodir}/avrt.dll.so
 %{_libdir}/wine/%{winesodir}/bcrypt.dll.so
@@ -2699,6 +2701,7 @@ fi
 %{_libdir}/wine/%{winesodir}/esent.dll.so
 %{_libdir}/wine/%{winesodir}/evr.dll.so
 %{_libdir}/wine/%{winesodir}/explorerframe.dll.so
+%{_libdir}/wine/%{winesodir}/ext-ms-win-appmodel-usercontext-l1-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/ext-ms-win-authz-context-l1-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/ext-ms-win-domainjoin-netjoin-l1-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/ext-ms-win-dwmapi-ext-l1-1-0.dll.so
@@ -2751,6 +2754,7 @@ fi
 %{_libdir}/wine/%{winesodir}/ext-ms-win-shell-comdlg32-l1-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/ext-ms-win-shell-shell32-l1-2-0.dll.so
 %{_libdir}/wine/%{winesodir}/ext-ms-win-uxtheme-themes-l1-1-0.dll.so
+%{_libdir}/wine/%{winesodir}/ext-ms-win-xaml-pal-l1-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/faultrep.dll.so
 %{_libdir}/wine/%{winesodir}/feclient.dll.so
 %{_libdir}/wine/%{winesodir}/fltlib.dll.so
@@ -2995,6 +2999,7 @@ fi
 %{_libdir}/wine/%{winesodir}/shdoclc.dll.so
 %{_libdir}/wine/%{winesodir}/shdocvw.dll.so
 %{_libdir}/wine/%{winesodir}/schedsvc.dll.so
+%{_libdir}/wine/%{winesodir}/shell32.dll.so
 %{_libdir}/wine/%{winesodir}/shfolder.dll.so
 %{_libdir}/wine/%{winesodir}/shlwapi.dll.so
 %{_libdir}/wine/%{winesodir}/shutdown.exe.so
@@ -3080,10 +3085,12 @@ fi
 %{_libdir}/wine/%{winesodir}/windows.networking.connectivity.so
 %{_libdir}/wine/%{winesodir}/windowscodecs.dll.so
 %{_libdir}/wine/%{winesodir}/windowscodecsext.dll.so
+%{_libdir}/wine/%{winesodir}/winebus.sys.so
 %{_libdir}/wine/%{winesodir}/winegstreamer.dll.so
 %{_libdir}/wine/%{winesodir}/winehid.sys.so
 %{_libdir}/wine/%{winesodir}/winemapi.dll.so
 %{_libdir}/wine/%{winesodir}/winevulkan.dll.so
+%{_libdir}/wine/%{winesodir}/winexinput.sys.so
 %{_libdir}/wine/%{winesodir}/wing32.dll.so
 %{_libdir}/wine/%{winesodir}/winhttp.dll.so
 %{_libdir}/wine/%{winesodir}/wininet.dll.so
@@ -3382,6 +3389,9 @@ fi
 %endif
 
 %changelog
+* Mon Oct 04 2021 Michael Cronenworth <mike@cchtml.com> 6.18-1
+- version update
+
 * Mon Aug 30 2021 Michael Cronenworth <mike@cchtml.com> 6.16-1
 - version update
 
