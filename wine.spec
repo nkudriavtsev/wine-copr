@@ -2133,7 +2133,6 @@ fi
 # 16 bit and other non 64bit stuff
 %ifnarch x86_64 %{arm} aarch64
 %{_libdir}/wine/%{winepedir}/winevdm.exe
-%{_libdir}/wine/%{winesodir}/winevdm.exe.so
 %{_libdir}/wine/%{winepedir}/ifsmgr.vxd
 %{_libdir}/wine/%{winepedir}/mmdevldr.vxd
 %{_libdir}/wine/%{winepedir}/monodebg.vxd
@@ -3041,6 +3040,7 @@ fi
 %{_libdir}/wine/%{winesodir}/wininet.dll.so
 %{_libdir}/wine/%{winesodir}/winmm.dll.so
 %{_libdir}/wine/%{winesodir}/winnls32.dll.so
+%{_libdir}/wine/%{winesodir}/winspool.drv.so
 %{_libdir}/wine/%{winesodir}/winsta.dll.so
 %{_libdir}/wine/%{winesodir}/wmasf.dll.so
 %{_libdir}/wine/%{winesodir}/wmi.dll.so
