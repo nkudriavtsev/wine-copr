@@ -38,7 +38,7 @@
 
 Name:           wine
 Version:        7.0
-Release:        0.2rc3%{?dist}
+Release:        0.3rc3%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -1022,10 +1022,10 @@ fi
 
 %posttrans core
 # handle upgrades for a few package updates
-%{_sbindir}/alternatives --remove 'wine-dxgi%{?_isa}' %{_libdir}/wine/wine-dxgi.dll.so
-%{_sbindir}/alternatives --remove 'wine-d3d9%{?_isa}' %{_libdir}/wine/wine-d3d9.dll
-%{_sbindir}/alternatives --remove 'wine-d3d10%{?_isa}' %{_libdir}/wine/wine-d3d10.dll
-%{_sbindir}/alternatives --remove 'wine-d3d11%{?_isa}' %{_libdir}/wine/wine-d3d11.dll
+%{_sbindir}/alternatives --remove 'wine-dxgi%{?_isa}' %{_libdir}/wine/wine-dxgi.dll.so 2>/dev/null
+%{_sbindir}/alternatives --remove 'wine-d3d9%{?_isa}' %{_libdir}/wine/wine-d3d9.dll 2>/dev/null
+%{_sbindir}/alternatives --remove 'wine-d3d10%{?_isa}' %{_libdir}/wine/wine-d3d10.dll 2>/dev/null
+%{_sbindir}/alternatives --remove 'wine-d3d11%{?_isa}' %{_libdir}/wine/wine-d3d11.dll 2>/dev/null
 %ifarch x86_64 aarch64
 %{_sbindir}/alternatives --install %{_bindir}/wine \
   wine %{_bindir}/wine64 10 \
@@ -3366,6 +3366,9 @@ fi
 %endif
 
 %changelog
+* Mon Jan 03 2022 FeRD (Frank Dana) <ferdnyc@gmail.com> 7.0-0.3rc3
+- Silence messages from expected failures during rpm scriptlets
+
 * Mon Dec 27 2021 Björn Esser <besser82@fedoraproject.org> - 7.0-0.2rc3
 - version update
 
