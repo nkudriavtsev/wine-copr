@@ -3,7 +3,7 @@
 
 %global no64bit   0
 %global winegecko 2.47.2
-%global winemono  6.4.0
+%global winemono  7.0.0
 #global _default_patch_fuzz 2
 %ifarch %{ix86}
 %global winepedir i386-windows
@@ -37,14 +37,14 @@
 %endif
 
 Name:           wine
-Version:        6.21
-Release:        1%{?dist}
+Version:        7.0
+Release:        0.1rc2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
 URL:            https://www.winehq.org/
-Source0:        https://dl.winehq.org/wine/source/6.x/wine-%{version}.tar.xz
-Source10:       https://dl.winehq.org/wine/source/6.x/wine-%{version}.tar.xz.sign
+Source0:        https://dl.winehq.org/wine/source/7.0/wine-%{version}-rc2.tar.xz
+Source10:       https://dl.winehq.org/wine/source/7.0/wine-%{version}-rc2.tar.xz.sign
 
 Source1:        wine.init
 Source2:        wine.systemd
@@ -88,7 +88,7 @@ Patch511:       wine-cjk.patch
 %if 0%{?wine_staging}
 # wine-staging patches
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
+Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}-rc2.tar.gz#/wine-staging-%{version}-rc2.tar.gz
 %endif
 
 %if !%{?no64bit}
@@ -682,7 +682,7 @@ This package adds the opencl driver for wine.
 %endif
 
 %prep
-%setup -q -n wine-%{version}
+%setup -q -n wine-%{version}-rc2
 %patch511 -p1 -b.cjk
 
 %if 0%{?wine_staging}
@@ -690,9 +690,6 @@ This package adds the opencl driver for wine.
 gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
 
 patches/patchinstall.sh DESTDIR="`pwd`" --all
-
-# fix parallelized build
-sed -i -e 's!^loader server: libs/port libs/wine tools.*!& include!' Makefile.in
 
 %endif
 # 0%%{?wine_staging}
@@ -1216,6 +1213,7 @@ fi
 %{_libdir}/wine/%{winepedir}/amsi.dll
 %{_libdir}/wine/%{winepedir}/amstream.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-appmodel-identity-l1-1-0.dll
+%{_libdir}/wine/%{winepedir}/api-ms-win-appmodel-runtime-l1-1-0.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-appmodel-runtime-l1-1-1.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-appmodel-runtime-l1-1-2.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-apiquery-l1-1-0.dll
@@ -1722,8 +1720,8 @@ fi
 %{_libdir}/wine/%{winepedir}/mmcndmgr.dll
 %{_libdir}/wine/%{winepedir}/mmdevapi.dll
 %{_libdir}/wine/%{winepedir}/mofcomp.exe
+%{_libdir}/wine/%{winesodir}/mountmgr.so
 %{_libdir}/wine/%{winepedir}/mountmgr.sys
-%{_libdir}/wine/%{winesodir}/mountmgr.sys.so
 %{_libdir}/wine/%{winepedir}/mp3dmod.dll
 %{_libdir}/wine/%{winepedir}/mpr.dll
 %{_libdir}/wine/%{winepedir}/mprapi.dll
@@ -1736,6 +1734,7 @@ fi
 %{_libdir}/wine/%{winepedir}/mscoree.dll
 %{_libdir}/wine/%{winepedir}/mscorwks.dll
 %{_libdir}/wine/%{winepedir}/msctf.dll
+%{_libdir}/wine/%{winepedir}/msctfmonitor.dll
 %{_libdir}/wine/%{winepedir}/msctfp.dll
 %{_libdir}/wine/%{winepedir}/msdaps.dll
 %{_libdir}/wine/%{winepedir}/msdasql.dll
@@ -1769,6 +1768,7 @@ fi
 %{_libdir}/wine/%{winepedir}/msvcirt.dll
 %{_libdir}/wine/%{winepedir}/msvcm80.dll
 %{_libdir}/wine/%{winepedir}/msvcm90.dll
+%{_libdir}/wine/%{winepedir}/msvcp_win.dll
 %{_libdir}/wine/%{winepedir}/msvcp60.dll
 %{_libdir}/wine/%{winepedir}/msvcp70.dll
 %{_libdir}/wine/%{winepedir}/msvcp71.dll
@@ -1989,8 +1989,6 @@ fi
 %{_libdir}/wine/%{winesodir}/winegstreamer.so
 %{_libdir}/wine/%{winepedir}/winegstreamer.dll
 %{_libdir}/wine/%{winepedir}/winehid.sys
-%{_libdir}/wine/%{winepedir}/winejoystick.drv
-%{_libdir}/wine/%{winesodir}/winejoystick.drv.so
 %{_libdir}/wine/%{winepedir}/winemapi.dll
 %{_libdir}/wine/%{winepedir}/wineusb.sys
 %{_libdir}/wine/%{winesodir}/wineusb.sys.so
@@ -2024,7 +2022,6 @@ fi
 %{_libdir}/wine/%{winepedir}/wlanui.dll
 %{_libdir}/wine/%{winepedir}/wmphoto.dll
 %{_libdir}/wine/%{winepedir}/wnaspi32.dll
-%{_libdir}/wine/%{winesodir}/wnaspi32.dll.so
 %ifarch x86_64 aarch64
 %{_libdir}/wine/%{winepedir}/wow64.dll
 %{_libdir}/wine/%{winepedir}/wow64win.dll
@@ -2290,6 +2287,7 @@ fi
 %{_libdir}/wine/%{winesodir}/amsi.dll.so
 %{_libdir}/wine/%{winesodir}/amstream.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-appmodel-identity-l1-1-0.dll.so
+%{_libdir}/wine/%{winesodir}/api-ms-win-appmodel-runtime-l1-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-appmodel-runtime-l1-1-1.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-appmodel-runtime-l1-1-2.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-apiquery-l1-1-0.dll.so
@@ -2775,6 +2773,7 @@ fi
 %{_libdir}/wine/%{winesodir}/mmcndmgr.dll.so
 %{_libdir}/wine/%{winesodir}/mmdevapi.dll.so
 %{_libdir}/wine/%{winesodir}/mofcomp.exe.so
+%{_libdir}/wine/%{winesodir}/mountmgr.sys.so
 %{_libdir}/wine/%{winesodir}/mp3dmod.dll.so
 %{_libdir}/wine/%{winesodir}/mpr.dll.so
 %{_libdir}/wine/%{winesodir}/mprapi.dll.so
@@ -2787,6 +2786,7 @@ fi
 %{_libdir}/wine/%{winesodir}/mscoree.dll.so
 %{_libdir}/wine/%{winesodir}/mscorwks.dll.so
 %{_libdir}/wine/%{winesodir}/msctf.dll.so
+%{_libdir}/wine/%{winesodir}/msctfmonitor.dll.so
 %{_libdir}/wine/%{winesodir}/msctfp.dll.so
 %{_libdir}/wine/%{winesodir}/msdaps.dll.so
 %{_libdir}/wine/%{winesodir}/msdasql.dll.so
@@ -2819,6 +2819,7 @@ fi
 %{_libdir}/wine/%{winesodir}/msvcirt.dll.so
 %{_libdir}/wine/%{winesodir}/msvcm80.dll.so
 %{_libdir}/wine/%{winesodir}/msvcm90.dll.so
+%{_libdir}/wine/%{winesodir}/msvcp_win.dll.so
 %{_libdir}/wine/%{winesodir}/msvcp60.dll.so
 %{_libdir}/wine/%{winesodir}/msvcp70.dll.so
 %{_libdir}/wine/%{winesodir}/msvcp71.dll.so
@@ -3060,6 +3061,7 @@ fi
 %{_libdir}/wine/%{winesodir}/wlanapi.dll.so
 %{_libdir}/wine/%{winesodir}/wlanui.dll.so
 %{_libdir}/wine/%{winesodir}/wmphoto.dll.so
+%{_libdir}/wine/%{winesodir}/wnaspi32.dll.so
 %{_libdir}/wine/%{winesodir}/wpc.dll.so
 %{_libdir}/wine/%{winesodir}/wpcap.dll.so
 %{_libdir}/wine/%{winesodir}/ws2_32.dll.so
@@ -3336,7 +3338,6 @@ fi
 %{_libdir}/wine/%{winepedir}/*.a
 %endif
 %{_libdir}/wine/%{winesodir}/*.a
-%{_libdir}/wine/%{winesodir}/*.def
 
 
 %files pulseaudio
@@ -3366,6 +3367,9 @@ fi
 %endif
 
 %changelog
+* Mon Dec 20 2021 Michael Cronenworth <mike@cchtml.com> 7.0-0.1rc2
+- version update
+
 * Wed Nov 10 2021 Michael Cronenworth <mike@cchtml.com> 6.21-1
 - version update
 
