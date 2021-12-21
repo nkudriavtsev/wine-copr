@@ -756,9 +756,6 @@ mv %{buildroot}%{_bindir}/wineserver %{buildroot}%{_bindir}/wineserver64
 %ifarch %{ix86} %{arm}
 mv %{buildroot}%{_bindir}/wine %{buildroot}%{_bindir}/wine32
 mv %{buildroot}%{_bindir}/wineserver %{buildroot}%{_bindir}/wineserver32
-# do not ship typelibs in 32-bit packages
-# https://www.winehq.org/pipermail/wine-devel/2020-June/167283.html
-rm %{buildroot}%{_includedir}/wine/windows/*.tlb
 %endif
 %ifnarch aarch64 x86_64
 mv %{buildroot}%{_bindir}/wine-preloader %{buildroot}%{_bindir}/wine32-preloader
