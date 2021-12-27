@@ -2424,6 +2424,7 @@ fi
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-version-private-l1-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-versionansi-l1-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-windowserrorreporting-l1-1-0.dll.so
+%{_libdir}/wine/%{winesodir}/api-ms-win-core-windowserrorreporting-l1-1-1.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-winrt-error-l1-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-winrt-error-l1-1-1.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-core-winrt-errorprivate-l1-1-1.dll.so
