@@ -38,13 +38,13 @@
 
 Name:           wine
 Version:        7.0
-Release:        0.1rc2%{?dist}
+Release:        0.2rc3%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
 URL:            https://www.winehq.org/
-Source0:        https://dl.winehq.org/wine/source/7.0/wine-%{version}-rc2.tar.xz
-Source10:       https://dl.winehq.org/wine/source/7.0/wine-%{version}-rc2.tar.xz.sign
+Source0:        https://dl.winehq.org/wine/source/7.0/wine-%{version}-rc3.tar.xz
+Source10:       https://dl.winehq.org/wine/source/7.0/wine-%{version}-rc3.tar.xz.sign
 
 Source1:        wine.init
 Source2:        wine.systemd
@@ -88,7 +88,7 @@ Patch511:       wine-cjk.patch
 %if 0%{?wine_staging}
 # wine-staging patches
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}-rc2.tar.gz#/wine-staging-%{version}-rc2.tar.gz
+Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}-rc3.tar.gz#/wine-staging-%{version}-rc3.tar.gz
 %endif
 
 %if !%{?no64bit}
@@ -682,7 +682,7 @@ This package adds the opencl driver for wine.
 %endif
 
 %prep
-%setup -q -n wine-%{version}-rc2
+%setup -q -n wine-%{version}-rc3
 %patch511 -p1 -b.cjk
 
 %if 0%{?wine_staging}
@@ -1349,6 +1349,7 @@ fi
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-version-private-l1-1-0.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-versionansi-l1-1-0.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-windowserrorreporting-l1-1-0.dll
+%{_libdir}/wine/%{winepedir}/api-ms-win-core-windowserrorreporting-l1-1-1.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-winrt-error-l1-1-0.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-winrt-error-l1-1-1.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-core-winrt-errorprivate-l1-1-1.dll
@@ -3364,6 +3365,9 @@ fi
 %endif
 
 %changelog
+* Mon Dec 27 2021 Björn Esser <besser82@fedoraproject.org> - 7.0-0.2rc3
+- version update
+
 * Mon Dec 20 2021 Michael Cronenworth <mike@cchtml.com> 7.0-0.1rc2
 - version update
 
@@ -3627,4 +3631,3 @@ fi
 
 * Wed Jan 23 2019 Michael Cronenworth <mike@cchtml.com> 4.0-1
 - version update
-
