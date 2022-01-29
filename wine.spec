@@ -3,7 +3,7 @@
 
 %global no64bit   0
 %global winegecko 2.47.2
-%global winemono  7.0.0
+%global winemono  7.1.1
 #global _default_patch_fuzz 2
 %ifarch %{ix86}
 %global winepedir i386-windows
@@ -37,14 +37,14 @@
 %endif
 
 Name:           wine
-Version:        7.0
-Release:        2%{?dist}
+Version:        7.1
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
 URL:            https://www.winehq.org/
-Source0:        https://dl.winehq.org/wine/source/7.0/wine-%{version}.tar.xz
-Source10:       https://dl.winehq.org/wine/source/7.0/wine-%{version}.tar.xz.sign
+Source0:        https://dl.winehq.org/wine/source/7.x/wine-%{version}.tar.xz
+Source10:       https://dl.winehq.org/wine/source/7.x/wine-%{version}.tar.xz.sign
 
 Source1:        wine.init
 Source2:        wine.systemd
@@ -3366,6 +3366,9 @@ fi
 %endif
 
 %changelog
+* Sat Jan 29 2022 Björn Esser <besser82@fedoraproject.org> - 7.1-1
+- version update
+
 * Sat Jan 22 2022 Fedora Release Engineering <releng@fedoraproject.org> - 7.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
