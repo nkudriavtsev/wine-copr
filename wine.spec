@@ -3,7 +3,7 @@
 
 %global no64bit   0
 %global winegecko 2.47.2
-%global winemono  7.1.1
+%global winemono  7.0.0
 #global _default_patch_fuzz 2
 %ifarch %{ix86}
 %global winepedir i386-windows
@@ -38,7 +38,7 @@
 
 Name:           wine
 Version:        7.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -3370,6 +3370,9 @@ fi
 %endif
 
 %changelog
+* Mon Jan 31 2022 Björn Esser <besser82@fedoraproject.org> - 7.1-2
+- Revert to wine-mono 7.0.0
+
 * Sat Jan 29 2022 Björn Esser <besser82@fedoraproject.org> - 7.1-1
 - version update
 
