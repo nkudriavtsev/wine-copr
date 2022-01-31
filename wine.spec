@@ -1778,6 +1778,7 @@ fi
 %{_libdir}/wine/%{winepedir}/msvcp120_app.dll
 %{_libdir}/wine/%{winepedir}/msvcp140.dll
 %{_libdir}/wine/%{winepedir}/msvcp140_1.dll
+%{_libdir}/wine/%{winepedir}/msvcp140_atomic_wait.dll
 %{_libdir}/wine/%{winepedir}/msvcr70.dll
 %{_libdir}/wine/%{winepedir}/msvcr71.dll
 %{_libdir}/wine/%{winepedir}/msvcr80.dll
@@ -2002,6 +2003,7 @@ fi
 %{_libdir}/wine/%{winepedir}/winspool.drv
 %{_libdir}/wine/%{winesodir}/winspool.so
 %{_libdir}/wine/%{winepedir}/winsta.dll
+%{_libdir}/wine/%{winepedir}/wmadmod.dll
 %{_libdir}/wine/%{winepedir}/wmasf.dll
 %{_libdir}/wine/%{winepedir}/wmi.dll
 %{_libdir}/wine/%{winepedir}/wmic.exe
@@ -2830,6 +2832,7 @@ fi
 %{_libdir}/wine/%{winesodir}/msvcp120_app.dll.so
 %{_libdir}/wine/%{winesodir}/msvcp140.dll.so
 %{_libdir}/wine/%{winesodir}/msvcp140_1.dll.so
+%{_libdir}/wine/%{winesodir}/msvcp140_atomic_wait.dll.so
 %{_libdir}/wine/%{winesodir}/msvcr70.dll.so
 %{_libdir}/wine/%{winesodir}/msvcr71.dll.so
 %{_libdir}/wine/%{winesodir}/msvcr80.dll.so
@@ -3042,6 +3045,7 @@ fi
 %{_libdir}/wine/%{winesodir}/winnls32.dll.so
 %{_libdir}/wine/%{winesodir}/winspool.drv.so
 %{_libdir}/wine/%{winesodir}/winsta.dll.so
+%{_libdir}/wine/%{winesodir}/wmadmod.dll.so
 %{_libdir}/wine/%{winesodir}/wmasf.dll.so
 %{_libdir}/wine/%{winesodir}/wmi.dll.so
 %{_libdir}/wine/%{winesodir}/wmic.exe.so
