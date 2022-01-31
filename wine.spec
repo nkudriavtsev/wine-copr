@@ -738,7 +738,7 @@ export CFLAGS="`echo $CFLAGS | sed -e 's/-fexceptions//'`"
 %{?wine_staging: --with-xattr} \
  --disable-tests
 
-make %{?_smp_mflags} TARGETFLAGS=""
+%make_build TARGETFLAGS=""
 
 %install
 
