@@ -1428,6 +1428,7 @@ fi
 %{_libdir}/wine/%{winepedir}/api-ms-win-security-lsalookup-l1-1-1.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-security-lsalookup-l2-1-0.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-security-lsalookup-l2-1-1.dll
+%{_libdir}/wine/%{winepedir}/api-ms-win-security-lsalookup-ansi-l2-1-0.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-security-lsapolicy-l1-1-0.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-security-provider-l1-1-0.dll
 %{_libdir}/wine/%{winepedir}/api-ms-win-security-sddl-l1-1-0.dll
@@ -1526,6 +1527,7 @@ fi
 %{_libdir}/wine/%{winepedir}/dhcpcsvc.dll
 %{_libdir}/wine/%{winepedir}/dhcpcsvc6.dll
 %{_libdir}/wine/%{winepedir}/dhtmled.ocx
+%{_libdir}/wine/%{winepedir}/diasymreader.dll
 %{_libdir}/wine/%{winepedir}/difxapi.dll
 %{_libdir}/wine/%{winepedir}/dinput.dll
 %{_libdir}/wine/%{winepedir}/dinput8.dll
@@ -2505,6 +2507,7 @@ fi
 %{_libdir}/wine/%{winesodir}/api-ms-win-security-lsalookup-l1-1-1.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-security-lsalookup-l2-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-security-lsalookup-l2-1-1.dll.so
+%{_libdir}/wine/%{winesodir}/api-ms-win-security-lsalookup-ansi-l2-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-security-lsapolicy-l1-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-security-provider-l1-1-0.dll.so
 %{_libdir}/wine/%{winesodir}/api-ms-win-security-sddl-l1-1-0.dll.so
@@ -2593,6 +2596,7 @@ fi
 %{_libdir}/wine/%{winesodir}/dhcpcsvc.dll.so
 %{_libdir}/wine/%{winesodir}/dhcpcsvc6.dll.so
 %{_libdir}/wine/%{winesodir}/dhtmled.ocx.so
+%{_libdir}/wine/%{winesodir}/diasymreader.dll.so
 %{_libdir}/wine/%{winesodir}/difxapi.dll.so
 %{_libdir}/wine/%{winesodir}/dinput.dll.so
 %{_libdir}/wine/%{winesodir}/dinput8.dll.so
