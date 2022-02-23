@@ -220,6 +220,9 @@ Recommends:     gstreamer1-plugins-good(x86-32)
 Recommends:     isdn4k-utils(x86-32)
 %endif
 
+# needed to display .exe previews in dolphin
+Recommends:     (icoutils if dolphin)
+
 # x86-64 parts
 %ifarch x86_64
 Requires:       wine-core(x86-64) = %{version}-%{release}
