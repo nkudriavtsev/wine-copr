@@ -1990,7 +1990,6 @@ fi
 %{_libdir}/wine/%{winesodir}/acledit.dll.so
 %{_libdir}/wine/%{winesodir}/aclui.dll.so
 %{_libdir}/wine/%{winesodir}/activeds.dll.so
-%{_libdir}/wine/%{winesodir}/activeds.tlb.so
 %{_libdir}/wine/%{winesodir}/actxprxy.dll.so
 %{_libdir}/wine/%{winesodir}/adsldp.dll.so
 %{_libdir}/wine/%{winesodir}/adsldpc.dll.so
@@ -1998,7 +1997,6 @@ fi
 %{_libdir}/wine/%{winesodir}/advpack.dll.so
 %{_libdir}/wine/%{winesodir}/amsi.dll.so
 %{_libdir}/wine/%{winesodir}/amstream.dll.so
-%{_libdir}/wine/%{winesodir}/apisetschema.dll.so
 %{_libdir}/wine/%{winesodir}/apphelp.dll.so
 %{_libdir}/wine/%{winesodir}/appwiz.cpl.so
 %{_libdir}/wine/%{winesodir}/atl.dll.so
@@ -2142,7 +2140,6 @@ fi
 %{_libdir}/wine/%{winesodir}/icacls.exe.so
 %{_libdir}/wine/%{winesodir}/iccvid.dll.so
 %{_libdir}/wine/%{winesodir}/icinfo.exe.so
-%{_libdir}/wine/%{winesodir}/icmp.dll.so
 %{_libdir}/wine/%{winesodir}/ieframe.dll.so
 %if 0%{?wine_staging}
 %{_libdir}/wine/%{winesodir}/iertutil.dll.so
@@ -2174,12 +2171,10 @@ fi
 %{_libdir}/wine/%{winesodir}/ksuser.dll.so
 %{_libdir}/wine/%{winesodir}/ktmw32.dll.so
 %{_libdir}/wine/%{winesodir}/l3codeca.acm.so
-%{_libdir}/wine/%{winesodir}/light.msstyles.so
 %{_libdir}/wine/%{winesodir}/loadperf.dll.so
 %{_libdir}/wine/%{winesodir}/localspl.dll.so
 %{_libdir}/wine/%{winesodir}/localui.dll.so
 %{_libdir}/wine/%{winesodir}/lodctr.exe.so
-%{_libdir}/wine/%{winesodir}/lz32.dll.so
 %{_libdir}/wine/%{winesodir}/mapi32.dll.so
 %{_libdir}/wine/%{winesodir}/mapistub.dll.so
 %{_libdir}/wine/%{winesodir}/mciavi32.dll.so
@@ -2189,7 +2184,6 @@ fi
 %{_libdir}/wine/%{winesodir}/mciwave.dll.so
 %{_libdir}/wine/%{winesodir}/mf.dll.so
 %{_libdir}/wine/%{winesodir}/mf3216.dll.so
-%{_libdir}/wine/%{winesodir}/mferror.dll.so
 %{_libdir}/wine/%{winesodir}/mfmediaengine.dll.so
 %{_libdir}/wine/%{winesodir}/mfplat.dll.so
 %{_libdir}/wine/%{winesodir}/mfplay.dll.so
@@ -2223,13 +2217,11 @@ fi
 %{_libdir}/wine/%{winesodir}/msftedit.dll.so
 %{_libdir}/wine/%{winesodir}/msg711.acm.so
 %{_libdir}/wine/%{winesodir}/mshtml.dll.so
-%{_libdir}/wine/%{winesodir}/mshtml.tlb.so
 %{_libdir}/wine/%{winesodir}/msgsm32.acm.so
 %{_libdir}/wine/%{winesodir}/msi.dll.so
 %{_libdir}/wine/%{winesodir}/msident.dll.so
 %{_libdir}/wine/%{winesodir}/msimtf.dll.so
 %{_libdir}/wine/%{winesodir}/msimg32.dll.so
-%{_libdir}/wine/%{winesodir}/msimsg.dll.so
 %{_libdir}/wine/%{winesodir}/msinfo32.exe.so
 %{_libdir}/wine/%{winesodir}/msisip.dll.so
 %{_libdir}/wine/%{winesodir}/msisys.ocx.so
@@ -2293,7 +2285,6 @@ fi
 %endif
 %{_libdir}/wine/%{winesodir}/newdev.dll.so
 %{_libdir}/wine/%{winesodir}/ninput.dll.so
-%{_libdir}/wine/%{winesodir}/normaliz.dll.so
 %{_libdir}/wine/%{winesodir}/npmshtml.dll.so
 %{_libdir}/wine/%{winesodir}/npptools.dll.so
 %{_libdir}/wine/%{winesodir}/nsi.dll.so
@@ -2368,7 +2359,6 @@ fi
 %{_libdir}/wine/%{winesodir}/setupapi.dll.so
 %{_libdir}/wine/%{winesodir}/sfc_os.dll.so
 %{_libdir}/wine/%{winesodir}/shcore.dll.so
-%{_libdir}/wine/%{winesodir}/shdoclc.dll.so
 %{_libdir}/wine/%{winesodir}/shdocvw.dll.so
 %{_libdir}/wine/%{winesodir}/schedsvc.dll.so
 %{_libdir}/wine/%{winesodir}/shell32.dll.so
@@ -2386,8 +2376,6 @@ fi
 %{_libdir}/wine/%{winesodir}/srvcli.dll.so
 %endif
 %{_libdir}/wine/%{winesodir}/sspicli.dll.so
-%{_libdir}/wine/%{winesodir}/stdole2.tlb.so
-%{_libdir}/wine/%{winesodir}/stdole32.tlb.so
 %{_libdir}/wine/%{winesodir}/sti.dll.so
 %{_libdir}/wine/%{winesodir}/strmdll.dll.so
 %{_libdir}/wine/%{winesodir}/subst.exe.so
@@ -2403,7 +2391,6 @@ fi
 %{_libdir}/wine/%{winesodir}/tdh.dll.so
 %{_libdir}/wine/%{winesodir}/tdi.sys.so
 %{_libdir}/wine/%{winesodir}/traffic.dll.so
-%{_libdir}/wine/%{winesodir}/tzres.dll.so
 %{_libdir}/wine/%{winesodir}/ucrtbase.dll.so
 %if 0%{?wine_staging}
 %{_libdir}/wine/%{winesodir}/uianimation.dll.so
@@ -2417,7 +2404,6 @@ fi
 %{_libdir}/wine/%{winesodir}/urlmon.dll.so
 %{_libdir}/wine/%{winesodir}/usbd.sys.so
 %{_libdir}/wine/%{winesodir}/user32.dll.so
-%{_libdir}/wine/%{winesodir}/usp10.dll.so
 %{_libdir}/wine/%{winesodir}/utildll.dll.so
 %{_libdir}/wine/%{winesodir}/uxtheme.dll.so
 %{_libdir}/wine/%{winesodir}/userenv.dll.so
@@ -2473,7 +2459,6 @@ fi
 %{_libdir}/wine/%{winesodir}/winsta.dll.so
 %{_libdir}/wine/%{winesodir}/wmadmod.dll.so
 %{_libdir}/wine/%{winesodir}/wmasf.dll.so
-%{_libdir}/wine/%{winesodir}/wmi.dll.so
 %{_libdir}/wine/%{winesodir}/wmic.exe.so
 %{_libdir}/wine/%{winesodir}/wmiutils.dll.so
 %{_libdir}/wine/%{winesodir}/wmp.dll.so
@@ -2501,9 +2486,6 @@ fi
 %{_libdir}/wine/%{winesodir}/wtsapi32.dll.so
 %{_libdir}/wine/%{winesodir}/wuapi.dll.so
 %{_libdir}/wine/%{winesodir}/wuaueng.dll.so
-
-%{_libdir}/wine/%{winesodir}/security.dll.so
-%{_libdir}/wine/%{winesodir}/sfc.dll.so
 %{_libdir}/wine/%{winesodir}/wineps.drv.so
 %{_libdir}/wine/%{winesodir}/d3d8.dll.so
 %{_libdir}/wine/%{winesodir}/d3d8thk.dll.so
