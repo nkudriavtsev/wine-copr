@@ -38,7 +38,7 @@
 
 Name:           wine
 Version:        7.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -2779,6 +2779,9 @@ fi
 %endif
 
 %changelog
+* Fri Mar 25 2022 Sandro Mani <manisandro@gmail.com> - 7.3-2
+- Rebuild with mingw-gcc-12
+
 * Fri Mar 11 2022 Michael Cronenworth <mike@cchtml.com> - 7.3-1
 - version update
 
