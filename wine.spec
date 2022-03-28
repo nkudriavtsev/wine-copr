@@ -1,6 +1,11 @@
 # Compiling the preloader fails with hardening enabled
 %undefine _hardened_build
 
+# Parallel build broken (fails with
+# /usr/bin/x86_64-w64-mingw32-dlltool: dlls/winmm/libwinmm.{cross,delay}.a: No such file or directory
+# /usr/bin/x86_64-w64-mingw32-dlltool: dlls/oleaut32/liboleaut32.{cross,delay}.a: No such file or directory
+%global _smp_mflags -j1
+
 %global no64bit   0
 %global winegecko 2.47.2
 %global winemono  7.1.1
