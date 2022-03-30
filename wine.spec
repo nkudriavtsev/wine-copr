@@ -173,8 +173,6 @@ BuildRequires:  gstreamer1-plugins-base-devel
 BuildRequires:  mpg123-devel
 %endif
 BuildRequires:  SDL2-devel
-BuildRequires:  libvkd3d-devel
-BuildRequires:  libvkd3d-shader-devel
 BuildRequires:  vulkan-devel
 BuildRequires:  libFAudio-devel
 BuildRequires:  libappstream-glib
