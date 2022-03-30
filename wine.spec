@@ -107,6 +107,7 @@ BuildRequires:  bison
 BuildRequires:  flex
 %ifarch aarch64
 BuildRequires:  clang >= 5.0
+BuildRequires:  lld
 %else
 BuildRequires:  gcc
 %endif
