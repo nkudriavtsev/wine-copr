@@ -1,6 +1,12 @@
 # Compiling the preloader fails with hardening enabled
 %undefine _hardened_build
 
+# Parallel build broken (fails with
+# /usr/bin/x86_64-w64-mingw32-dlltool: dlls/winmm/libwinmm.{cross,delay}.a: No such file or directory
+# /usr/bin/x86_64-w64-mingw32-dlltool: dlls/oleaut32/liboleaut32.{cross,delay}.a: No such file or directory
+# /usr/bin/x86_64-w64-mingw32-dlltool: dlls/oleaut32/libwintrust.{cross,delay}.a: No such file or directory
+%global _smp_mflags -j1
+
 %global no64bit   0
 %global winegecko 2.47.2
 %global winemono  7.1.1
@@ -37,8 +43,8 @@
 %endif
 
 Name:           wine
-Version:        7.3
-Release:        2%{?dist}
+Version:        7.5
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -361,6 +367,8 @@ Requires:       vulkan-loader
 Requires:       libva
 %endif
 %endif
+
+Provides:       bundled(libvkd3d) = 1.3
 
 # removed as of 1.7.35
 Obsoletes:      wine-wow < 1.7.35
@@ -764,14 +772,12 @@ touch %{buildroot}%{_bindir}/wine
 touch %{buildroot}%{_bindir}/wine-preloader
 touch %{buildroot}%{_bindir}/wineserver
 mv %{buildroot}%{_libdir}/wine/%{winepedir}/dxgi.dll %{buildroot}%{_libdir}/wine/%{winepedir}/wine-dxgi.dll
-mv %{buildroot}%{_libdir}/wine/%{winesodir}/dxgi.dll.so %{buildroot}%{_libdir}/wine/%{winesodir}/wine-dxgi.dll.so
 mv %{buildroot}%{_libdir}/wine/%{winepedir}/d3d9.dll %{buildroot}%{_libdir}/wine/%{winepedir}/wine-d3d9.dll
 mv %{buildroot}%{_libdir}/wine/%{winepedir}/d3d10.dll %{buildroot}%{_libdir}/wine/%{winepedir}/wine-d3d10.dll
 mv %{buildroot}%{_libdir}/wine/%{winepedir}/d3d10_1.dll %{buildroot}%{_libdir}/wine/%{winepedir}/wine-d3d10_1.dll
 mv %{buildroot}%{_libdir}/wine/%{winepedir}/d3d10core.dll %{buildroot}%{_libdir}/wine/%{winepedir}/wine-d3d10core.dll
 mv %{buildroot}%{_libdir}/wine/%{winepedir}/d3d11.dll %{buildroot}%{_libdir}/wine/%{winepedir}/wine-d3d11.dll
 touch %{buildroot}%{_libdir}/wine/%{winepedir}/dxgi.dll
-touch %{buildroot}%{_libdir}/wine/%{winesodir}/dxgi.dll.so
 touch %{buildroot}%{_libdir}/wine/%{winepedir}/d3d9.dll
 touch %{buildroot}%{_libdir}/wine/%{winepedir}/d3d10.dll
 touch %{buildroot}%{_libdir}/wine/%{winepedir}/d3d10_1.dll
@@ -1022,7 +1028,7 @@ fi
 
 %posttrans core
 # handle upgrades for a few package updates
-%{_sbindir}/alternatives --remove 'wine-dxgi%{?_isa}' %{_libdir}/wine/wine-dxgi.dll.so 2>/dev/null
+%{_sbindir}/alternatives --remove 'wine-dxgi%{?_isa}' %{_libdir}/wine/wine-dxgi.dll 2>/dev/null
 %{_sbindir}/alternatives --remove 'wine-d3d9%{?_isa}' %{_libdir}/wine/wine-d3d9.dll 2>/dev/null
 %{_sbindir}/alternatives --remove 'wine-d3d10%{?_isa}' %{_libdir}/wine/wine-d3d10.dll 2>/dev/null
 %{_sbindir}/alternatives --remove 'wine-d3d11%{?_isa}' %{_libdir}/wine/wine-d3d11.dll 2>/dev/null
@@ -1040,8 +1046,7 @@ fi
   wineserver %{_bindir}/wineserver32 10
 %endif
 %{_sbindir}/alternatives --install %{_libdir}/wine/%{winepedir}/dxgi.dll \
-  'wine-dxgi%{?_isa}' %{_libdir}/wine/%{winepedir}/wine-dxgi.dll 10 \
-  --slave  %{_libdir}/wine/%{winesodir}/dxgi.dll.so 'wine-dxgi-so%{?_isa}' %{_libdir}/wine/%{winesodir}/wine-dxgi.dll.so
+  'wine-dxgi%{?_isa}' %{_libdir}/wine/%{winepedir}/wine-dxgi.dll 10
 %{_sbindir}/alternatives --install %{_libdir}/wine/%{winepedir}/d3d9.dll \
   'wine-d3d9%{?_isa}' %{_libdir}/wine/%{winepedir}/wine-d3d9.dll 10
 %{_sbindir}/alternatives --install %{_libdir}/wine/%{winepedir}/d3d10.dll \
@@ -1144,6 +1149,7 @@ fi
 %{_libdir}/wine/%{winepedir}/conhost.exe
 %{_libdir}/wine/%{winepedir}/cscript.exe
 %{_libdir}/wine/%{winepedir}/dism.exe
+%{_libdir}/wine/%{winepedir}/dllhost.exe
 %{_libdir}/wine/%{winepedir}/dplaysvr.exe
 %{_libdir}/wine/%{winepedir}/dpnsvr.exe
 %{_libdir}/wine/%{winepedir}/dpvsetup.exe
@@ -1268,7 +1274,6 @@ fi
 %ghost %{_libdir}/wine/%{winepedir}/d3d11.dll
 %{_libdir}/wine/%{winepedir}/wine-d3d11.dll
 %{_libdir}/wine/%{winepedir}/d3d12.dll
-%{_libdir}/wine/%{winesodir}/d3d12.dll.so
 %{_libdir}/wine/%{winepedir}/d3dcompiler_*.dll
 %{_libdir}/wine/%{winepedir}/d3dim.dll
 %{_libdir}/wine/%{winepedir}/d3dim700.dll
@@ -1327,8 +1332,6 @@ fi
 %{_libdir}/wine/%{winepedir}/dxdiagn.dll
 %ghost %{_libdir}/wine/%{winepedir}/dxgi.dll
 %{_libdir}/wine/%{winepedir}/wine-dxgi.dll
-%ghost %{_libdir}/wine/%{winesodir}/dxgi.dll.so
-%{_libdir}/wine/%{winesodir}/wine-dxgi.dll.so
 %{_libdir}/wine/%{winepedir}/dxgkrnl.sys
 %{_libdir}/wine/%{winepedir}/dxgmms1.sys
 %{_libdir}/wine/%{winepedir}/dxtrans.dll
@@ -1769,7 +1772,6 @@ fi
 %{_libdir}/wine/%{winepedir}/opengl32.dll
 %{_libdir}/wine/%{winesodir}/opengl32.dll.so
 %{_libdir}/wine/%{winepedir}/wined3d.dll
-%{_libdir}/wine/%{winesodir}/wined3d.dll.so
 %{_libdir}/wine/%{winepedir}/dnsapi.dll
 %{_libdir}/wine/%{winesodir}/dnsapi.so
 %{_libdir}/wine/%{winepedir}/iexplore.exe
@@ -1937,6 +1939,7 @@ fi
 %{_libdir}/wine/%{winesodir}/conhost.exe.so
 %{_libdir}/wine/%{winesodir}/cscript.exe.so
 %{_libdir}/wine/%{winesodir}/dism.exe.so
+%{_libdir}/wine/%{winesodir}/dllhost.exe.so
 %{_libdir}/wine/%{winesodir}/dplaysvr.exe.so
 %{_libdir}/wine/%{winesodir}/dpnsvr.exe.so
 %{_libdir}/wine/%{winesodir}/dpvsetup.exe.so
@@ -2046,6 +2049,7 @@ fi
 %{_libdir}/wine/%{winesodir}/d3d10_1.dll.so
 %{_libdir}/wine/%{winesodir}/d3d10core.dll.so
 %{_libdir}/wine/%{winesodir}/d3d11.dll.so
+%{_libdir}/wine/%{winesodir}/d3d12.dll.so
 %{_libdir}/wine/%{winesodir}/d3dcompiler_*.dll.so
 %{_libdir}/wine/%{winesodir}/d3dim.dll.so
 %{_libdir}/wine/%{winesodir}/d3dim700.dll.so
@@ -2101,6 +2105,8 @@ fi
 %{_libdir}/wine/%{winesodir}/dwrite.dll.so
 %{_libdir}/wine/%{winesodir}/dx8vb.dll.so
 %{_libdir}/wine/%{winesodir}/dxdiagn.dll.so
+%ghost %{_libdir}/wine/%{winesodir}/dxgi.dll.so
+%{_libdir}/wine/%{winesodir}/wine-dxgi.dll.so
 %{_libdir}/wine/%{winesodir}/dxgkrnl.sys.so
 %{_libdir}/wine/%{winesodir}/dxgmms1.sys.so
 %{_libdir}/wine/%{winesodir}/dxtrans.dll.so
@@ -2445,6 +2451,7 @@ fi
 %{_libdir}/wine/%{winesodir}/windowscodecs.dll.so
 %{_libdir}/wine/%{winesodir}/windowscodecsext.dll.so
 %{_libdir}/wine/%{winesodir}/winebus.sys.so
+%{_libdir}/wine/%{winesodir}/wined3d.dll.so
 %{_libdir}/wine/%{winesodir}/winegstreamer.dll.so
 %{_libdir}/wine/%{winesodir}/winehid.sys.so
 %{_libdir}/wine/%{winesodir}/winemapi.dll.so
@@ -2761,7 +2768,9 @@ fi
 %files alsa
 %{_libdir}/wine/%{winepedir}/winealsa.drv
 %{_libdir}/wine/%{winesodir}/winealsa.so
+%ifarch %{arm} aarch64
 %{_libdir}/wine/%{winesodir}/winealsa.drv.so
+%endif
 
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6
 %files openal
@@ -2779,6 +2788,9 @@ fi
 %endif
 
 %changelog
+* Tue Mar 29 2022 Michael Cronenworth <mike@cchtml.com> - 7.5-1
+- version update
+
 * Fri Mar 25 2022 Sandro Mani <manisandro@gmail.com> - 7.3-2
 - Rebuild with mingw-gcc-12
 
