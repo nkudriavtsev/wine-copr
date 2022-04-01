@@ -26,6 +26,9 @@
 %ifarch aarch64
 %global winepedir aarch64-windows
 %global winesodir aarch64-unix
+%global __brp_llvm_compile_lto_elf %nil
+%global __brp_strip_lto %nil
+%global __brp_strip_static_archive %nil
 %endif
 
 # build with wine-staging patches, see:  https://github.com/wine-staging/wine-staging
@@ -89,6 +92,9 @@ Source501:      wine-tahoma.conf
 # and provide a readme
 Source502:      wine-README-tahoma
 
+# fix configure macros for cross-compiling
+Patch100:       wine-7.5-cross.patch
+
 Patch511:       wine-cjk.patch
 
 %if 0%{?wine_staging}
@@ -111,24 +117,19 @@ BuildRequires:  lld
 %else
 BuildRequires:  gcc
 %endif
-BuildRequires:  mingw32-gcc
-BuildRequires:  mingw64-gcc
 BuildRequires:  autoconf
 BuildRequires:  make
 BuildRequires:  desktop-file-utils
 BuildRequires:  alsa-lib-devel
 BuildRequires:  audiofile-devel
 BuildRequires:  freeglut-devel
-BuildRequires:  lcms2-devel
 BuildRequires:  libieee1284-devel
-BuildRequires:  libjpeg-devel
-BuildRequires:  libpng-devel
+#BuildRequires:  libjpeg-devel
+
 BuildRequires:  librsvg2
 BuildRequires:  librsvg2-devel
 BuildRequires:  libstdc++-devel
 BuildRequires:  pkgconfig(libusb-1.0)
-BuildRequires:  libxml2-devel
-BuildRequires:  libxslt-devel
 %if 0%{?fedora}
 BuildRequires:  ocl-icd-devel
 BuildRequires:  opencl-headers
@@ -138,7 +139,6 @@ BuildRequires:  perl-generators
 BuildRequires:  unixODBC-devel
 BuildRequires:  sane-backends-devel
 BuildRequires:  systemd-devel
-BuildRequires:  zlib-devel
 BuildRequires:  fontforge freetype-devel
 BuildRequires:  libgphoto2-devel
 %if 0%{?fedora} && 0%{?fedora} <= 30
@@ -175,7 +175,7 @@ BuildRequires:  mpg123-devel
 %endif
 BuildRequires:  SDL2-devel
 BuildRequires:  vulkan-devel
-BuildRequires:  libFAudio-devel
+#BuildRequires:  libFAudio-devel
 BuildRequires:  libappstream-glib
 
 # Silverlight DRM-stuff needs XATTR enabled.
@@ -189,6 +189,21 @@ BuildRequires:  libva-devel
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6
 BuildRequires:  openal-soft-devel
 BuildRequires:  icoutils
+%endif
+
+%ifarch %{ix86} x86_64
+BuildRequires:  mingw32-gcc
+BuildRequires:  mingw64-gcc
+BuildRequires:  mingw32-lcms2
+BuildRequires:  mingw64-lcms2
+BuildRequires:  mingw32-libpng
+BuildRequires:  mingw64-libpng
+BuildRequires:  mingw32-libxml2
+BuildRequires:  mingw64-libxml2
+BuildRequires:  mingw32-libxslt
+BuildRequires:  mingw64-libxslt
+BuildRequires:  mingw32-zlib
+BuildRequires:  mingw64-zlib
 %endif
 
 Requires:       wine-common = %{version}-%{release}
@@ -367,6 +382,10 @@ Requires:       libva
 %endif
 %endif
 
+Provides:       bundled(libFAudio) = 22.02
+Provides:       bundled(libjpeg) = 9e
+Provides:       bundled(mpg123-libs) = 1.29.3
+Provides:       bundled(libtiff) = 4.3.0
 Provides:       bundled(libvkd3d) = 1.3
 
 # removed as of 1.7.35
@@ -690,6 +709,7 @@ This package adds the opencl driver for wine.
 
 %prep
 %setup -qn wine-%{version}
+%patch100 -p1 -b.cross
 %patch511 -p1 -b.cjk
 
 %if 0%{?wine_staging}
@@ -731,16 +751,25 @@ export CFLAGS="`echo $CFLAGS | sed -e 's/-fstack-clash-protection//'`"
 export CFLAGS="`echo $CFLAGS | sed -e 's/-fexceptions//'`"
 %endif
 
+# required so that both Linux and Windows development files can be found
+unset PKG_CONFIG_PATH
+
 %configure \
  --sysconfdir=%{_sysconfdir}/wine \
  --x-includes=%{_includedir} --x-libraries=%{_libdir} \
- --without-hal --with-dbus \
+ --with-dbus \
  --with-x \
 %ifarch %{arm}
  --with-float-abi=hard \
 %endif
 %ifarch x86_64 aarch64
  --enable-win64 \
+%ifarch x86_64
+ --with-system-dllpath=%{mingw64_bindir} \
+%endif
+%endif
+%ifarch %{ix86}
+ --with-system-dllpath=%{mingw32_bindir} \
 %endif
 %{?wine_staging: --with-xattr} \
  --disable-tests
@@ -1758,7 +1787,7 @@ fi
 %{_libdir}/wine/%{winepedir}/wuapi.dll
 %{_libdir}/wine/%{winepedir}/wuaueng.dll
 %{_libdir}/wine/%{winepedir}/wuauserv.exe
-%ifarch %{arm} aarch64
+%ifarch %{arm}
 %{_libdir}/wine/%{winesodir}/wuauserv.exe.so
 %endif
 %{_libdir}/wine/%{winepedir}/security.dll
@@ -1825,14 +1854,11 @@ fi
 %if 0%{?wine_staging}
 %ifarch x86_64 aarch64
 %{_libdir}/wine/%{winepedir}/nvapi64.dll
-%ifarch %{arm} aarch64
-%{_libdir}/wine/%{winesodir}/nvapi64.dll.so
-%endif
 %{_libdir}/wine/%{winepedir}/nvencodeapi64.dll
 %{_libdir}/wine/%{winesodir}/nvencodeapi64.dll.so
 %else
 %{_libdir}/wine/%{winepedir}/nvapi.dll
-%ifarch %{arm} aarch64
+%ifarch %{arm}
 %{_libdir}/wine/%{winesodir}/nvapi.dll.so
 %endif
 %{_libdir}/wine/%{winepedir}/nvencodeapi.dll
@@ -1908,7 +1934,7 @@ fi
 %endif
 
 # ARM SOs
-%ifarch %{arm} aarch64
+%ifarch %{arm}
 %{_libdir}/wine/%{winesodir}/explorer.exe.so
 %{_libdir}/wine/%{winesodir}/cabarc.exe.so
 %{_libdir}/wine/%{winesodir}/control.exe.so
@@ -2469,10 +2495,6 @@ fi
 %{_libdir}/wine/%{winesodir}/wmiutils.dll.so
 %{_libdir}/wine/%{winesodir}/wmp.dll.so
 %{_libdir}/wine/%{winesodir}/wmvcore.dll.so
-%ifarch aarch64
-%{_libdir}/wine/%{winesodir}/wow64.dll.so
-%{_libdir}/wine/%{winesodir}/wow64win.dll.so
-%endif
 %{_libdir}/wine/%{winesodir}/spoolss.dll.so
 %{_libdir}/wine/%{winesodir}/winscard.dll.so
 %{_libdir}/wine/%{winesodir}/wintab32.dll.so
@@ -2703,25 +2725,25 @@ fi
 %files ldap
 %{_libdir}/wine/%{winesodir}/wldap32.so
 %{_libdir}/wine/%{winepedir}/wldap32.dll
-%ifarch %{arm} aarch64
+%ifarch %{arm}
 %{_libdir}/wine/%{winesodir}/wldap32.dll.so
 %endif
 
 # cms subpackage
 %files cms
 %{_libdir}/wine/%{winepedir}/mscms.dll
-%ifarch %{arm} aarch64
+%ifarch %{arm}
 %{_libdir}/wine/%{winesodir}/mscms.dll.so
 %endif
 
 # twain subpackage
 %files twain
 %{_libdir}/wine/%{winepedir}/twain_32.dll
-%ifarch %{arm} aarch64
+%ifarch %{arm}
 %{_libdir}/wine/%{winesodir}/twain_32.dll.so
 %endif
 %{_libdir}/wine/%{winepedir}/sane.ds
-%ifarch %{arm} aarch64
+%ifarch %{arm}
 %{_libdir}/wine/%{winesodir}/sane.ds.so
 %endif
 %{_libdir}/wine/%{winesodir}/sane.so
@@ -2751,7 +2773,7 @@ fi
 %lang(fr) %{_mandir}/fr.UTF-8/man1/winemaker.1*
 %attr(0755, root, root) %dir %{_includedir}/wine
 %{_includedir}/wine/*
-%ifarch %{ix86} x86_64
+%ifarch %{ix86} x86_64 aarch64
 %{_libdir}/wine/%{winepedir}/*.a
 %endif
 %{_libdir}/wine/%{winesodir}/*.a
@@ -2760,14 +2782,14 @@ fi
 %files pulseaudio
 %{_libdir}/wine/%{winepedir}/winepulse.drv
 %{_libdir}/wine/%{winesodir}/winepulse.so
-%ifarch %{arm} aarch64
+%ifarch %{arm}
 %{_libdir}/wine/%{winesodir}/winepulse.drv.so
 %endif
 
 %files alsa
 %{_libdir}/wine/%{winepedir}/winealsa.drv
 %{_libdir}/wine/%{winesodir}/winealsa.so
-%ifarch %{arm} aarch64
+%ifarch %{arm}
 %{_libdir}/wine/%{winesodir}/winealsa.drv.so
 %endif
 
@@ -2780,7 +2802,7 @@ fi
 %if 0%{?fedora}
 %files opencl
 %{_libdir}/wine/%{winepedir}/opencl.dll
-%ifarch %{arm} aarch64
+%ifarch %{arm}
 %{_libdir}/wine/%{winesodir}/opencl.dll.so
 %endif
 %{_libdir}/wine/%{winesodir}/opencl.so
