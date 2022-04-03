@@ -104,14 +104,14 @@ Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.
 %endif
 
 %if !%{?no64bit}
-ExclusiveArch:  %{ix86} x86_64 %{arm} aarch64
+ExclusiveArch:  %{ix86} x86_64 aarch64
 %else
-ExclusiveArch:  %{ix86} %{arm}
+ExclusiveArch:  %{ix86}
 %endif
 
 BuildRequires:  bison
 BuildRequires:  flex
-%ifarch aarch64
+%ifarch  %{arm} aarch64
 BuildRequires:  clang >= 5.0
 BuildRequires:  lld
 %else
@@ -335,6 +335,11 @@ Requires:       vulkan-loader(x86-32)
 %if 0%{?wine_staging}
 Requires:       libva(x86-32)
 %endif
+Requires:  mingw32-lcms2
+Requires:  mingw32-libpng
+Requires:  mingw32-libxml2
+Requires:  mingw32-libxslt
+Requires:  mingw32-zlib
 %endif
 
 %ifarch x86_64
@@ -359,6 +364,11 @@ Requires:       vulkan-loader(x86-64)
 %if 0%{?wine_staging}
 Requires:       libva(x86-64)
 %endif
+Requires:  mingw64-lcms2
+Requires:  mingw64-libpng
+Requires:  mingw64-libxml2
+Requires:  mingw64-libxslt
+Requires:  mingw64-zlib
 %endif
 
 %ifarch %{arm} aarch64
@@ -735,7 +745,7 @@ patches/patchinstall.sh DESTDIR="`pwd`" --all
 # http://bugs.winehq.org/show_bug.cgi?id=25073
 export CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno-error"
 
-%ifarch aarch64
+%ifarch  %{arm} aarch64
 %if 0%{?fedora} >= 33
 %global toolchain clang
 %else
@@ -2811,6 +2821,8 @@ fi
 %changelog
 * Tue Mar 29 2022 Michael Cronenworth <mike@cchtml.com> - 7.5-1
 - version update
+- drop 32-bit ARM
+- require on Fedora MinGW dependencies
 
 * Fri Mar 25 2022 Sandro Mani <manisandro@gmail.com> - 7.3-2
 - Rebuild with mingw-gcc-12
