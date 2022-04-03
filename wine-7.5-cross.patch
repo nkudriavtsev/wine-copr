@@ -1,0 +1,21 @@
+--- a/aclocal.m4	2022-03-25 15:26:21.000000000 -0500
++++ b/aclocal.m4	2022-03-30 14:17:03.862124917 -0500
+@@ -229,6 +229,7 @@
+ AC_CACHE_CHECK([for MinGW $1], ac_var,
+ [ac_wine_check_headers_saved_cc=$CC
+ ac_wine_check_headers_saved_exeext=$ac_exeext
++CFLAGS="$CROSSCFLAGS"
+ CC="$CROSSCC"
+ ac_exeext=".exe"
+ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[$4
+@@ -248,8 +249,10 @@
+ [ac_wine_check_headers_saved_cc=$CC
+ ac_wine_check_headers_saved_exeext=$ac_exeext
+ ac_wine_check_headers_saved_libs=$LIBS
++CFLAGS="$CROSSCFLAGS"
+ CC="$CROSSCC"
+ ac_exeext=".exe"
++LDFLAGS="$CROSSLDFLAGS"
+ LIBS="-l$1 $5 $LIBS"
+ AC_LINK_IFELSE([AC_LANG_CALL([], [$2])],[AS_VAR_SET([ac_var],[yes])],[AS_VAR_SET([ac_var],[no])])
+ CC=$ac_wine_check_headers_saved_cc
