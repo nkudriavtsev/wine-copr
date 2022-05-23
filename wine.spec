@@ -46,7 +46,7 @@
 %endif
 
 Name:           wine
-Version:        7.5
+Version:        7.9
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -1377,10 +1377,6 @@ fi
 %{_libdir}/wine/%{winepedir}/esent.dll
 %{_libdir}/wine/%{winepedir}/evr.dll
 %{_libdir}/wine/%{winepedir}/explorerframe.dll
-%if 0%{?wine_staging}
-%{_libdir}/wine/%{winepedir}/ext-ms-win-appmodel-usercontext-l1-1-0.dll
-%{_libdir}/wine/%{winepedir}/ext-ms-win-xaml-pal-l1-1-0.dll
-%endif
 %{_libdir}/wine/%{winepedir}/faultrep.dll
 %{_libdir}/wine/%{winepedir}/feclient.dll
 %{_libdir}/wine/%{winepedir}/fltlib.dll
@@ -1412,9 +1408,6 @@ fi
 %{_libdir}/wine/%{winepedir}/icinfo.exe
 %{_libdir}/wine/%{winepedir}/icmp.dll
 %{_libdir}/wine/%{winepedir}/ieframe.dll
-%if 0%{?wine_staging}
-%{_libdir}/wine/%{winepedir}/iertutil.dll
-%endif
 %{_libdir}/wine/%{winepedir}/ieproxy.dll
 %{_libdir}/wine/%{winepedir}/imaadp32.acm
 %{_libdir}/wine/%{winepedir}/imagehlp.dll
@@ -1735,6 +1728,7 @@ fi
 %endif
 %{_libdir}/wine/%{winepedir}/windows.media.devices.dll
 %{_libdir}/wine/%{winepedir}/windows.networking.connectivity
+%{_libdir}/wine/%{winepedir}/windows.networking.dll
 %{_libdir}/wine/%{winepedir}/windowscodecs.dll
 %{_libdir}/wine/%{winepedir}/windowscodecsext.dll
 %{_libdir}/wine/%{winepedir}/winebus.sys
@@ -1747,7 +1741,7 @@ fi
 %{_libdir}/wine/%{winesodir}/winevulkan.so
 %{_libdir}/wine/%{winepedir}/winevulkan.dll
 %{_libdir}/wine/%{winepedir}/winex11.drv
-%{_libdir}/wine/%{winesodir}/winex11.drv.so
+%{_libdir}/wine/%{winesodir}/winex11.so
 %{_libdir}/wine/%{winepedir}/wing32.dll
 %{_libdir}/wine/%{winepedir}/winhttp.dll
 %{_libdir}/wine/%{winepedir}/wininet.dll
@@ -1756,7 +1750,7 @@ fi
 %{_libdir}/wine/%{winepedir}/winspool.drv
 %{_libdir}/wine/%{winesodir}/winspool.so
 %{_libdir}/wine/%{winepedir}/winsta.dll
-%{_libdir}/wine/%{winepedir}/wmadmod.dll
+%{_libdir}/wine/%{winepedir}/wintypes.dll
 %{_libdir}/wine/%{winepedir}/wmasf.dll
 %{_libdir}/wine/%{winepedir}/wmi.dll
 %{_libdir}/wine/%{winepedir}/wmic.exe
@@ -2149,10 +2143,6 @@ fi
 %{_libdir}/wine/%{winesodir}/esent.dll.so
 %{_libdir}/wine/%{winesodir}/evr.dll.so
 %{_libdir}/wine/%{winesodir}/explorerframe.dll.so
-%if 0%{?wine_staging}
-%{_libdir}/wine/%{winesodir}/ext-ms-win-appmodel-usercontext-l1-1-0.dll.so
-%{_libdir}/wine/%{winesodir}/ext-ms-win-xaml-pal-l1-1-0.dll.so
-%endif
 %{_libdir}/wine/%{winesodir}/faultrep.dll.so
 %{_libdir}/wine/%{winesodir}/feclient.dll.so
 %{_libdir}/wine/%{winesodir}/fltlib.dll.so
@@ -2182,9 +2172,6 @@ fi
 %{_libdir}/wine/%{winesodir}/iccvid.dll.so
 %{_libdir}/wine/%{winesodir}/icinfo.exe.so
 %{_libdir}/wine/%{winesodir}/ieframe.dll.so
-%if 0%{?wine_staging}
-%{_libdir}/wine/%{winesodir}/iertutil.dll.so
-%endif
 %{_libdir}/wine/%{winesodir}/ieproxy.dll.so
 %{_libdir}/wine/%{winesodir}/imaadp32.acm.so
 %{_libdir}/wine/%{winesodir}/imagehlp.dll.so
@@ -2483,6 +2470,7 @@ fi
 %endif
 %{_libdir}/wine/%{winesodir}/windows.media.devices.dll.so
 %{_libdir}/wine/%{winesodir}/windows.networking.connectivity.so
+%{_libdir}/wine/%{winesodir}/windows.networking.dll.so
 %{_libdir}/wine/%{winesodir}/windowscodecs.dll.so
 %{_libdir}/wine/%{winesodir}/windowscodecsext.dll.so
 %{_libdir}/wine/%{winesodir}/winebus.sys.so
@@ -2499,7 +2487,6 @@ fi
 %{_libdir}/wine/%{winesodir}/winnls32.dll.so
 %{_libdir}/wine/%{winesodir}/winspool.drv.so
 %{_libdir}/wine/%{winesodir}/winsta.dll.so
-%{_libdir}/wine/%{winesodir}/wmadmod.dll.so
 %{_libdir}/wine/%{winesodir}/wmasf.dll.so
 %{_libdir}/wine/%{winesodir}/wmic.exe.so
 %{_libdir}/wine/%{winesodir}/wmiutils.dll.so
@@ -2509,6 +2496,7 @@ fi
 %{_libdir}/wine/%{winesodir}/winscard.dll.so
 %{_libdir}/wine/%{winesodir}/wintab32.dll.so
 %{_libdir}/wine/%{winesodir}/wintrust.dll.so
+%{_libdir}/wine/%{winesodir}/wintypes.dll.so
 %{_libdir}/wine/%{winesodir}/winusb.dll.so
 %{_libdir}/wine/%{winesodir}/wlanapi.dll.so
 %{_libdir}/wine/%{winesodir}/wlanui.dll.so
@@ -2819,6 +2807,9 @@ fi
 %endif
 
 %changelog
+* Mon May 23 2022 Michael Cronenworth <mike@cchtml.com> - 7.9-1
+- version update
+
 * Tue Mar 29 2022 Michael Cronenworth <mike@cchtml.com> - 7.5-1
 - version update
 - drop 32-bit ARM
