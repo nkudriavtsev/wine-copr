@@ -46,7 +46,7 @@
 %endif
 
 Name:           wine
-Version:        7.9
+Version:        7.10
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -2807,6 +2807,9 @@ fi
 %endif
 
 %changelog
+* Mon Jun 06 2022 Michael Cronenworth <mike@cchtml.com> - 7.10-1
+- version update
+
 * Mon May 23 2022 Michael Cronenworth <mike@cchtml.com> - 7.9-1
 - version update
 
