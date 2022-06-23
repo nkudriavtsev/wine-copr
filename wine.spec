@@ -46,8 +46,8 @@
 %endif
 
 Name:           wine
-Version:        7.10
-Release:        2%{?dist}
+Version:        7.11
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -1403,6 +1403,7 @@ fi
 %{_libdir}/wine/%{winepedir}/hnetcfg.dll
 %{_libdir}/wine/%{winepedir}/http.sys
 %{_libdir}/wine/%{winepedir}/httpapi.dll
+%{_libdir}/wine/%{winepedir}/ia2comproxy.dll
 %{_libdir}/wine/%{winepedir}/icacls.exe
 %{_libdir}/wine/%{winepedir}/iccvid.dll
 %{_libdir}/wine/%{winepedir}/icinfo.exe
@@ -2168,6 +2169,7 @@ fi
 %{_libdir}/wine/%{winesodir}/hnetcfg.dll.so
 %{_libdir}/wine/%{winesodir}/http.sys.so
 %{_libdir}/wine/%{winesodir}/httpapi.dll.so
+%{_libdir}/wine/%{winesodir}/ia2comproxy.dll.so
 %{_libdir}/wine/%{winesodir}/icacls.exe.so
 %{_libdir}/wine/%{winesodir}/iccvid.dll.so
 %{_libdir}/wine/%{winesodir}/icinfo.exe.so
@@ -2807,6 +2809,9 @@ fi
 %endif
 
 %changelog
+* Wed Jun 22 2022 Michael Cronenworth <mike@cchtml.com> - 7.11-1
+- version update
+
 * Mon Jun 06 2022 Michael Cronenworth <mike@cchtml.com> - 7.10-2
 - Require new Mono
 
