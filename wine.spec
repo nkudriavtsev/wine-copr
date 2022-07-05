@@ -2813,6 +2813,10 @@ fi
 %endif
 
 %changelog
+* Tue Jul 05 2022 Michael Cronenworth <mike@cchtml.com> - 7.12-1
+- versuon update
+- Unbundle vkd3d
+
 * Wed Jun 22 2022 Michael Cronenworth <mike@cchtml.com> - 7.11-1
 - version update
 
