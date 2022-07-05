@@ -46,7 +46,7 @@
 %endif
 
 Name:           wine
-Version:        7.11
+Version:        7.12
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -202,6 +202,10 @@ BuildRequires:  mingw32-libxml2
 BuildRequires:  mingw64-libxml2
 BuildRequires:  mingw32-libxslt
 BuildRequires:  mingw64-libxslt
+BuildRequires:  mingw32-vkd3d
+BuildRequires:  mingw64-vkd3d
+BuildRequires:  mingw32-vulkan-headers
+BuildRequires:  mingw64-vulkan-headers
 BuildRequires:  mingw32-zlib
 BuildRequires:  mingw64-zlib
 %endif
@@ -396,7 +400,6 @@ Provides:       bundled(libFAudio) = 22.02
 Provides:       bundled(libjpeg) = 9e
 Provides:       bundled(mpg123-libs) = 1.29.3
 Provides:       bundled(libtiff) = 4.3.0
-Provides:       bundled(libvkd3d) = 1.3
 
 # removed as of 1.7.35
 Obsoletes:      wine-wow < 1.7.35
@@ -1738,6 +1741,7 @@ fi
 %{_libdir}/wine/%{winepedir}/winehid.sys
 %{_libdir}/wine/%{winepedir}/winemapi.dll
 %{_libdir}/wine/%{winepedir}/wineusb.sys
+%{_libdir}/wine/%{winesodir}/wineusb.so
 %{_libdir}/wine/%{winesodir}/wineusb.sys.so
 %{_libdir}/wine/%{winesodir}/winevulkan.so
 %{_libdir}/wine/%{winepedir}/winevulkan.dll
