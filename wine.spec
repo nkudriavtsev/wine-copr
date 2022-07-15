@@ -47,7 +47,7 @@
 
 Name:           wine
 Version:        7.12
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -343,6 +343,7 @@ Requires:  mingw32-lcms2
 Requires:  mingw32-libpng
 Requires:  mingw32-libxml2
 Requires:  mingw32-libxslt
+Requires:  mingw32-vkd3d
 Requires:  mingw32-zlib
 %endif
 
@@ -372,6 +373,7 @@ Requires:  mingw64-lcms2
 Requires:  mingw64-libpng
 Requires:  mingw64-libxml2
 Requires:  mingw64-libxslt
+Requires:  mingw64-vkd3d
 Requires:  mingw64-zlib
 %endif
 
@@ -2813,6 +2815,9 @@ fi
 %endif
 
 %changelog
+* Thu Jul 14 2022 Michael Cronenworth <mike@cchtml.com> - 7.12-2
+- Requires on vkd3d
+
 * Tue Jul 05 2022 Michael Cronenworth <mike@cchtml.com> - 7.12-1
 - versuon update
 - Unbundle vkd3d
