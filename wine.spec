@@ -47,7 +47,7 @@
 
 Name:           wine
 Version:        7.12
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -2815,6 +2815,9 @@ fi
 %endif
 
 %changelog
+* Sat Jul 23 2022 Fedora Release Engineering <releng@fedoraproject.org> - 7.12-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild
+
 * Thu Jul 14 2022 Michael Cronenworth <mike@cchtml.com> - 7.12-2
 - Requires on vkd3d
 
