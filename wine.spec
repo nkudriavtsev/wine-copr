@@ -745,6 +745,13 @@ patches/patchinstall.sh DESTDIR="`pwd`" --all
 # http://bugs.winehq.org/show_bug.cgi?id=25073
 export CFLAGS="`echo $RPM_OPT_FLAGS | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//'` -Wno-error"
 
+%ifarch %{ix86}
+# remove extra linker flag on 32-bit on native LDFLAGS
+sed -i 's/CFLAGS="$CFLAGS -Wl,--disable-stdcall-fixup"//' configure
+sed -i 's/CFLAGS="$CFLAGS $EXTRACROSSCFLAGS -nostartfiles -nodefaultlibs -Wl,--disable-stdcall-fixup"/CFLAGS="$CFLAGS $EXTRACROSSCFLAGS -nostartfiles -nodefaultlibs"/' configure
+sed -i 's/CROSSLDFLAGS="$CROSSLDFLAGS -Wl,--disable-stdcall-fixup"/CROSSLDFLAGS="$CROSSLDFLAGS"/' configure
+%endif
+
 %ifarch  %{arm} aarch64
 %if 0%{?fedora} >= 33
 %global toolchain clang
