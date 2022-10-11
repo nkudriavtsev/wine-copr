@@ -8,7 +8,7 @@
 %global _smp_mflags -j1
 
 %global no64bit   0
-%global winegecko 2.47.2
+%global winegecko 2.47.3
 %global winemono  7.3.0
 #global _default_patch_fuzz 2
 %ifarch %{ix86}
@@ -46,8 +46,8 @@
 %endif
 
 Name:           wine
-Version:        7.12
-Release:        3%{?dist}
+Version:        7.18
+Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -141,9 +141,6 @@ BuildRequires:  sane-backends-devel
 BuildRequires:  systemd-devel
 BuildRequires:  fontforge freetype-devel
 BuildRequires:  libgphoto2-devel
-%if 0%{?fedora} && 0%{?fedora} <= 30
-BuildRequires:  isdn4k-utils-devel
-%endif
 BuildRequires:  libpcap-devel
 # modular x
 BuildRequires:  libX11-devel
@@ -175,7 +172,6 @@ BuildRequires:  mpg123-devel
 %endif
 BuildRequires:  SDL2-devel
 BuildRequires:  vulkan-devel
-#BuildRequires:  libFAudio-devel
 BuildRequires:  libappstream-glib
 
 # Silverlight DRM-stuff needs XATTR enabled.
@@ -192,6 +188,8 @@ BuildRequires:  icoutils
 %endif
 
 %ifarch %{ix86} x86_64
+BuildRequires:  mingw32-FAudio
+BuildRequires:  mingw64-FAudio
 BuildRequires:  mingw32-gcc
 BuildRequires:  mingw64-gcc
 BuildRequires:  mingw32-lcms2
@@ -241,7 +239,6 @@ Recommends:     wine-dxvk(x86-32)
 Recommends:     dosbox-staging
 %endif
 Recommends:     gstreamer1-plugins-good(x86-32)
-Recommends:     isdn4k-utils(x86-32)
 %endif
 
 # x86-64 parts
@@ -267,7 +264,6 @@ Recommends:     wine-dxvk(x86-64)
 Recommends:     dosbox-staging
 %endif
 Recommends:     gstreamer1-plugins-good(x86-64)
-Recommends:     isdn4k-utils(x86-64)
 %endif
 
 # ARM parts
@@ -398,7 +394,6 @@ Requires:       libva
 %endif
 %endif
 
-Provides:       bundled(libFAudio) = 22.02
 Provides:       bundled(libjpeg) = 9e
 Provides:       bundled(mpg123-libs) = 1.29.3
 Provides:       bundled(libtiff) = 4.3.0
@@ -1302,6 +1297,7 @@ fi
 %{_libdir}/wine/%{winepedir}/cryptdll.dll
 %{_libdir}/wine/%{winepedir}/cryptext.dll
 %{_libdir}/wine/%{winepedir}/cryptnet.dll
+%{_libdir}/wine/%{winepedir}/cryptowinrt.dll
 %{_libdir}/wine/%{winepedir}/cryptsp.dll
 %{_libdir}/wine/%{winepedir}/cryptui.dll
 %{_libdir}/wine/%{winepedir}/ctapi32.dll
@@ -1464,6 +1460,7 @@ fi
 %{_libdir}/wine/%{winepedir}/mfplat.dll
 %{_libdir}/wine/%{winepedir}/mfplay.dll
 %{_libdir}/wine/%{winepedir}/mfreadwrite.dll
+%{_libdir}/wine/%{winepedir}/mfsrcsnk.dll
 %{_libdir}/wine/%{winepedir}/mgmtapi.dll
 %{_libdir}/wine/%{winepedir}/midimap.dll
 %{_libdir}/wine/%{winepedir}/mlang.dll
@@ -1530,6 +1527,7 @@ fi
 %{_libdir}/wine/%{winepedir}/msvcp120_app.dll
 %{_libdir}/wine/%{winepedir}/msvcp140.dll
 %{_libdir}/wine/%{winepedir}/msvcp140_1.dll
+%{_libdir}/wine/%{winepedir}/msvcp140_2.dll
 %{_libdir}/wine/%{winepedir}/msvcp140_atomic_wait.dll
 %{_libdir}/wine/%{winepedir}/msvcr70.dll
 %{_libdir}/wine/%{winepedir}/msvcr71.dll
@@ -1682,6 +1680,7 @@ fi
 %{_libdir}/wine/%{winepedir}/tbs.dll
 %{_libdir}/wine/%{winepedir}/tdh.dll
 %{_libdir}/wine/%{winepedir}/tdi.sys
+%{_libdir}/wine/%{winepedir}/threadpoolwinrt.dll
 %{_libdir}/wine/%{winepedir}/traffic.dll
 %{_libdir}/wine/%{winepedir}/tzres.dll
 %{_libdir}/wine/%{winepedir}/ucrtbase.dll
@@ -1744,7 +1743,6 @@ fi
 %{_libdir}/wine/%{winepedir}/winemapi.dll
 %{_libdir}/wine/%{winepedir}/wineusb.sys
 %{_libdir}/wine/%{winesodir}/wineusb.so
-%{_libdir}/wine/%{winesodir}/wineusb.sys.so
 %{_libdir}/wine/%{winesodir}/winevulkan.so
 %{_libdir}/wine/%{winepedir}/winevulkan.dll
 %{_libdir}/wine/%{winepedir}/winex11.drv
@@ -2076,6 +2074,7 @@ fi
 %{_libdir}/wine/%{winesodir}/cryptdll.dll.so
 %{_libdir}/wine/%{winesodir}/cryptext.dll.so
 %{_libdir}/wine/%{winesodir}/cryptnet.dll.so
+%{_libdir}/wine/%{winesodir}/cryptowinrt.dll.so
 %{_libdir}/wine/%{winesodir}/cryptsp.dll.so
 %{_libdir}/wine/%{winesodir}/cryptui.dll.so
 %{_libdir}/wine/%{winesodir}/ctapi32.dll.so
@@ -2224,6 +2223,7 @@ fi
 %{_libdir}/wine/%{winesodir}/mfplat.dll.so
 %{_libdir}/wine/%{winesodir}/mfplay.dll.so
 %{_libdir}/wine/%{winesodir}/mfreadwrite.dll.so
+%{_libdir}/wine/%{winesodir}/mfsrcsnk.dll.so
 %{_libdir}/wine/%{winesodir}/mgmtapi.dll.so
 %{_libdir}/wine/%{winesodir}/midimap.dll.so
 %{_libdir}/wine/%{winesodir}/mlang.dll.so
@@ -2286,6 +2286,7 @@ fi
 %{_libdir}/wine/%{winesodir}/msvcp120_app.dll.so
 %{_libdir}/wine/%{winesodir}/msvcp140.dll.so
 %{_libdir}/wine/%{winesodir}/msvcp140_1.dll.so
+%{_libdir}/wine/%{winesodir}/msvcp140_2.dll.so
 %{_libdir}/wine/%{winesodir}/msvcp140_atomic_wait.dll.so
 %{_libdir}/wine/%{winesodir}/msvcr70.dll.so
 %{_libdir}/wine/%{winesodir}/msvcr71.dll.so
@@ -2426,6 +2427,7 @@ fi
 %{_libdir}/wine/%{winesodir}/tbs.dll.so
 %{_libdir}/wine/%{winesodir}/tdh.dll.so
 %{_libdir}/wine/%{winesodir}/tdi.sys.so
+%{_libdir}/wine/%{winesodir}/threadpoolwinrt.dll.so
 %{_libdir}/wine/%{winesodir}/traffic.dll.so
 %{_libdir}/wine/%{winesodir}/ucrtbase.dll.so
 %if 0%{?wine_staging}
@@ -2486,6 +2488,7 @@ fi
 %{_libdir}/wine/%{winesodir}/winegstreamer.dll.so
 %{_libdir}/wine/%{winesodir}/winehid.sys.so
 %{_libdir}/wine/%{winesodir}/winemapi.dll.so
+%{_libdir}/wine/%{winesodir}/wineusb.sys.so
 %{_libdir}/wine/%{winesodir}/winevulkan.dll.so
 %{_libdir}/wine/%{winesodir}/winexinput.sys.so
 %{_libdir}/wine/%{winesodir}/wing32.dll.so
@@ -2815,6 +2818,10 @@ fi
 %endif
 
 %changelog
+* Tue Oct 11 2022 Michael Cronenworth <mike@cchtml.com> - 7.18-1
+- versuon update
+- Drop isdn4k-utils from Recommends
+
 * Sat Jul 23 2022 Fedora Release Engineering <releng@fedoraproject.org> - 7.12-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild
 
