@@ -47,7 +47,7 @@
 
 Name:           wine
 Version:        7.20
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -96,6 +96,7 @@ Source502:      wine-README-tahoma
 Patch100:       wine-7.5-cross.patch
 
 Patch511:       wine-cjk.patch
+Patch512:       wine-arabic.patch
 
 %if 0%{?wine_staging}
 # wine-staging patches
@@ -723,6 +724,7 @@ This package adds the opencl driver for wine.
 %setup -qn wine-%{version}
 %patch100 -p1 -b.cross
 %patch511 -p1 -b.cjk
+%patch512 -p1 -b.arabic
 
 %if 0%{?wine_staging}
 # setup and apply wine-staging patches
@@ -2827,6 +2829,9 @@ fi
 %endif
 
 %changelog
+* Wed Nov 2 2022 Mosaab Alzoubi <moceap[at]fedoraproject[dot]org> - 7.20-2
+- Add mixed Arabic-English text fix. #2140307
+
 * Mon Oct 31 2022 Michael Cronenworth <mike@cchtml.com> - 7.20-1
 - version update
 
