@@ -41,7 +41,7 @@
 
 Name:           wine
 Version:        7.22
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -391,7 +391,7 @@ Provides:       bundled(mpg123-libs) = 1.29.3
 Provides:       bundled(libtiff) = 4.3.0
 
 # removed as of 7.21
-Obsoletes:      wine-openal < 4.21
+Obsoletes:      wine-openal < 7.21
 Provides:       wine-openal = %{version}-%{release}
 
 %description core
@@ -2813,6 +2813,9 @@ fi
 %endif
 
 %changelog
+* Mon Nov 28 2022 Michael Cronenworth <mike@cchtml.com> - 7.22-2
+- fix typo in openal obsoletes
+
 * Sun Nov 27 2022 Michael Cronenworth <mike@cchtml.com> - 7.22-1
 - version update
 - drop openal package
