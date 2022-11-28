@@ -790,6 +790,7 @@ unset PKG_CONFIG_PATH
 %ifarch x86_64 aarch64
 %ifarch aarch64
 mv %{buildroot}%{_bindir}/wine %{buildroot}%{_bindir}/wine64
+mv %{buildroot}%{_bindir}/wine-preloader %{buildroot}%{_bindir}/wine64-preloader
 %endif
 mv %{buildroot}%{_bindir}/wineserver %{buildroot}%{_bindir}/wineserver64
 %endif
