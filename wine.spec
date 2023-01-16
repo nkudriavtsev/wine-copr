@@ -41,7 +41,7 @@
 
 Name:           wine
 Version:        7.22
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPLv2+
@@ -723,6 +723,7 @@ patches/patchinstall.sh DESTDIR="`pwd`" --all
 # disable fortify as it breaks wine
 # http://bugs.winehq.org/show_bug.cgi?id=24606
 # http://bugs.winehq.org/show_bug.cgi?id=25073
+%undefine _fortify_level
 # Disable Red Hat specs for package notes (Fedora 38+) and annobin.
 # MinGW GCC does not support these options.
 %if 0%{?fedora_version} == 36
@@ -731,9 +732,9 @@ export LDFLAGS="$(echo "%{build_ldflags}" | sed -e 's/-Wl,-z,relro//' -e 's/-Wl,
 export LDFLAGS="$(echo "%{build_ldflags}" | sed -e 's/-Wl,-z,relro//' -e 's/-Wl,--build-id=sha1//' -e 's/-specs=\/usr\/lib\/rpm\/redhat\/redhat-package-notes//' -e 's/-specs=\/usr\/lib\/rpm\/redhat\/redhat-annobin-cc1//')"
 %endif
 %ifarch x86_64
-export CFLAGS="$(echo "%{optflags}" | sed -e 's/-O2//' -e 's/-Wp,-D_FORTIFY_SOURCE=2//' -e 's/-fcf-protection//' -e 's/-fstack-protector-strong//' -e 's/-fstack-clash-protection//' -e 's/-specs=\/usr\/lib\/rpm\/redhat\/redhat-annobin-cc1//') -O2"
+export CFLAGS="$(echo "%{optflags}" | sed -e 's/-O2//' -e 's/-fcf-protection//' -e 's/-fstack-protector-strong//' -e 's/-fstack-clash-protection//' -e 's/-specs=\/usr\/lib\/rpm\/redhat\/redhat-annobin-cc1//') -O2"
 %else
-export CFLAGS="$(echo "%{optflags}" | sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//' -e 's/-fcf-protection//' -e 's/-fstack-protector-strong//' -e 's/-fstack-clash-protection//' -e 's/-specs=\/usr\/lib\/rpm\/redhat\/redhat-annobin-cc1//')"
+export CFLAGS="$(echo "%{optflags}" | sed -e 's/-fcf-protection//' -e 's/-fstack-protector-strong//' -e 's/-fstack-clash-protection//' -e 's/-specs=\/usr\/lib\/rpm\/redhat\/redhat-annobin-cc1//')"
 %endif
 
 %ifarch  %{arm} aarch64
@@ -2813,6 +2814,9 @@ fi
 %endif
 
 %changelog
+* Mon Jan 16 2023 Siddhesh Poyarekar <siddhesh@redhat.com> - 7.22-3
+- Use _fortify_level instead of twiddling with RPM_OPT_FLAGS.
+
 * Mon Nov 28 2022 Michael Cronenworth <mike@cchtml.com> - 7.22-2
 - fix typo in openal obsoletes
 
