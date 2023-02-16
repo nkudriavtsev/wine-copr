@@ -1363,8 +1363,10 @@ fi
 %{_libdir}/wine/%{winepedir}/dxdiagn.dll
 %ghost %{_libdir}/wine/%{winepedir}/dxgi.dll
 %{_libdir}/wine/%{winepedir}/wine-dxgi.dll
+%if 0%{?wine_staging}
 %{_libdir}/wine/%{winepedir}/dxgkrnl.sys
 %{_libdir}/wine/%{winepedir}/dxgmms1.sys
+%endif
 %{_libdir}/wine/%{winepedir}/dxtrans.dll
 %{_libdir}/wine/%{winepedir}/dxva2.dll
 %{_libdir}/wine/%{winepedir}/esent.dll
@@ -1716,7 +1718,9 @@ fi
 %{_libdir}/wine/%{winepedir}/wevtsvc.dll
 %{_libdir}/wine/%{winepedir}/wiaservc.dll
 %{_libdir}/wine/%{winepedir}/wimgapi.dll
+%if 0%{?wine_staging}
 %{_libdir}/wine/%{winepedir}/win32k.sys
+%endif
 %{_libdir}/wine/%{winepedir}/win32u.dll
 %{_libdir}/wine/%{winepedir}/windows.devices.enumeration.dll
 %{_libdir}/wine/%{winepedir}/windows.gaming.ui.gamebar.dll
@@ -1727,7 +1731,9 @@ fi
 %endif
 %{_libdir}/wine/%{winepedir}/windows.media.dll
 %{_libdir}/wine/%{winepedir}/windows.media.devices.dll
+%if 0%{?wine_staging}
 %{_libdir}/wine/%{winepedir}/windows.networking.connectivity
+%endif
 %{_libdir}/wine/%{winepedir}/windows.networking.dll
 %{_libdir}/wine/%{winepedir}/windowscodecs.dll
 %{_libdir}/wine/%{winepedir}/windowscodecsext.dll
