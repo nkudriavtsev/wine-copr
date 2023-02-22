@@ -41,7 +41,7 @@
 
 Name:           wine
 Version:        8.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPL-2.1-or-later
@@ -123,7 +123,6 @@ BuildRequires:  alsa-lib-devel
 BuildRequires:  audiofile-devel
 BuildRequires:  freeglut-devel
 BuildRequires:  libieee1284-devel
-#BuildRequires:  libjpeg-devel
 
 BuildRequires:  librsvg2
 BuildRequires:  librsvg2-devel
@@ -334,6 +333,7 @@ Requires:  mingw32-libtiff
 Requires:  mingw32-libxml2
 Requires:  mingw32-libxslt
 Requires:  mingw32-vkd3d
+Requires:  mingw32-win-iconv
 Requires:  mingw32-zlib
 %endif
 
@@ -367,6 +367,7 @@ Requires:  mingw64-libtiff
 Requires:  mingw64-libxml2
 Requires:  mingw64-libxslt
 Requires:  mingw64-vkd3d
+Requires:  mingw64-win-iconv
 Requires:  mingw64-zlib
 %endif
 
@@ -2838,6 +2839,9 @@ fi
 %endif
 
 %changelog
+* Wed Feb 22 2023 Michael Cronenworth <mike@cchtml.com> - 8.2-3
+- fix missing requires for win-iconv
+
 * Tue Feb 21 2023 Michael Cronenworth <mike@cchtml.com> - 8.2-2
 - fix missing requires for libjpeg and libtiff
 
