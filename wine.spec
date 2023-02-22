@@ -41,7 +41,7 @@
 
 Name:           wine
 Version:        8.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A compatibility layer for windows applications
 
 License:        LGPL-2.1-or-later
@@ -328,7 +328,9 @@ Requires:       libva(x86-32)
 %endif
 Requires:  mingw32-FAudio
 Requires:  mingw32-lcms2
+Requires:  mingw32-libjpeg-turbo
 Requires:  mingw32-libpng
+Requires:  mingw32-libtiff
 Requires:  mingw32-libxml2
 Requires:  mingw32-libxslt
 Requires:  mingw32-vkd3d
@@ -359,7 +361,9 @@ Requires:       libva(x86-64)
 %endif
 Requires:  mingw64-FAudio
 Requires:  mingw64-lcms2
+Requires:  mingw64-libjpeg-turbo
 Requires:  mingw64-libpng
+Requires:  mingw64-libtiff
 Requires:  mingw64-libxml2
 Requires:  mingw64-libxslt
 Requires:  mingw64-vkd3d
@@ -2834,6 +2838,9 @@ fi
 %endif
 
 %changelog
+* Tue Feb 21 2023 Michael Cronenworth <mike@cchtml.com> - 8.2-2
+- fix missing requires for libjpeg and libtiff
+
 * Mon Feb 20 2023 Michael Cronenworth <mike@cchtml.com> - 8.2-1
 - version update
 
