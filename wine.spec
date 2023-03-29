@@ -1684,11 +1684,9 @@ fi
 %{_libdir}/wine/%{winepedir}/win32u.dll
 %{_libdir}/wine/%{winepedir}/windows.devices.enumeration.dll
 %{_libdir}/wine/%{winepedir}/windows.gaming.ui.gamebar.dll
-%if 0%{?wine_staging}
 %{_libdir}/wine/%{winepedir}/windows.gaming.input.dll
 %{_libdir}/wine/%{winepedir}/windows.globalization.dll
 %{_libdir}/wine/%{winepedir}/windows.media.speech.dll
-%endif
 %{_libdir}/wine/%{winepedir}/windows.media.dll
 %{_libdir}/wine/%{winepedir}/windows.media.devices.dll
 %if 0%{?wine_staging}
@@ -1745,10 +1743,8 @@ fi
 %{_libdir}/wine/%{winepedir}/wow64.dll
 %{_libdir}/wine/%{winepedir}/wow64win.dll
 %endif
-%if 0%{?wine_staging}
 %ifarch x86_64
 %{_libdir}/wine/%{winepedir}/wow64cpu.dll
-%endif
 %endif
 %{_libdir}/wine/%{winepedir}/wpc.dll
 %{_libdir}/wine/%{winepedir}/wpcap.dll
@@ -1787,12 +1783,10 @@ fi
 %{_libdir}/wine/%{winepedir}/x3daudio1_5.dll
 %{_libdir}/wine/%{winepedir}/x3daudio1_6.dll
 %{_libdir}/wine/%{winepedir}/x3daudio1_7.dll
-%if 0%{?wine_staging}
 %{_libdir}/wine/%{winepedir}/xactengine2_0.dll
 %{_libdir}/wine/%{winepedir}/xactengine2_4.dll
 %{_libdir}/wine/%{winepedir}/xactengine2_7.dll
 %{_libdir}/wine/%{winepedir}/xactengine2_9.dll
-%endif
 %{_libdir}/wine/%{winepedir}/xactengine3_0.dll
 %{_libdir}/wine/%{winepedir}/xactengine3_1.dll
 %{_libdir}/wine/%{winepedir}/xactengine3_2.dll
@@ -2448,11 +2442,9 @@ fi
 %{_libdir}/wine/%{winesodir}/win32u.dll.so
 %{_libdir}/wine/%{winesodir}/windows.devices.enumeration.dll.so
 %{_libdir}/wine/%{winesodir}/windows.gaming.ui.gamebar.dll.so
-%if 0%{?wine_staging}
 %{_libdir}/wine/%{winesodir}/windows.gaming.input.dll.so
 %{_libdir}/wine/%{winesodir}/windows.globalization.dll.so
 %{_libdir}/wine/%{winesodir}/windows.media.speech.dll.so
-%endif
 %{_libdir}/wine/%{winesodir}/windows.media.dll.so
 %{_libdir}/wine/%{winesodir}/windows.media.devices.dll.so
 %{_libdir}/wine/%{winesodir}/windows.networking.connectivity.so
