@@ -26,7 +26,7 @@
 %endif
 
 # build with wine-staging patches, see:  https://github.com/wine-staging/wine-staging
-%if 0%{?fedora} || 0%{?rhel}
+%if 0%{?fedora}
 %global wine_staging 1
 %endif
 # 0%%{?fedora}
