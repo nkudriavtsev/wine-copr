@@ -49,7 +49,6 @@ URL:            https://www.winehq.org/
 Source0:        https://dl.winehq.org/wine/source/8.0/wine-%{version}.tar.xz
 Source10:       https://dl.winehq.org/wine/source/8.0/wine-%{version}.tar.xz.sign
 
-Source1:        wine.init
 Source2:        wine.systemd
 Source3:        wine-README-Fedora
 Source4:        wine-32.conf
@@ -179,9 +178,7 @@ BuildRequires:  libva-devel
 %endif
 # 0%%{?wine_staging}
 
-%if 0%{?fedora} >= 10 || 0%{?rhel} >= 6
 BuildRequires:  icoutils
-%endif
 
 %ifarch %{ix86} x86_64
 BuildRequires:  mingw32-FAudio
@@ -402,7 +399,6 @@ Provides:       wine-openal = %{version}-%{release}
 %description core
 Wine core package includes the basic wine stuff needed by all other packages.
 
-%if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 %package systemd
 Summary:        Systemd config for the wine binfmt handler
 Requires:       systemd >= 23
@@ -414,18 +410,6 @@ Obsoletes:      wine-sysvinit < %{version}-%{release}
 %description systemd
 Register the wine binary handler for windows executables via systemd binfmt
 handling. See man binfmt.d for further information.
-%endif
-
-%if 0%{?rhel} == 6
-%package sysvinit
-Summary:        SysV initscript for the wine binfmt handler
-BuildArch:      noarch
-Requires(post): /sbin/chkconfig, /sbin/service
-Requires(preun): /sbin/chkconfig, /sbin/service
-
-%description sysvinit
-Register the wine binary handler for windows executables via SysV init files.
-%endif
 
 %package filesystem
 Summary:        Filesystem directories for wine
@@ -448,12 +432,7 @@ Requires(post): desktop-file-utils >= 0.8
 Requires(postun): desktop-file-utils >= 0.8
 Requires:       wine-core = %{version}-%{release}
 Requires:       wine-common = %{version}-%{release}
-%if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 Requires:       wine-systemd = %{version}-%{release}
-%endif
-%if 0%{?rhel} == 6
-Requires:       wine-sysvinit = %{version}-%{release}
-%endif
 Requires:       hicolor-icon-theme
 BuildArch:      noarch
 
@@ -840,14 +819,8 @@ chrpath --delete %{buildroot}%{_bindir}/wineserver32
 mkdir -p %{buildroot}%{_sysconfdir}/wine
 
 # Allow users to launch Windows programs by just clicking on the .exe file...
-%if 0%{?rhel} < 7
-mkdir -p %{buildroot}%{_initrddir}
-install -p -c -m 755 %{SOURCE1} %{buildroot}%{_initrddir}/wine
-%endif
-%if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 mkdir -p %{buildroot}%{_binfmtdir}
 install -p -c -m 644 %{SOURCE2} %{buildroot}%{_binfmtdir}/wine.conf
-%endif
 
 # add wine dir to desktop
 mkdir -p %{buildroot}%{_sysconfdir}/xdg/menus/applications-merged
@@ -864,7 +837,6 @@ mkdir -p %{buildroot}%{_datadir}/wine/gecko
 mkdir -p %{buildroot}%{_datadir}/wine/mono
 
 # extract and install icons
-%if 0%{?fedora} > 10
 mkdir -p %{buildroot}%{_datadir}/icons/hicolor/scalable/apps
 
 # This replacement masks a composite program icon .SVG down
@@ -918,8 +890,6 @@ sed -i -e "$PROGRAM_ICONFIX" %{buildroot}%{_datadir}/icons/hicolor/scalable/apps
 install -p -m 644 programs/wordpad/wordpad.svg \
  %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/wordpad.svg
 sed -i -e "$PROGRAM_ICONFIX" %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/wordpad.svg
-
-%endif
 
 # install desktop files
 desktop-file-install \
@@ -1024,9 +994,7 @@ do iconv -f iso8859-1 -t utf-8 README.$lang > \
 done;
 popd
 
-%if 0%{?fedora} || 0%{?rhel} > 6
 rm -f %{buildroot}%{_initrddir}/wine
-%endif
 
 # wine makefiles are currently broken and don't install the wine man page
 install -p -m 0644 loader/wine.man %{buildroot}%{_mandir}/man1/wine.1
@@ -1041,22 +1009,6 @@ install -p -m 0644 %{SOURCE150} %{buildroot}/%{_metainfodir}/%{name}.appdata.xml
 appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/%{name}.appdata.xml
 
 
-%if 0%{?rhel} == 6
-%post sysvinit
-if [ $1 -eq 1 ]; then
-/sbin/chkconfig --add wine
-/sbin/chkconfig --level 2345 wine on
-/sbin/service wine start &>/dev/null || :
-fi
-
-%preun sysvinit
-if [ $1 -eq 0 ]; then
-/sbin/service wine stop >/dev/null 2>&1
-/sbin/chkconfig --del wine
-fi
-%endif
-
-%if 0%{?fedora} >= 15 || 0%{?rhel} > 6
 %post systemd
 %binfmt_apply wine.conf
 
@@ -1064,7 +1016,6 @@ fi
 if [ $1 -eq 0 ]; then
 /bin/systemctl try-restart systemd-binfmt.service
 fi
-%endif
 
 %ldconfig_post core
 
@@ -2744,19 +2695,10 @@ fi
 %{_datadir}/desktop-directories/Wine.directory
 %config %{_sysconfdir}/xdg/menus/applications-merged/wine.menu
 %{_metainfodir}/%{name}.appdata.xml
-%if 0%{?fedora} >= 10
 %{_datadir}/icons/hicolor/scalable/apps/*svg
-%endif
 
-%if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 %files systemd
 %config %{_binfmtdir}/wine.conf
-%endif
-
-%if 0%{?rhel} == 6
-%files sysvinit
-%{_initrddir}/wine
-%endif
 
 # ldap subpackage
 %files ldap
