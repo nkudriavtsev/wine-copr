@@ -26,7 +26,7 @@
 %endif
 
 # build with wine-staging patches, see:  https://github.com/wine-staging/wine-staging
-%if 0%{?fedora} || 0%{?rhel} 
+%if 0%{?fedora}
 %global wine_staging 1
 %endif
 # 0%%{?fedora}
@@ -472,9 +472,7 @@ Requires:      wine-webdings-fonts = %{version}-%{release}
 Requires:      wine-wingdings-fonts = %{version}-%{release}
 # intermediate fix for #593140
 Requires:      liberation-sans-fonts liberation-serif-fonts liberation-mono-fonts
-%if 0%{?fedora} > 12
 Requires:      liberation-narrow-fonts
-%endif
 
 %description fonts
 %{summary}
@@ -1323,8 +1321,10 @@ fi
 %{_libdir}/wine/%{winepedir}/dxdiagn.dll
 %ghost %{_libdir}/wine/%{winepedir}/dxgi.dll
 %{_libdir}/wine/%{winepedir}/wine-dxgi.dll
+%if 0%{?wine_staging}
 %{_libdir}/wine/%{winepedir}/dxgkrnl.sys
 %{_libdir}/wine/%{winepedir}/dxgmms1.sys
+%endif
 %{_libdir}/wine/%{winepedir}/dxtrans.dll
 %{_libdir}/wine/%{winepedir}/dxva2.dll
 %{_libdir}/wine/%{winepedir}/esent.dll
@@ -1678,7 +1678,9 @@ fi
 %{_libdir}/wine/%{winepedir}/wevtsvc.dll
 %{_libdir}/wine/%{winepedir}/wiaservc.dll
 %{_libdir}/wine/%{winepedir}/wimgapi.dll
+%if 0%{?wine_staging}
 %{_libdir}/wine/%{winepedir}/win32k.sys
+%endif
 %{_libdir}/wine/%{winepedir}/win32u.dll
 %{_libdir}/wine/%{winepedir}/windows.devices.enumeration.dll
 %{_libdir}/wine/%{winepedir}/windows.gaming.ui.gamebar.dll
@@ -1689,7 +1691,9 @@ fi
 %endif
 %{_libdir}/wine/%{winepedir}/windows.media.dll
 %{_libdir}/wine/%{winepedir}/windows.media.devices.dll
+%if 0%{?wine_staging}
 %{_libdir}/wine/%{winepedir}/windows.networking.connectivity
+%endif
 %{_libdir}/wine/%{winepedir}/windows.networking.dll
 %{_libdir}/wine/%{winepedir}/windows.perception.stub.dll
 %{_libdir}/wine/%{winepedir}/windows.system.profile.systemmanufacturers.dll
