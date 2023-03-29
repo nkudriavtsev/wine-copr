@@ -1390,9 +1390,7 @@ fi
 %{_libdir}/wine/%{winepedir}/ksproxy.ax
 %{_libdir}/wine/%{winepedir}/ksuser.dll
 %{_libdir}/wine/%{winepedir}/ktmw32.dll
-%if 0%{?fedora} > 24
 %{_libdir}/wine/%{winepedir}/l3codeca.acm
-%endif
 %{_libdir}/wine/%{winepedir}/light.msstyles
 %{_libdir}/wine/%{winepedir}/loadperf.dll
 %{_libdir}/wine/%{winesodir}/localspl.so
