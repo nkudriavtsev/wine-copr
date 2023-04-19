@@ -40,7 +40,7 @@
 %endif
 
 Name:           wine
-Version:        8.5
+Version:        8.6
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -93,7 +93,7 @@ Patch511:       wine-cjk.patch
 %if 0%{?wine_staging}
 # wine-staging patches
 # pulseaudio-patch is covered by that patch-set, too.
-Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.tar.gz#/wine-staging-%{version}.tar.gz
+Source900: https://github.com/wine-staging/wine-staging/archive/v%{version}.1.tar.gz#/wine-staging-%{version}.1.tar.gz
 %endif
 
 %if !%{?no64bit}
@@ -2777,6 +2777,9 @@ fi
 %endif
 
 %changelog
+* Wed Apr 19 2023 Michael Cronenworth <mike@cchtml.com> - 8.6-1
+- version update
+
 * Sat Apr 01 2023 Michael Cronenworth <mike@cchtml.com> - 8.5-1
 - version update
 
