@@ -2,7 +2,7 @@
 %undefine _hardened_build
 
 %global no64bit   0
-%global winegecko 2.47.3
+%global winegecko 2.47.4
 %global winemono  7.4.0
 #global _default_patch_fuzz 2
 %ifarch %{ix86}
