@@ -2757,7 +2757,9 @@ fi
 %ifarch %{ix86} x86_64 aarch64
 %{_libdir}/wine/%{winepedir}/*.a
 %endif
+%ifarch %{ix86} x86_64
 %{_libdir}/wine/%{winesodir}/*.a
+%endif
 
 
 %files pulseaudio
