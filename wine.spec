@@ -1140,7 +1140,7 @@ fi
 %{_libdir}/wine/%{winepedir}/fsutil.exe
 %{_libdir}/wine/%{winepedir}/hostname.exe
 %{_libdir}/wine/%{winepedir}/ipconfig.exe
-%{_libdir}/wine/%{winepedir}/winhlp32.exe
+%{_libdir}/wine/%{winepedir}/klist.exe
 %{_libdir}/wine/%{winepedir}/mshta.exe
 %{_libdir}/wine/%{winepedir}/msidb.exe
 %{_libdir}/wine/%{winepedir}/msiexec.exe
@@ -1178,6 +1178,7 @@ fi
 %{_libdir}/wine/%{winepedir}/winemenubuilder.exe
 %{_libdir}/wine/%{winepedir}/winecfg.exe
 %{_libdir}/wine/%{winepedir}/winedevice.exe
+%{_libdir}/wine/%{winepedir}/winhlp32.exe
 %{_libdir}/wine/%{winepedir}/wmplayer.exe
 %{_libdir}/wine/%{winepedir}/wscript.exe
 %{_libdir}/wine/%{winepedir}/uninstaller.exe
@@ -1210,6 +1211,7 @@ fi
 %{_libdir}/wine/%{winepedir}/avrt.dll
 %{_libdir}/wine/%{winesodir}/bcrypt.so
 %{_libdir}/wine/%{winepedir}/bcrypt.dll
+%{_libdir}/wine/%{winepedir}/bcryptprimitives.dll
 %{_libdir}/wine/%{winepedir}/bluetoothapis.dll
 %{_libdir}/wine/%{winepedir}/browseui.dll
 %{_libdir}/wine/%{winepedir}/bthprops.cpl
@@ -1946,6 +1948,7 @@ fi
 %{_libdir}/wine/%{winesodir}/fsutil.exe.so
 %{_libdir}/wine/%{winesodir}/hostname.exe.so
 %{_libdir}/wine/%{winesodir}/ipconfig.exe.so
+%{_libdir}/wine/%{winesodir}/klist.exe.so
 %{_libdir}/wine/%{winesodir}/winhlp32.exe.so
 %{_libdir}/wine/%{winesodir}/mshta.exe.so
 %if 0%{?wine_staging}
@@ -2009,6 +2012,7 @@ fi
 %{_libdir}/wine/%{winesodir}/avifil32.dll.so
 %{_libdir}/wine/%{winesodir}/avrt.dll.so
 %{_libdir}/wine/%{winesodir}/bcrypt.dll.so
+%{_libdir}/wine/%{winesodir}/bcryptprimitives.dll.so
 %{_libdir}/wine/%{winesodir}/bluetoothapis.dll.so
 %{_libdir}/wine/%{winesodir}/browseui.dll.so
 %{_libdir}/wine/%{winesodir}/bthprops.cpl.so
