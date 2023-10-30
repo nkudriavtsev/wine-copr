@@ -1661,7 +1661,9 @@ fi
 %{_libdir}/wine/%{winepedir}/vcomp120.dll
 %{_libdir}/wine/%{winepedir}/vcomp140.dll
 %{_libdir}/wine/%{winepedir}/vcruntime140.dll
+%ifarch x86_64
 %{_libdir}/wine/%{winepedir}/vcruntime140_1.dll
+%endif
 %{_libdir}/wine/%{winepedir}/vdmdbg.dll
 %{_libdir}/wine/%{winepedir}/version.dll
 %{_libdir}/wine/%{winepedir}/vga.dll
