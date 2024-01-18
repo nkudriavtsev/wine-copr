@@ -88,6 +88,8 @@ Patch100:       wine-7.22-autoconf-2.72.patch
 
 Patch511:       wine-cjk.patch
 
+Patch900:       wine-staging-9.0.patch
+
 %if 0%{?wine_staging}
 # wine-staging patches
 # pulseaudio-patch is covered by that patch-set, too.
@@ -688,6 +690,8 @@ gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
 
 # https://bugs.winehq.org/show_bug.cgi?id=54868
 sed -i 's/DWORD pitch_in, DWORD pitch_out/unsigned int pitch_in, unsigned int pitch_out/' patches/wined3d-WINED3DFMT_B8G8R8X8_UNORM/0001-wined3d-Implement-WINED3DFMT_B8G8R8X8_UNORM-to-WINED.patch
+# Fix pointer types for i686 build
+%patch -P 900 -p0 -b.staging
 staging/patchinstall.py DESTDIR="`pwd`" --all
 
 %endif
@@ -1126,7 +1130,9 @@ fi
 %{_libdir}/wine/%{winepedir}/dism.exe
 %{_libdir}/wine/%{winepedir}/dllhost.exe
 %{_libdir}/wine/%{winepedir}/dplaysvr.exe
+%ifarch %{ix86} x86_64
 %{_libdir}/wine/%{winepedir}/dpnsvr.exe
+%endif
 %{_libdir}/wine/%{winepedir}/dpvsetup.exe
 %{_libdir}/wine/%{winepedir}/eject.exe
 %{_libdir}/wine/%{winepedir}/expand.exe

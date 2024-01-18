@@ -1,0 +1,93 @@
+--- patches/eventfd_synchronization/0003-ntdll-Create-eventfd-based-objects-for-semaphores.patch.orig	2024-01-16 15:47:35.000000000 -0600
++++ patches/eventfd_synchronization/0003-ntdll-Create-eventfd-based-objects-for-semaphores.patch	2024-01-17 20:36:36.796186786 -0600
+@@ -197,7 +197,7 @@
+ +        }
+ +    }
+ +
+-+    if (!InterlockedCompareExchange( (int *)&esync_list[entry][idx].type, type, 0 ))
+++    if (!InterlockedCompareExchange( (LONG *)&esync_list[entry][idx].type, type, 0 ))
+ +    {
+ +        esync_list[entry][idx].fd = fd;
+ +        esync_list[entry][idx].shm = shm;
+--- patches/eventfd_synchronization/0005-ntdll-Implement-NtClose.patch.orig	2024-01-16 15:47:35.000000000 -0600
++++ patches/eventfd_synchronization/0005-ntdll-Implement-NtClose.patch	2024-01-17 20:22:59.170405980 -0600
+@@ -25,7 +25,7 @@
+ +
+ +    if (entry < ESYNC_LIST_ENTRIES && esync_list[entry])
+ +    {
+-+        if (InterlockedExchange((int *)&esync_list[entry][idx].type, 0))
+++        if (InterlockedExchange((LONG *)&esync_list[entry][idx].type, 0))
+ +        {
+ +            close( esync_list[entry][idx].fd );
+ +            return STATUS_SUCCESS;
+--- patches/eventfd_synchronization/0004-ntdll-Implement-NtReleaseSemaphore.patch.orig	2024-01-16 15:47:35.000000000 -0600
++++ patches/eventfd_synchronization/0004-ntdll-Implement-NtReleaseSemaphore.patch	2024-01-17 20:25:51.399420034 -0600
+@@ -60,7 +60,7 @@
+ +
+ +        if (count + current > semaphore->max)
+ +            return STATUS_SEMAPHORE_LIMIT_EXCEEDED;
+-+    } while (InterlockedCompareExchange( &semaphore->count, count + current, current ) != current);
+++    } while (InterlockedCompareExchange( (LONG *) &semaphore->count, count + current, current ) != current);
+ +
+ +    if (prev) *prev = current;
+ +
+--- patches/eventfd_synchronization/0050-ntdll-server-Try-to-avoid-poll-for-signaled-events.patch.orig	2024-01-16 15:47:35.000000000 -0600
++++ patches/eventfd_synchronization/0050-ntdll-server-Try-to-avoid-poll-for-signaled-events.patch	2024-01-17 20:29:39.020112232 -0600
+@@ -90,7 +90,7 @@
+ +    if (obj->type == ESYNC_MANUAL_EVENT)
+ +    {
+ +        /* Acquire the spinlock. */
+-+        while (InterlockedCompareExchange( &event->locked, 1, 0 ))
+++        while (InterlockedCompareExchange( (LONG *) &event->locked, 1, 0 ))
+ +            small_pause();
+ +    }
+ +
+@@ -103,7 +103,7 @@
+ +     * eventfd is unsignaled (i.e. reset shm, set shm, set fd, reset fd), we
+ +     * *must* signal the fd now, or any waiting threads will never wake up. */
+ +
+-+    if (!InterlockedExchange( &event->signaled, 1 ) || obj->type == ESYNC_AUTO_EVENT)
+++    if (!InterlockedExchange( (LONG *) &event->signaled, 1 ) || obj->type == ESYNC_AUTO_EVENT)
+ +    {
+ +        if (write( obj->fd, &value, sizeof(value) ) == -1)
+ +            ERR("write: %s\n", strerror(errno));
+@@ -137,7 +137,7 @@
+ +    if (obj->type == ESYNC_MANUAL_EVENT)
+ +    {
+ +        /* Acquire the spinlock. */
+-+        while (InterlockedCompareExchange( &event->locked, 1, 0 ))
+++        while (InterlockedCompareExchange( (LONG *) &event->locked, 1, 0 ))
+ +            small_pause();
+ +    }
+ +
+@@ -147,7 +147,7 @@
+ +     * For auto-reset events, we have no guarantee that the previous "signaled"
+ +     * state is actually correct. We need to leave both states unsignaled after
+ +     * leaving this function, so we always have to read(). */
+-+    if (InterlockedExchange( &event->signaled, 0 ) || obj->type == ESYNC_AUTO_EVENT)
+++    if (InterlockedExchange( (LONG *) &event->signaled, 0 ) || obj->type == ESYNC_AUTO_EVENT)
+ +    {
+ +        if (read( obj->fd, &value, sizeof(value) ) == -1 && errno != EWOULDBLOCK && errno != EAGAIN)
+ +        {
+--- patches/eventfd_synchronization/0006-ntdll-Implement-NtWaitForMultipleObjects.patch.orig	2024-01-16 15:47:35.000000000 -0600
++++ patches/eventfd_synchronization/0006-ntdll-Implement-NtWaitForMultipleObjects.patch	2024-01-17 20:31:23.217332813 -0600
+@@ -82,7 +82,7 @@
+ +         * fact that we were able to grab it at all means the count is nonzero,
+ +         * and if someone else grabbed it then the count must have been >= 2,
+ +         * etc. */
+-+        InterlockedExchangeAdd( &semaphore->count, -1 );
+++        InterlockedExchangeAdd( (LONG *) &semaphore->count, -1 );
+ +    }
+ +}
+ +
+--- patches/eventfd_synchronization/0007-ntdll-server-Implement-NtCreateEvent.patch.orig	2024-01-16 15:47:35.000000000 -0600
++++ patches/eventfd_synchronization/0007-ntdll-server-Implement-NtCreateEvent.patch	2024-01-17 20:31:54.500700144 -0600
+@@ -49,7 +49,7 @@
+  
+ @@ -339,6 +358,14 @@ static void update_grabbed_object( struct esync *obj )
+           * etc. */
+-         InterlockedExchangeAdd( &semaphore->count, -1 );
++         InterlockedExchangeAdd( (LONG *) &semaphore->count, -1 );
+      }
+ +    else if (obj->type == ESYNC_AUTO_EVENT)
+ +    {
