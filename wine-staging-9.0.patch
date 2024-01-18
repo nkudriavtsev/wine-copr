@@ -91,3 +91,14 @@
       }
  +    else if (obj->type == ESYNC_AUTO_EVENT)
  +    {
+--- patches/eventfd_synchronization/0049-ntdll-Try-to-avoid-poll-for-uncontended-objects.patch.orig	2024-01-16 15:47:35.000000000 -0600
++++ patches/eventfd_synchronization/0049-ntdll-Try-to-avoid-poll-for-uncontended-objects.patch	2024-01-17 21:07:47.674962176 -0600
+@@ -68,7 +68,7 @@
+ +                        if ((size = read( obj->fd, &value, sizeof(value) )) == sizeof(value))
+ +                        {
+ +                            TRACE("Woken up by handle %p [%d].\n", handles[i], i);
+-+                            InterlockedDecrement( &semaphore->count );
+++                            InterlockedDecrement( (LONG *) &semaphore->count );
+ +                            return i;
+ +                        }
+ +                    }
