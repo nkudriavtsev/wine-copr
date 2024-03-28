@@ -3,7 +3,7 @@
 
 %global no64bit   0
 %global winegecko 2.47.4
-%global winemono  8.1.0
+%global winemono  9.0.0
 #global _default_patch_fuzz 2
 %ifarch %{ix86}
 %global winepedir i386-windows
@@ -40,7 +40,7 @@
 %endif
 
 Name:           wine
-Version:        9.1
+Version:        9.5
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -195,8 +195,8 @@ BuildRequires:  mingw32-libxml2
 BuildRequires:  mingw64-libxml2
 BuildRequires:  mingw32-libxslt
 BuildRequires:  mingw64-libxslt
-BuildRequires:  mingw32-vkd3d >= 1.9
-BuildRequires:  mingw64-vkd3d >= 1.9
+BuildRequires:  mingw32-vkd3d >= 1.11
+BuildRequires:  mingw64-vkd3d >= 1.11
 BuildRequires:  mingw32-vulkan-headers
 BuildRequires:  mingw64-vulkan-headers
 BuildRequires:  mingw32-zlib
@@ -329,7 +329,7 @@ Requires:  mingw32-libpng
 Requires:  mingw32-libtiff
 Requires:  mingw32-libxml2
 Requires:  mingw32-libxslt
-Requires:  mingw32-vkd3d >= 1.9
+Requires:  mingw32-vkd3d >= 1.11
 Requires:  mingw32-win-iconv
 Requires:  mingw32-zlib
 %endif
@@ -363,7 +363,7 @@ Requires:  mingw64-libpng
 Requires:  mingw64-libtiff
 Requires:  mingw64-libxml2
 Requires:  mingw64-libxslt
-Requires:  mingw64-vkd3d >= 1.9
+Requires:  mingw64-vkd3d >= 1.11
 Requires:  mingw64-win-iconv
 Requires:  mingw64-zlib
 %endif
@@ -690,9 +690,10 @@ gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
 
 # https://bugs.winehq.org/show_bug.cgi?id=54868
 sed -i 's/DWORD pitch_in, DWORD pitch_out/unsigned int pitch_in, unsigned int pitch_out/' patches/wined3d-WINED3DFMT_B8G8R8X8_UNORM/0001-wined3d-Implement-WINED3DFMT_B8G8R8X8_UNORM-to-WINED.patch
+
 # Fix pointer types for i686 build
 %patch -P 900 -p0 -b.staging
-staging/patchinstall.py DESTDIR="`pwd`" --all
+staging/patchinstall.py DESTDIR="`pwd`" --all -W Compiler_Warnings -W shell32-IconCache
 
 %endif
 # 0%%{?wine_staging}
@@ -1423,6 +1424,7 @@ fi
 %{_libdir}/wine/%{winepedir}/mmcndmgr.dll
 %{_libdir}/wine/%{winepedir}/mmdevapi.dll
 %{_libdir}/wine/%{winepedir}/mofcomp.exe
+%{_libdir}/wine/%{winepedir}/mouhid.sys
 %{_libdir}/wine/%{winesodir}/mountmgr.so
 %{_libdir}/wine/%{winepedir}/mountmgr.sys
 %{_libdir}/wine/%{winepedir}/mp3dmod.dll
@@ -1709,6 +1711,7 @@ fi
 %{_libdir}/wine/%{winepedir}/windows.networking.dll
 %{_libdir}/wine/%{winepedir}/windows.networking.hostname.dll
 %{_libdir}/wine/%{winepedir}/windows.perception.stub.dll
+%{_libdir}/wine/%{winepedir}/windows.security.authentication.onlineid.dll
 %{_libdir}/wine/%{winepedir}/windows.security.credentials.ui.userconsentverifier.dll
 %{_libdir}/wine/%{winepedir}/windows.storage.applicationdata.dll
 %{_libdir}/wine/%{winepedir}/windows.system.profile.systemmanufacturers.dll
@@ -2224,6 +2227,7 @@ fi
 %{_libdir}/wine/%{winesodir}/mmcndmgr.dll.so
 %{_libdir}/wine/%{winesodir}/mmdevapi.dll.so
 %{_libdir}/wine/%{winesodir}/mofcomp.exe.so
+%{_libdir}/wine/%{winesodir}/mouhid.sys.so
 %{_libdir}/wine/%{winesodir}/mountmgr.sys.so
 %{_libdir}/wine/%{winesodir}/mp3dmod.dll.so
 %{_libdir}/wine/%{winesodir}/mpr.dll.so
@@ -2489,6 +2493,7 @@ fi
 %{_libdir}/wine/%{winesodir}/windows.networking.dll.so
 %{_libdir}/wine/%{winesodir}/windows.networking.hostname.dll.so
 %{_libdir}/wine/%{winesodir}/windows.perception.stub.dll.so
+%{_libdir}/wine/%{winesodir}/windows.security.authentication.onlineid.dll.so
 %{_libdir}/wine/%{winesodir}/windows.security.credentials.ui.userconsentverifier.dll.so
 %{_libdir}/wine/%{winesodir}/windows.storage.applicationdata.dll.so
 %{_libdir}/wine/%{winesodir}/windows.system.profile.systemmanufacturers.dll.so
@@ -2819,6 +2824,9 @@ fi
 %endif
 
 %changelog
+* Thu Mar 28 2024 Michael Cronenworth <mike@cchtml.com> - 9.5-1
+- version update
+
 * Mon Jan 29 2024 Michael Cronenworth <mike@cchtml.com> - 9.1-1
 - version update
 
