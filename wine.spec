@@ -40,7 +40,7 @@
 %endif
 
 Name:           wine
-Version:        9.5
+Version:        9.11
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -2824,6 +2824,9 @@ fi
 %endif
 
 %changelog
+* Sun Jun 16 2024 Nicholas Kudriavtsev <nkudriavtsev@gmail.com> - 9.11-1
+- version update
+
 * Thu Mar 28 2024 Michael Cronenworth <mike@cchtml.com> - 9.5-1
 - version update
 
