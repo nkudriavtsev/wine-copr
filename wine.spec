@@ -1,5 +1,7 @@
 # Compiling the preloader fails with hardening enabled
 %undefine _hardened_build
+# Disable -Werror=incompatible-pointer-types
+%global build_type_safety_c 2
 
 %global no64bit   0
 %global winegecko 2.47.4
