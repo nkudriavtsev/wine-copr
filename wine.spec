@@ -766,7 +766,8 @@ unset PKG_CONFIG_PATH
  --with-system-dllpath=%{mingw32_bindir} \
 %endif
 %{?wine_staging: --with-xattr} \
- --disable-tests
+ --disable-tests \
+ CFLAGS="-Wno-error=incompatible-pointer-types"
 
 %make_build TARGETFLAGS=""
 
