@@ -1709,7 +1709,7 @@ fi
 %{_libdir}/wine/%{winepedir}/windows.media.mediacontrol.dll
 %{_libdir}/wine/%{winepedir}/windows.media.speech.dll
 %if 0%{?wine_staging}
-%{_libdir}/wine/%{winepedir}/windows.networking.connectivity
+%{_libdir}/wine/%{winepedir}/windows.networking.connectivity.dll
 %endif
 %{_libdir}/wine/%{winepedir}/windows.networking.dll
 %{_libdir}/wine/%{winepedir}/windows.networking.hostname.dll
