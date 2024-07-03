@@ -2,6 +2,8 @@
 %undefine _hardened_build
 # Disable -Werror=incompatible-pointer-types
 %global build_type_safety_c 2
+# Disable building debuginfo files because wine build strips debug symbols
+%global debug_package %{nil}
 
 %global no64bit   0
 %global winegecko 2.47.4
