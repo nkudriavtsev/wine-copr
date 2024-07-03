@@ -1544,7 +1544,7 @@ fi
 #%%{_libdir}/wine/%%{winesodir}/nvcuvid.dll.so
 %endif
 %{_libdir}/wine/%{winepedir}/objsel.dll
-%{_libdir}/wine/%{winesodir}/odbc32.so
+%dnl %{_libdir}/wine/%{winesodir}/odbc32.so
 %{_libdir}/wine/%{winepedir}/odbc32.dll
 %{_libdir}/wine/%{winepedir}/odbcbcp.dll
 %{_libdir}/wine/%{winepedir}/odbccp32.dll
