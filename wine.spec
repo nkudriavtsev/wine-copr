@@ -1547,6 +1547,7 @@ fi
 %endif
 %{_libdir}/wine/%{winepedir}/objsel.dll
 %dnl %{_libdir}/wine/%{winesodir}/odbc32.so
+%{_libdir}/wine/%{winesodir}/wineodbc.so
 %{_libdir}/wine/%{winepedir}/odbc32.dll
 %{_libdir}/wine/%{winepedir}/odbcbcp.dll
 %{_libdir}/wine/%{winepedir}/odbccp32.dll
@@ -1848,6 +1849,11 @@ fi
 %{_libdir}/wine/%{winepedir}/xolehlp.dll
 %{_libdir}/wine/%{winepedir}/xpsprint.dll
 %{_libdir}/wine/%{winepedir}/xpssvcs.dll
+%{_libdir}/wine/%{winepedir}/bcp47langs.dll
+%{_libdir}/wine/%{winepedir}/coremessaging.dll
+%{_libdir}/wine/%{winepedir}/profapi.dll
+%{_libdir}/wine/%{winepedir}/rometadata.dll
+%{_libdir}/wine/%{winepedir}/wineodbc.dll
 
 %if 0%{?wine_staging}
 %ifarch x86_64 aarch64
