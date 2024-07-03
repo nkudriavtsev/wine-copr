@@ -695,7 +695,7 @@ gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
 
 # Fix pointer types for i686 build
 %patch -P 900 -p0 -b.staging
-staging/patchinstall.py DESTDIR="`pwd`" --all -W Compiler_Warnings -W shell32-IconCache
+staging/patchinstall.py DESTDIR="`pwd`" --all -W shell32-IconCache
 
 %endif
 # 0%%{?wine_staging}
