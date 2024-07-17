@@ -1546,7 +1546,7 @@ fi
 #%%{_libdir}/wine/%%{winesodir}/nvcuvid.dll.so
 %endif
 %{_libdir}/wine/%{winepedir}/objsel.dll
-%dnl %{_libdir}/wine/%{winesodir}/odbc32.so
+%{_libdir}/wine/%{winesodir}/odbc32.so
 %dnl %{_libdir}/wine/%{winesodir}/wineodbc.so
 %{_libdir}/wine/%{winepedir}/odbc32.dll
 %{_libdir}/wine/%{winepedir}/odbcbcp.dll
@@ -1722,6 +1722,7 @@ fi
 %{_libdir}/wine/%{winepedir}/windows.storage.applicationdata.dll
 %{_libdir}/wine/%{winepedir}/windows.system.profile.systemmanufacturers.dll
 %{_libdir}/wine/%{winepedir}/windows.ui.dll
+%{_libdir}/wine/%{winepedir}/windows.web.dll
 %{_libdir}/wine/%{winepedir}/windowscodecs.dll
 %{_libdir}/wine/%{winepedir}/windowscodecsext.dll
 %{_libdir}/wine/%{winepedir}/winebus.sys
