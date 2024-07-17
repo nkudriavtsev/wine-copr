@@ -44,7 +44,7 @@
 %endif
 
 Name:           wine
-Version:        9.12
+Version:        9.13
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
@@ -2835,6 +2835,10 @@ fi
 %endif
 
 %changelog
+* Wed Jul 17 2024 Nicholas Kudriavtsev <nkudriavtsev@gmail.com> - 9.13-1
+- version update
+- wine-mono dependency update
+
 * Tue Jul 02 2024 Nicholas Kudriavtsev <nkudriavtsev@gmail.com> - 9.12-1
 - version update
 
