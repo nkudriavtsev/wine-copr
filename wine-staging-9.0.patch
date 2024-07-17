@@ -102,14 +102,3 @@
  +                            return i;
  +                        }
  +                    }
---- patches/gdi32-rotation/0002-gdi32-fix-for-rotated-ellipse.patch.orig	2024-01-16 15:47:35.000000000 -0600
-+++ patches/gdi32-rotation/0002-gdi32-fix-for-rotated-ellipse.patch	2024-01-18 08:19:37.882485865 -0600
-@@ -74,7 +74,7 @@
- +    }
- +
- +    if (pdev->brush.style != BS_NULL &&
--+        !(interior = ULongToHandle(NtGdiPolyPolyDraw( ULongToHandle(ALTERNATE), points, (const UINT *)&count, 1, NtGdiPolyPolygonRgn ))))
-++        !(interior = ULongToHandle(NtGdiPolyPolyDraw( ULongToHandle(ALTERNATE), points, (const ULONG *)&count, 1, NtGdiPolyPolygonRgn ))))
- +    {
- +        free( points );
- +        if (outline) NtGdiDeleteObjectApp( outline );
