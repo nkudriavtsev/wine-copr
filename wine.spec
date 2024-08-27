@@ -2836,4 +2836,4 @@ fi
 %endif
 
 %changelog
-%autochagelog
+%autochangelog
