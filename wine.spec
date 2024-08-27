@@ -92,7 +92,7 @@ Patch100:       wine-7.22-autoconf-2.72.patch
 
 Patch511:       wine-cjk.patch
 
-Patch900:       wine-staging-9.0.patch
+%dnl Patch900:       wine-staging-9.0.patch
 
 %if 0%{?wine_staging}
 # wine-staging patches
@@ -696,7 +696,7 @@ gzip -dc %{SOURCE900} | tar -xf - --strip-components=1
 %dnl sed -i 's/DWORD pitch_in, DWORD pitch_out/unsigned int pitch_in, unsigned int pitch_out/' patches/wined3d-WINED3DFMT_B8G8R8X8_UNORM/0001-wined3d-Implement-WINED3DFMT_B8G8R8X8_UNORM-to-WINED.patch
 
 # Fix pointer types for i686 build
-%patch -P 900 -p0 -b.staging
+%dnl %patch -P 900 -p0 -b.staging
 staging/patchinstall.py DESTDIR="`pwd`" --all -W shell32-IconCache -W server-Stored_ACLs
 
 %endif
