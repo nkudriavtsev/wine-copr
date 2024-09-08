@@ -7,7 +7,7 @@
 
 %global no64bit   0
 %global winegecko 2.47.4
-%global winemono  9.2.0
+%global winemono  9.3.0
 #global _default_patch_fuzz 2
 %ifarch %{ix86}
 %global winepedir i386-windows
@@ -44,7 +44,7 @@
 %endif
 
 Name:           wine
-Version:        9.16
+Version:        9.17
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
