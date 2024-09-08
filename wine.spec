@@ -1233,6 +1233,7 @@ fi
 %{_libdir}/wine/%{winepedir}/clock.exe
 %{_libdir}/wine/%{winepedir}/clusapi.dll
 %{_libdir}/wine/%{winepedir}/cng.sys
+%{_libdir}/wine/%{winepedir}/colorcnv.dll
 %{_libdir}/wine/%{winepedir}/combase.dll
 %{_libdir}/wine/%{winepedir}/comcat.dll
 %{_libdir}/wine/%{winepedir}/comctl32.dll
@@ -1400,6 +1401,7 @@ fi
 %{_libdir}/wine/%{winepedir}/ksuser.dll
 %{_libdir}/wine/%{winepedir}/ktmw32.dll
 %{_libdir}/wine/%{winepedir}/l3codeca.acm
+%{_libdir}/wine/%{winepedir}/l3codecx.ax
 %{_libdir}/wine/%{winepedir}/light.msstyles
 %{_libdir}/wine/%{winepedir}/loadperf.dll
 %{_libdir}/wine/%{winesodir}/localspl.so
@@ -1417,8 +1419,11 @@ fi
 %{_libdir}/wine/%{winepedir}/mciwave.dll
 %{_libdir}/wine/%{winepedir}/mf.dll
 %{_libdir}/wine/%{winepedir}/mf3216.dll
+%{_libdir}/wine/%{winepedir}/mfasfsrcsnk.dll
 %{_libdir}/wine/%{winepedir}/mferror.dll
+%{_libdir}/wine/%{winepedir}/mfh264enc.dll
 %{_libdir}/wine/%{winepedir}/mfmediaengine.dll
+%{_libdir}/wine/%{winepedir}/mfmp4srcsnk.dll
 %{_libdir}/wine/%{winepedir}/mfplat.dll
 %{_libdir}/wine/%{winepedir}/mfplay.dll
 %{_libdir}/wine/%{winepedir}/mfreadwrite.dll
@@ -1510,6 +1515,7 @@ fi
 %{_libdir}/wine/%{winepedir}/msvcrtd.dll
 %{_libdir}/wine/%{winepedir}/msvfw32.dll
 %{_libdir}/wine/%{winepedir}/msvidc32.dll
+%{_libdir}/wine/%{winepedir}/msvproc.dll
 %{_libdir}/wine/%{winepedir}/mswsock.dll
 %{_libdir}/wine/%{winepedir}/msxml.dll
 %{_libdir}/wine/%{winepedir}/msxml2.dll
@@ -1588,6 +1594,7 @@ fi
 %{_libdir}/wine/%{winepedir}/rasdlg.dll
 %{_libdir}/wine/%{winepedir}/regapi.dll
 %{_libdir}/wine/%{winepedir}/regini.exe
+%{_libdir}/wine/%{winepedir}/resampledmo.dll
 %{_libdir}/wine/%{winepedir}/resutils.dll
 %{_libdir}/wine/%{winepedir}/riched20.dll
 %{_libdir}/wine/%{winepedir}/riched32.dll
@@ -1749,12 +1756,14 @@ fi
 %{_libdir}/wine/%{winepedir}/winsta.dll
 %{_libdir}/wine/%{winepedir}/wintypes.dll
 %{_libdir}/wine/%{winepedir}/wldp.dll
+%{_libdir}/wine/%{winepedir}/wmadmod.dll
 %{_libdir}/wine/%{winepedir}/wmasf.dll
 %{_libdir}/wine/%{winepedir}/wmi.dll
 %{_libdir}/wine/%{winepedir}/wmic.exe
 %{_libdir}/wine/%{winepedir}/wmiutils.dll
 %{_libdir}/wine/%{winepedir}/wmp.dll
 %{_libdir}/wine/%{winepedir}/wmvcore.dll
+%{_libdir}/wine/%{winepedir}/wmvdecod.dll
 %{_libdir}/wine/%{winepedir}/spoolss.dll
 %{_libdir}/wine/%{winesodir}/win32u.so
 %{_libdir}/wine/%{winesodir}/winebus.so
