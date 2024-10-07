@@ -1284,6 +1284,7 @@ fi
 %{_libdir}/wine/%{winepedir}/dcomp.dll
 %{_libdir}/wine/%{winepedir}/ddraw.dll
 %{_libdir}/wine/%{winepedir}/ddrawex.dll
+%{_libdir}/wine/%{winepedir}/desk.cpl
 %{_libdir}/wine/%{winepedir}/devenum.dll
 %{_libdir}/wine/%{winepedir}/dhcpcsvc.dll
 %{_libdir}/wine/%{winepedir}/dhcpcsvc6.dll
@@ -1733,6 +1734,8 @@ fi
 %{_libdir}/wine/%{winepedir}/windowscodecs.dll
 %{_libdir}/wine/%{winepedir}/windowscodecsext.dll
 %{_libdir}/wine/%{winepedir}/winebus.sys
+%{_libdir}/wine/%{winesodir}/winedmo.so
+%{_libdir}/wine/%{winepedir}/winedmo.dll
 %{_libdir}/wine/%{winesodir}/winegstreamer.so
 %{_libdir}/wine/%{winepedir}/winegstreamer.dll
 %{_libdir}/wine/%{winepedir}/winehid.sys
