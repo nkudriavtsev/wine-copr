@@ -44,7 +44,7 @@
 %endif
 
 Name:           wine
-Version:        9.17
+Version:        9.19
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
