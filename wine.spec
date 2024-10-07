@@ -88,7 +88,7 @@ Source501:      wine-tahoma.conf
 Source502:      wine-README-tahoma
 
 # Autoconf 2.72 support - https://bugzilla.redhat.com/show_bug.cgi?id=2143724
-Patch100:       wine-7.22-autoconf-2.72.patch
+%dnl Patch100:       wine-7.22-autoconf-2.72.patch
 
 Patch511:       wine-cjk.patch
 
@@ -685,7 +685,7 @@ This package adds the opencl driver for wine.
 
 %prep
 %setup -qn wine-%{version}
-%patch -P 100 -p1 -b.autoconf
+%dnl %patch -P 100 -p1 -b.autoconf
 %patch -P 511 -p1 -b.cjk
 
 %if 0%{?wine_staging}
