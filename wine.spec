@@ -1094,6 +1094,7 @@ fi
 %{_libdir}/wine/%{winepedir}/notepad.exe
 %{_libdir}/wine/%{winepedir}/plugplay.exe
 %{_libdir}/wine/%{winepedir}/progman.exe
+%{_libdir}/wine/%{winepedir}/sort.exe
 %{_libdir}/wine/%{winepedir}/taskmgr.exe
 %{_libdir}/wine/%{winepedir}/winedbg.exe
 %{_libdir}/wine/%{winepedir}/winefile.exe
