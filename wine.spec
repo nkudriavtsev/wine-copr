@@ -1278,6 +1278,7 @@ fi
 %{_libdir}/wine/%{winepedir}/d3dx11_42.dll
 %{_libdir}/wine/%{winepedir}/d3dx11_43.dll
 %{_libdir}/wine/%{winepedir}/d3dxof.dll
+%{_libdir}/wine/%{winepedir}/dataexchange.dll
 %{_libdir}/wine/%{winepedir}/davclnt.dll
 %{_libdir}/wine/%{winepedir}/dbgeng.dll
 %{_libdir}/wine/%{winepedir}/dbghelp.dll
@@ -1375,6 +1376,7 @@ fi
 %{_libdir}/wine/%{winepedir}/icmp.dll
 %{_libdir}/wine/%{winepedir}/ieframe.dll
 %{_libdir}/wine/%{winepedir}/ieproxy.dll
+%{_libdir}/wine/%{winepedir}/iertutil.dll
 %{_libdir}/wine/%{winepedir}/imaadp32.acm
 %{_libdir}/wine/%{winepedir}/imagehlp.dll
 %{_libdir}/wine/%{winepedir}/imm32.dll
@@ -1764,6 +1766,7 @@ fi
 %{_libdir}/wine/%{winepedir}/wmasf.dll
 %{_libdir}/wine/%{winepedir}/wmi.dll
 %{_libdir}/wine/%{winepedir}/wmic.exe
+%{_libdir}/wine/%{winepedir}/wmilib.sys
 %{_libdir}/wine/%{winepedir}/wmiutils.dll
 %{_libdir}/wine/%{winepedir}/wmp.dll
 %{_libdir}/wine/%{winepedir}/wmvcore.dll
