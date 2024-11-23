@@ -1374,6 +1374,7 @@ fi
 %{_libdir}/wine/%{winepedir}/iccvid.dll
 %{_libdir}/wine/%{winepedir}/icinfo.exe
 %{_libdir}/wine/%{winepedir}/icmp.dll
+%{_libdir}/wine/%{winepedir}/icmui.dll
 %{_libdir}/wine/%{winepedir}/ieframe.dll
 %{_libdir}/wine/%{winepedir}/ieproxy.dll
 %{_libdir}/wine/%{winepedir}/iertutil.dll
